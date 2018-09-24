@@ -1,17 +1,18 @@
 pragma solidity ^0.4.24;
 
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "./CommentFactory.sol"; 
+import "./User.sol"; 
+import "./Post.sol"; 
 
-contract Comment is Ownable, CommnetFactory {
-    event CommentDeleted (address commentAddress, string commentText, address commentOwner, now);
-    event CommentEdited (address commentAddress, string commentText, address commentOwner, now);
+contract Comment is Ownable {
+    Post parentPost;
 
-    function editComment(string _oldComment, string _newcomment) public onlyOwner {
-        emit CommentEdited (address(this), _oldPost, _newPost);
+    constructor(address _postAddress) public {
+        parentPost = Post(_postAddress);
+        owner = msg.sender;
     }
 
-    function deletePost() public onlyOwner {
-        emit CommentDeleted (address(this));
+    function createReply(string _replyText) public {
+        parentPost.createComment(address(this), owner, _replyText);
     }
 }
