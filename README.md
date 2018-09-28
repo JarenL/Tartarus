@@ -48,7 +48,7 @@ You need web3 compatible browser:
 
 ## Authors
 
-* **Jaren Lynch** - *Initial work* - [JarenL](https://github.com/JarenL)
+* **Jaren Lynch** - [JarenL](https://github.com/JarenL)
 
 ## License
 
