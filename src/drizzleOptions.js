@@ -1,6 +1,4 @@
-import ComplexStorage from './../build/contracts/ComplexStorage.json'
-import SimpleStorage from './../build/contracts/SimpleStorage.json'
-import TutorialToken from './../build/contracts/TutorialToken.json'
+import Tartarus from './../build/contracts/ComplexStorage.json'
 
 const drizzleOptions = {
   web3: {
@@ -11,15 +9,14 @@ const drizzleOptions = {
     }
   },
   contracts: [
-    ComplexStorage,
-    SimpleStorage,
-    TutorialToken
+    Tartarus
   ],
   events: {
-    SimpleStorage: ['StorageSet']
+    Tartarus: ['UserCreated', 'AdminCreated', 'ForumCreated']
   },
   polls: {
-    accounts: 1500
+    accounts: 5000,
+    blocks: 1000
   }
 }
 
