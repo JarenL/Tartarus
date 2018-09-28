@@ -1,4 +1,4 @@
-# # Tartarus
+# Tartarus
 
 Ethereum decentralized application built using Ethereum smart contracts. Reddit-like discussion platform. 
 
