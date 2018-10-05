@@ -12,18 +12,19 @@ import './css/pure-min.css'
 import './App.css'
 
 const styles = theme => ({
-  root: {
-    display: 'flex',
-    flex: 1
+  main: {
+    display: 'flex'
   },
   content: {
-    marginTop: 65,
-    marginLeft: '15%',
-
-    flex: 1, 
+    flexGrow: 1,
+    // backgroundColor: theme.palette.background.default,
     backgroundColor: 'red',
-    minHeight: '100vh', // So the Typography noWrap works
-  }
+    marginTop: 45,
+    marginLeft: '15%',
+    padding: theme.spacing.unit * 3,
+    minHeight: '100vh',
+    minWidth: 0, // So the Typography noWrap works
+  },
 });
 
 class App extends Component {
@@ -63,7 +64,7 @@ class App extends Component {
           <div>
             <AppBar/>
           </div>
-          <div className={classes.root}>
+          <div className={classes.main}>
             <div>
               <Drawer/>
             </div>

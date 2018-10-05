@@ -7,11 +7,10 @@ import { mailFolderListItems } from './tileData';
 
 const styles = theme => ({
     drawerPaper: {
-        position: 'fixed',
-        marginTop: '50',
-        flex: 1,
-        width: '20%',
-    },
+        position: 'ablsolute',
+        marginTop: 65,
+        width: '15%'
+    }
 });
 
 function ClippedDrawer(props) {
