@@ -1,4 +1,5 @@
-import Tartarus from './../build/contracts/ComplexStorage.json'
+import Tartarus from './../build/contracts/Tartarus.json'
+import User from './../build/contracts/User.json'
 
 const drizzleOptions = {
   web3: {
@@ -9,10 +10,12 @@ const drizzleOptions = {
     }
   },
   contracts: [
-    Tartarus
+    Tartarus,
+    User
   ],
   events: {
-    Tartarus: ['UserCreated', 'AdminCreated', 'ForumCreated']
+    // Tartarus: ['UserCreated', 'AdminCreated', 'ForumCreated'],
+    User:  ['SubscribeForum', 'UnsubscribeForum', 'MessageSent', 'MessageReceived', 'CommentReceived', 'CommentCreated', 'PostCreated']
   },
   polls: {
     accounts: 5000,

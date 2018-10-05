@@ -1,23 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router, Route } from 'react-router'
-import { DrizzleProvider } from 'drizzle-react'
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import drizzleOptions from "./drizzleOptions";
 
-// Layouts
-import App from './App'
-import { LoadingContainer } from 'drizzle-react-components'
+// import drizzle functions and contract artifact
+import { Drizzle, generateStore } from "drizzle";
 
-import { history, store } from './store'
-import drizzleOptions from './drizzleOptions'
+// setup the drizzle store and drizzle
+const drizzleStore = generateStore(drizzleOptions);
+const drizzle = new Drizzle(drizzleOptions, drizzleStore);
 
-ReactDOM.render((
-    <DrizzleProvider options={drizzleOptions} store={store}>
-      <LoadingContainer>
-        <Router history={history} store={store}>
-          <Route exact path="/" component={App} />
-        </Router>
-      </LoadingContainer>
-    </DrizzleProvider>
-  ),
-  document.getElementById('root')
+// pass in the drizzle instance
+ReactDOM.render(
+  <App drizzle={drizzle} />, 
+  document.getElementById("root")
 );
