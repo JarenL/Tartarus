@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PostListContainer from './Containers/PostListContainer';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Drawer from './Components/Drawer';
+import ForumListContainer from './Containers/ForumListContainer';
 import AppBar from './Components/AppBar';
 import getWeb3 from './utils/getWeb3';
 import TartarusContract from '../build/contracts/Tartarus.json';
@@ -42,6 +42,13 @@ class App extends Component {
       web3: null
     }
 
+    this.instantiateContract = this.instantiateContract.bind(this);
+    this.authenticateUser = this.authenticateUser.bind(this);
+    this.createUser = this.createUser.bind(this);
+    this.currentAccountListener = this.currentAccountListener.bind(this);
+  }
+
+  componentDidMount() {
     getWeb3
     .then(results => {
       this.setState({
@@ -53,25 +60,21 @@ class App extends Component {
     .catch(() => {
       console.log('Error finding web3.')
     })
-
-    this.instantiateContract = this.instantiateContract.bind(this);
-    this.authenticateUser = this.authenticateUser.bind(this);
-    this.createUser = this.createUser.bind(this);
-    this.currentAccountListener = this.currentAccountListener.bind(this);
-
   }
 
   instantiateContract() {
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
     tartarus.setProvider(this.state.web3.currentProvider)
-    tartarus.deployed().then((instance) => {
-      this.setState({
-        tartarusInstance: instance
+    this.state.web3.eth.getAccounts((error, accounts) => {
+      tartarus.deployed().then((instance) => {
+        this.setState({
+          currentAddress: accounts[0],
+          tartarusInstance: instance
+        })
+        this.authenticateUser();
       })
-      this.authenticateUser();
     })
-
   }
 
   currentAccountListener = () => {
@@ -95,6 +98,7 @@ class App extends Component {
           if (result.event === "UserCreated") {
             console.log(result)
             this.setState({
+              currentAddress: accounts[0],
               userContractAddress: result.args.userAddress
             })
           }
@@ -121,11 +125,11 @@ class App extends Component {
         <AppBar />
         <div className={classes.main}>
           <div>
-            <Drawer />
+            <ForumListContainer currentUserAccount={this.state.currentUserAccount}/>
           </div>
           <div className={classes.content} onClick={this.createUser}>
             <AddUserButton onClick={this.createUser}/>
-            <p>{this.state.userContractAddress}</p>
+            <p>{this.state.currentAddress}</p>
             <p>{this.state.userContractAddress}</p>
           </div>
         </div>
