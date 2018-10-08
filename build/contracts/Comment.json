@@ -126,7 +126,7 @@
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 43,
-        "sourceUnit": 655,
+        "sourceUnit": 646,
         "src": "26:63:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -162,10 +162,10 @@
               "id": 5,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 654,
+              "referencedDeclaration": 645,
               "src": "155:7:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$654",
+                "typeIdentifier": "t_contract$_Ownable_$645",
                 "typeString": "contract Ownable"
               }
             },
@@ -175,7 +175,7 @@
           }
         ],
         "contractDependencies": [
-          654
+          645
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -183,7 +183,7 @@
         "id": 42,
         "linearizedBaseContracts": [
           42,
-          654
+          645
         ],
         "name": "Comment",
         "nodeType": "ContractDefinition",
@@ -318,7 +318,7 @@
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 572,
+                      "referencedDeclaration": 563,
                       "src": "283:5:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -335,7 +335,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 669,
+                        "referencedDeclaration": 660,
                         "src": "291:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -441,7 +441,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 690,
+                            "referencedDeclaration": 681,
                             "src": "404:4:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_Comment_$42",
@@ -489,7 +489,7 @@
                         "name": "owner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 572,
+                        "referencedDeclaration": 563,
                         "src": "411:5:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -660,7 +660,7 @@
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 43,
-        "sourceUnit": 655,
+        "sourceUnit": 646,
         "src": "26:63:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -696,10 +696,10 @@
               "id": 5,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 654,
+              "referencedDeclaration": 645,
               "src": "155:7:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$654",
+                "typeIdentifier": "t_contract$_Ownable_$645",
                 "typeString": "contract Ownable"
               }
             },
@@ -709,7 +709,7 @@
           }
         ],
         "contractDependencies": [
-          654
+          645
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -717,7 +717,7 @@
         "id": 42,
         "linearizedBaseContracts": [
           42,
-          654
+          645
         ],
         "name": "Comment",
         "nodeType": "ContractDefinition",
@@ -852,7 +852,7 @@
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 572,
+                      "referencedDeclaration": 563,
                       "src": "283:5:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -869,7 +869,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 669,
+                        "referencedDeclaration": 660,
                         "src": "291:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -975,7 +975,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 690,
+                            "referencedDeclaration": 681,
                             "src": "404:4:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_Comment_$42",
@@ -1023,7 +1023,7 @@
                         "name": "owner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 572,
+                        "referencedDeclaration": 563,
                         "src": "411:5:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1173,5 +1173,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-09-24T22:46:33.659Z"
+  "updatedAt": "2018-10-08T02:41:59.514Z"
 }

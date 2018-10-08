@@ -4,24 +4,20 @@ import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "./User.sol"; 
 
 contract UserFactory is Ownable {
-    event UserCreated (address userAddress, string userName, uint timestamp);  
-    mapping (string => address) usernames;
+    event UserCreated (address indexed ownerAddress, address userAddress, uint timestamp);  
+    mapping (address => address) usernames;
     uint createUserCost = 0;
 
-    function createUser(string _username) public payable {
+    function createUser() public payable {
         require((msg.value >= createUserCost), "Insufficient Eth Sent");
-        require((usernames[_username] == 0), "Username taken");
+        require((usernames[msg.sender] == 0), "Username taken");
         address newUserAddress = new User();
-        usernames[_username] = msg.sender;
-        emit UserCreated(newUserAddress, _username, block.timestamp);
+        usernames[msg.sender] = newUserAddress;
+        emit UserCreated(msg.sender, newUserAddress, block.timestamp);
     }
 
-    function checkUsernameAvailability(string _username) public view returns(bool) {
-        if (usernames[_username] == 0) {
-            return true;
-        } else {
-            return false;
-        }
+    function authenticateUser() public view returns(address) {
+        return usernames[msg.sender];
     }
 
     function setCost(uint _newCost) public onlyOwner {

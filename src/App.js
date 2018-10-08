@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from './Components/Drawer';
 import AppBar from './Components/AppBar';
+import getWeb3 from './utils/getWeb3';
+import TartarusContract from '../build/contracts/Tartarus.json';
+import AddUserButton from './Components/AddUserButton';
 
 // Styles
 import './css/oswald.css'
@@ -17,8 +20,8 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    // backgroundColor: theme.palette.background.default,
-    backgroundColor: 'red',
+    backgroundColor: theme.palette.background.default,
+    // backgroundColor: 'red',
     marginTop: 45,
     marginLeft: '15%',
     padding: theme.spacing.unit * 3,
@@ -28,58 +31,111 @@ const styles = theme => ({
 });
 
 class App extends Component {
-  state = { 
-    loading: true, 
-    currentForum: "home",
-    drizzleState: null 
-  };
+  constructor(props) {
+    super(props)
 
-  componentDidMount() {
-    const { drizzle } = this.props;
+    this.state = {
+      // matchFactoryAddress: props.currentAddress,
+      userContractAddress: null,
+      currentAddress: null,
+      tartarusInstance: null,
+      web3: null
+    }
 
-    // subscribe to changes in the store
-    this.unsubscribe = drizzle.store.subscribe(() => {
+    getWeb3
+    .then(results => {
+      this.setState({
+        web3: results.web3
+      })
+      this.currentAccountListener();
+      this.instantiateContract();
+    })
+    .catch(() => {
+      console.log('Error finding web3.')
+    })
 
-      // every time the store updates, grab the state from drizzle
-      const drizzleState = drizzle.store.getState();
+    this.instantiateContract = this.instantiateContract.bind(this);
+    this.authenticateUser = this.authenticateUser.bind(this);
+    this.createUser = this.createUser.bind(this);
+    this.currentAccountListener = this.currentAccountListener.bind(this);
 
-      // check to see if it's ready, if so, update local component state
-      if (drizzleState.drizzleStatus.initialized) {
-        this.setState({ loading: false, drizzleState });
-      }
+  }
+
+  instantiateContract() {
+    const contract = require('truffle-contract')
+    const tartarus = contract(TartarusContract)
+    tartarus.setProvider(this.state.web3.currentProvider)
+    tartarus.deployed().then((instance) => {
+      this.setState({
+        tartarusInstance: instance
+      })
+      this.authenticateUser();
+    })
+
+  }
+
+  currentAccountListener = () => {
+    this.state.web3.currentProvider.publicConfigStore.on('update', (result) => {
+      console.log("account change")
+      this.setState({
+        currentAddress: result.selectedAddress
+      })
+      this.authenticateUser();
     });
   }
 
-  compomentWillUnmount() {
-    this.unsubscribe();
+  authenticateUser = () => {
+    this.setState({
+      userContractAddress: "No user account found"
+    })
+    this.state.web3.eth.getAccounts((error, accounts) => {
+      const userCreatedEvent = this.state.tartarusInstance.UserCreated({ ownerAddress: accounts[0] }, {fromBlock:0, toBlock:'latest'});
+      userCreatedEvent.watch((error, result) => {
+        if (!error) {
+          if (result.event === "UserCreated") {
+            console.log(result)
+            this.setState({
+              userContractAddress: result.args.userAddress
+            })
+          }
+        } else {
+          console.log("error")
+        }
+      })
+    })
+  }
+
+  createUser = () => {
+    console.log("hello");
+    this.state.web3.eth.getAccounts((error, accounts) => {
+      this.state.tartarusInstance.createUser(
+        { from: accounts[0], gasPrice: 20000000000 }
+      )
+    })
   }
 
   render() {
-    // if (this.state.loading) {
-    //   return "Loading Drizzle...";
-    // } else {
-      const { classes } = this.props;
-      return (
-        <div>
+    const { classes } = this.props;
+    return (
+      <div>
+        <AppBar />
+        <div className={classes.main}>
           <div>
-            <AppBar/>
+            <Drawer />
           </div>
-          <div className={classes.main}>
-            <div>
-              <Drawer/>
-            </div>
-            <div className={classes.content}>
-              <PostListContainer/>
-            </div>
+          <div className={classes.content} onClick={this.createUser}>
+            <AddUserButton onClick={this.createUser}/>
+            <p>{this.state.userContractAddress}</p>
+            <p>{this.state.userContractAddress}</p>
           </div>
         </div>
-      )
-    // }
+      </div>
+    )
   }
 }
 
-  App.propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
-  export default withStyles(styles)(App);
+export default withStyles(styles)(App);
