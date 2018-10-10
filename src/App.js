@@ -7,6 +7,8 @@ import AppBar from './Components/AppBar';
 import getWeb3 from './utils/getWeb3';
 import TartarusContract from '../build/contracts/Tartarus.json';
 import AddUserButton from './Components/AddUserButton';
+import { connect } from 'react-redux'
+import web3Initialized from './actions/actions'
 
 // Styles
 import './css/oswald.css'
@@ -38,8 +40,7 @@ class App extends Component {
       // matchFactoryAddress: props.currentAddress,
       userContractAddress: null,
       currentAddress: null,
-      tartarusInstance: null,
-      web3: null
+      tartarusInstance: null
     }
 
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -51,9 +52,7 @@ class App extends Component {
   componentDidMount() {
     getWeb3
     .then(results => {
-      this.setState({
-        web3: results.web3
-      })
+      this.props.dispatch(web3Initialized(results.web3))
       this.currentAccountListener();
       this.instantiateContract();
     })
@@ -65,8 +64,8 @@ class App extends Component {
   instantiateContract() {
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    tartarus.setProvider(this.state.web3.currentProvider)
-    this.state.web3.eth.getAccounts((error, accounts) => {
+    tartarus.setProvider(this.props.web3.currentProvider)
+    this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.deployed().then((instance) => {
         this.setState({
           currentAddress: accounts[0],
@@ -78,7 +77,8 @@ class App extends Component {
   }
 
   currentAccountListener = () => {
-    this.state.web3.currentProvider.publicConfigStore.on('update', (result) => {
+    console.log(this.props.web3)
+    this.props.web3.currentProvider.publicConfigStore.on('update', (result) => {
       console.log("account change")
       this.setState({
         currentAddress: result.selectedAddress
@@ -91,7 +91,7 @@ class App extends Component {
     this.setState({
       userContractAddress: "No user account found"
     })
-    this.state.web3.eth.getAccounts((error, accounts) => {
+    this.props.web3.eth.getAccounts((error, accounts) => {
       const userCreatedEvent = this.state.tartarusInstance.UserCreated({ ownerAddress: accounts[0] }, {fromBlock:0, toBlock:'latest'});
       userCreatedEvent.watch((error, result) => {
         if (!error) {
@@ -111,7 +111,7 @@ class App extends Component {
 
   createUser = () => {
     console.log("hello");
-    this.state.web3.eth.getAccounts((error, accounts) => {
+    this.props.web3.eth.getAccounts((error, accounts) => {
       this.state.tartarusInstance.createUser(
         { from: accounts[0], gasPrice: 20000000000 }
       )
@@ -142,4 +142,10 @@ App.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(App);
+function mapStateToProps(state) {
+  return {
+    web3: state.web3
+  };
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(App));
