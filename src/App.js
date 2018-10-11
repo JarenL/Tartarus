@@ -8,7 +8,12 @@ import getWeb3 from './utils/getWeb3';
 import TartarusContract from '../build/contracts/Tartarus.json';
 import AddUserButton from './Components/AddUserButton';
 import { connect } from 'react-redux'
-import web3Initialized from './actions/actions'
+import { 
+  initializeWeb3, 
+  setCurrentOwnerAddress, 
+  setCurrentUserAddress, 
+  setTartarusAddress 
+} from './actions/actions'
 
 // Styles
 import './css/oswald.css'
@@ -37,9 +42,6 @@ class App extends Component {
     super(props)
 
     this.state = {
-      // matchFactoryAddress: props.currentAddress,
-      userContractAddress: null,
-      currentAddress: null,
       tartarusInstance: null
     }
 
@@ -52,7 +54,7 @@ class App extends Component {
   componentDidMount() {
     getWeb3
     .then(results => {
-      this.props.dispatch(web3Initialized(results.web3))
+      this.props.dispatch(initializeWeb3(results.web3))
       this.currentAccountListener();
       this.instantiateContract();
     })
@@ -64,25 +66,24 @@ class App extends Component {
   instantiateContract() {
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
+    const tartarusAddress = "0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f";
     tartarus.setProvider(this.props.web3.currentProvider)
     this.props.web3.eth.getAccounts((error, accounts) => {
-      tartarus.deployed().then((instance) => {
+      tartarus.at(tartarusAddress).then((instance) => {
         this.setState({
-          currentAddress: accounts[0],
           tartarusInstance: instance
         })
+        this.props.dispatch(setTartarusAddress(tartarusAddress))
+        this.props.dispatch(setCurrentOwnerAddress(accounts[0]))
         this.authenticateUser();
       })
     })
   }
 
   currentAccountListener = () => {
-    console.log(this.props.web3)
     this.props.web3.currentProvider.publicConfigStore.on('update', (result) => {
       console.log("account change")
-      this.setState({
-        currentAddress: result.selectedAddress
-      })
+      this.props.dispatch(setCurrentOwnerAddress(result.selectedAddress))
       this.authenticateUser();
     });
   }
@@ -97,10 +98,8 @@ class App extends Component {
         if (!error) {
           if (result.event === "UserCreated") {
             console.log(result)
-            this.setState({
-              currentAddress: accounts[0],
-              userContractAddress: result.args.userAddress
-            })
+            this.props.dispatch(setCurrentOwnerAddress(accounts[0]))
+            this.props.dispatch(setCurrentUserAddress(result.args.userAddress))
           }
         } else {
           console.log("error")
@@ -110,7 +109,6 @@ class App extends Component {
   }
 
   createUser = () => {
-    console.log("hello");
     this.props.web3.eth.getAccounts((error, accounts) => {
       this.state.tartarusInstance.createUser(
         { from: accounts[0], gasPrice: 20000000000 }
@@ -129,8 +127,8 @@ class App extends Component {
           </div>
           <div className={classes.content} onClick={this.createUser}>
             <AddUserButton onClick={this.createUser}/>
-            <p>{this.state.currentAddress}</p>
-            <p>{this.state.userContractAddress}</p>
+            <p>{this.props.accounts.currentOwnerAddress}</p>
+            <p>{this.props.accounts.currentUserAddress}</p>
           </div>
         </div>
       </div>
@@ -144,7 +142,10 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    web3: state.web3
+    web3: state.web3,
+    tartarusAddress: state.tartarusAddress,
+    tartarusInstance: state.tartarusInstance,
+    accounts: state.accounts
   };
 }
 
