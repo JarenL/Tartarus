@@ -43,8 +43,8 @@ You need web3 compatible browser:
 ## Built With
 
 * [Truffle](https://truffleframework.com/truffle) 
-* [Drizzle](https://truffleframework.com/blog/drizzle-reactive-ethereum-data-for-front-ends)
 * [React](https://reactjs.org/) 
+* [Redux](https://redux.js.org/)
 
 ## Authors
 

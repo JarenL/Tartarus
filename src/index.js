@@ -1,23 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router, Route } from 'react-router'
-import { DrizzleProvider } from 'drizzle-react'
-
-// Layouts
+import React from 'react'
+import ReactDOM from 'react-dom'
 import App from './App'
-import { LoadingContainer } from 'drizzle-react-components'
+import { Provider } from 'react-redux'
+import store from './store/store'
 
-import { history, store } from './store'
-import drizzleOptions from './drizzleOptions'
-
-ReactDOM.render((
-    <DrizzleProvider options={drizzleOptions} store={store}>
-      <LoadingContainer>
-        <Router history={history} store={store}>
-          <Route exact path="/" component={App} />
-        </Router>
-      </LoadingContainer>
-    </DrizzleProvider>
-  ),
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );
