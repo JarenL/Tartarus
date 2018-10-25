@@ -32,6 +32,7 @@ You need web3 compatible browser:
 - After cloning repo, go to local Tartarus directory
 - ```truffle compile```
 - ```truffle migrate --reset```
+- Last line of your terminal will say "Tartarus: 0xf25186b5081ff5ce73482ad761db0eb0d25abfbf" (address will be different). Copy and paste this address into line 65 of App.js (current line as of 10/24/2018)
 - ```npm run start```
 - In Chrome window new page should open
 
