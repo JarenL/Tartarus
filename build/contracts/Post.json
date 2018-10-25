@@ -138,14 +138,14 @@
     "absolutePath": "/Users/jarenlynch/Ethereum/tartarus/contracts/Post.sol",
     "exportedSymbols": {
       "Post": [
-        215
+        234
       ]
     },
-    "id": 216,
+    "id": 235,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 202,
+        "id": 221,
         "literals": [
           "solidity",
           "^",
@@ -158,9 +158,9 @@
       {
         "absolutePath": "/Users/jarenlynch/Ethereum/tartarus/contracts/CommentFactory.sol",
         "file": "./CommentFactory.sol",
-        "id": 203,
+        "id": 222,
         "nodeType": "ImportDirective",
-        "scope": 216,
+        "scope": 235,
         "sourceUnit": 106,
         "src": "26:30:4",
         "symbolAliases": [],
@@ -172,7 +172,7 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 204,
+              "id": 223,
               "name": "CommentFactory",
               "nodeType": "UserDefinedTypeName",
               "referencedDeclaration": 105,
@@ -182,48 +182,48 @@
                 "typeString": "contract CommentFactory"
               }
             },
-            "id": 205,
+            "id": 224,
             "nodeType": "InheritanceSpecifier",
             "src": "76:14:4"
           }
         ],
         "contractDependencies": [
           105,
-          645
+          664
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 215,
+        "id": 234,
         "linearizedBaseContracts": [
-          215,
+          234,
           105,
-          645
+          664
         ],
         "name": "Post",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 213,
+              "id": 232,
               "nodeType": "Block",
               "src": "119:35:4",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 211,
+                    "id": 230,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 208,
+                      "id": 227,
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 563,
+                      "referencedDeclaration": 582,
                       "src": "129:5:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -236,18 +236,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 209,
+                        "id": 228,
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 660,
+                        "referencedDeclaration": 679,
                         "src": "137:3:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
                           "typeString": "msg"
                         }
                       },
-                      "id": 210,
+                      "id": 229,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -267,14 +267,14 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 212,
+                  "id": 231,
                   "nodeType": "ExpressionStatement",
                   "src": "129:18:4"
                 }
               ]
             },
             "documentation": null,
-            "id": 214,
+            "id": 233,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -282,26 +282,26 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 206,
+              "id": 225,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "109:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 207,
+              "id": 226,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "119:0:4"
             },
-            "scope": 215,
+            "scope": 234,
             "src": "97:57:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 216,
+        "scope": 235,
         "src": "59:97:4"
       }
     ],
@@ -311,14 +311,14 @@
     "absolutePath": "/Users/jarenlynch/Ethereum/tartarus/contracts/Post.sol",
     "exportedSymbols": {
       "Post": [
-        215
+        234
       ]
     },
-    "id": 216,
+    "id": 235,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 202,
+        "id": 221,
         "literals": [
           "solidity",
           "^",
@@ -331,9 +331,9 @@
       {
         "absolutePath": "/Users/jarenlynch/Ethereum/tartarus/contracts/CommentFactory.sol",
         "file": "./CommentFactory.sol",
-        "id": 203,
+        "id": 222,
         "nodeType": "ImportDirective",
-        "scope": 216,
+        "scope": 235,
         "sourceUnit": 106,
         "src": "26:30:4",
         "symbolAliases": [],
@@ -345,7 +345,7 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 204,
+              "id": 223,
               "name": "CommentFactory",
               "nodeType": "UserDefinedTypeName",
               "referencedDeclaration": 105,
@@ -355,48 +355,48 @@
                 "typeString": "contract CommentFactory"
               }
             },
-            "id": 205,
+            "id": 224,
             "nodeType": "InheritanceSpecifier",
             "src": "76:14:4"
           }
         ],
         "contractDependencies": [
           105,
-          645
+          664
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 215,
+        "id": 234,
         "linearizedBaseContracts": [
-          215,
+          234,
           105,
-          645
+          664
         ],
         "name": "Post",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 213,
+              "id": 232,
               "nodeType": "Block",
               "src": "119:35:4",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 211,
+                    "id": 230,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 208,
+                      "id": 227,
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 563,
+                      "referencedDeclaration": 582,
                       "src": "129:5:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -409,18 +409,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 209,
+                        "id": 228,
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 660,
+                        "referencedDeclaration": 679,
                         "src": "137:3:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
                           "typeString": "msg"
                         }
                       },
-                      "id": 210,
+                      "id": 229,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -440,14 +440,14 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 212,
+                  "id": 231,
                   "nodeType": "ExpressionStatement",
                   "src": "129:18:4"
                 }
               ]
             },
             "documentation": null,
-            "id": 214,
+            "id": 233,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -455,26 +455,26 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 206,
+              "id": 225,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "109:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 207,
+              "id": 226,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "119:0:4"
             },
-            "scope": 215,
+            "scope": 234,
             "src": "97:57:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 216,
+        "scope": 235,
         "src": "59:97:4"
       }
     ],
@@ -486,5 +486,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-10-08T02:41:59.515Z"
+  "updatedAt": "2018-10-19T02:03:56.986Z"
 }

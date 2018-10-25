@@ -119,14 +119,14 @@
     "absolutePath": "/Users/jarenlynch/Ethereum/tartarus/contracts/PostFactory.sol",
     "exportedSymbols": {
       "PostFactory": [
-        268
+        287
       ]
     },
-    "id": 269,
+    "id": 288,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 217,
+        "id": 236,
         "literals": [
           "solidity",
           "^",
@@ -139,10 +139,10 @@
       {
         "absolutePath": "/Users/jarenlynch/Ethereum/tartarus/contracts/Post.sol",
         "file": "./Post.sol",
-        "id": 218,
+        "id": 237,
         "nodeType": "ImportDirective",
-        "scope": 269,
-        "sourceUnit": 216,
+        "scope": 288,
+        "sourceUnit": 235,
         "src": "26:20:5",
         "symbolAliases": [],
         "unitAlias": ""
@@ -150,10 +150,10 @@
       {
         "absolutePath": "/Users/jarenlynch/Ethereum/tartarus/contracts/User.sol",
         "file": "./User.sol",
-        "id": 219,
+        "id": 238,
         "nodeType": "ImportDirective",
-        "scope": 269,
-        "sourceUnit": 470,
+        "scope": 288,
+        "sourceUnit": 489,
         "src": "48:20:5",
         "symbolAliases": [],
         "unitAlias": ""
@@ -161,10 +161,10 @@
       {
         "absolutePath": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
         "file": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
-        "id": 220,
+        "id": 239,
         "nodeType": "ImportDirective",
-        "scope": 269,
-        "sourceUnit": 646,
+        "scope": 288,
+        "sourceUnit": 665,
         "src": "70:63:5",
         "symbolAliases": [],
         "unitAlias": ""
@@ -175,32 +175,32 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 221,
+              "id": 240,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 645,
+              "referencedDeclaration": 664,
               "src": "159:7:5",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$645",
+                "typeIdentifier": "t_contract$_Ownable_$664",
                 "typeString": "contract Ownable"
               }
             },
-            "id": 222,
+            "id": 241,
             "nodeType": "InheritanceSpecifier",
             "src": "159:7:5"
           }
         ],
         "contractDependencies": [
-          215,
-          645
+          234,
+          664
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 268,
+        "id": 287,
         "linearizedBaseContracts": [
-          268,
-          645
+          287,
+          664
         ],
         "name": "PostFactory",
         "nodeType": "ContractDefinition",
@@ -208,20 +208,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 232,
+            "id": 251,
             "name": "PostCreated",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 231,
+              "id": 250,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 224,
+                  "id": 243,
                   "indexed": false,
                   "name": "postAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 232,
+                  "scope": 251,
                   "src": "192:19:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -230,7 +230,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 223,
+                    "id": 242,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "192:7:5",
@@ -244,11 +244,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 226,
+                  "id": 245,
                   "indexed": false,
                   "name": "posttitle",
                   "nodeType": "VariableDeclaration",
-                  "scope": 232,
+                  "scope": 251,
                   "src": "213:16:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -257,7 +257,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 225,
+                    "id": 244,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "213:6:5",
@@ -271,11 +271,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 228,
+                  "id": 247,
                   "indexed": false,
                   "name": "postOwner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 232,
+                  "scope": 251,
                   "src": "231:17:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -284,7 +284,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 227,
+                    "id": 246,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "231:7:5",
@@ -298,11 +298,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 230,
+                  "id": 249,
                   "indexed": false,
                   "name": "timestamp",
                   "nodeType": "VariableDeclaration",
-                  "scope": 232,
+                  "scope": 251,
                   "src": "250:14:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -311,7 +311,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 229,
+                    "id": 248,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "250:4:5",
@@ -330,21 +330,21 @@
           },
           {
             "body": {
-              "id": 266,
+              "id": 285,
               "nodeType": "Block",
               "src": "320:240:5",
               "statements": [
                 {
                   "assignments": [
-                    238
+                    257
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 238,
+                      "id": 257,
                       "name": "newPostAddress",
                       "nodeType": "VariableDeclaration",
-                      "scope": 267,
+                      "scope": 286,
                       "src": "330:22:5",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -353,7 +353,7 @@
                         "typeString": "address"
                       },
                       "typeName": {
-                        "id": 237,
+                        "id": 256,
                         "name": "address",
                         "nodeType": "ElementaryTypeName",
                         "src": "330:7:5",
@@ -366,13 +366,13 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 242,
+                  "id": 261,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [],
                     "expression": {
                       "argumentTypes": [],
-                      "id": 240,
+                      "id": 259,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -380,23 +380,23 @@
                       "nodeType": "NewExpression",
                       "src": "355:8:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_Post_$215_$",
+                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_Post_$234_$",
                         "typeString": "function () returns (contract Post)"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 239,
+                        "id": 258,
                         "name": "Post",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 215,
+                        "referencedDeclaration": 234,
                         "src": "359:4:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Post_$215",
+                          "typeIdentifier": "t_contract$_Post_$234",
                           "typeString": "contract Post"
                         }
                       }
                     },
-                    "id": 241,
+                    "id": 260,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -406,7 +406,7 @@
                     "nodeType": "FunctionCall",
                     "src": "355:10:5",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Post_$215",
+                      "typeIdentifier": "t_contract$_Post_$234",
                       "typeString": "contract Post"
                     }
                   },
@@ -415,31 +415,31 @@
                 },
                 {
                   "assignments": [
-                    244
+                    263
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 244,
+                      "id": 263,
                       "name": "postCreator",
                       "nodeType": "VariableDeclaration",
-                      "scope": 267,
+                      "scope": 286,
                       "src": "375:16:5",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_User_$469",
+                        "typeIdentifier": "t_contract$_User_$488",
                         "typeString": "contract User"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 243,
+                        "id": 262,
                         "name": "User",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 469,
+                        "referencedDeclaration": 488,
                         "src": "375:4:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_User_$469",
+                          "typeIdentifier": "t_contract$_User_$488",
                           "typeString": "contract User"
                         }
                       },
@@ -447,7 +447,7 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 249,
+                  "id": 268,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
@@ -455,18 +455,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 246,
+                          "id": 265,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 660,
+                          "referencedDeclaration": 679,
                           "src": "399:3:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 247,
+                        "id": 266,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -488,18 +488,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 245,
+                      "id": 264,
                       "name": "User",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 469,
+                      "referencedDeclaration": 488,
                       "src": "394:4:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_User_$469_$",
+                        "typeIdentifier": "t_type$_t_contract$_User_$488_$",
                         "typeString": "type(contract User)"
                       }
                     },
-                    "id": 248,
+                    "id": 267,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -509,7 +509,7 @@
                     "nodeType": "FunctionCall",
                     "src": "394:16:5",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_User_$469",
+                      "typeIdentifier": "t_contract$_User_$488",
                       "typeString": "contract User"
                     }
                   },
@@ -522,11 +522,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 253,
+                        "id": 272,
                         "name": "newPostAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 238,
+                        "referencedDeclaration": 257,
                         "src": "443:14:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -535,11 +535,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 254,
+                        "id": 273,
                         "name": "_postTitle",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 234,
+                        "referencedDeclaration": 253,
                         "src": "459:10:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -560,32 +560,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 250,
+                        "id": 269,
                         "name": "postCreator",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 244,
+                        "referencedDeclaration": 263,
                         "src": "420:11:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_User_$469",
+                          "typeIdentifier": "t_contract$_User_$488",
                           "typeString": "contract User"
                         }
                       },
-                      "id": 252,
+                      "id": 271,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "createPost",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 468,
+                      "referencedDeclaration": 487,
                       "src": "420:22:5",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (address,string memory) external"
                       }
                     },
-                    "id": 255,
+                    "id": 274,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -599,7 +599,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 256,
+                  "id": 275,
                   "nodeType": "ExpressionStatement",
                   "src": "420:50:5"
                 },
@@ -609,11 +609,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 258,
+                        "id": 277,
                         "name": "newPostAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 238,
+                        "referencedDeclaration": 257,
                         "src": "497:14:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -622,11 +622,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 259,
+                        "id": 278,
                         "name": "_postTitle",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 234,
+                        "referencedDeclaration": 253,
                         "src": "513:10:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -637,18 +637,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 260,
+                          "id": 279,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 660,
+                          "referencedDeclaration": 679,
                           "src": "525:3:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 261,
+                        "id": 280,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -666,18 +666,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 262,
+                          "id": 281,
                           "name": "block",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 650,
+                          "referencedDeclaration": 669,
                           "src": "537:5:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_block",
                             "typeString": "block"
                           }
                         },
-                        "id": 263,
+                        "id": 282,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -711,18 +711,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 257,
+                      "id": 276,
                       "name": "PostCreated",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 232,
+                      "referencedDeclaration": 251,
                       "src": "485:11:5",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_string_memory_ptr_$_t_address_$_t_uint256_$returns$__$",
                         "typeString": "function (address,string memory,address,uint256)"
                       }
                     },
-                    "id": 264,
+                    "id": 283,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -736,14 +736,14 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 265,
+                  "id": 284,
                   "nodeType": "EmitStatement",
                   "src": "480:73:5"
                 }
               ]
             },
             "documentation": null,
-            "id": 267,
+            "id": 286,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -751,15 +751,15 @@
             "name": "createPost",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 235,
+              "id": 254,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 234,
+                  "id": 253,
                   "name": "_postTitle",
                   "nodeType": "VariableDeclaration",
-                  "scope": 267,
+                  "scope": 286,
                   "src": "294:17:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -768,7 +768,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 233,
+                    "id": 252,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "294:6:5",
@@ -785,19 +785,19 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 236,
+              "id": 255,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "320:0:5"
             },
-            "scope": 268,
+            "scope": 287,
             "src": "274:286:5",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 269,
+        "scope": 288,
         "src": "135:427:5"
       }
     ],
@@ -807,14 +807,14 @@
     "absolutePath": "/Users/jarenlynch/Ethereum/tartarus/contracts/PostFactory.sol",
     "exportedSymbols": {
       "PostFactory": [
-        268
+        287
       ]
     },
-    "id": 269,
+    "id": 288,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 217,
+        "id": 236,
         "literals": [
           "solidity",
           "^",
@@ -827,10 +827,10 @@
       {
         "absolutePath": "/Users/jarenlynch/Ethereum/tartarus/contracts/Post.sol",
         "file": "./Post.sol",
-        "id": 218,
+        "id": 237,
         "nodeType": "ImportDirective",
-        "scope": 269,
-        "sourceUnit": 216,
+        "scope": 288,
+        "sourceUnit": 235,
         "src": "26:20:5",
         "symbolAliases": [],
         "unitAlias": ""
@@ -838,10 +838,10 @@
       {
         "absolutePath": "/Users/jarenlynch/Ethereum/tartarus/contracts/User.sol",
         "file": "./User.sol",
-        "id": 219,
+        "id": 238,
         "nodeType": "ImportDirective",
-        "scope": 269,
-        "sourceUnit": 470,
+        "scope": 288,
+        "sourceUnit": 489,
         "src": "48:20:5",
         "symbolAliases": [],
         "unitAlias": ""
@@ -849,10 +849,10 @@
       {
         "absolutePath": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
         "file": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
-        "id": 220,
+        "id": 239,
         "nodeType": "ImportDirective",
-        "scope": 269,
-        "sourceUnit": 646,
+        "scope": 288,
+        "sourceUnit": 665,
         "src": "70:63:5",
         "symbolAliases": [],
         "unitAlias": ""
@@ -863,32 +863,32 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 221,
+              "id": 240,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 645,
+              "referencedDeclaration": 664,
               "src": "159:7:5",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$645",
+                "typeIdentifier": "t_contract$_Ownable_$664",
                 "typeString": "contract Ownable"
               }
             },
-            "id": 222,
+            "id": 241,
             "nodeType": "InheritanceSpecifier",
             "src": "159:7:5"
           }
         ],
         "contractDependencies": [
-          215,
-          645
+          234,
+          664
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 268,
+        "id": 287,
         "linearizedBaseContracts": [
-          268,
-          645
+          287,
+          664
         ],
         "name": "PostFactory",
         "nodeType": "ContractDefinition",
@@ -896,20 +896,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 232,
+            "id": 251,
             "name": "PostCreated",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 231,
+              "id": 250,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 224,
+                  "id": 243,
                   "indexed": false,
                   "name": "postAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 232,
+                  "scope": 251,
                   "src": "192:19:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -918,7 +918,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 223,
+                    "id": 242,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "192:7:5",
@@ -932,11 +932,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 226,
+                  "id": 245,
                   "indexed": false,
                   "name": "posttitle",
                   "nodeType": "VariableDeclaration",
-                  "scope": 232,
+                  "scope": 251,
                   "src": "213:16:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -945,7 +945,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 225,
+                    "id": 244,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "213:6:5",
@@ -959,11 +959,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 228,
+                  "id": 247,
                   "indexed": false,
                   "name": "postOwner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 232,
+                  "scope": 251,
                   "src": "231:17:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -972,7 +972,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 227,
+                    "id": 246,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "231:7:5",
@@ -986,11 +986,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 230,
+                  "id": 249,
                   "indexed": false,
                   "name": "timestamp",
                   "nodeType": "VariableDeclaration",
-                  "scope": 232,
+                  "scope": 251,
                   "src": "250:14:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -999,7 +999,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 229,
+                    "id": 248,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "250:4:5",
@@ -1018,21 +1018,21 @@
           },
           {
             "body": {
-              "id": 266,
+              "id": 285,
               "nodeType": "Block",
               "src": "320:240:5",
               "statements": [
                 {
                   "assignments": [
-                    238
+                    257
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 238,
+                      "id": 257,
                       "name": "newPostAddress",
                       "nodeType": "VariableDeclaration",
-                      "scope": 267,
+                      "scope": 286,
                       "src": "330:22:5",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -1041,7 +1041,7 @@
                         "typeString": "address"
                       },
                       "typeName": {
-                        "id": 237,
+                        "id": 256,
                         "name": "address",
                         "nodeType": "ElementaryTypeName",
                         "src": "330:7:5",
@@ -1054,13 +1054,13 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 242,
+                  "id": 261,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [],
                     "expression": {
                       "argumentTypes": [],
-                      "id": 240,
+                      "id": 259,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1068,23 +1068,23 @@
                       "nodeType": "NewExpression",
                       "src": "355:8:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_Post_$215_$",
+                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_Post_$234_$",
                         "typeString": "function () returns (contract Post)"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 239,
+                        "id": 258,
                         "name": "Post",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 215,
+                        "referencedDeclaration": 234,
                         "src": "359:4:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Post_$215",
+                          "typeIdentifier": "t_contract$_Post_$234",
                           "typeString": "contract Post"
                         }
                       }
                     },
-                    "id": 241,
+                    "id": 260,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1094,7 +1094,7 @@
                     "nodeType": "FunctionCall",
                     "src": "355:10:5",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Post_$215",
+                      "typeIdentifier": "t_contract$_Post_$234",
                       "typeString": "contract Post"
                     }
                   },
@@ -1103,31 +1103,31 @@
                 },
                 {
                   "assignments": [
-                    244
+                    263
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 244,
+                      "id": 263,
                       "name": "postCreator",
                       "nodeType": "VariableDeclaration",
-                      "scope": 267,
+                      "scope": 286,
                       "src": "375:16:5",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_User_$469",
+                        "typeIdentifier": "t_contract$_User_$488",
                         "typeString": "contract User"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 243,
+                        "id": 262,
                         "name": "User",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 469,
+                        "referencedDeclaration": 488,
                         "src": "375:4:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_User_$469",
+                          "typeIdentifier": "t_contract$_User_$488",
                           "typeString": "contract User"
                         }
                       },
@@ -1135,7 +1135,7 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 249,
+                  "id": 268,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
@@ -1143,18 +1143,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 246,
+                          "id": 265,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 660,
+                          "referencedDeclaration": 679,
                           "src": "399:3:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 247,
+                        "id": 266,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1176,18 +1176,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 245,
+                      "id": 264,
                       "name": "User",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 469,
+                      "referencedDeclaration": 488,
                       "src": "394:4:5",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_User_$469_$",
+                        "typeIdentifier": "t_type$_t_contract$_User_$488_$",
                         "typeString": "type(contract User)"
                       }
                     },
-                    "id": 248,
+                    "id": 267,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1197,7 +1197,7 @@
                     "nodeType": "FunctionCall",
                     "src": "394:16:5",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_User_$469",
+                      "typeIdentifier": "t_contract$_User_$488",
                       "typeString": "contract User"
                     }
                   },
@@ -1210,11 +1210,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 253,
+                        "id": 272,
                         "name": "newPostAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 238,
+                        "referencedDeclaration": 257,
                         "src": "443:14:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1223,11 +1223,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 254,
+                        "id": 273,
                         "name": "_postTitle",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 234,
+                        "referencedDeclaration": 253,
                         "src": "459:10:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -1248,32 +1248,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 250,
+                        "id": 269,
                         "name": "postCreator",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 244,
+                        "referencedDeclaration": 263,
                         "src": "420:11:5",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_User_$469",
+                          "typeIdentifier": "t_contract$_User_$488",
                           "typeString": "contract User"
                         }
                       },
-                      "id": 252,
+                      "id": 271,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "createPost",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 468,
+                      "referencedDeclaration": 487,
                       "src": "420:22:5",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (address,string memory) external"
                       }
                     },
-                    "id": 255,
+                    "id": 274,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1287,7 +1287,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 256,
+                  "id": 275,
                   "nodeType": "ExpressionStatement",
                   "src": "420:50:5"
                 },
@@ -1297,11 +1297,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 258,
+                        "id": 277,
                         "name": "newPostAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 238,
+                        "referencedDeclaration": 257,
                         "src": "497:14:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1310,11 +1310,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 259,
+                        "id": 278,
                         "name": "_postTitle",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 234,
+                        "referencedDeclaration": 253,
                         "src": "513:10:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -1325,18 +1325,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 260,
+                          "id": 279,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 660,
+                          "referencedDeclaration": 679,
                           "src": "525:3:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 261,
+                        "id": 280,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1354,18 +1354,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 262,
+                          "id": 281,
                           "name": "block",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 650,
+                          "referencedDeclaration": 669,
                           "src": "537:5:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_block",
                             "typeString": "block"
                           }
                         },
-                        "id": 263,
+                        "id": 282,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1399,18 +1399,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 257,
+                      "id": 276,
                       "name": "PostCreated",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 232,
+                      "referencedDeclaration": 251,
                       "src": "485:11:5",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_string_memory_ptr_$_t_address_$_t_uint256_$returns$__$",
                         "typeString": "function (address,string memory,address,uint256)"
                       }
                     },
-                    "id": 264,
+                    "id": 283,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1424,14 +1424,14 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 265,
+                  "id": 284,
                   "nodeType": "EmitStatement",
                   "src": "480:73:5"
                 }
               ]
             },
             "documentation": null,
-            "id": 267,
+            "id": 286,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -1439,15 +1439,15 @@
             "name": "createPost",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 235,
+              "id": 254,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 234,
+                  "id": 253,
                   "name": "_postTitle",
                   "nodeType": "VariableDeclaration",
-                  "scope": 267,
+                  "scope": 286,
                   "src": "294:17:5",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1456,7 +1456,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 233,
+                    "id": 252,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "294:6:5",
@@ -1473,19 +1473,19 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 236,
+              "id": 255,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "320:0:5"
             },
-            "scope": 268,
+            "scope": 287,
             "src": "274:286:5",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 269,
+        "scope": 288,
         "src": "135:427:5"
       }
     ],
@@ -1497,5 +1497,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-10-08T02:41:59.518Z"
+  "updatedAt": "2018-10-19T02:03:56.989Z"
 }

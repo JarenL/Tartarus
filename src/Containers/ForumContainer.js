@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Forum from '../Components/Forum';
 
 export default class ForumContainer extends Component {
     static propTypes = {
@@ -8,9 +9,9 @@ export default class ForumContainer extends Component {
 
     render() {
         return (
-            <div>
-
-            </div>
+            <Forum
+                name={this.props.name} 
+                address = {this.props.address}/>
         )
     }
 }
