@@ -1,12 +1,9 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import Forum from '../Components/Forum';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Forum from '../Components/Drawer/Forum';
 
-export default class ForumContainer extends Component {
-    static propTypes = {
-        prop: PropTypes
-    }
-
+class ForumContainer extends Component {
     render() {
         return (
             <Forum
@@ -15,3 +12,13 @@ export default class ForumContainer extends Component {
         )
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        web3: state.web3,
+        accounts: state.accounts,
+        tartarusAddress: state.tartarus.tartarusAddress,
+    };
+}
+
+export default connect(mapStateToProps)(ForumContainer);

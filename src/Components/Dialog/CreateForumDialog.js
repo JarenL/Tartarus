@@ -55,7 +55,7 @@ class CreateForumDialog extends Component {
 	}
 
 
-	createForum = (forumTitle) => {
+	createForum = (forumName) => {
 		const contract = require('truffle-contract')
 		const tartarus = contract(TartarusContract)
 		tartarus.setProvider(this.props.web3.currentProvider)
@@ -63,7 +63,7 @@ class CreateForumDialog extends Component {
 		this.props.web3.eth.getAccounts((error, accounts) => {
 			tartarus.at(this.props.tartarusAddress).then((instance) => {
 				instance.createForum(
-					forumTitle,
+					forumName,
 					{ from: accounts[0], gasPrice: 20000000000 }
 				)
 			})

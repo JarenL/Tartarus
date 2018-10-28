@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import ForumListContainer from './Containers/ForumListContainer';
+import DrawerContainer from './Containers/DrawerContainer';
 import AppBarContainer from './Containers/AppBarContainer';
 import getWeb3 from './utils/getWeb3';
 import TartarusContract from '../build/contracts/Tartarus.json';
@@ -62,7 +62,7 @@ class App extends Component {
   instantiateContract = () => {
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0xf12b5dd4ead5f743c6baa640b0216200e89b60da"))
+    this.props.dispatch(setTartarusAddress("0x0d8cc4b8d15d4c3ef1d70af0071376fb26b5669b"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
       this.setState({
@@ -103,7 +103,7 @@ class App extends Component {
         <AppBarContainer />
         <div className={classes.main}>
           <div>
-            <ForumListContainer currentUserAccount={this.state.currentUserAccount} />
+            <DrawerContainer />
           </div>
           <div className={classes.content}>
             <p>{this.props.accounts.currentOwnerAddress}</p>

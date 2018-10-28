@@ -5,7 +5,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import Divider from '@material-ui/core/Divider';
-import ForumContainer from '../Containers/ForumContainer';
+import ForumContainer from '../../Containers/ForumContainer';
 
 
 const ForumList = (props) => {

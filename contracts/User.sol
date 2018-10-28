@@ -12,7 +12,8 @@ contract User is Ownable {
     event CommentCreated (address parentAddresss, address commentAddress, string commentText);
     event PostCreated (address postAddress, string postText);
 
-    function subscribe(address _forumAddress, string _forumName) public onlyOwner {
+    //needs "onlyowner" equivalent, perhaps only desired forumaddress can call. 
+    function subscribe(address _forumAddress, string _forumName) public {
         emit SubscribeForum(_forumAddress, _forumName);
     }
 
