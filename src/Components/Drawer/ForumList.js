@@ -8,19 +8,22 @@ import HomeIcon from '@material-ui/icons/Home';
 import Divider from '@material-ui/core/Divider';
 import ForumContainer from '../../Containers/ForumContainer';
 import {
-    setCurrentForum
+    setCurrentForum, setCurrentForumAddress
 } from '../../actions/actions'
 
 
 class ForumList extends Component {
-    changeForum = () => {
-        console.log("hello")
-        this.props.dispatch(setCurrentForum("hello"))
+    changeForum = (forum) => {
+        console.log("forum clicked")
+        console.log(forum)
+        this.props.dispatch(setCurrentForum(forum.name))
+        this.props.dispatch(setCurrentForumAddress(forum.address))
+
     }
     render() {
         const forumContainers = this.props.forums.map(forum => {
             return (
-                <div key={forum.address}>
+                <div key={forum.address} onClick={() => this.changeForum(forum)}>
                     <ForumContainer
                         address={forum.address}
                         name={forum.name} />
@@ -30,7 +33,7 @@ class ForumList extends Component {
 
         return (
             <List>
-                <ListItem button onClick={this.changeForum.bind(this)}>
+                <ListItem button onClick={() => this.changeForum({name : "Frontpage", address : this.props.tartarusAddress})}>
                     <ListItemIcon>
                         <HomeIcon />
                     </ListItemIcon>
@@ -41,15 +44,12 @@ class ForumList extends Component {
             </List>
         );
     }
-
 }
 
 function mapStateToProps(state) {
     return {
-        web3: state.web3,
-        tartarusAddress: state.tartarus.tartarusAddress,
-        accounts: state.accounts,
-        currentForum: state.currentForum
+        currentForum: state.forum.currentForum,
+        tartarusAddress: state.tartarus.tartarusAddress
     };
 }
 

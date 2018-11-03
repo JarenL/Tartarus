@@ -4,8 +4,8 @@ import {
 } from '../actions/actions';
 
 const initialState = {
-	currentForum: "home",
-	currentForumAddress: null
+	currentForum: "Frontpage",
+	currentForumAddress: "null"
 }
 
 const forumReducer = (state = initialState, action) => {

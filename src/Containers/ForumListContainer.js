@@ -20,7 +20,8 @@ class ForumListContainer extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			forums: []
+			forums: [],
+			currentForum: {}
 		}
 	}
 

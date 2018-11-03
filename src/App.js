@@ -105,8 +105,11 @@ class App extends Component {
             <DrawerContainer />
           </div>
           <div className={classes.content}>
-            <p>{this.props.accounts.currentOwnerAddress}</p>
-            <p>{this.props.accounts.currentUserAddress}</p>
+            <p>Metamask addres = {this.props.accounts.currentOwnerAddress}</p>
+            <p>User address = {this.props.accounts.currentUserAddress}</p>
+            <p>Current forum = {this.props.currentForum}</p>
+            <p>Current forum address = {this.props.tartarusAddress}</p>
+
           </div>
         </div>
       </div>
@@ -122,7 +125,8 @@ function mapStateToProps(state) {
   return {
     web3: state.web3,
     tartarusAddress: state.tartarus.tartarusAddress,
-    accounts: state.accounts
+    accounts: state.accounts,
+    currentForum: state.forum.currentForum
   };
 }
 
