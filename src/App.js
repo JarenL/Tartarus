@@ -62,7 +62,7 @@ class App extends Component {
   instantiateContract = () => {
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0x0d8cc4b8d15d4c3ef1d70af0071376fb26b5669b"))
+    this.props.dispatch(setTartarusAddress("0x82d50ad3c1091866e258fd0f1a7cc9674609d254"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
       this.setState({

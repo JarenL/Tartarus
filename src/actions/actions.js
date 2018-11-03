@@ -7,6 +7,10 @@ export const CURRENT_USER_ADDRESS = 'CURRENT_USER_ADDRESS'
 export const CURRENT_OWNER_ADDRESS = 'CURRENT_OWNER_ADDRESS'
 export const TARTARUS_ADDRESS = 'TARTARUS_ADDRESS'
 export const TARTARUS_INSTANCE = 'TARTARUS_INSTANCE'
+export const DRAWER_STATE = 'DRAWER_STATE'
+export const CURRENT_FORUM = 'CURRENT_FORUM'
+export const CURRENT_FORUM_ADDRESS = 'CURRENT_FORUM_ADDRESS'
+
 
 /*
  * action creators
@@ -40,4 +44,25 @@ export function setTartarusInstance(tartarusInstance) {
     return { 
         type: TARTARUS_INSTANCE, 
         payload: tartarusInstance }
+}
+
+export function setDrawerState(drawerState) {
+    return {
+        type: DRAWER_STATE,
+        payload: drawerState
+    }
+}
+
+export function setCurrentForum(currentForum) {
+    return {
+        type: CURRENT_FORUM,
+        payload: currentForum
+    }
+}
+
+export function setCurrentForumAddress(currentForumAddress) {
+    return {
+        type: CURRENT_FORUM_ADDRESS,
+        payload: currentForumAddress
+    }
 }

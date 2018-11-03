@@ -40,6 +40,7 @@ class ForumListContainer extends Component {
 				this.setState({
 					forums: newForumArray
 				});
+				console.log(newForumArray);
 			})
 		})
 	}
