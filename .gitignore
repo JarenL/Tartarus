@@ -7,7 +7,6 @@
 !.vscode/extensions.json
 
 # dependencies
-node_modules
 /.pnp
 .pnp.js
 
@@ -15,7 +14,6 @@ node_modules
 /coverage
 
 # production
-build
 
 # misc
 .DS_Store
