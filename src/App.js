@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import DrawerContainer from './Containers/DrawerContainer';
 import AppBarContainer from './Containers/AppBarContainer';
+import PostListContainer from './Containers/PostListContainer'
 import getWeb3 from './utils/getWeb3';
 import TartarusContract from '../build/contracts/Tartarus.json';
 import { connect } from 'react-redux'
@@ -109,6 +110,7 @@ class App extends Component {
             <p>User address = {this.props.accounts.currentUserAddress}</p>
             <p>Current forum = {this.props.currentForum}</p>
             <p>Current forum address = {this.props.tartarusAddress}</p>
+            <PostListContainer />
 
           </div>
         </div>
