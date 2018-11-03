@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import UserContract from '../../build/contracts/User.json';
 import CreateForumDialog from '../Components/Dialog/CreateForumDialog'
 
+
 const styles = theme => ({
 	drawerPaper: {
 		position: 'ablsolute',
@@ -47,6 +48,7 @@ class ForumListContainer extends Component {
 
 	render() {
 		const { classes } = this.props;
+		console.log(this.state.forums)
 		return (
 			<div className={classes.root}>
 				<Drawer
@@ -54,14 +56,13 @@ class ForumListContainer extends Component {
 					classes={{
 						paper: classes.drawerPaper,
 					}}>
-					<ForumList forums={this.state.forums} />
+					<ForumList forums={this.state.forums}/>
 					<CreateForumDialog />
 				</Drawer>
 			</div>
 		);
 	}
 }
-
 
 ForumListContainer.propTypes = {
 	classes: PropTypes.object.isRequired,
@@ -72,7 +73,8 @@ function mapStateToProps(state) {
 	return {
 		web3: state.web3,
 		tartarusAddress: state.tartarus.tartarusAddress,
-		accounts: state.accounts
+		accounts: state.accounts,
+		currentForum: state.forum.currentForum
 	};
 }
 

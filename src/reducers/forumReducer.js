@@ -4,7 +4,7 @@ import {
 } from '../actions/actions';
 
 const initialState = {
-	currentForum: null,
+	currentForum: "home",
 	currentForumAddress: null
 }
 

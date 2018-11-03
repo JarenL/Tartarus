@@ -17,33 +17,38 @@ export const CURRENT_FORUM_ADDRESS = 'CURRENT_FORUM_ADDRESS'
  */
 
 export function initializeWeb3(web3) {
-    return { 
-        type: WEB3_INITIALIZED, 
-        payload: web3 }
+    return {
+        type: WEB3_INITIALIZED,
+        payload: web3
+    }
 }
 
 export function setCurrentUserAddress(userAddress) {
-    return { 
-        type: CURRENT_USER_ADDRESS, 
-        payload: userAddress }
+    return {
+        type: CURRENT_USER_ADDRESS,
+        payload: userAddress
+    }
 }
 
 export function setCurrentOwnerAddress(ownerAddress) {
-    return { 
-        type: CURRENT_OWNER_ADDRESS, 
-        payload: ownerAddress }
+    return {
+        type: CURRENT_OWNER_ADDRESS,
+        payload: ownerAddress
+    }
 }
 
 export function setTartarusAddress(tartarusAddress) {
-    return { 
-        type: TARTARUS_ADDRESS, 
-        payload: tartarusAddress }
+    return {
+        type: TARTARUS_ADDRESS,
+        payload: tartarusAddress
+    }
 }
 
 export function setTartarusInstance(tartarusInstance) {
-    return { 
-        type: TARTARUS_INSTANCE, 
-        payload: tartarusInstance }
+    return {
+        type: TARTARUS_INSTANCE,
+        payload: tartarusInstance
+    }
 }
 
 export function setDrawerState(drawerState) {

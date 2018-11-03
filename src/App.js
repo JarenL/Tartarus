@@ -68,7 +68,6 @@ class App extends Component {
       this.setState({
         tartarusInstance: instance
       })
-      // this.props.dispatch(setCurrentOwnerAddress(accounts[0]))
       this.authenticateUser();
       this.currentAccountListener();
     })
