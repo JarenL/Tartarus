@@ -8,7 +8,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
-import CreateUserButton from '../Buttons/CreateUserButton';
 
 const styles = theme => ({
     drawerPaper: {

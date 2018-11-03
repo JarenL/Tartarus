@@ -6,7 +6,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TartarusContract from '../../../build/contracts/Tartarus.json';
 import { connect } from 'react-redux'
@@ -70,7 +69,6 @@ class CreateForumDialog extends Component {
 		})
 	}
 	render() {
-		const { classes } = this.props;
 		return (
 			<div>
 				<div onClick={this.handleClickOpen}>
@@ -110,11 +108,6 @@ class CreateForumDialog extends Component {
 		);
 	}
 }
-
-CreateForumDialog.propTypes = {
-	classes: PropTypes.object.isRequired,
-};
-
 
 function mapStateToProps(state) {
 	return {
