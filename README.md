@@ -4,7 +4,7 @@ Ethereum decentralized application built using Ethereum smart contracts. Reddit-
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine to check it up. As of 8/26/2018 only tracks one sport, left drawer not functional.
+These instructions will get you a copy of the project up and running on your local machine to check it up. 
 
 ### Prerequisites
 
