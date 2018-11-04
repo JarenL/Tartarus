@@ -82,7 +82,7 @@ class CreateForumDialog extends Component {
 					<DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							To subscribe to this website, please enter your email address here. We will send
+							To subscribe to this website, please enter the name of your forum here. We will send
 							updates occasionally.
             </DialogContentText>
 						<TextField
@@ -90,8 +90,8 @@ class CreateForumDialog extends Component {
 							onChange={this.setDialogText}
 							margin="dense"
 							id="name"
-							label="Email Address"
-							type="email"
+							label="Forum Title"
+							type="String"
 							fullWidth
 						/>
 					</DialogContent>
