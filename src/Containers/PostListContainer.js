@@ -15,7 +15,6 @@ class PostListContainer extends Component {
 
     componentDidMount = () => {
       this.instantiateContract();
-
     }
 
     // event PostCreated (address postAddress, string posttitle, address postOwner, uint timestamp);  
@@ -25,28 +24,32 @@ class PostListContainer extends Component {
         const forum = contract(ForumContract)
         forum.setProvider(this.props.web3.currentProvider)
         forum.at(this.props.currentForumAddress).then((instance) => {
-            const postCreationEvent = instance.PostCreated({ fromBlock: 0, toBlock: 'latest' });
+            const postCreationEvent = instance.allEvents({ fromBlock: 0, toBlock: 'latest' });
             postCreationEvent.watch((error, result) => {
-                console.log("hello")
-                let newPostArray = this.state.posts.slice();
-                newPostArray.push({
-                    address: result.args.postAddress,
-                    title: result.args.postTitle,
-                    author: result.args.postOwner
-                });
-                this.setState({
-                    posts: newPostArray
-                });
-                console.log(newPostArray);
+              if (!error) {
+                if (result.event === "PostCreated") {
+                  console.log("hello")
+                  let newPostArray = this.state.posts.slice();
+                  newPostArray.push({
+                      address: result.args.postAddress,
+                      title: result.args.postTitle,
+                      author: result.args.postOwner
+                  });
+                  this.setState({
+                      posts: newPostArray
+                  });
+                  console.log(newPostArray);
+                }
+              }
+                
             })
         })
-    }
+      }
 
     render() {
         if (this.props.currentForumAddress === "0" || !this.props.currentForumAddress || this.props.currentForumAddress === undefined) {
             return (
                 <div>
-                    <p>{this.props.currentForum}</p>
                     <PostList posts={this.state.posts} />
                 </div>
             );
@@ -54,7 +57,6 @@ class PostListContainer extends Component {
             return (
                 <div>
                     <CreatePostDialog />
-                    <p>{this.props.currentForum}</p>
                     <PostList posts={this.state.posts} />
                 </div>
 

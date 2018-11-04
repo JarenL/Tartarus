@@ -1,11 +1,22 @@
-import React, { Component } from 'react'
+import React from 'react';
+import PostContainer from '../Containers/PostContainer';
 
-export default class PostList extends Component {
-    render() {
+const PostList = (props) => {
+    const postContainers = props.posts.map(post => {
         return (
-            <div>
-
+            <div key={post.address}>
+                <PostContainer
+                    address={post.address}
+                    owner={post.owner}
+                    title={post.title} />
             </div>
         )
-    }
+    });
+    return (
+        <div>
+            {postContainers}
+        </div>
+    );
 }
+
+export default PostList

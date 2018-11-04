@@ -119,20 +119,20 @@ class App extends Component {
     } else {
       return (
         <div>
-          <AppBarContainer />
-          <div className={classes.main}>
-            <div>
-              <DrawerContainer />
-            </div>
-            <div className={classes.content}>
-              <p>Metamask address = {this.props.accounts.currentOwnerAddress}</p>
-              <p>User address = {this.props.accounts.currentUserAddress}</p>
-              <p>Current forum = {this.props.currentForum}</p>
-              <p>Current forum address = {this.props.currentForumAddress}</p>
-              <PostListContainer />
-            </div>
+        <AppBarContainer />
+        <div className={classes.main}>
+          <div>
+            <DrawerContainer />
+          </div>
+          <div className={classes.content}>
+            <p>Metamask address = {this.props.accounts.currentOwnerAddress}</p>
+            <p>User address = {this.props.accounts.currentUserAddress}</p>
+            <p>Current forum = {this.props.currentForum}</p>
+            <p>Current forum address = {this.props.currentForumAddress}</p>
+            <PostListContainer />
           </div>
         </div>
+      </div>
       )
     }
   }
