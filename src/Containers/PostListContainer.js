@@ -10,12 +10,17 @@ class PostListContainer extends Component {
         this.state = {
             posts: [],
         }
+        this.instantiateContract = this.instantiateContract.bind(this);
+    }
+
+    componentDidMount = () => {
+      this.instantiateContract();
+
     }
 
     // event PostCreated (address postAddress, string posttitle, address postOwner, uint timestamp);  
 
     instantiateContract() {
-        console.log(this.props.forum)
         const contract = require('truffle-contract')
         const forum = contract(ForumContract)
         forum.setProvider(this.props.web3.currentProvider)

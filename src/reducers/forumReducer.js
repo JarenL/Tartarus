@@ -5,7 +5,7 @@ import {
 
 const initialState = {
 	currentForum: "Frontpage",
-	currentForumAddress: "null"
+	currentForumAddress: null
 }
 
 const forumReducer = (state = initialState, action) => {

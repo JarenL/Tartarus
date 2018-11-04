@@ -98,23 +98,43 @@ class App extends Component {
 
   render() {
     const { classes } = this.props;
-    return (
-      <div>
-        <AppBarContainer />
-        <div className={classes.main}>
-          <div>
-            <DrawerContainer />
-          </div>
-          <div className={classes.content}>
-            <p>Metamask address = {this.props.accounts.currentOwnerAddress}</p>
-            <p>User address = {this.props.accounts.currentUserAddress}</p>
-            <p>Current forum = {this.props.currentForum}</p>
-            <p>Current forum address = {this.props.currentForumAddress}</p>
-            <PostListContainer />
+    if (this.props.currentForumAddress === "0" || !this.props.currentForumAddress || this.props.currentForumAddress === undefined) {
+      return (
+        <div>
+          <AppBarContainer />
+          <div className={classes.main}>
+            <div>
+              <DrawerContainer />
+            </div>
+            <div className={classes.content}>
+              <p>Metamask address = {this.props.accounts.currentOwnerAddress}</p>
+              <p>User address = {this.props.accounts.currentUserAddress}</p>
+              <p>Current forum = {this.props.currentForum}</p>
+              <p>Current forum address = {this.props.currentForumAddress}</p>
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
+
+    } else {
+      return (
+        <div>
+          <AppBarContainer />
+          <div className={classes.main}>
+            <div>
+              <DrawerContainer />
+            </div>
+            <div className={classes.content}>
+              <p>Metamask address = {this.props.accounts.currentOwnerAddress}</p>
+              <p>User address = {this.props.accounts.currentUserAddress}</p>
+              <p>Current forum = {this.props.currentForum}</p>
+              <p>Current forum address = {this.props.currentForumAddress}</p>
+              <PostListContainer />
+            </div>
+          </div>
+        </div>
+      )
+    }
   }
 }
 
