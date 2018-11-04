@@ -7,7 +7,7 @@ const PostList = (props) => {
             <div key={post.address}>
                 <PostContainer
                     address={post.address}
-                    owner={post.owner}
+                    owner={post.author}
                     title={post.title} />
             </div>
         )

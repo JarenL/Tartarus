@@ -5,10 +5,9 @@ const PostContainer = (props) => {
     return (
         <Card className="Match">
             <div>
-                <p>{props.title}</p>
-                <p>{props.address}</p>
-                <p>{props.owner}</p>
-
+                <p>Title - {props.title}</p>
+                <p>Address - {props.address}</p>
+                <p>Owner Address - {props.owner}</p>
             </div>
         </Card>
     )
