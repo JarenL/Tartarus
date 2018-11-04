@@ -16,10 +16,8 @@ class ForumList extends Component {
   changeForum = (forum) => {
     console.log("forum clicked")
     console.log(forum.name)
-    this.props.dispatch(setCurrentForumAddress(null))
-    this.props.dispatch(setCurrentForumAddress(forum.address))
     this.props.dispatch(setCurrentForum(forum.name))
-
+    this.props.dispatch(setCurrentForumAddress(forum.address))
   }
   render() {
     const forumContainers = this.props.forums.map(forum => {

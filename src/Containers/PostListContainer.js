@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PostList from '../Components/PostList';
 import { connect } from 'react-redux';
 import ForumContract from '../../build/contracts/Forum.json';
-import CreatePostDialog from '../Components/Dialog/CreatePostDialog'
 
 class PostListContainer extends Component {
   constructor(props) {
@@ -46,24 +45,25 @@ class PostListContainer extends Component {
   render() {
     console.log(this.state.posts)
     console.log(this.props.currentForumAddress)
-    if (this.props.currentForumAddress === null || this.props.currentForumAddress === undefined) {
+    if (this.props.currentForum !== "Frontpage") {
+      return (
+        <div>
+          <PostList posts={this.state.posts} />
+        </div>
+      )
+
+    } else {
       return (
         <div>
           <PostList posts={this.state.posts} />
         </div>
       );
-    } else {
-      return (
-        <div>
-          <CreatePostDialog />
-          <PostList posts={this.state.posts} />
-        </div>
-      )
+
     }
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     web3: state.web3,
     accounts: state.accounts,
