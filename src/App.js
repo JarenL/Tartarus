@@ -63,7 +63,7 @@ class App extends Component {
   instantiateContract = () => {
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0x82d50ad3c1091866e258fd0f1a7cc9674609d254"))
+    this.props.dispatch(setTartarusAddress("0x13274fe19c0178208bcbee397af8167a7be27f6f"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
       this.setState({
@@ -98,24 +98,43 @@ class App extends Component {
 
   render() {
     const { classes } = this.props;
-    return (
-      <div>
+    if (this.props.currentForumAddress === null) {
+      return (
+        <div>
+          <AppBarContainer />
+          <div className={classes.main}>
+            <div>
+              <DrawerContainer />
+            </div>
+            <div className={classes.content}>
+              <p>Metamask address = {this.props.accounts.currentOwnerAddress}</p>
+              <p>User address = {this.props.accounts.currentUserAddress}</p>
+              <p>Current forum = {this.props.currentForum}</p>
+              <p>Current forum address = {this.props.currentForumAddress}</p>
+            </div>
+          </div>
+        </div>
+      )
+
+    } else {
+      return (
+        <div>
         <AppBarContainer />
         <div className={classes.main}>
           <div>
             <DrawerContainer />
           </div>
           <div className={classes.content}>
-            <p>Metamask addres = {this.props.accounts.currentOwnerAddress}</p>
+            <p>Metamask address = {this.props.accounts.currentOwnerAddress}</p>
             <p>User address = {this.props.accounts.currentUserAddress}</p>
             <p>Current forum = {this.props.currentForum}</p>
-            <p>Current forum address = {this.props.tartarusAddress}</p>
+            <p>Current forum address = {this.props.currentForumAddress}</p>
             <PostListContainer />
-
           </div>
         </div>
       </div>
-    )
+      )
+    }
   }
 }
 
@@ -128,7 +147,8 @@ function mapStateToProps(state) {
     web3: state.web3,
     tartarusAddress: state.tartarus.tartarusAddress,
     accounts: state.accounts,
-    currentForum: state.forum.currentForum
+    currentForum: state.forum.currentForum,
+    currentForumAddress: state.forum.currentForumAddress
   };
 }
 

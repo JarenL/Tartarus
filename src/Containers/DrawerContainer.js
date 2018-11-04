@@ -13,7 +13,6 @@ class DrawerContainer extends Component {
             )
 
         } else {
-						console.log(this.props.accounts.currentUserAddress)
             return (
                 <div>
                     <AuthDrawer />
