@@ -88,8 +88,8 @@ class CreatePostDialog extends Component {
 							onChange={this.setDialogText}
 							margin="dense"
 							id="name"
-							label="Email Address"
-							type="email"
+							label="Post"
+							type="String"
 							fullWidth
 						/>
 					</DialogContent>
