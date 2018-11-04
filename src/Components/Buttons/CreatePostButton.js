@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import Message from '@material-ui/icons/Message';
+import AddComment from '@material-ui/icons/AddComment';
 
 const styles = theme => ({
 	button: {
@@ -19,7 +19,7 @@ function CreatePostButton(props) {
 		<div>
 			<Button variant="contained" color="secondary" className={classes.button}>
 				Create Post
-                <Message className={classes.rightIcon} />
+                <AddComment className={classes.rightIcon} />
 			</Button>
 		</div>
 	);
