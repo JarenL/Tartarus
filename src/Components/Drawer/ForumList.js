@@ -15,7 +15,6 @@ import {
 class ForumList extends Component {
     changeForum = (forum) => {
         console.log("forum clicked")
-        console.log(forum)
         this.props.dispatch(setCurrentForum(forum.name))
         this.props.dispatch(setCurrentForumAddress(forum.address))
 
@@ -33,7 +32,7 @@ class ForumList extends Component {
 
         return (
             <List>
-                <ListItem button onClick={() => this.changeForum({name : "Frontpage", address : this.props.tartarusAddress})}>
+                <ListItem button onClick={() => this.changeForum({name : "Frontpage", address : null})}>
                     <ListItemIcon>
                         <HomeIcon />
                     </ListItemIcon>

@@ -5,28 +5,28 @@ import { withStyles } from '@material-ui/core/styles';
 import Message from '@material-ui/icons/Message';
 
 const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-  }
+	button: {
+		margin: theme.spacing.unit,
+	},
+	rightIcon: {
+		marginLeft: theme.spacing.unit,
+	}
 });
 
 function CreatePostButton(props) {
-  const { classes } = props;
-  return (
-    <div>
-      <Button variant="contained" color="secondary" className={classes.button}>
-        Create Post
+	const { classes } = props;
+	return (
+		<div>
+			<Button variant="contained" color="secondary" className={classes.button}>
+				Create Post
                 <Message className={classes.rightIcon} />
-      </Button>
-    </div>
-  );
+			</Button>
+		</div>
+	);
 }
 
 CreatePostButton.propTypes = {
-  classes: PropTypes.object.isRequired,
+	classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(CreatePostButton);

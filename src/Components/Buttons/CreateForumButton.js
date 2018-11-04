@@ -12,7 +12,7 @@ const styles = theme => ({
     }
 });
 
-function AddForumButton(props) {
+function CreateForumButton (props) {
     const { classes } = props;
     return (
         <div>
@@ -23,8 +23,8 @@ function AddForumButton(props) {
     );
 }
 
-AddForumButton.propTypes = {
+CreateForumButton.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AddForumButton);
+export default withStyles(styles)(CreateForumButton);

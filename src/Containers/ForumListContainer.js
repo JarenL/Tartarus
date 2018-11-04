@@ -21,12 +21,17 @@ class ForumListContainer extends Component {
 		super(props)
 		this.state = {
 			forums: [],
-			currentForum: {}
 		}
+		this.instantiateContract = this.instantiateContract.bind(this);
+
 	}
 
+	componentDidMount() {
+		this.instantiateContract();
+	}
+
+
 	instantiateContract() {
-		console.log(this.props.accounts.currentUserAddress)
 		const contract = require('truffle-contract')
 		const user = contract(UserContract)
 		user.setProvider(this.props.web3.currentProvider)
@@ -34,6 +39,7 @@ class ForumListContainer extends Component {
 		user.at(this.props.accounts.currentUserAddress).then((instance) => {
 			const forumSubscribeEvemt = instance.SubscribeForum({ fromBlock: 0, toBlock: 'latest' });
 			forumSubscribeEvemt.watch((error, result) => {
+				console.log("hello")
 				let newForumArray = this.state.forums.slice();
 				newForumArray.push({
 					address: result.args.forumAddress,
@@ -42,7 +48,7 @@ class ForumListContainer extends Component {
 				this.setState({
 					forums: newForumArray
 				});
-				console.log(newForumArray);
+				console.log(this.state.forums);
 			})
 		})
 	}
@@ -57,7 +63,7 @@ class ForumListContainer extends Component {
 					classes={{
 						paper: classes.drawerPaper,
 					}}>
-					<ForumList forums={this.state.forums}/>
+					<ForumList forums={this.state.forums} />
 					<CreateForumDialog />
 				</Drawer>
 			</div>
