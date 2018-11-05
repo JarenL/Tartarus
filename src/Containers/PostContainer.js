@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card } from '@material-ui/core';
 import '../css/Post.css';
+import CreateCommentButton from '../Components/Buttons/CreateCommentButton'
 
 const PostContainer = (props) => {
     return (
@@ -10,6 +11,7 @@ const PostContainer = (props) => {
                 <p>Address - {props.address}</p>
                 <p>Owner Address - {props.owner}</p>
             </div>
+            <CreateCommentButton />
         </Card>
     )
 };

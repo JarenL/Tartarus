@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import ForumList from '../../Components/Drawer/ForumList';
+import ForumListContainer from './ForumListContainer';
 import { connect } from 'react-redux';
 import UserContract from '../../../build/contracts/User.json';
 import CreateForumDialog from '../../Components/Dialog/CreateForumDialog'
@@ -57,7 +57,7 @@ class AuthDrawer extends Component {
 					classes={{
 						paper: classes.drawerPaper,
 					}}>
-					<ForumList forums={this.state.forums} />
+					<ForumListContainer forums={this.state.forums} />
 					<CreateForumDialog />
 				</Drawer>
 			</div>
