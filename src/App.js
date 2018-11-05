@@ -4,7 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import DrawerContainer from './Containers/DrawerContainer';
 import AppBarContainer from './Containers/AppBarContainer';
 import PostListContainer from './Containers/PostListContainer'
+import Header from './Components/Header'
 import getWeb3 from './utils/getWeb3';
+import Divider from '@material-ui/core/Divider';
 import TartarusContract from '../build/contracts/Tartarus.json';
 import { connect } from 'react-redux'
 import {
@@ -30,7 +32,7 @@ const styles = theme => ({
     // backgroundColor: 'red',
     marginTop: 45,
     marginLeft: '15%',
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing.unit,
     minHeight: '100vh',
     minWidth: 0, // So the Typography noWrap works
   },
@@ -63,7 +65,7 @@ class App extends Component {
   instantiateContract = () => {
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0xf12b5dd4ead5f743c6baa640b0216200e89b60da"))
+    this.props.dispatch(setTartarusAddress("0x30753e4a8aad7f8597332e813735def5dd395028"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
       this.setState({
@@ -107,10 +109,12 @@ class App extends Component {
               <DrawerContainer />
             </div>
             <div className={classes.content}>
-              <p>Metamask address = {this.props.accounts.currentOwnerAddress}</p>
-              <p>User address = {this.props.accounts.currentUserAddress}</p>
-              <p>Current forum = {this.props.currentForum}</p>
-              <p>Current forum address = {this.props.currentForumAddress}</p>
+              <Header
+                currentOwnerAddress = {this.props.accounts.currentOwnerAddress}
+                currentUserAddress = {this.props.accounts.currentUserAddress}
+                currentForum = {this.props.currentForum}
+                currentForumAddress = {this.props.currentForumAddress}
+              />
             </div>
           </div>
         </div>
@@ -125,10 +129,13 @@ class App extends Component {
             <DrawerContainer />
           </div>
           <div className={classes.content}>
-            <p>Metamask address = {this.props.accounts.currentOwnerAddress}</p>
-            <p>User address = {this.props.accounts.currentUserAddress}</p>
-            <p>Current forum = {this.props.currentForum}</p>
-            <p>Current forum address = {this.props.currentForumAddress}</p>
+            <Header
+              currentOwnerAddress = {this.props.accounts.currentOwnerAddress}
+              currentUserAddress = {this.props.accounts.currentUserAddress}
+              currentForum = {this.props.currentForum}
+              currentForumAddress = {this.props.currentForumAddress}
+            />
+            <Divider/>
             <PostListContainer />
           </div>
         </div>

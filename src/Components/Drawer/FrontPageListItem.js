@@ -7,7 +7,7 @@ import HomeIcon from '@material-ui/icons/Home';
 export default class FrontPageListItem extends Component {
   render() {
     return (
-      <div>
+      <div onClick={() => this.props.changeForum({name : "Frontpage", address : null})}>
         <ListItem button>
           <ListItemIcon>
             <HomeIcon />

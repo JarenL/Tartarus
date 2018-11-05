@@ -3,9 +3,16 @@ import { Card } from '@material-ui/core';
 import '../css/Post.css';
 import CreateCommentButton from '../Components/Buttons/CreateCommentButton'
 
+const styles = theme => ({
+    post: {
+        height: '10%',
+    },
+});
+
+
 const PostContainer = (props) => {
     return (
-        <Card className="Post">
+        <Card className="post">
             <div>
                 <p>Title - {props.title}</p>
                 <p>Address - {props.address}</p>

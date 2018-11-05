@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import List from '@material-ui/core/List';
 import ForumContainer from '../../Containers/ForumContainer'
+import List from '@material-ui/core/List'
 
-export default class Forum extends Component {
+export default class ForumList extends Component {
   render() {
     const forumContainers = this.props.forums.map(forum => {
       return (
@@ -13,12 +13,11 @@ export default class Forum extends Component {
         </div>
       )
     });
-  
+
     return (
-      <List>
+      <div>
         {forumContainers}
-      </List>
+      </div>
     )
   }
 }
-
