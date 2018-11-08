@@ -8,7 +8,12 @@ import Header from './Components/Header'
 import getWeb3 from './utils/getWeb3';
 import Divider from '@material-ui/core/Divider';
 import TartarusContract from '../build/contracts/Tartarus.json';
-import { connect } from 'react-redux'
+import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
+import { connect } from 'react-redux';
+import FrontPage from './Components/FrontPage';
+import ForumPage from './Components/ForumPage';
+import PostPage from './Components/PostPage';
+
 import {
   initializeWeb3,
   setCurrentOwnerAddress,
@@ -65,7 +70,7 @@ class App extends Component {
   instantiateContract = () => {
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0x30753e4a8aad7f8597332e813735def5dd395028"))
+    this.props.dispatch(setTartarusAddress("0xf25186b5081ff5ce73482ad761db0eb0d25abfbf"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
       this.setState({
@@ -100,8 +105,8 @@ class App extends Component {
 
   render() {
     const { classes } = this.props;
-    if (this.props.currentForumAddress === null) {
       return (
+        <BrowserRouter>
         <div>
           <AppBarContainer />
           <div className={classes.main}>
@@ -109,39 +114,16 @@ class App extends Component {
               <DrawerContainer />
             </div>
             <div className={classes.content}>
-              <Header
-                currentOwnerAddress = {this.props.accounts.currentOwnerAddress}
-                currentUserAddress = {this.props.accounts.currentUserAddress}
-                currentForum = {this.props.currentForum}
-                currentForumAddress = {this.props.currentForumAddress}
-              />
+              <Switch>
+                <Route exact path="/" component={FrontPage} />
+                <Route path={"/forum/:forumAddress"} component={ForumPage} />
+                <Route path={"/:forumAddress/:postAddress"} component={PostPage} />
+              </Switch>
             </div>
           </div>
         </div>
+        </BrowserRouter>
       )
-
-    } else {
-      return (
-        <div>
-        <AppBarContainer />
-        <div className={classes.main}>
-          <div>
-            <DrawerContainer />
-          </div>
-          <div className={classes.content}>
-            <Header
-              currentOwnerAddress = {this.props.accounts.currentOwnerAddress}
-              currentUserAddress = {this.props.accounts.currentUserAddress}
-              currentForum = {this.props.currentForum}
-              currentForumAddress = {this.props.currentForumAddress}
-            />
-            <Divider/>
-            <PostListContainer />
-          </div>
-        </div>
-      </div>
-      )
-    }
   }
 }
 
@@ -159,4 +141,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(App));
+export default connect(mapStateToProps, null, null, {
+  pure: false})(withStyles(styles)(App));
