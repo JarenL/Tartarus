@@ -13,6 +13,8 @@ import { connect } from 'react-redux';
 import FrontPage from './Components/FrontPage';
 import ForumPage from './Components/ForumPage';
 import PostPage from './Components/PostPage';
+import UserPage from './Components/UserPage';
+
 
 import {
   initializeWeb3,
@@ -70,7 +72,7 @@ class App extends Component {
   instantiateContract = () => {
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0xf25186b5081ff5ce73482ad761db0eb0d25abfbf"))
+    this.props.dispatch(setTartarusAddress("0xf12b5dd4ead5f743c6baa640b0216200e89b60da"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
       this.setState({
@@ -117,7 +119,8 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={FrontPage} />
                 <Route path={"/forum/:forumAddress"} component={ForumPage} />
-                <Route path={"/:forumAddress/:postAddress"} component={PostPage} />
+                <Route path={"/post/:postAddress"} component={PostPage} />
+                <Route path={"/user/:userAddress"} component={UserPage} />
               </Switch>
             </div>
           </div>

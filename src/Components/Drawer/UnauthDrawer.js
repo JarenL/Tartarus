@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
-import FrontPageListItem from './FrontPageListItem'
 
 const styles = theme => ({
     drawerPaper: {
@@ -22,7 +21,6 @@ class UnauthDrawer extends Component {
                     classes={{
                         paper: classes.drawerPaper,
                     }}>
-                    <FrontPageListItem />
                     <Divider />
                     <p>you need an account</p>
                 </Drawer>

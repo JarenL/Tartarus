@@ -6,7 +6,7 @@ export default class Forum extends Component {
     render() {
         const postContainers = this.props.posts.map(post => {
             return (
-                <Link to={"/" + post.address} style={{ textDecoration: 'none', color:'black' }}>
+                <Link to={"/post/" + post.address} style={{ textDecoration: 'none', color:'black' }}>
                 <div key={post.address}>
                     <PostContainer
                         address={post.address}
