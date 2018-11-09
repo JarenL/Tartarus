@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import ForumListContainer from './ForumListContainer';
+import ForumListContainer from '../Forum/ForumListContainer';
 import { connect } from 'react-redux';
 import UserContract from '../../../build/contracts/User.json';
-import CreateForumDialog from '../../Components/Dialog/CreateForumDialog'
+import CreateForumDialog from '../Dialog/CreateForumDialog'
 
 const styles = theme => ({
 	drawerPaper: {

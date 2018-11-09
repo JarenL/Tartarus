@@ -9,7 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from '@material-ui/core/styles';
 import TartarusContract from '../../../build/contracts/Tartarus.json';
 import { connect } from 'react-redux'
-import CreateForumListButton from '../Buttons/CreateForumListButton'
+import CreateForumButton from '../Buttons/CreateForumButton'
 
 class CreateForumDialog extends Component {
 	constructor(props) {
@@ -64,7 +64,7 @@ class CreateForumDialog extends Component {
 		return (
 			<div>
 				<div onClick={this.handleClickOpen}>
-					<CreateForumListButton />
+					<CreateForumButton />
 				</div>
 				<Dialog
 					open={this.state.open}

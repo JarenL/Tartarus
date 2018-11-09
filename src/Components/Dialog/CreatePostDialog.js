@@ -53,7 +53,6 @@ class CreatePostDialog extends Component {
 		this.setState({ dialogText: event.target.value });
 	}
 
-
 	createPost = (postTitle) => {
 		const contract = require('truffle-contract')
 		const forum = contract(ForumContract)
@@ -67,6 +66,7 @@ class CreatePostDialog extends Component {
 			})
 		})
 	}
+	
 	render() {
 		return (
 			<div>

@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import DrawerContainer from './Containers/DrawerContainer';
-import AppBarContainer from './Containers/AppBarContainer';
-import PostListContainer from './Containers/PostListContainer'
-import Header from './Components/Header'
+import DrawerContainer from './Components/Drawer/DrawerContainer';
+import AppBarContainer from './Components/AppBar/AppBarContainer';
+import PostListContainer from './Components/Post/PostListContainer'
+import Header from './Components/Headers/Header'
 import getWeb3 from './utils/getWeb3';
 import Divider from '@material-ui/core/Divider';
 import TartarusContract from '../build/contracts/Tartarus.json';
 import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import FrontPage from './Components/FrontPage';
-import ForumPage from './Components/ForumPage';
-import PostPage from './Components/PostPage';
-import UserPage from './Components/UserPage';
+import ForumPage from './Components/Forum/ForumPage';
+import PostPage from './Components/Post/PostPage';
+import UserPage from './Components/User/UserPage';
 
 
 import {
