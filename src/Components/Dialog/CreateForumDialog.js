@@ -6,7 +6,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { withStyles } from '@material-ui/core/styles';
 import TartarusContract from '../../../build/contracts/Tartarus.json';
 import { connect } from 'react-redux'
 import CreateForumButton from '../Buttons/CreateForumButton'
@@ -60,7 +59,6 @@ class CreateForumDialog extends Component {
 		})
 	}
 	render() {
-		const { classes } = this.props;
 		return (
 			<div>
 				<div onClick={this.handleClickOpen}>

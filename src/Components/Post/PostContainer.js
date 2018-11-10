@@ -1,13 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Card } from '@material-ui/core';
 import CreateCommentButton from '../Buttons/CreateCommentButton'
-
-const styles = theme => ({
-    post: {
-        height: '10%',
-    },
-});
-
 
 const PostContainer = (props) => {
     return (

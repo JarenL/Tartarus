@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles';
-import PostListContainer from './Post/PostListContainer'
 import Header from './Headers/Header'
 import Divider from '@material-ui/core/Divider';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { connect } from 'react-redux'
 
 class FrontPage extends Component {
