@@ -1,5 +1,4 @@
 import {
-  CURRENT_OWNER_ADDRESS,
   CURRENT_USER_ADDRESS
 } from '../actions/actions';
 
@@ -10,14 +9,27 @@ const initialState = {
 
 const accountsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CURRENT_OWNER_ADDRESS:
-      return Object.assign({}, state, {
-        currentOwnerAddress: action.payload
-      })
+    case 'web3/RECEIVE_ACCOUNT':
+      return {
+        ...state,
+        currentOwnerAddress: action.address
+      };
+
+    case 'web3/CHANGE_ACCOUNT':
+      return {
+        ...state,
+        currentOwnerAddress: action.address
+      };
+    case 'web3/LOGOUT':
+      return {
+        ...state,
+        currentOwnerAddress: null
+      }
     case CURRENT_USER_ADDRESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         currentUserAddress: action.payload
-      })
+      };
     default:
       return state
   }

@@ -1,6 +1,7 @@
 import {
 	CURRENT_FORUM,
-	CURRENT_FORUM_ADDRESS
+	CURRENT_FORUM_ADDRESS,
+	UPDATE_FORUM
 } from '../actions/actions';
 
 const initialState = {
@@ -11,13 +12,21 @@ const initialState = {
 const forumReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case CURRENT_FORUM:
-			return Object.assign({}, state, {
+			return {
+				...state,
 				currentForum: action.payload
-			})
+			};
 		case CURRENT_FORUM_ADDRESS:
-			return Object.assign({}, state, {
+			return {
+				...state,
 				currentForumAddress: action.payload
-			})
+			};
+			case UPDATE_FORUM:
+			return {
+				...state,
+				currentForum: action.payload.name,
+				currentForumAddress: action.payload.address
+			};
 		default:
 			return state
 	}

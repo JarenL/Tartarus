@@ -14,11 +14,11 @@ import UserPage from './Components/User/UserPage';
 
 
 import {
-  initializeWeb3,
-  setCurrentOwnerAddress,
-  setCurrentUserAddress,
-  setTartarusAddress
-} from './actions/actions'
+    initializeWeb3,
+    setCurrentOwnerAddress,
+    setCurrentUserAddress,
+    setTartarusAddress
+  } from './actions/actions'
 
 // Styles
 import './css/oswald.css'
@@ -49,10 +49,8 @@ class App extends Component {
     this.state = {
       tartarusInstance: null
     }
-
     this.instantiateContract = this.instantiateContract.bind(this);
     this.authenticateUser = this.authenticateUser.bind(this);
-    this.currentAccountListener = this.currentAccountListener.bind(this);
   }
 
   componentDidMount() {
@@ -66,46 +64,43 @@ class App extends Component {
       })
   }
 
+  componentDidUpdate(newProps) {
+    if (newProps.accounts.currentOwnerAddress !== "0") {
+      if (newProps.accounts.currentOwnerAddress !== this.props.accounts.currentOwnerAddress) {
+        window.location.reload();
+      }
+    }
+  }
+
   instantiateContract = () => {
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0xf12b5dd4ead5f743c6baa640b0216200e89b60da"))
+    this.props.dispatch(setTartarusAddress("0xf25186b5081ff5ce73482ad761db0eb0d25abfbf"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
       this.setState({
         tartarusInstance: instance
       })
       this.authenticateUser();
-      this.currentAccountListener();
     })
   }
 
-  currentAccountListener = () => {
-    this.props.web3.currentProvider.publicConfigStore.on('update', (result) => {
-      console.log("account change")
-      this.authenticateUser();
-    });
-  }
-
   authenticateUser = () => {
-    this.props.web3.eth.getAccounts((error, accounts) => {
-      this.props.dispatch(setCurrentOwnerAddress(accounts[0]))
-      this.props.dispatch(setCurrentUserAddress(0))
-      const userCreatedEvent = this.state.tartarusInstance.UserCreated({ ownerAddress: accounts[0] }, { fromBlock: 0, toBlock: 'latest' });
-      userCreatedEvent.watch((error, result) => {
-        if (!error) {
-          this.props.dispatch(setCurrentUserAddress(result.args.userAddress))
-        } else {
-          console.log("authentication event error")
-        }
-      })
+    this.props.dispatch(setCurrentUserAddress(0))
+    const userCreatedEvent = this.state.tartarusInstance.UserCreated({ ownerAddress: this.props.accounts.currentOwnerAddress }, { fromBlock: 0, toBlock: 'latest' });
+    userCreatedEvent.watch((error, result) => {
+      if (!error) {
+        this.props.dispatch(setCurrentUserAddress(result.args.userAddress))
+      } else {
+        console.log("authentication event error")
+      }
     })
   }
 
   render() {
     const { classes } = this.props;
-      return (
-        <BrowserRouter>
+    return (
+      <BrowserRouter>
         <div>
           <AppBarContainer />
           <div className={classes.main}>
@@ -122,8 +117,8 @@ class App extends Component {
             </div>
           </div>
         </div>
-        </BrowserRouter>
-      )
+      </BrowserRouter>
+    )
   }
 }
 
@@ -142,4 +137,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, null, null, {
-  pure: false})(withStyles(styles)(App));
+  pure: false})(withStyles(styles) (App));

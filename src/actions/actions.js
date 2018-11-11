@@ -9,8 +9,8 @@ export const TARTARUS_ADDRESS = 'TARTARUS_ADDRESS'
 export const TARTARUS_INSTANCE = 'TARTARUS_INSTANCE'
 export const DRAWER_STATE = 'DRAWER_STATE'
 export const CURRENT_FORUM = 'CURRENT_FORUM'
+export const UPDATE_FORUM = 'UPDATE_FORUM'
 export const CURRENT_FORUM_ADDRESS = 'CURRENT_FORUM_ADDRESS'
-
 
 /*
  * action creators
@@ -69,5 +69,12 @@ export function setCurrentForumAddress(currentForumAddress) {
     return {
         type: CURRENT_FORUM_ADDRESS,
         payload: currentForumAddress
+    }
+}
+
+export function updateForum(newForum) {
+    return {
+        type: UPDATE_FORUM,
+        payload: newForum
     }
 }

@@ -8,7 +8,6 @@ class PostListContainer extends Component {
     super(props)
     this.state = {
       posts: [],
-      forumAddress: this.props.forumAddress
     }
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -17,11 +16,21 @@ class PostListContainer extends Component {
     this.instantiateContract();
   }
 
+  componentDidUpdate = (newProps) => {
+    if (newProps.currentForumAddress !== this.props.currentForumAddress) {
+      this.setState({
+        posts: []
+      })
+      this.instantiateContract()
+    }
+  }
+
+
   instantiateContract() {
     const contract = require('truffle-contract')
     const forum = contract(ForumContract)
     forum.setProvider(this.props.web3.currentProvider)
-    forum.at(this.state.forumAddress).then((instance) => {
+    forum.at(this.props.currentForumAddress).then((instance) => {
       const postCreationEvent = instance.allEvents({ fromBlock: 0, toBlock: 'latest' });
       postCreationEvent.watch((error, result) => {
         console.log(result)
@@ -56,6 +65,7 @@ const mapStateToProps = (state) => {
     web3: state.web3,
     accounts: state.accounts,
     currentForum: state.forum.currentForum,
+    currentForumAddress: state.forum.currentForumAddress,
   };
 }
 

@@ -7,17 +7,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import ForumList from './ForumList'
 import { Link } from 'react-router-dom';
-import {
-  setCurrentForum, setCurrentForumAddress
-} from '../../actions/actions'
+import { updateForum } from '../../actions/actions'
 
 
 class ForumListContainer extends Component {
   changeForum = (forum) => {
     console.log("forum clicked")
     console.log(forum.name)
-    this.props.dispatch(setCurrentForum(forum.name))
-    this.props.dispatch(setCurrentForumAddress(forum.address))
+    this.props.dispatch(updateForum(forum))
   }
   render() {
     return (
