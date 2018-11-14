@@ -9,8 +9,11 @@ contract Forum is Ownable {
     event UserUnbanned(address userAddress);
     event PostCreated (address postAddress, string postTitle, address postOwner, uint timestamp);  
 
-    constructor() public {
+    string public forumName;
+
+    constructor(string _forumName) public {
         owner = msg.sender;
+        forumName = _forumName;
     }
 
     function banUser(address _userAddress) public onlyOwner {

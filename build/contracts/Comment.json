@@ -126,7 +126,7 @@
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 43,
-        "sourceUnit": 630,
+        "sourceUnit": 639,
         "src": "26:63:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -137,7 +137,7 @@
         "id": 3,
         "nodeType": "ImportDirective",
         "scope": 43,
-        "sourceUnit": 544,
+        "sourceUnit": 553,
         "src": "90:20:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -148,7 +148,7 @@
         "id": 4,
         "nodeType": "ImportDirective",
         "scope": 43,
-        "sourceUnit": 195,
+        "sourceUnit": 203,
         "src": "112:20:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -162,10 +162,10 @@
               "id": 5,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 629,
+              "referencedDeclaration": 638,
               "src": "155:7:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$629",
+                "typeIdentifier": "t_contract$_Ownable_$638",
                 "typeString": "contract Ownable"
               }
             },
@@ -175,7 +175,7 @@
           }
         ],
         "contractDependencies": [
-          629
+          638
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -183,7 +183,7 @@
         "id": 42,
         "linearizedBaseContracts": [
           42,
-          629
+          638
         ],
         "name": "Comment",
         "nodeType": "ContractDefinition",
@@ -198,7 +198,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_Post_$194",
+              "typeIdentifier": "t_contract$_Post_$202",
               "typeString": "contract Post"
             },
             "typeName": {
@@ -206,10 +206,10 @@
               "id": 7,
               "name": "Post",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 194,
+              "referencedDeclaration": 202,
               "src": "169:4:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Post_$194",
+                "typeIdentifier": "t_contract$_Post_$202",
                 "typeString": "contract Post"
               }
             },
@@ -239,7 +239,7 @@
                       "referencedDeclaration": 8,
                       "src": "242:10:0",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_Post_$194",
+                        "typeIdentifier": "t_contract$_Post_$202",
                         "typeString": "contract Post"
                       }
                     },
@@ -273,10 +273,10 @@
                         "name": "Post",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 194,
+                        "referencedDeclaration": 202,
                         "src": "255:4:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_Post_$194_$",
+                          "typeIdentifier": "t_type$_t_contract$_Post_$202_$",
                           "typeString": "type(contract Post)"
                         }
                       },
@@ -290,13 +290,13 @@
                       "nodeType": "FunctionCall",
                       "src": "255:18:0",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_Post_$194",
+                        "typeIdentifier": "t_contract$_Post_$202",
                         "typeString": "contract Post"
                       }
                     },
                     "src": "242:31:0",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Post_$194",
+                      "typeIdentifier": "t_contract$_Post_$202",
                       "typeString": "contract Post"
                     }
                   },
@@ -318,7 +318,7 @@
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 547,
+                      "referencedDeclaration": 556,
                       "src": "283:5:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -335,7 +335,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 644,
+                        "referencedDeclaration": 653,
                         "src": "291:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -441,7 +441,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 663,
+                            "referencedDeclaration": 672,
                             "src": "404:4:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_Comment_$42",
@@ -489,7 +489,7 @@
                         "name": "owner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 547,
+                        "referencedDeclaration": 556,
                         "src": "411:5:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -534,7 +534,7 @@
                         "referencedDeclaration": 8,
                         "src": "371:10:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Post_$194",
+                          "typeIdentifier": "t_contract$_Post_$202",
                           "typeString": "contract Post"
                         }
                       },
@@ -545,7 +545,7 @@
                       "lValueRequested": false,
                       "memberName": "createComment",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 193,
+                      "referencedDeclaration": 201,
                       "src": "371:24:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_address_$_t_string_memory_ptr_$returns$__$",
@@ -660,7 +660,7 @@
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 43,
-        "sourceUnit": 630,
+        "sourceUnit": 639,
         "src": "26:63:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -671,7 +671,7 @@
         "id": 3,
         "nodeType": "ImportDirective",
         "scope": 43,
-        "sourceUnit": 544,
+        "sourceUnit": 553,
         "src": "90:20:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -682,7 +682,7 @@
         "id": 4,
         "nodeType": "ImportDirective",
         "scope": 43,
-        "sourceUnit": 195,
+        "sourceUnit": 203,
         "src": "112:20:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -696,10 +696,10 @@
               "id": 5,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 629,
+              "referencedDeclaration": 638,
               "src": "155:7:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$629",
+                "typeIdentifier": "t_contract$_Ownable_$638",
                 "typeString": "contract Ownable"
               }
             },
@@ -709,7 +709,7 @@
           }
         ],
         "contractDependencies": [
-          629
+          638
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -717,7 +717,7 @@
         "id": 42,
         "linearizedBaseContracts": [
           42,
-          629
+          638
         ],
         "name": "Comment",
         "nodeType": "ContractDefinition",
@@ -732,7 +732,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_Post_$194",
+              "typeIdentifier": "t_contract$_Post_$202",
               "typeString": "contract Post"
             },
             "typeName": {
@@ -740,10 +740,10 @@
               "id": 7,
               "name": "Post",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 194,
+              "referencedDeclaration": 202,
               "src": "169:4:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Post_$194",
+                "typeIdentifier": "t_contract$_Post_$202",
                 "typeString": "contract Post"
               }
             },
@@ -773,7 +773,7 @@
                       "referencedDeclaration": 8,
                       "src": "242:10:0",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_Post_$194",
+                        "typeIdentifier": "t_contract$_Post_$202",
                         "typeString": "contract Post"
                       }
                     },
@@ -807,10 +807,10 @@
                         "name": "Post",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 194,
+                        "referencedDeclaration": 202,
                         "src": "255:4:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_Post_$194_$",
+                          "typeIdentifier": "t_type$_t_contract$_Post_$202_$",
                           "typeString": "type(contract Post)"
                         }
                       },
@@ -824,13 +824,13 @@
                       "nodeType": "FunctionCall",
                       "src": "255:18:0",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_Post_$194",
+                        "typeIdentifier": "t_contract$_Post_$202",
                         "typeString": "contract Post"
                       }
                     },
                     "src": "242:31:0",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Post_$194",
+                      "typeIdentifier": "t_contract$_Post_$202",
                       "typeString": "contract Post"
                     }
                   },
@@ -852,7 +852,7 @@
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 547,
+                      "referencedDeclaration": 556,
                       "src": "283:5:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -869,7 +869,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 644,
+                        "referencedDeclaration": 653,
                         "src": "291:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -975,7 +975,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 663,
+                            "referencedDeclaration": 672,
                             "src": "404:4:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_Comment_$42",
@@ -1023,7 +1023,7 @@
                         "name": "owner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 547,
+                        "referencedDeclaration": 556,
                         "src": "411:5:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1068,7 +1068,7 @@
                         "referencedDeclaration": 8,
                         "src": "371:10:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Post_$194",
+                          "typeIdentifier": "t_contract$_Post_$202",
                           "typeString": "contract Post"
                         }
                       },
@@ -1079,7 +1079,7 @@
                       "lValueRequested": false,
                       "memberName": "createComment",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 193,
+                      "referencedDeclaration": 201,
                       "src": "371:24:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_address_$_t_string_memory_ptr_$returns$__$",
@@ -1173,5 +1173,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-11-04T07:31:25.758Z"
+  "updatedAt": "2018-11-14T06:09:36.803Z"
 }

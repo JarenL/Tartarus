@@ -23,7 +23,7 @@ contract Tartarus is Ownable {
 
     function createForum(string _forumName) public {
         require(forums[_forumName] == 0, "Forum already exists");
-        address newForumAddress = new Forum();
+        address newForumAddress = new Forum(_forumName);
         forums[_forumName] = newForumAddress;
         User creator = User(users[msg.sender]);
         creator.subscribe(newForumAddress, _forumName);

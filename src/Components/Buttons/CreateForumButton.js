@@ -12,7 +12,7 @@ export default class CreateForumButton extends Component {
           <ListItemIcon>
             <AddIcon />
           </ListItemIcon>
-          <ListItemText primary="Add Forum" />
+          <ListItemText primary="Create Forum" />
         </ListItem>
       </div>
     )

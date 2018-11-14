@@ -138,14 +138,14 @@
     "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/Post.sol",
     "exportedSymbols": {
       "Post": [
-        194
+        202
       ]
     },
-    "id": 195,
+    "id": 203,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 124,
+        "id": 132,
         "literals": [
           "solidity",
           "^",
@@ -158,9 +158,9 @@
       {
         "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/Comment.sol",
         "file": "./Comment.sol",
-        "id": 125,
+        "id": 133,
         "nodeType": "ImportDirective",
-        "scope": 195,
+        "scope": 203,
         "sourceUnit": 43,
         "src": "26:23:2",
         "symbolAliases": [],
@@ -169,10 +169,10 @@
       {
         "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/User.sol",
         "file": "./User.sol",
-        "id": 126,
+        "id": 134,
         "nodeType": "ImportDirective",
-        "scope": 195,
-        "sourceUnit": 544,
+        "scope": 203,
+        "sourceUnit": 553,
         "src": "51:20:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -180,10 +180,10 @@
       {
         "absolutePath": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
         "file": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
-        "id": 127,
+        "id": 135,
         "nodeType": "ImportDirective",
-        "scope": 195,
-        "sourceUnit": 630,
+        "scope": 203,
+        "sourceUnit": 639,
         "src": "73:63:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -194,32 +194,32 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 128,
+              "id": 136,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 629,
+              "referencedDeclaration": 638,
               "src": "155:7:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$629",
+                "typeIdentifier": "t_contract$_Ownable_$638",
                 "typeString": "contract Ownable"
               }
             },
-            "id": 129,
+            "id": 137,
             "nodeType": "InheritanceSpecifier",
             "src": "155:7:2"
           }
         ],
         "contractDependencies": [
           42,
-          629
+          638
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 194,
+        "id": 202,
         "linearizedBaseContracts": [
-          194,
-          629
+          202,
+          638
         ],
         "name": "Post",
         "nodeType": "ContractDefinition",
@@ -227,20 +227,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 141,
+            "id": 149,
             "name": "CommentCreated",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 140,
+              "id": 148,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 131,
+                  "id": 139,
                   "indexed": false,
                   "name": "parentAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 141,
+                  "scope": 149,
                   "src": "191:21:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -249,7 +249,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 130,
+                    "id": 138,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "191:7:2",
@@ -263,11 +263,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 133,
+                  "id": 141,
                   "indexed": false,
                   "name": "commentAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 141,
+                  "scope": 149,
                   "src": "214:22:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -276,7 +276,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 132,
+                    "id": 140,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "214:7:2",
@@ -290,11 +290,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 135,
+                  "id": 143,
                   "indexed": false,
                   "name": "senderAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 141,
+                  "scope": 149,
                   "src": "238:21:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -303,7 +303,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 134,
+                    "id": 142,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "238:7:2",
@@ -317,11 +317,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 137,
+                  "id": 145,
                   "indexed": false,
                   "name": "commentText",
                   "nodeType": "VariableDeclaration",
-                  "scope": 141,
+                  "scope": 149,
                   "src": "261:18:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -330,7 +330,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 136,
+                    "id": 144,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "261:6:2",
@@ -344,11 +344,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 139,
+                  "id": 147,
                   "indexed": false,
                   "name": "timestamp",
                   "nodeType": "VariableDeclaration",
-                  "scope": 141,
+                  "scope": 149,
                   "src": "281:14:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -357,7 +357,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 138,
+                    "id": 146,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "281:4:2",
@@ -376,25 +376,25 @@
           },
           {
             "body": {
-              "id": 149,
+              "id": 157,
               "nodeType": "Block",
               "src": "326:35:2",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 147,
+                    "id": 155,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 144,
+                      "id": 152,
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 547,
+                      "referencedDeclaration": 556,
                       "src": "336:5:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -407,18 +407,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 145,
+                        "id": 153,
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 644,
+                        "referencedDeclaration": 653,
                         "src": "344:3:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
                           "typeString": "msg"
                         }
                       },
-                      "id": 146,
+                      "id": 154,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -438,14 +438,14 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 148,
+                  "id": 156,
                   "nodeType": "ExpressionStatement",
                   "src": "336:18:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 150,
+            "id": 158,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -453,19 +453,19 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 142,
+              "id": 150,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "316:2:2"
             },
             "payable": false,
             "returnParameters": {
-              "id": 143,
+              "id": 151,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "326:0:2"
             },
-            "scope": 194,
+            "scope": 202,
             "src": "305:56:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -473,21 +473,21 @@
           },
           {
             "body": {
-              "id": 192,
+              "id": 200,
               "nodeType": "Block",
               "src": "472:328:2",
               "statements": [
                 {
                   "assignments": [
-                    160
+                    168
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 160,
+                      "id": 168,
                       "name": "newCommentAddress",
                       "nodeType": "VariableDeclaration",
-                      "scope": 193,
+                      "scope": 201,
                       "src": "482:25:2",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -496,7 +496,7 @@
                         "typeString": "address"
                       },
                       "typeName": {
-                        "id": 159,
+                        "id": 167,
                         "name": "address",
                         "nodeType": "ElementaryTypeName",
                         "src": "482:7:2",
@@ -509,17 +509,17 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 165,
+                  "id": 173,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 163,
+                        "id": 171,
                         "name": "_parentAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 152,
+                        "referencedDeclaration": 160,
                         "src": "522:14:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -534,7 +534,7 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 162,
+                      "id": 170,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -547,7 +547,7 @@
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 161,
+                        "id": 169,
                         "name": "Comment",
                         "nodeType": "UserDefinedTypeName",
                         "referencedDeclaration": 42,
@@ -558,7 +558,7 @@
                         }
                       }
                     },
-                    "id": 164,
+                    "id": 172,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -577,31 +577,31 @@
                 },
                 {
                   "assignments": [
-                    167
+                    175
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 167,
+                      "id": 175,
                       "name": "parentUser",
                       "nodeType": "VariableDeclaration",
-                      "scope": 193,
+                      "scope": 201,
                       "src": "547:15:2",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_User_$543",
+                        "typeIdentifier": "t_contract$_User_$552",
                         "typeString": "contract User"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 166,
+                        "id": 174,
                         "name": "User",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 543,
+                        "referencedDeclaration": 552,
                         "src": "547:4:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_User_$543",
+                          "typeIdentifier": "t_contract$_User_$552",
                           "typeString": "contract User"
                         }
                       },
@@ -609,17 +609,17 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 171,
+                  "id": 179,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 169,
+                        "id": 177,
                         "name": "_parentAddressOwner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 154,
+                        "referencedDeclaration": 162,
                         "src": "570:19:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -634,18 +634,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 168,
+                      "id": 176,
                       "name": "User",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 543,
+                      "referencedDeclaration": 552,
                       "src": "565:4:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_User_$543_$",
+                        "typeIdentifier": "t_type$_t_contract$_User_$552_$",
                         "typeString": "type(contract User)"
                       }
                     },
-                    "id": 170,
+                    "id": 178,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -655,7 +655,7 @@
                     "nodeType": "FunctionCall",
                     "src": "565:25:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_User_$543",
+                      "typeIdentifier": "t_contract$_User_$552",
                       "typeString": "contract User"
                     }
                   },
@@ -668,11 +668,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 175,
+                        "id": 183,
                         "name": "_parentAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 152,
+                        "referencedDeclaration": 160,
                         "src": "626:14:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -681,11 +681,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 176,
+                        "id": 184,
                         "name": "newCommentAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 160,
+                        "referencedDeclaration": 168,
                         "src": "642:17:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -696,18 +696,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 177,
+                          "id": 185,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 644,
+                          "referencedDeclaration": 653,
                           "src": "661:3:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 178,
+                        "id": 186,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -723,11 +723,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 179,
+                        "id": 187,
                         "name": "_commentText",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 156,
+                        "referencedDeclaration": 164,
                         "src": "673:12:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -756,32 +756,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 172,
+                        "id": 180,
                         "name": "parentUser",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 167,
+                        "referencedDeclaration": 175,
                         "src": "600:10:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_User_$543",
+                          "typeIdentifier": "t_contract$_User_$552",
                           "typeString": "contract User"
                         }
                       },
-                      "id": 174,
+                      "id": 182,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "receiveComment",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 511,
+                      "referencedDeclaration": 520,
                       "src": "600:25:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_address_$_t_address_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (address,address,address,string memory) external"
                       }
                     },
-                    "id": 180,
+                    "id": 188,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -795,7 +795,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 181,
+                  "id": 189,
                   "nodeType": "ExpressionStatement",
                   "src": "600:86:2"
                 },
@@ -805,11 +805,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 183,
+                        "id": 191,
                         "name": "_parentAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 152,
+                        "referencedDeclaration": 160,
                         "src": "716:14:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -818,11 +818,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 184,
+                        "id": 192,
                         "name": "newCommentAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 160,
+                        "referencedDeclaration": 168,
                         "src": "732:17:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -833,18 +833,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 185,
+                          "id": 193,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 644,
+                          "referencedDeclaration": 653,
                           "src": "751:3:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 186,
+                        "id": 194,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -860,11 +860,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 187,
+                        "id": 195,
                         "name": "_commentText",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 156,
+                        "referencedDeclaration": 164,
                         "src": "763:12:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -875,18 +875,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 188,
+                          "id": 196,
                           "name": "block",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 634,
+                          "referencedDeclaration": 643,
                           "src": "777:5:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_block",
                             "typeString": "block"
                           }
                         },
-                        "id": 189,
+                        "id": 197,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -924,18 +924,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 182,
+                      "id": 190,
                       "name": "CommentCreated",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 141,
+                      "referencedDeclaration": 149,
                       "src": "701:14:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_address_$_t_address_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
                         "typeString": "function (address,address,address,string memory,uint256)"
                       }
                     },
-                    "id": 190,
+                    "id": 198,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -949,14 +949,14 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 191,
+                  "id": 199,
                   "nodeType": "EmitStatement",
                   "src": "696:97:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 193,
+            "id": 201,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -964,15 +964,15 @@
             "name": "createComment",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 157,
+              "id": 165,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 152,
+                  "id": 160,
                   "name": "_parentAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 193,
+                  "scope": 201,
                   "src": "391:22:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -981,7 +981,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 151,
+                    "id": 159,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "391:7:2",
@@ -995,10 +995,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 154,
+                  "id": 162,
                   "name": "_parentAddressOwner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 193,
+                  "scope": 201,
                   "src": "415:27:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1007,7 +1007,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 153,
+                    "id": 161,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "415:7:2",
@@ -1021,10 +1021,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 156,
+                  "id": 164,
                   "name": "_commentText",
                   "nodeType": "VariableDeclaration",
-                  "scope": 193,
+                  "scope": 201,
                   "src": "444:19:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1033,7 +1033,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 155,
+                    "id": 163,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "444:6:2",
@@ -1050,19 +1050,19 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 158,
+              "id": 166,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "472:0:2"
             },
-            "scope": 194,
+            "scope": 202,
             "src": "367:433:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 195,
+        "scope": 203,
         "src": "138:664:2"
       }
     ],
@@ -1072,14 +1072,14 @@
     "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/Post.sol",
     "exportedSymbols": {
       "Post": [
-        194
+        202
       ]
     },
-    "id": 195,
+    "id": 203,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 124,
+        "id": 132,
         "literals": [
           "solidity",
           "^",
@@ -1092,9 +1092,9 @@
       {
         "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/Comment.sol",
         "file": "./Comment.sol",
-        "id": 125,
+        "id": 133,
         "nodeType": "ImportDirective",
-        "scope": 195,
+        "scope": 203,
         "sourceUnit": 43,
         "src": "26:23:2",
         "symbolAliases": [],
@@ -1103,10 +1103,10 @@
       {
         "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/User.sol",
         "file": "./User.sol",
-        "id": 126,
+        "id": 134,
         "nodeType": "ImportDirective",
-        "scope": 195,
-        "sourceUnit": 544,
+        "scope": 203,
+        "sourceUnit": 553,
         "src": "51:20:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1114,10 +1114,10 @@
       {
         "absolutePath": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
         "file": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
-        "id": 127,
+        "id": 135,
         "nodeType": "ImportDirective",
-        "scope": 195,
-        "sourceUnit": 630,
+        "scope": 203,
+        "sourceUnit": 639,
         "src": "73:63:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1128,32 +1128,32 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 128,
+              "id": 136,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 629,
+              "referencedDeclaration": 638,
               "src": "155:7:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$629",
+                "typeIdentifier": "t_contract$_Ownable_$638",
                 "typeString": "contract Ownable"
               }
             },
-            "id": 129,
+            "id": 137,
             "nodeType": "InheritanceSpecifier",
             "src": "155:7:2"
           }
         ],
         "contractDependencies": [
           42,
-          629
+          638
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 194,
+        "id": 202,
         "linearizedBaseContracts": [
-          194,
-          629
+          202,
+          638
         ],
         "name": "Post",
         "nodeType": "ContractDefinition",
@@ -1161,20 +1161,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 141,
+            "id": 149,
             "name": "CommentCreated",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 140,
+              "id": 148,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 131,
+                  "id": 139,
                   "indexed": false,
                   "name": "parentAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 141,
+                  "scope": 149,
                   "src": "191:21:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1183,7 +1183,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 130,
+                    "id": 138,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "191:7:2",
@@ -1197,11 +1197,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 133,
+                  "id": 141,
                   "indexed": false,
                   "name": "commentAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 141,
+                  "scope": 149,
                   "src": "214:22:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1210,7 +1210,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 132,
+                    "id": 140,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "214:7:2",
@@ -1224,11 +1224,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 135,
+                  "id": 143,
                   "indexed": false,
                   "name": "senderAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 141,
+                  "scope": 149,
                   "src": "238:21:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1237,7 +1237,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 134,
+                    "id": 142,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "238:7:2",
@@ -1251,11 +1251,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 137,
+                  "id": 145,
                   "indexed": false,
                   "name": "commentText",
                   "nodeType": "VariableDeclaration",
-                  "scope": 141,
+                  "scope": 149,
                   "src": "261:18:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1264,7 +1264,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 136,
+                    "id": 144,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "261:6:2",
@@ -1278,11 +1278,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 139,
+                  "id": 147,
                   "indexed": false,
                   "name": "timestamp",
                   "nodeType": "VariableDeclaration",
-                  "scope": 141,
+                  "scope": 149,
                   "src": "281:14:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1291,7 +1291,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 138,
+                    "id": 146,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "281:4:2",
@@ -1310,25 +1310,25 @@
           },
           {
             "body": {
-              "id": 149,
+              "id": 157,
               "nodeType": "Block",
               "src": "326:35:2",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 147,
+                    "id": 155,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 144,
+                      "id": 152,
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 547,
+                      "referencedDeclaration": 556,
                       "src": "336:5:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -1341,18 +1341,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 145,
+                        "id": 153,
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 644,
+                        "referencedDeclaration": 653,
                         "src": "344:3:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
                           "typeString": "msg"
                         }
                       },
-                      "id": 146,
+                      "id": 154,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1372,14 +1372,14 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 148,
+                  "id": 156,
                   "nodeType": "ExpressionStatement",
                   "src": "336:18:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 150,
+            "id": 158,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -1387,19 +1387,19 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 142,
+              "id": 150,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "316:2:2"
             },
             "payable": false,
             "returnParameters": {
-              "id": 143,
+              "id": 151,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "326:0:2"
             },
-            "scope": 194,
+            "scope": 202,
             "src": "305:56:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -1407,21 +1407,21 @@
           },
           {
             "body": {
-              "id": 192,
+              "id": 200,
               "nodeType": "Block",
               "src": "472:328:2",
               "statements": [
                 {
                   "assignments": [
-                    160
+                    168
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 160,
+                      "id": 168,
                       "name": "newCommentAddress",
                       "nodeType": "VariableDeclaration",
-                      "scope": 193,
+                      "scope": 201,
                       "src": "482:25:2",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -1430,7 +1430,7 @@
                         "typeString": "address"
                       },
                       "typeName": {
-                        "id": 159,
+                        "id": 167,
                         "name": "address",
                         "nodeType": "ElementaryTypeName",
                         "src": "482:7:2",
@@ -1443,17 +1443,17 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 165,
+                  "id": 173,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 163,
+                        "id": 171,
                         "name": "_parentAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 152,
+                        "referencedDeclaration": 160,
                         "src": "522:14:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1468,7 +1468,7 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 162,
+                      "id": 170,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1481,7 +1481,7 @@
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 161,
+                        "id": 169,
                         "name": "Comment",
                         "nodeType": "UserDefinedTypeName",
                         "referencedDeclaration": 42,
@@ -1492,7 +1492,7 @@
                         }
                       }
                     },
-                    "id": 164,
+                    "id": 172,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1511,31 +1511,31 @@
                 },
                 {
                   "assignments": [
-                    167
+                    175
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 167,
+                      "id": 175,
                       "name": "parentUser",
                       "nodeType": "VariableDeclaration",
-                      "scope": 193,
+                      "scope": 201,
                       "src": "547:15:2",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_User_$543",
+                        "typeIdentifier": "t_contract$_User_$552",
                         "typeString": "contract User"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 166,
+                        "id": 174,
                         "name": "User",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 543,
+                        "referencedDeclaration": 552,
                         "src": "547:4:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_User_$543",
+                          "typeIdentifier": "t_contract$_User_$552",
                           "typeString": "contract User"
                         }
                       },
@@ -1543,17 +1543,17 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 171,
+                  "id": 179,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 169,
+                        "id": 177,
                         "name": "_parentAddressOwner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 154,
+                        "referencedDeclaration": 162,
                         "src": "570:19:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1568,18 +1568,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 168,
+                      "id": 176,
                       "name": "User",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 543,
+                      "referencedDeclaration": 552,
                       "src": "565:4:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_User_$543_$",
+                        "typeIdentifier": "t_type$_t_contract$_User_$552_$",
                         "typeString": "type(contract User)"
                       }
                     },
-                    "id": 170,
+                    "id": 178,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1589,7 +1589,7 @@
                     "nodeType": "FunctionCall",
                     "src": "565:25:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_User_$543",
+                      "typeIdentifier": "t_contract$_User_$552",
                       "typeString": "contract User"
                     }
                   },
@@ -1602,11 +1602,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 175,
+                        "id": 183,
                         "name": "_parentAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 152,
+                        "referencedDeclaration": 160,
                         "src": "626:14:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1615,11 +1615,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 176,
+                        "id": 184,
                         "name": "newCommentAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 160,
+                        "referencedDeclaration": 168,
                         "src": "642:17:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1630,18 +1630,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 177,
+                          "id": 185,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 644,
+                          "referencedDeclaration": 653,
                           "src": "661:3:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 178,
+                        "id": 186,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1657,11 +1657,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 179,
+                        "id": 187,
                         "name": "_commentText",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 156,
+                        "referencedDeclaration": 164,
                         "src": "673:12:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -1690,32 +1690,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 172,
+                        "id": 180,
                         "name": "parentUser",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 167,
+                        "referencedDeclaration": 175,
                         "src": "600:10:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_User_$543",
+                          "typeIdentifier": "t_contract$_User_$552",
                           "typeString": "contract User"
                         }
                       },
-                      "id": 174,
+                      "id": 182,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "receiveComment",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 511,
+                      "referencedDeclaration": 520,
                       "src": "600:25:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_address_$_t_address_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (address,address,address,string memory) external"
                       }
                     },
-                    "id": 180,
+                    "id": 188,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1729,7 +1729,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 181,
+                  "id": 189,
                   "nodeType": "ExpressionStatement",
                   "src": "600:86:2"
                 },
@@ -1739,11 +1739,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 183,
+                        "id": 191,
                         "name": "_parentAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 152,
+                        "referencedDeclaration": 160,
                         "src": "716:14:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1752,11 +1752,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 184,
+                        "id": 192,
                         "name": "newCommentAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 160,
+                        "referencedDeclaration": 168,
                         "src": "732:17:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1767,18 +1767,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 185,
+                          "id": 193,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 644,
+                          "referencedDeclaration": 653,
                           "src": "751:3:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 186,
+                        "id": 194,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1794,11 +1794,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 187,
+                        "id": 195,
                         "name": "_commentText",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 156,
+                        "referencedDeclaration": 164,
                         "src": "763:12:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -1809,18 +1809,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 188,
+                          "id": 196,
                           "name": "block",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 634,
+                          "referencedDeclaration": 643,
                           "src": "777:5:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_block",
                             "typeString": "block"
                           }
                         },
-                        "id": 189,
+                        "id": 197,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1858,18 +1858,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 182,
+                      "id": 190,
                       "name": "CommentCreated",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 141,
+                      "referencedDeclaration": 149,
                       "src": "701:14:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_address_$_t_address_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
                         "typeString": "function (address,address,address,string memory,uint256)"
                       }
                     },
-                    "id": 190,
+                    "id": 198,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1883,14 +1883,14 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 191,
+                  "id": 199,
                   "nodeType": "EmitStatement",
                   "src": "696:97:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 193,
+            "id": 201,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -1898,15 +1898,15 @@
             "name": "createComment",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 157,
+              "id": 165,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 152,
+                  "id": 160,
                   "name": "_parentAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 193,
+                  "scope": 201,
                   "src": "391:22:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1915,7 +1915,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 151,
+                    "id": 159,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "391:7:2",
@@ -1929,10 +1929,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 154,
+                  "id": 162,
                   "name": "_parentAddressOwner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 193,
+                  "scope": 201,
                   "src": "415:27:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1941,7 +1941,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 153,
+                    "id": 161,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "415:7:2",
@@ -1955,10 +1955,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 156,
+                  "id": 164,
                   "name": "_commentText",
                   "nodeType": "VariableDeclaration",
-                  "scope": 193,
+                  "scope": 201,
                   "src": "444:19:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1967,7 +1967,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 155,
+                    "id": 163,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "444:6:2",
@@ -1984,19 +1984,19 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 158,
+              "id": 166,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "472:0:2"
             },
-            "scope": 194,
+            "scope": 202,
             "src": "367:433:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 195,
+        "scope": 203,
         "src": "138:664:2"
       }
     ],
@@ -2008,5 +2008,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-11-04T07:31:25.759Z"
+  "updatedAt": "2018-11-14T06:09:36.806Z"
 }

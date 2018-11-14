@@ -69,11 +69,10 @@ class CreateForumDialog extends Component {
 					onClose={this.handleClose}
 					aria-labelledby="form-dialog-title"
 				>
-					<DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+					<DialogTitle id="form-dialog-title">Create New Forum</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							To subscribe to this website, please enter the name of your forum here. We will send
-							updates occasionally.
+							To create a new forum, please enter the name of your forum here. If it exists already transaction will fail.
             </DialogContentText>
 						<TextField
 							autoFocus
@@ -90,7 +89,7 @@ class CreateForumDialog extends Component {
 							Cancel
             </Button>
 						<Button onClick={this.submit} color="primary">
-							Subscribe
+							Create
             </Button>
 					</DialogActions>
 				</Dialog>
