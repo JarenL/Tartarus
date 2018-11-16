@@ -13,7 +13,7 @@ const styles = theme => ({
   }
 });
 
-function AddUserButton(props) {
+function CreateUserButton(props) {
   const { classes } = props;
   return (
     <div>
@@ -25,8 +25,8 @@ function AddUserButton(props) {
   );
 }
 
-AddUserButton.propTypes = {
+CreateUserButton.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AddUserButton);
+export default withStyles(styles)(CreateUserButton);

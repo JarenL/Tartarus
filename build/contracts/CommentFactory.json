@@ -1,0 +1,1812 @@
+{
+  "contractName": "CommentFactory",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "parentAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "commentAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "senderAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "commentText",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "CommentCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "previousOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipRenounced",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_parentAddress",
+          "type": "address"
+        },
+        {
+          "name": "_parentAddressOwner",
+          "type": "address"
+        },
+        {
+          "name": "_commentText",
+          "type": "string"
+        }
+      ],
+      "name": "createComment",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405260008054600160a060020a03191633179055610917806100256000396000f3006080604052600436106100615763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663715018a681146100665780638da5cb5b1461007d5780639935d96d146100ae578063f2fde38b1461011d575b600080fd5b34801561007257600080fd5b5061007b61013e565b005b34801561008957600080fd5b506100926101aa565b60408051600160a060020a039092168252519081900360200190f35b3480156100ba57600080fd5b50604080516020600460443581810135601f810184900484028501840190955284845261007b948235600160a060020a03908116956024803590921695369594606494929301919081908401838280828437509497506101b99650505050505050565b34801561012957600080fd5b5061007b600160a060020a03600435166103e9565b600054600160a060020a0316331461015557600080fd5b60008054604051600160a060020a03909116917ff8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c6482091a26000805473ffffffffffffffffffffffffffffffffffffffff19169055565b600054600160a060020a031681565b600080846101c5610489565b600160a060020a03909116815260405190819003602001906000f0801580156101f2573d6000803e3d6000fd5b506040517f13abee4d000000000000000000000000000000000000000000000000000000008152600160a060020a038781166004830190815281841660248401523360448401819052608060648501908152885160848601528851959750899650928616946313abee4d948b9489948b93909260a40190602085019080838360005b8381101561028c578181015183820152602001610274565b50505050905090810190601f1680156102b95780820380516001836020036101000a031916815260200191505b5095505050505050600060405180830381600087803b1580156102db57600080fd5b505af11580156102ef573d6000803e3d6000fd5b505050507f94cbbea5a30af22ff1d42cc982a8552d426bf76599962683addabbffb6c03dfc85833386426040518086600160a060020a0316600160a060020a0316815260200185600160a060020a0316600160a060020a0316815260200184600160a060020a0316600160a060020a0316815260200180602001838152602001828103825284818151815260200191508051906020019080838360005b838110156103a457818101518382015260200161038c565b50505050905090810190601f1680156103d15780820380516001836020036101000a031916815260200191505b50965050505050505060405180910390a15050505050565b600054600160a060020a0316331461040057600080fd5b6104098161040c565b50565b600160a060020a038116151561042157600080fd5b60008054604051600160a060020a03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0392909216919091179055565b6040516104528061049a833901905600608060405234801561001057600080fd5b5060405160208061045283398101604052516000805460018054600160a060020a03909416600160a060020a031994851617905582163390811790921690911790556103f1806100616000396000f3006080604052600436106100615763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166360367c698114610066578063715018a6146100c15780638da5cb5b146100d6578063f2fde38b14610114575b600080fd5b34801561007257600080fd5b506040805160206004803580820135601f81018490048402850184019095528484526100bf9436949293602493928401919081908401838280828437509497506101429650505050505050565b005b3480156100cd57600080fd5b506100bf61024f565b3480156100e257600080fd5b506100eb6102d5565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b34801561012057600080fd5b506100bf73ffffffffffffffffffffffffffffffffffffffff600435166102f1565b600154600080546040517f9935d96d000000000000000000000000000000000000000000000000000000008152306004820181815273ffffffffffffffffffffffffffffffffffffffff938416602484018190526060604485019081528851606486015288519590971696639935d96d9693959194899491926084909101916020860191908190849084905b838110156101e65781810151838201526020016101ce565b50505050905090810190601f1680156102135780820380516001836020036101000a031916815260200191505b50945050505050600060405180830381600087803b15801561023457600080fd5b505af1158015610248573d6000803e3d6000fd5b5050505050565b60005473ffffffffffffffffffffffffffffffffffffffff16331461027357600080fd5b6000805460405173ffffffffffffffffffffffffffffffffffffffff909116917ff8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c6482091a26000805473ffffffffffffffffffffffffffffffffffffffff19169055565b60005473ffffffffffffffffffffffffffffffffffffffff1681565b60005473ffffffffffffffffffffffffffffffffffffffff16331461031557600080fd5b61031e81610321565b50565b73ffffffffffffffffffffffffffffffffffffffff8116151561034357600080fd5b6000805460405173ffffffffffffffffffffffffffffffffffffffff808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff191673ffffffffffffffffffffffffffffffffffffffff929092169190911790555600a165627a7a72305820a44b34bb11b0fddfb762cb3e20b64eb7a1f51b754e10c8857404f17f407b23340029a165627a7a723058202accc0e5d43d528792ce133707138031b8418c8cfee3166d5bf1b8968d385ca90029",
+  "deployedBytecode": "0x6080604052600436106100615763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663715018a681146100665780638da5cb5b1461007d5780639935d96d146100ae578063f2fde38b1461011d575b600080fd5b34801561007257600080fd5b5061007b61013e565b005b34801561008957600080fd5b506100926101aa565b60408051600160a060020a039092168252519081900360200190f35b3480156100ba57600080fd5b50604080516020600460443581810135601f810184900484028501840190955284845261007b948235600160a060020a03908116956024803590921695369594606494929301919081908401838280828437509497506101b99650505050505050565b34801561012957600080fd5b5061007b600160a060020a03600435166103e9565b600054600160a060020a0316331461015557600080fd5b60008054604051600160a060020a03909116917ff8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c6482091a26000805473ffffffffffffffffffffffffffffffffffffffff19169055565b600054600160a060020a031681565b600080846101c5610489565b600160a060020a03909116815260405190819003602001906000f0801580156101f2573d6000803e3d6000fd5b506040517f13abee4d000000000000000000000000000000000000000000000000000000008152600160a060020a038781166004830190815281841660248401523360448401819052608060648501908152885160848601528851959750899650928616946313abee4d948b9489948b93909260a40190602085019080838360005b8381101561028c578181015183820152602001610274565b50505050905090810190601f1680156102b95780820380516001836020036101000a031916815260200191505b5095505050505050600060405180830381600087803b1580156102db57600080fd5b505af11580156102ef573d6000803e3d6000fd5b505050507f94cbbea5a30af22ff1d42cc982a8552d426bf76599962683addabbffb6c03dfc85833386426040518086600160a060020a0316600160a060020a0316815260200185600160a060020a0316600160a060020a0316815260200184600160a060020a0316600160a060020a0316815260200180602001838152602001828103825284818151815260200191508051906020019080838360005b838110156103a457818101518382015260200161038c565b50505050905090810190601f1680156103d15780820380516001836020036101000a031916815260200191505b50965050505050505060405180910390a15050505050565b600054600160a060020a0316331461040057600080fd5b6104098161040c565b50565b600160a060020a038116151561042157600080fd5b60008054604051600160a060020a03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0392909216919091179055565b6040516104528061049a833901905600608060405234801561001057600080fd5b5060405160208061045283398101604052516000805460018054600160a060020a03909416600160a060020a031994851617905582163390811790921690911790556103f1806100616000396000f3006080604052600436106100615763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166360367c698114610066578063715018a6146100c15780638da5cb5b146100d6578063f2fde38b14610114575b600080fd5b34801561007257600080fd5b506040805160206004803580820135601f81018490048402850184019095528484526100bf9436949293602493928401919081908401838280828437509497506101429650505050505050565b005b3480156100cd57600080fd5b506100bf61024f565b3480156100e257600080fd5b506100eb6102d5565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b34801561012057600080fd5b506100bf73ffffffffffffffffffffffffffffffffffffffff600435166102f1565b600154600080546040517f9935d96d000000000000000000000000000000000000000000000000000000008152306004820181815273ffffffffffffffffffffffffffffffffffffffff938416602484018190526060604485019081528851606486015288519590971696639935d96d9693959194899491926084909101916020860191908190849084905b838110156101e65781810151838201526020016101ce565b50505050905090810190601f1680156102135780820380516001836020036101000a031916815260200191505b50945050505050600060405180830381600087803b15801561023457600080fd5b505af1158015610248573d6000803e3d6000fd5b5050505050565b60005473ffffffffffffffffffffffffffffffffffffffff16331461027357600080fd5b6000805460405173ffffffffffffffffffffffffffffffffffffffff909116917ff8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c6482091a26000805473ffffffffffffffffffffffffffffffffffffffff19169055565b60005473ffffffffffffffffffffffffffffffffffffffff1681565b60005473ffffffffffffffffffffffffffffffffffffffff16331461031557600080fd5b61031e81610321565b50565b73ffffffffffffffffffffffffffffffffffffffff8116151561034357600080fd5b6000805460405173ffffffffffffffffffffffffffffffffffffffff808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff191673ffffffffffffffffffffffffffffffffffffffff929092169190911790555600a165627a7a72305820a44b34bb11b0fddfb762cb3e20b64eb7a1f51b754e10c8857404f17f407b23340029a165627a7a723058202accc0e5d43d528792ce133707138031b8418c8cfee3166d5bf1b8968d385ca90029",
+  "sourceMap": "138:612:1:-;;;567:5:6;:18;;-1:-1:-1;;;;;;567:18:6;575:10;567:18;;;138:612:1;;;;;;",
+  "deployedSourceMap": "138:612:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1001:111:6;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1001:111:6;;;;;;238:20;;8:9:-1;5:2;;;30:1;27;20:12;5:2;238:20:6;;;;;;;;-1:-1:-1;;;;;238:20:6;;;;;;;;;;;;;;315:433:1;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;315:433:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;315:433:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;315:433:1;;-1:-1:-1;315:433:1;;-1:-1:-1;;;;;;;315:433:1;1274:103:6;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;1274:103:6;-1:-1:-1;;;;;1274:103:6;;;;;1001:111;719:5;;-1:-1:-1;;;;;719:5:6;705:10;:19;697:28;;;;;;1077:5;;;1058:25;;-1:-1:-1;;;;;1077:5:6;;;;1058:25;;;1105:1;1089:18;;-1:-1:-1;;1089:18:6;;;1001:111::o;238:20::-;;;-1:-1:-1;;;;;238:20:6;;:::o;315:433:1:-;430:25;495:15;470:14;458:27;;:::i;:::-;-1:-1:-1;;;;;458:27:1;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;-1:-1;548:86:1;;;;;-1:-1:-1;;;;;548:86:1;;;;;;;;;;;;;;;;609:10;548:86;;;;;;;;;;;;;;;;;;;;;430:55;;-1:-1:-1;518:19:1;;-1:-1:-1;548:25:1;;;;;;574:14;;430:55;;621:12;;548:86;;;;;;;;;;;;-1:-1:-1;8:100;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;548:86:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;548:86:1;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;548:86:1;;;;649:92;664:14;680:17;699:10;711:12;725:15;649:92;;;;-1:-1:-1;;;;;649:92:1;-1:-1:-1;;;;;649:92:1;;;;;;-1:-1:-1;;;;;649:92:1;-1:-1:-1;;;;;649:92:1;;;;;;-1:-1:-1;;;;;649:92:1;-1:-1:-1;;;;;649:92:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;649:92:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;315:433;;;;;:::o;1274:103:6:-;719:5;;-1:-1:-1;;;;;719:5:6;705:10;:19;697:28;;;;;;1343:29;1362:9;1343:18;:29::i;:::-;1274:103;:::o;1512:171::-;-1:-1:-1;;;;;1582:23:6;;;;1574:32;;;;;;1638:5;;;1617:38;;-1:-1:-1;;;;;1617:38:6;;;;1638:5;;;1617:38;;;1661:5;:17;;-1:-1:-1;;1661:17:6;-1:-1:-1;;;;;1661:17:6;;;;;;;;;;1512:171::o;138:612:1:-;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.24;\n\nimport \"./Comment.sol\"; \nimport \"openzeppelin-solidity/contracts/ownership/Ownable.sol\";\nimport \"./User.sol\"; \n\ncontract CommentFactory is Ownable {\n    event CommentCreated (address parentAddress, address commentAddress, address senderAddress, string commentText, uint timestamp);  \n\n    function createComment (address _parentAddress, address _parentAddressOwner, string _commentText) public {\n        address newCommentAddress = new Comment(_parentAddress);\n        User parentUser = User(_parentAddressOwner);\n        parentUser.receiveComment(_parentAddress, newCommentAddress, msg.sender, _commentText);\n        emit CommentCreated(_parentAddress, newCommentAddress, msg.sender, _commentText, block.timestamp);\n    }\n}",
+  "sourcePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/CommentFactory.sol",
+  "ast": {
+    "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/CommentFactory.sol",
+    "exportedSymbols": {
+      "CommentFactory": [
+        105
+      ]
+    },
+    "id": 106,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 44,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:1"
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/Comment.sol",
+        "file": "./Comment.sol",
+        "id": 45,
+        "nodeType": "ImportDirective",
+        "scope": 106,
+        "sourceUnit": 43,
+        "src": "26:23:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
+        "file": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
+        "id": 46,
+        "nodeType": "ImportDirective",
+        "scope": 106,
+        "sourceUnit": 659,
+        "src": "51:63:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/User.sol",
+        "file": "./User.sol",
+        "id": 47,
+        "nodeType": "ImportDirective",
+        "scope": 106,
+        "sourceUnit": 573,
+        "src": "115:20:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 48,
+              "name": "Ownable",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 658,
+              "src": "165:7:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Ownable_$658",
+                "typeString": "contract Ownable"
+              }
+            },
+            "id": 49,
+            "nodeType": "InheritanceSpecifier",
+            "src": "165:7:1"
+          }
+        ],
+        "contractDependencies": [
+          42,
+          658
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 105,
+        "linearizedBaseContracts": [
+          105,
+          658
+        ],
+        "name": "CommentFactory",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 61,
+            "name": "CommentCreated",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 60,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 51,
+                  "indexed": false,
+                  "name": "parentAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 61,
+                  "src": "201:21:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 50,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "201:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 53,
+                  "indexed": false,
+                  "name": "commentAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 61,
+                  "src": "224:22:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 52,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "224:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 55,
+                  "indexed": false,
+                  "name": "senderAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 61,
+                  "src": "248:21:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 54,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "248:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 57,
+                  "indexed": false,
+                  "name": "commentText",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 61,
+                  "src": "271:18:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 56,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "271:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 59,
+                  "indexed": false,
+                  "name": "timestamp",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 61,
+                  "src": "291:14:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 58,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "291:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "200:106:1"
+            },
+            "src": "179:128:1"
+          },
+          {
+            "body": {
+              "id": 103,
+              "nodeType": "Block",
+              "src": "420:328:1",
+              "statements": [
+                {
+                  "assignments": [
+                    71
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 71,
+                      "name": "newCommentAddress",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 104,
+                      "src": "430:25:1",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 70,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "430:7:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 76,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 74,
+                        "name": "_parentAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 63,
+                        "src": "470:14:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 73,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "NewExpression",
+                      "src": "458:11:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_creation_nonpayable$_t_address_$returns$_t_contract$_Comment_$42_$",
+                        "typeString": "function (address) returns (contract Comment)"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 72,
+                        "name": "Comment",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 42,
+                        "src": "462:7:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_Comment_$42",
+                          "typeString": "contract Comment"
+                        }
+                      }
+                    },
+                    "id": 75,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "458:27:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_Comment_$42",
+                      "typeString": "contract Comment"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "430:55:1"
+                },
+                {
+                  "assignments": [
+                    78
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 78,
+                      "name": "parentUser",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 104,
+                      "src": "495:15:1",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_User_$572",
+                        "typeString": "contract User"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 77,
+                        "name": "User",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 572,
+                        "src": "495:4:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_User_$572",
+                          "typeString": "contract User"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 82,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 80,
+                        "name": "_parentAddressOwner",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 65,
+                        "src": "518:19:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 79,
+                      "name": "User",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 572,
+                      "src": "513:4:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_contract$_User_$572_$",
+                        "typeString": "type(contract User)"
+                      }
+                    },
+                    "id": 81,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "typeConversion",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "513:25:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_User_$572",
+                      "typeString": "contract User"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "495:43:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 86,
+                        "name": "_parentAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 63,
+                        "src": "574:14:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 87,
+                        "name": "newCommentAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 71,
+                        "src": "590:17:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 88,
+                          "name": "msg",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 673,
+                          "src": "609:3:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_message",
+                            "typeString": "msg"
+                          }
+                        },
+                        "id": 89,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "sender",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "609:10:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 90,
+                        "name": "_commentText",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 67,
+                        "src": "621:12:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 83,
+                        "name": "parentUser",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 78,
+                        "src": "548:10:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_User_$572",
+                          "typeString": "contract User"
+                        }
+                      },
+                      "id": 85,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "receiveComment",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 540,
+                      "src": "548:25:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_address_$_t_address_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (address,address,address,string memory) external"
+                      }
+                    },
+                    "id": 91,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "548:86:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 92,
+                  "nodeType": "ExpressionStatement",
+                  "src": "548:86:1"
+                },
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 94,
+                        "name": "_parentAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 63,
+                        "src": "664:14:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 95,
+                        "name": "newCommentAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 71,
+                        "src": "680:17:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 96,
+                          "name": "msg",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 673,
+                          "src": "699:3:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_message",
+                            "typeString": "msg"
+                          }
+                        },
+                        "id": 97,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "sender",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "699:10:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 98,
+                        "name": "_commentText",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 67,
+                        "src": "711:12:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 99,
+                          "name": "block",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 663,
+                          "src": "725:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_block",
+                            "typeString": "block"
+                          }
+                        },
+                        "id": 100,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "timestamp",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "725:15:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 93,
+                      "name": "CommentCreated",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 61,
+                      "src": "649:14:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_address_$_t_address_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
+                        "typeString": "function (address,address,address,string memory,uint256)"
+                      }
+                    },
+                    "id": 101,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "649:92:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 102,
+                  "nodeType": "EmitStatement",
+                  "src": "644:97:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 104,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "createComment",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 68,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 63,
+                  "name": "_parentAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 104,
+                  "src": "339:22:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 62,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "339:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 65,
+                  "name": "_parentAddressOwner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 104,
+                  "src": "363:27:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 64,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "363:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 67,
+                  "name": "_commentText",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 104,
+                  "src": "392:19:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 66,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "392:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "338:74:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 69,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "420:0:1"
+            },
+            "scope": 105,
+            "src": "315:433:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 106,
+        "src": "138:612:1"
+      }
+    ],
+    "src": "0:750:1"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/CommentFactory.sol",
+    "exportedSymbols": {
+      "CommentFactory": [
+        105
+      ]
+    },
+    "id": 106,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 44,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:1"
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/Comment.sol",
+        "file": "./Comment.sol",
+        "id": 45,
+        "nodeType": "ImportDirective",
+        "scope": 106,
+        "sourceUnit": 43,
+        "src": "26:23:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
+        "file": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
+        "id": 46,
+        "nodeType": "ImportDirective",
+        "scope": 106,
+        "sourceUnit": 659,
+        "src": "51:63:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/User.sol",
+        "file": "./User.sol",
+        "id": 47,
+        "nodeType": "ImportDirective",
+        "scope": 106,
+        "sourceUnit": 573,
+        "src": "115:20:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 48,
+              "name": "Ownable",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 658,
+              "src": "165:7:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Ownable_$658",
+                "typeString": "contract Ownable"
+              }
+            },
+            "id": 49,
+            "nodeType": "InheritanceSpecifier",
+            "src": "165:7:1"
+          }
+        ],
+        "contractDependencies": [
+          42,
+          658
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 105,
+        "linearizedBaseContracts": [
+          105,
+          658
+        ],
+        "name": "CommentFactory",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 61,
+            "name": "CommentCreated",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 60,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 51,
+                  "indexed": false,
+                  "name": "parentAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 61,
+                  "src": "201:21:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 50,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "201:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 53,
+                  "indexed": false,
+                  "name": "commentAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 61,
+                  "src": "224:22:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 52,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "224:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 55,
+                  "indexed": false,
+                  "name": "senderAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 61,
+                  "src": "248:21:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 54,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "248:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 57,
+                  "indexed": false,
+                  "name": "commentText",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 61,
+                  "src": "271:18:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 56,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "271:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 59,
+                  "indexed": false,
+                  "name": "timestamp",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 61,
+                  "src": "291:14:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 58,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "291:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "200:106:1"
+            },
+            "src": "179:128:1"
+          },
+          {
+            "body": {
+              "id": 103,
+              "nodeType": "Block",
+              "src": "420:328:1",
+              "statements": [
+                {
+                  "assignments": [
+                    71
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 71,
+                      "name": "newCommentAddress",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 104,
+                      "src": "430:25:1",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 70,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "430:7:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 76,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 74,
+                        "name": "_parentAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 63,
+                        "src": "470:14:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 73,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "NewExpression",
+                      "src": "458:11:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_creation_nonpayable$_t_address_$returns$_t_contract$_Comment_$42_$",
+                        "typeString": "function (address) returns (contract Comment)"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 72,
+                        "name": "Comment",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 42,
+                        "src": "462:7:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_Comment_$42",
+                          "typeString": "contract Comment"
+                        }
+                      }
+                    },
+                    "id": 75,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "458:27:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_Comment_$42",
+                      "typeString": "contract Comment"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "430:55:1"
+                },
+                {
+                  "assignments": [
+                    78
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 78,
+                      "name": "parentUser",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 104,
+                      "src": "495:15:1",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_User_$572",
+                        "typeString": "contract User"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 77,
+                        "name": "User",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 572,
+                        "src": "495:4:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_User_$572",
+                          "typeString": "contract User"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 82,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 80,
+                        "name": "_parentAddressOwner",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 65,
+                        "src": "518:19:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 79,
+                      "name": "User",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 572,
+                      "src": "513:4:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_contract$_User_$572_$",
+                        "typeString": "type(contract User)"
+                      }
+                    },
+                    "id": 81,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "typeConversion",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "513:25:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_User_$572",
+                      "typeString": "contract User"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "495:43:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 86,
+                        "name": "_parentAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 63,
+                        "src": "574:14:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 87,
+                        "name": "newCommentAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 71,
+                        "src": "590:17:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 88,
+                          "name": "msg",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 673,
+                          "src": "609:3:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_message",
+                            "typeString": "msg"
+                          }
+                        },
+                        "id": 89,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "sender",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "609:10:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 90,
+                        "name": "_commentText",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 67,
+                        "src": "621:12:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 83,
+                        "name": "parentUser",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 78,
+                        "src": "548:10:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_User_$572",
+                          "typeString": "contract User"
+                        }
+                      },
+                      "id": 85,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "receiveComment",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 540,
+                      "src": "548:25:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_address_$_t_address_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (address,address,address,string memory) external"
+                      }
+                    },
+                    "id": 91,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "548:86:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 92,
+                  "nodeType": "ExpressionStatement",
+                  "src": "548:86:1"
+                },
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 94,
+                        "name": "_parentAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 63,
+                        "src": "664:14:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 95,
+                        "name": "newCommentAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 71,
+                        "src": "680:17:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 96,
+                          "name": "msg",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 673,
+                          "src": "699:3:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_message",
+                            "typeString": "msg"
+                          }
+                        },
+                        "id": 97,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "sender",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "699:10:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 98,
+                        "name": "_commentText",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 67,
+                        "src": "711:12:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 99,
+                          "name": "block",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 663,
+                          "src": "725:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_block",
+                            "typeString": "block"
+                          }
+                        },
+                        "id": 100,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "timestamp",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "725:15:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 93,
+                      "name": "CommentCreated",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 61,
+                      "src": "649:14:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_address_$_t_address_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
+                        "typeString": "function (address,address,address,string memory,uint256)"
+                      }
+                    },
+                    "id": 101,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "649:92:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 102,
+                  "nodeType": "EmitStatement",
+                  "src": "644:97:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 104,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "createComment",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 68,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 63,
+                  "name": "_parentAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 104,
+                  "src": "339:22:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 62,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "339:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 65,
+                  "name": "_parentAddressOwner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 104,
+                  "src": "363:27:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 64,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "363:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 67,
+                  "name": "_commentText",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 104,
+                  "src": "392:19:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 66,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "392:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "338:74:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 69,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "420:0:1"
+            },
+            "scope": 105,
+            "src": "315:433:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 106,
+        "src": "138:612:1"
+      }
+    ],
+    "src": "0:750:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-11-04T02:11:25.134Z"
+}

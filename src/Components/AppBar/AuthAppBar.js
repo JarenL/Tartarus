@@ -16,7 +16,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import CreateForumDialog from '../Dialog/CreateForumDialog';
+import CreatePostDialog from '../Dialog/CreatePostDialog'
+import { connect } from 'react-redux';
 
 const styles = theme => ({
   root: {
@@ -189,6 +190,8 @@ class PrimarySearchAppBar extends React.Component {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
+              {/* {(this.props.currentForum === "FrontPage") ? <CreatePostDialog /> : null} */}
+              <CreatePostDialog/>
               <IconButton color="inherit">
                 <Badge className={classes.margin} badgeContent={4} color="secondary">
                   <MailIcon />
@@ -226,4 +229,10 @@ PrimarySearchAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PrimarySearchAppBar);
+function mapStateToProps(state) {
+  return {
+    currentForum: state.forum.currentForum,
+  };
+}
+
+export default connect(mapStateToProps)(withStyles(styles) (PrimarySearchAppBar));

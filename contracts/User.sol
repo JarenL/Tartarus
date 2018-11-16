@@ -39,7 +39,8 @@ contract User is Ownable {
         emit CommentCreated(_parentAddress, _commentAddress, _commentText);
     }
 
-    function createPost(address _postAddress, string _postTitle) public onlyOwner {
+    //needs "onlyowner" equivalent, perhaps only desired forumaddress can call. 
+    function createPost(address _postAddress, string _postTitle) public {
         emit PostCreated(_postAddress, _postTitle);
     }
 }

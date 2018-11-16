@@ -6,20 +6,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import TartarusContract from '../../../build/contracts/Tartarus.json';
 import { connect } from 'react-redux'
 import CreateForumButton from '../Buttons/CreateForumButton'
-
-const styles = theme => ({
-	button: {
-		margin: theme.spacing.unit,
-	},
-	rightIcon: {
-		marginLeft: theme.spacing.unit,
-	}
-});
 
 class CreateForumDialog extends Component {
 	constructor(props) {
@@ -70,7 +59,6 @@ class CreateForumDialog extends Component {
 		})
 	}
 	render() {
-		const { classes } = this.props;
 		return (
 			<div>
 				<div onClick={this.handleClickOpen}>
@@ -81,19 +69,18 @@ class CreateForumDialog extends Component {
 					onClose={this.handleClose}
 					aria-labelledby="form-dialog-title"
 				>
-					<DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+					<DialogTitle id="form-dialog-title">Create New Forum</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							To subscribe to this website, please enter your email address here. We will send
-							updates occasionally.
+							To create a new forum, please enter the name of your forum here. If it exists already transaction will fail.
             </DialogContentText>
 						<TextField
 							autoFocus
 							onChange={this.setDialogText}
 							margin="dense"
 							id="name"
-							label="Email Address"
-							type="email"
+							label="Forum Title"
+							type="String"
 							fullWidth
 						/>
 					</DialogContent>
@@ -102,7 +89,7 @@ class CreateForumDialog extends Component {
 							Cancel
             </Button>
 						<Button onClick={this.submit} color="primary">
-							Subscribe
+							Create
             </Button>
 					</DialogActions>
 				</Dialog>
@@ -111,11 +98,6 @@ class CreateForumDialog extends Component {
 	}
 }
 
-CreateForumDialog.propTypes = {
-	classes: PropTypes.object.isRequired,
-};
-
-
 function mapStateToProps(state) {
 	return {
 		web3: state.web3,
@@ -123,4 +105,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(CreateForumDialog));
+export default connect(mapStateToProps)(CreateForumDialog);

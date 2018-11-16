@@ -1,30 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react'
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import AddIcon from '@material-ui/icons/AddCircle';
 
-const styles = theme => ({
-    button: {
-        margin: theme.spacing.unit,
-    },
-    rightIcon: {
-        marginLeft: theme.spacing.unit,
-    }
-});
-
-function AddForumButton(props) {
-    const { classes } = props;
+export default class CreateForumButton extends Component {
+  render() {
     return (
-        <div>
-            <Button variant="contained" color="secondary" className={classes.button}>
-                Create Forum
-            </Button>
-        </div>
-    );
+      <div>
+        <ListItem button>
+          <ListItemIcon>
+            <AddIcon />
+          </ListItemIcon>
+          <ListItemText primary="Create Forum" />
+        </ListItem>
+      </div>
+    )
+  }
 }
-
-AddForumButton.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(AddForumButton);
