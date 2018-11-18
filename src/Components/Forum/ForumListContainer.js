@@ -13,7 +13,6 @@ import { updateForum } from '../../actions/actions'
 class ForumListContainer extends Component {
   changeForum = (forum) => {
     console.log("forum clicked")
-    console.log(forum.name)
     this.props.dispatch(updateForum(forum))
   }
   render() {

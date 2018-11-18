@@ -9,7 +9,6 @@ import { setCurrentPage } from '../../actions/actions'
 class PostPage extends Component {
 	constructor(match) {
 		super(match)
-		console.log(match.match.params.postAddress)
 		this.state = {
 			postAddress: match.match.params.postAddress,
 			postTitle: null,
@@ -24,13 +23,11 @@ class PostPage extends Component {
 	}
 
 	instantiateContract = () => {
-		console.log(this.props)
 		const contract = require('truffle-contract')
 		const post = contract(PostContract)
 		post.setProvider(this.props.web3.currentProvider)
 		post.at(this.state.postAddress).then((instance) => {
 			instance.postTitle.call().then((res) => {
-				console.log(res);
 				if (res !== null) {
 					this.setState({
 						postTitle: res,

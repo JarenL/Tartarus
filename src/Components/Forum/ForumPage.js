@@ -41,7 +41,6 @@ class ForumPage extends Component {
 		forum.setProvider(this.props.web3.currentProvider)
 		forum.at(this.state.forumAddress).then((instance) => {
 			instance.forumName.call().then((res) => {
-				console.log(res);
 				if (res !== null) {
 					this.setState({
 						forumName: res,

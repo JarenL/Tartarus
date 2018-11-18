@@ -93,11 +93,15 @@ const styles = theme => ({
 });
 
 class PrimarySearchAppBar extends React.Component {
-  state = {
-    anchorEl: null,
-    mobileMoreAnchorEl: null,
-    currentPage: null
+  constructor() {
+    super()
+    this.state = {
+      anchorEl: null,
+      mobileMoreAnchorEl: null,
+      currentPage: null
+    }
   }
+
 
   componentDidMount = () => {
     this.setState({
@@ -106,10 +110,10 @@ class PrimarySearchAppBar extends React.Component {
   }
 
   componentWillReceiveProps = (newProps) => {
-    console.log(newProps.currentPage.currentPage)
     if (newProps.currentPage !== this.props.currentPage) {
+      console.log(newProps.currentPage.currentPage)
       this.setState({
-        currentPage: newProps.currentPage
+        currentPage: newProps.currentPage.currentPage
       })
       console.log("change")
     }
@@ -131,8 +135,6 @@ class PrimarySearchAppBar extends React.Component {
   handleMobileMenuClose = () => {
     this.setState({ mobileMoreAnchorEl: null });
   };
-
-
 
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state;
@@ -224,7 +226,7 @@ class PrimarySearchAppBar extends React.Component {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {buttonSwitch}
+              {buttonSwitch()}
               <IconButton color="inherit">
                 <Badge className={classes.margin} badgeContent={4} color="secondary">
                   <MailIcon />
@@ -269,4 +271,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(PrimarySearchAppBar)));
+export default connect(mapStateToProps)(withStyles(styles)(PrimarySearchAppBar));
