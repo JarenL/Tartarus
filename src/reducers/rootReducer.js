@@ -3,12 +3,14 @@ import web3Reducer from './web3Reducer'
 import tartarusReducer from './tartarusReducer'
 import accountsReducer from './accountsReducer'
 import forumReducer from './forumReducer'
+import pageReducer from './pageReducer'
 
 const rootReducer = combineReducers({
     web3: web3Reducer,
     accounts: accountsReducer,
     tartarus: tartarusReducer,
-    forum: forumReducer
+    forum: forumReducer,
+    page: pageReducer
 })
 
 export default rootReducer

@@ -2,8 +2,14 @@ import React, { Component } from 'react'
 import Header from './Headers/Header'
 import Divider from '@material-ui/core/Divider';
 import { connect } from 'react-redux'
+import { setCurrentPage } from '../actions/actions' 
 
 class FrontPage extends Component {
+
+	componentDidMount = () => {
+		this.props.dispatch(setCurrentPage("Frontpage"))
+	}
+
 	render() {
 		if (this.props.currentForumAddress === null) {
 			return (

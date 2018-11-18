@@ -17,7 +17,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import CreatePostDialog from '../Dialog/CreatePostDialog'
+import CreateCommentDialog from '../Dialog/CreateCommentDialog'
 import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom"
 
 const styles = theme => ({
   root: {
@@ -94,7 +96,24 @@ class PrimarySearchAppBar extends React.Component {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null,
-  };
+    currentPage: null
+  }
+
+  componentDidMount = () => {
+    this.setState({
+      currentPage: this.props.currentPage
+    })
+  }
+
+  componentWillReceiveProps = (newProps) => {
+    console.log(newProps.currentPage.currentPage)
+    if (newProps.currentPage !== this.props.currentPage) {
+      this.setState({
+        currentPage: newProps.currentPage
+      })
+      console.log("change")
+    }
+  }
 
   handleProfileMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -112,6 +131,8 @@ class PrimarySearchAppBar extends React.Component {
   handleMobileMenuClose = () => {
     this.setState({ mobileMoreAnchorEl: null });
   };
+
+
 
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state;
@@ -165,6 +186,19 @@ class PrimarySearchAppBar extends React.Component {
       </Menu>
     );
 
+    const buttonSwitch = () => {
+      switch (this.state.currentPage) {
+        case 'Frontpage':
+          return null;
+        case 'Forum':
+          return <CreatePostDialog />;
+        case 'Post':
+          return <CreateCommentDialog />;
+        default:
+          return null;
+      }
+    }
+
     return (
       <div className={classes.root}>
         <AppBar position="static">
@@ -190,8 +224,7 @@ class PrimarySearchAppBar extends React.Component {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {/* {(this.props.currentForum === "FrontPage") ? <CreatePostDialog /> : null} */}
-              <CreatePostDialog/>
+              {buttonSwitch}
               <IconButton color="inherit">
                 <Badge className={classes.margin} badgeContent={4} color="secondary">
                   <MailIcon />
@@ -232,7 +265,8 @@ PrimarySearchAppBar.propTypes = {
 function mapStateToProps(state) {
   return {
     currentForum: state.forum.currentForum,
+    currentPage: state.page
   };
 }
 
-export default connect(mapStateToProps)(withStyles(styles) (PrimarySearchAppBar));
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(PrimarySearchAppBar)));

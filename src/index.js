@@ -9,7 +9,9 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 ReactDOM.render(
   <Provider store={store}>
     <Web3Provider>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Web3Provider>
   </Provider>,
   document.getElementById('root')

@@ -5,10 +5,13 @@ import "./User.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract Post is Ownable {
-    event CommentCreated (address parentAddress, address commentAddress, address senderAddress, string commentText, uint timestamp);  
+    event CommentCreated (address parentAddress, address commentAddress, address senderAddress, string commentText, uint timestamp);
 
-    constructor() public {
+    string public postTitle;  
+
+    constructor(string _postTitle) public {
         owner = msg.sender;
+        postTitle = _postTitle;
     }
 
     function createComment (address _parentAddress, address _parentAddressOwner, string _commentText) public {

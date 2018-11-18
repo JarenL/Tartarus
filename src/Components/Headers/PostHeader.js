@@ -13,10 +13,10 @@ class PostHeader extends Component {
 		const { classes } = this.props;
 		return (
 			<div className={classes.header}>
-				    <p>Wallet address = {this.props.currentOwnerAddress}</p>
+				    <p>Metamask address = {this.props.currentOwnerAddress}</p>
             <p>User address = {this.props.currentUserAddress}</p>
-            <p>Current Post = {this.props.currentForum}</p>
-            <p>Current Post Address = {this.props.currentForumAddress}</p>
+            <p>Current post = {this.props.currentPost}</p>
+            <p>Current post address = {this.props.currentPostAddress}</p>
 			</div>
 		)
 	}

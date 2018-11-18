@@ -8,6 +8,7 @@ class PostListContainer extends Component {
     super(props)
     this.state = {
       posts: [],
+      loading: true
     }
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -33,7 +34,6 @@ class PostListContainer extends Component {
     forum.at(this.props.currentForumAddress).then((instance) => {
       const postCreationEvent = instance.allEvents({ fromBlock: 0, toBlock: 'latest' });
       postCreationEvent.watch((error, result) => {
-        console.log(result)
         if (!error) {
           if (result.event === "PostCreated") {
             let newPostArray = this.state.posts.slice();

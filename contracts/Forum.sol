@@ -25,7 +25,7 @@ contract Forum is Ownable {
     }
 
     function createPost(string _postTitle) public {
-        address newPostAddress = new Post();
+        address newPostAddress = new Post(_postTitle);
         // User postCreator = User(msg.sender);
         // postCreator.createPost(newPostAddress, _postTitle);
         emit PostCreated(newPostAddress, _postTitle, msg.sender, block.timestamp);

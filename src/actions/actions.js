@@ -11,6 +11,7 @@ export const DRAWER_STATE = 'DRAWER_STATE'
 export const CURRENT_FORUM = 'CURRENT_FORUM'
 export const UPDATE_FORUM = 'UPDATE_FORUM'
 export const CURRENT_FORUM_ADDRESS = 'CURRENT_FORUM_ADDRESS'
+export const UPDATE_PAGE = 'UPDATE_PAGE'
 
 /*
  * action creators
@@ -76,5 +77,12 @@ export function updateForum(newForum) {
     return {
         type: UPDATE_FORUM,
         payload: newForum
+    }
+}
+
+export function setCurrentPage(newPage) {
+    return {
+        type: UPDATE_PAGE,
+        payload: newPage
     }
 }

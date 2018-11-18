@@ -15,7 +15,6 @@ import UserPage from './Components/User/UserPage';
 
 import {
     initializeWeb3,
-    setCurrentOwnerAddress,
     setCurrentUserAddress,
     setTartarusAddress
   } from './actions/actions'
@@ -75,7 +74,7 @@ class App extends Component {
   instantiateContract = () => {
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0xf12b5dd4ead5f743c6baa640b0216200e89b60da"))
+    this.props.dispatch(setTartarusAddress("0x75c35c980c0d37ef46df04d31a140b65503c0eed"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
       this.setState({
@@ -100,7 +99,6 @@ class App extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <BrowserRouter>
         <div>
           <AppBarContainer />
           <div className={classes.main}>
@@ -117,7 +115,6 @@ class App extends Component {
             </div>
           </div>
         </div>
-      </BrowserRouter>
     )
   }
 }
