@@ -43,7 +43,8 @@ contract Forum is Ownable {
         require(!banned[_commentCreator], "User is banned from this forum");
         require(posts[_postAddress], "Post does not exist.");
         Post targetPost = Post(_postAddress);
-        return targetPost.createComment(_commentText, _commentCreator, _targetAddress);
+        address newComment = targetPost.createComment(_commentText, _commentCreator, _targetAddress);
+        return newComment;
     }
 
     // function deletePost(address _postAddress) public onlyOwner {

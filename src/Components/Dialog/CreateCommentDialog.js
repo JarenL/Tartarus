@@ -46,6 +46,7 @@ class CreateCommentDialog extends Component {
 
 	submit = () => {
 		this.handleClose();
+		console.log(this.state.dialogText)
 		this.createComment(this.state.dialogText);
 	}
 
@@ -59,6 +60,8 @@ class CreateCommentDialog extends Component {
 		tartarus.setProvider(this.props.web3.currentProvider)
 		this.props.web3.eth.getAccounts((error, accounts) => {
 			tartarus.at(this.props.tartarusAddress).then((instance) => {
+				console.log("hello")
+				console.log(this.props.tartarusAddress)
 				instance.createComment(
 					this.props.currentForumAddress,
 					this.props.currentPostAddress,
@@ -81,7 +84,7 @@ class CreateCommentDialog extends Component {
 					onClose={this.handleClose}
 					aria-labelledby="form-dialog-title"
 				>
-					<DialogTitle id="form-dialog-title">Post</DialogTitle>
+					<DialogTitle id="form-dialog-title">Comment</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
 							Create Comment.
@@ -115,8 +118,8 @@ function mapStateToProps(state) {
 		web3: state.web3,
 		tartarusAddress: state.tartarus.tartarusAddress,
 		currentForum: state.forum.currentForum,
-		currentForumAddress: state.forum.currentForumAddress
-
+		currentForumAddress: state.forum.currentForumAddress,
+		currentPostAddress: state.forum.currentPostAddress
 	};
 }
 
