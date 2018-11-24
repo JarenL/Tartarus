@@ -4,7 +4,7 @@ import PostHeader from '../Headers/PostHeader'
 import Divider from '@material-ui/core/Divider';
 import PostContract from '../../../build/contracts/Post.json'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { setCurrentPage } from '../../actions/actions' 
+import { setCurrentPage, setCurrentPostAddress } from '../../actions/actions' 
 
 class PostPage extends Component {
 	constructor(match) {
@@ -20,6 +20,7 @@ class PostPage extends Component {
 	componentDidMount() {
 		this.instantiateContract()
 		this.props.dispatch(setCurrentPage("Post"))
+		this.props.dispatch(setCurrentPostAddress(this.state.postAddress))
 	}
 
 	instantiateContract = () => {

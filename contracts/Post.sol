@@ -10,6 +10,8 @@ contract Post is Ownable {
     struct PostInfo {
         string title;
         address creator;
+        address forum;
+        uint time;
     }
 
     PostInfo public postInfo;
@@ -19,6 +21,8 @@ contract Post is Ownable {
     constructor(string _postTitle, address _postCreator) public {
         postInfo.title = _postTitle;
         postInfo.creator = _postCreator;
+        postInfo.time = now;
+        postInfo.forum = address(msg.sender);
     }
 
     function createComment (string _commentText, address _commentCreator, address _targetAddress) public onlyOwner returns(address) {

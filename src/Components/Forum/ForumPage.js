@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import ForumContract from '../../../build/contracts/Forum.json'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
-import { setCurrentPage } from '../../actions/actions' 
+import { setCurrentPage, setCurrentForumAddress } from '../../actions/actions' 
 
 
 const styles = theme => ({
@@ -33,6 +33,7 @@ class ForumPage extends Component {
 	componentDidMount() {
 		this.instantiateContract()
 		this.props.dispatch(setCurrentPage("Forum"))
+		this.props.dispatch(setCurrentForumAddress(this.state.forumAddress))
 	}
 
 	instantiateContract = () => {
@@ -40,10 +41,10 @@ class ForumPage extends Component {
 		const forum = contract(ForumContract)
 		forum.setProvider(this.props.web3.currentProvider)
 		forum.at(this.state.forumAddress).then((instance) => {
-			instance.forumInfo.call().then((result) => {
+			instance.name.call().then((result) => {
 				if (result !== null) {
 					this.setState({
-						forumName: result[0],
+						forumName: result,
 						loading: false
 					})
 				}

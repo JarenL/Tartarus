@@ -10,6 +10,7 @@ class PostContainer extends Component {
     this.state = {
       title: null,
       creator: null,
+      date: null,
       loading: true
     }
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -24,10 +25,13 @@ class PostContainer extends Component {
     const post = contract(PostContract)
     post.setProvider(this.props.web3.currentProvider)
     post.at(this.props.address).then((instance) => {
-      instance.forumInfo.call().then((result) => {
+      instance.postInfo.call().then((result) => {
+        let postDate = new Date(result[3].c[0] * 1000).toString()
+        console.log(postDate)
         this.setState({
           title: result[0],
           creator: result[1],
+          date: postDate,
           loading: false
         });
       })
@@ -41,10 +45,10 @@ class PostContainer extends Component {
     } else {
       return (
         <Post
-          address={this.state.address}
+          address={this.props.address}
           title={this.state.title}
           creator={this.state.creator}
-
+          date={this.state.date}
         />
       )
     }

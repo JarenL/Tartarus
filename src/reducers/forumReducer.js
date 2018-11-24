@@ -1,12 +1,14 @@
 import {
 	CURRENT_FORUM,
 	CURRENT_FORUM_ADDRESS,
+	CURRENT_POST_ADDRESS,
 	UPDATE_FORUM
 } from '../actions/actions';
 
 const initialState = {
 	currentForum: "Frontpage",
-	currentForumAddress: null
+	currentForumAddress: null,
+	currentPostAddress: null
 }
 
 const forumReducer = (state = initialState, action) => {
@@ -21,7 +23,12 @@ const forumReducer = (state = initialState, action) => {
 				...state,
 				currentForumAddress: action.payload
 			};
-			case UPDATE_FORUM:
+		case CURRENT_POST_ADDRESS:
+			return {
+				...state,
+				currentPostAddress: action.payload
+			};
+		case UPDATE_FORUM:
 			return {
 				...state,
 				currentForum: action.payload.name,

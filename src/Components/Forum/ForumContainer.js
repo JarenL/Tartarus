@@ -24,9 +24,9 @@ class ForumContainer extends Component {
     const forum = contract(ForumContract)
     forum.setProvider(this.props.web3.currentProvider)
     forum.at(this.props.address).then((instance) => {
-      instance.forumInfo.call().then((result) => {
+      instance.name.call().then((result) => {
         this.setState({
-          name: result[0],
+          name: result,
           loading: false
         });
       })

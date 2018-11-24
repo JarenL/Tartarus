@@ -9,6 +9,8 @@ export default class Post extends Component {
                     <p>Title - {this.props.title}</p>
                     <p>Address - {this.props.address}</p>
                     <p>Creator Address - {this.props.creator}</p>
+                    <p>Date - {this.props.date}</p>
+
                 </div>
             </Card>
         )

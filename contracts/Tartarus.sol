@@ -24,7 +24,7 @@ contract Tartarus is Ownable {
     // }
 
     function createForum(string _forumName) public {
-        require(users[msg.sender] != 0x0, "User account not found");
+        require(users[msg.sender] != address(0), "User account not found");
         require(forums[_forumName] == 0, "Forum already exists");
         address newForumAddress = new Forum(_forumName, users[msg.sender]);
         forums[_forumName] = newForumAddress;
@@ -34,7 +34,7 @@ contract Tartarus is Ownable {
     }
 
     function createPost(address _forumAddress, string _postTitle) public {
-        require(users[msg.sender] != 0x0, "User account not found");
+        require(users[msg.sender] != address(0), "User account not found");
         Forum targetForum = Forum(_forumAddress);
         address newPostAddress = targetForum.createPost(_postTitle, users[msg.sender]);
         User targetUser = User(users[msg.sender]);
@@ -42,7 +42,7 @@ contract Tartarus is Ownable {
     }
 
     function createComment(address _forumAddress, address _postAddress, address _targetAddress, string _commentText) public {
-        require(users[msg.sender] != 0x0, "User account not found");
+        require(users[msg.sender] != address(0), "User account not found");
         Forum targetForum = Forum(_forumAddress);
         address newCommentAddress = targetForum.createComment(_commentText, _postAddress, _targetAddress, users[msg.sender]);
         User targetUser = User(users[msg.sender]);
@@ -60,18 +60,14 @@ contract Tartarus is Ownable {
 
     function createUser() public payable {
         require((msg.value >= createUserCost), "Insufficient Eth Sent");
-        require((users[msg.sender] == 0x0), "User already exists");
+        require(users[msg.sender] == address(0), "User account not found");
         address newUserAddress = new User(msg.sender);
         users[msg.sender] = newUserAddress;
         emit UserCreated(newUserAddress);
     }
 
     function authenticateUser() public view returns(address) {
-        if (users[msg.sender] == 0x0) {
-            return 0;
-        } else {
-            return users[msg.sender];
-        }
+        return users[msg.sender];
     }
 
     function setCost(uint _newCost) public onlyOwner {
