@@ -27,10 +27,10 @@ class PostPage extends Component {
 		const post = contract(PostContract)
 		post.setProvider(this.props.web3.currentProvider)
 		post.at(this.state.postAddress).then((instance) => {
-			instance.postTitle.call().then((res) => {
-				if (res !== null) {
+			instance.postInfo.call().then((result) => {
+				if (result !== null) {
 					this.setState({
-						postTitle: res,
+						postTitle: result[0],
 						loading: false
 					})
 				}

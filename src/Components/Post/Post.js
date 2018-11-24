@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
+import { Card } from '@material-ui/core';
 
 export default class Post extends Component {
     render() {
         return (
-            <div>
-
-            </div>
+            <Card className="post">
+                <div>
+                    <p>Title - {this.props.title}</p>
+                    <p>Address - {this.props.address}</p>
+                    <p>Creator Address - {this.props.creator}</p>
+                </div>
+            </Card>
         )
     }
 }

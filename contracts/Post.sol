@@ -5,19 +5,30 @@ import "./User.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract Post is Ownable {
-    event CommentCreated (address parentAddress, address commentAddress, address senderAddress, string commentText, uint timestamp);
+    event CommentCreated (address commentAddress);
 
-    string public postTitle;  
-
-    constructor(string _postTitle) public {
-        owner = msg.sender;
-        postTitle = _postTitle;
+    struct PostInfo {
+        string title;
+        address creator;
     }
 
-    function createComment (address _parentAddress, address _parentAddressOwner, string _commentText) public {
-        address newCommentAddress = new Comment(_parentAddress);
-        User parentUser = User(_parentAddressOwner);
-        parentUser.receiveComment(_parentAddress, newCommentAddress, msg.sender, _commentText);
-        emit CommentCreated(_parentAddress, newCommentAddress, msg.sender, _commentText, block.timestamp);
+    PostInfo public postInfo;
+
+    mapping(address => bool) comments;
+
+    constructor(string _postTitle, address _postCreator) public {
+        postInfo.title = _postTitle;
+        postInfo.creator = _postCreator;
+    }
+
+    function createComment (string _commentText, address _commentCreator, address _targetAddress) public onlyOwner returns(address) {
+        address newCommentAddress = new Comment(_commentText, _commentCreator, _targetAddress);
+        comments[newCommentAddress] = true;
+        emit CommentCreated(newCommentAddress);
+        return newCommentAddress;
+    }
+
+    function getCreator () public view returns(address) {
+        return postInfo.creator;
     }
 }

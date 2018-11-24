@@ -39,8 +39,6 @@ class PostListContainer extends Component {
             let newPostArray = this.state.posts.slice();
             newPostArray.push({
               address: result.args.postAddress,
-              title: result.args.postTitle,
-              author: result.args.postOwner
             });
             this.setState({
               posts: newPostArray

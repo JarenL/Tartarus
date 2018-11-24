@@ -5,13 +5,21 @@ import "./User.sol";
 import "./Post.sol"; 
 
 contract Comment is Ownable {
-    string comment;
-    address creator;
-    address target;
+    struct CommentInfo {
+        string comment;
+        address creator;
+        address target;
+    }
+
+    CommentInfo public commentInfo;
 
     constructor(string _commentText, address _commentCreator, address _targetAddress) public {
-        comment = _commentText;
-        creator = _commentCreator;
-        target = _targetAddress;
+        commentInfo.comment = _commentText;
+        commentInfo.creator = _commentCreator;
+        commentInfo.target = _targetAddress;
+    }
+
+    function getCreator () public view returns(address) {
+        return commentInfo.creator;
     }
 }

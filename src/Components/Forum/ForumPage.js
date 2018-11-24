@@ -40,10 +40,10 @@ class ForumPage extends Component {
 		const forum = contract(ForumContract)
 		forum.setProvider(this.props.web3.currentProvider)
 		forum.at(this.state.forumAddress).then((instance) => {
-			instance.forumName.call().then((res) => {
-				if (res !== null) {
+			instance.forumInfo.call().then((result) => {
+				if (result !== null) {
 					this.setState({
-						forumName: res,
+						forumName: result[0],
 						loading: false
 					})
 				}

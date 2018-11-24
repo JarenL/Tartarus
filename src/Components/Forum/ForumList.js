@@ -10,8 +10,7 @@ export default class ForumList extends Component {
         <Link to={"/forum/" + forum.address} style={{ textDecoration: 'none' }} key={forum.address}>
           <div onClick={() => this.props.changeForum(forum)}>
             <ForumContainer
-              address={forum.address}
-              name={forum.name} >
+              address={forum.address} >
             </ForumContainer>
           </div>
         </Link>
