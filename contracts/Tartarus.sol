@@ -25,7 +25,7 @@ contract Tartarus is Ownable {
 
     function createForum(string _forumName) public {
         require(users[msg.sender] != address(0), "User account not found");
-        require(forums[_forumName] != address(0), "Forum already exists");
+        require(forums[_forumName] == address(0), "Forum already exists");
         address newForumAddress = new Forum(_forumName, users[msg.sender]);
         forums[_forumName] = newForumAddress;
         User targetUser = User(users[msg.sender]);

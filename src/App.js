@@ -72,14 +72,14 @@ class App extends Component {
   }
 
   instantiateContract = () => {
+    this.props.dispatch(setCurrentUserAddress(0))
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0xb9b7e0cb2edf5ea031c8b297a5a1fa20379b6a0a"))
+    this.props.dispatch(setTartarusAddress("0x058f7ceff4a998e5ce3ce7a8e913e32e9fa52601"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
-      console.log("hello")
-      instance.authenticateUser.call().then((result) => {
-        this.props.dispatch(setCurrentUserAddress(0))
+      instance.authenticateUser({from : this.props.accounts.currentOwnerAddress}).then((result) => {
+        console.log(result)
         if (result !== "0x0000000000000000000000000000000000000000") {
           this.props.dispatch(setCurrentUserAddress(result))
         } else {
@@ -89,22 +89,6 @@ class App extends Component {
       })
     })
   }
-
-  // authenticateUser = () => {
-  //   this.props.dispatch(setCurrentUserAddress(0))
-  //   const contract = require('truffle-contract')
-  //   const tartarus = contract(TartarusContract)
-  //   tartarus.setProvider(this.props.web3.currentProvider)
-
-  //   const userCreatedEvent = this.state.tartarusInstance.UserCreated({ ownerAddress: this.props.accounts.currentOwnerAddress }, { fromBlock: 0, toBlock: 'latest' });
-  //   userCreatedEvent.watch((error, result) => {
-  //     if (!error) {
-  //       this.props.dispatch(setCurrentUserAddress(result.args.userAddress))
-  //     } else {
-  //       console.log("authentication event error")
-  //     }
-  //   })
-  // }
 
   render() {
     const { classes } = this.props;

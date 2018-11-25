@@ -8,7 +8,10 @@ contract Comment is Ownable {
     struct CommentInfo {
         string comment;
         address creator;
+        address post;
+        address forum;
         address target;
+        uint time;
     }
 
     CommentInfo public commentInfo;
@@ -17,6 +20,7 @@ contract Comment is Ownable {
         commentInfo.comment = _commentText;
         commentInfo.creator = _commentCreator;
         commentInfo.target = _targetAddress;
+        commentInfo.time = now;
     }
 
     function getCreator () public view returns(address) {

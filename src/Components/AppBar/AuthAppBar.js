@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,11 +19,17 @@ import CreatePostDialog from '../Dialog/CreatePostDialog'
 import CreateCommentDialog from '../Dialog/CreateCommentDialog'
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom"
+import blueGrey from '@material-ui/core/colors/blueGrey';
+import red from '@material-ui/core/colors/red';
+
+const primary = blueGrey[500]; // #F44336
+const accent = red['A200']; // #E040FB
+// const accent2 = purple.A200; // #E040FB (alternative method)
 
 const styles = theme => ({
   root: {
     width: '100%',
-    position: 'fixed'
+    position: 'fixed',
   },
   grow: {
     flexGrow: 1,
@@ -203,7 +208,7 @@ class PrimarySearchAppBar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="static" style={{ background: primary }}>
           <Toolbar>
             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
               <MenuIcon />
@@ -259,10 +264,6 @@ class PrimarySearchAppBar extends React.Component {
     );
   }
 }
-
-PrimarySearchAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 function mapStateToProps(state) {
   return {

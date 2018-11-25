@@ -4,7 +4,8 @@ import PostHeader from '../Headers/PostHeader'
 import Divider from '@material-ui/core/Divider';
 import PostContract from '../../../build/contracts/Post.json'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { setCurrentPage, setCurrentPostAddress } from '../../actions/actions' 
+import { setCurrentPage, setCurrentPostAddress } from '../../actions/actions'
+import CommentListContainer from '../Comment/CommentListContainer' 
 
 class PostPage extends Component {
 	constructor(match) {
@@ -56,7 +57,7 @@ class PostPage extends Component {
 						currentPostAddress={this.state.postAddress}
 					/>
 					<Divider/>
-					{/* <CommentListContainer /> */}
+					<CommentListContainer />
 				</div>
 			)
 		}
