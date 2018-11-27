@@ -12,13 +12,14 @@ contract Post is Ownable {
         address creator;
         address forum;
         uint time;
+        mapping(address => bool) comments;
     }
 
     PostInfo public postInfo;
 
-    mapping(address => bool) comments;
-
-    constructor(string _postTitle, address _postCreator) public {
+    function initialize(string _postTitle, address _postCreator) public {
+        require(owner == address(0), "Nice try");
+        owner = msg.sender;
         postInfo.title = _postTitle;
         postInfo.creator = _postCreator;
         postInfo.time = now;
@@ -27,7 +28,7 @@ contract Post is Ownable {
 
     function createComment (string _commentText, address _commentCreator, address _targetAddress) public onlyOwner returns(address) {
         address newCommentAddress = new Comment(_commentText, _commentCreator, _targetAddress);
-        comments[newCommentAddress] = true;
+        postInfo.comments[newCommentAddress] = true;
         emit CommentCreated(newCommentAddress);
         return newCommentAddress;
     }

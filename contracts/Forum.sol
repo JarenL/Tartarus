@@ -5,7 +5,7 @@ import "./Post.sol";
 import "./User.sol"; 
 import "./Tartarus.sol";
 
-contract Forum is Ownable {
+contract Forum is Ownable, CloneFactory {
     event UserBanned(address userAddress);
     event UserUnbanned(address userAddress);
     event PostCreated(address postAddress);  
@@ -32,12 +32,13 @@ contract Forum is Ownable {
         creator = _forumCreator;
     }
 
-    function createPost(string _postTitle, address _postCreator) public onlyOwner returns(address){
+    function createPost(string _postTitle, address _postCreator, address _clonePost) public onlyOwner returns(address){
         require(!banned[_postCreator], "User is banned from this forum");
-        address newPostAddress = new Post(_postTitle, _postCreator);
-        posts[newPostAddress] = true;
-        emit PostCreated(newPostAddress);
-        return newPostAddress;
+        address clone = createClone(_clonePost);
+        Post(clone).initialize(_postTitle, _postCreator);
+        posts[clone] = true;
+        emit PostCreated(clone);
+        return clone;
     }
 
     function createComment(string _commentText, address _postAddress, address _targetAddress, address _commentCreator) 
@@ -48,6 +49,8 @@ contract Forum is Ownable {
         address newComment = targetPost.createComment(_commentText, _commentCreator, _targetAddress);
         return newComment;
     }
+
+    //todo cut out unnecessary call routing
 
     // function deletePost(address _postAddress) public onlyOwner {
     //     //todo

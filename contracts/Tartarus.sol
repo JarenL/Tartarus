@@ -48,7 +48,7 @@ contract Tartarus is Ownable, CloneFactory {
     function createPost(address _forumAddress, string _postTitle) public {
         require(users[msg.sender] != address(0), "User account not found");
         Forum targetForum = Forum(_forumAddress);
-        address newPostAddress = targetForum.createPost(_postTitle, users[msg.sender]);
+        address newPostAddress = targetForum.createPost(_postTitle, users[msg.sender], clonePost);
         User targetUser = User(users[msg.sender]);
         targetUser.notifyCreatePost(newPostAddress);
     }
