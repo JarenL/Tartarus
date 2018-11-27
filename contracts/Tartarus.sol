@@ -1,13 +1,12 @@
 pragma solidity ^0.4.24;
 
-// import "./ForumFactory.sol"; 
-// import "./UserFactory.sol"; 
 import "./User.sol"; 
 import "./Forum.sol"; 
 import "./Comment.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "@optionality.io/clone-factory/contracts/CloneFactory.sol";
 
-contract Tartarus is Ownable {
+contract Tartarus is Ownable, CloneFactory {
     event AdminCreated (address adminAddress);
     event ForumCreated(address forumAddress);  
     event UserCreated (address userAddress);  
@@ -23,14 +22,25 @@ contract Tartarus is Ownable {
     //     emit AdminCreated(_adminAddress);
     // }
 
+    address cloneForum;
+    address clonePost;
+    address cloneComment;
+
+    constructor() public {
+        cloneForum = new Forum();
+        clonePost = new Post("clonePost", address(0));
+        cloneComment = new Comment("cloneComment", address(0), address(0));
+    }
+
     function createForum(string _forumName) public {
         require(users[msg.sender] != address(0), "User account not found");
         require(forums[_forumName] == address(0), "Forum already exists");
-        address newForumAddress = new Forum(_forumName, users[msg.sender]);
-        forums[_forumName] = newForumAddress;
+        address clone = createClone(cloneForum);
+        Forum(clone).initialize(_forumName, users[msg.sender]);
+        forums[_forumName] = clone;
         User targetUser = User(users[msg.sender]);
-        targetUser.subscribe(newForumAddress);
-        emit ForumCreated(newForumAddress);
+        targetUser.subscribe(clone);
+        emit ForumCreated(clone);
     }
 
     function createPost(address _forumAddress, string _postTitle) public {

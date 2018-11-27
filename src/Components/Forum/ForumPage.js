@@ -36,6 +36,12 @@ class ForumPage extends Component {
 		this.props.dispatch(setCurrentForumAddress(this.state.forumAddress))
 	}
 
+	componentDidUpdate = (newProps) => {
+    if (newProps.currentForumAddress !== this.props.currentForumAddress) {
+      this.instantiateContract()
+    }
+  }
+
 	instantiateContract = () => {
 		const contract = require('truffle-contract')
 		const forum = contract(ForumContract)

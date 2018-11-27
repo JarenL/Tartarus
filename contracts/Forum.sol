@@ -25,9 +25,9 @@ contract Forum is Ownable {
         bool createMod;
     }
 
-    constructor(string _forumName, address _forumCreator) public {
+    function initialize(string _forumName, address _forumCreator) public {
         name = _forumName;
-        creator = _forumCreator;        
+        creator = _forumCreator;
     }
 
     function createPost(string _postTitle, address _postCreator) public onlyOwner returns(address){
