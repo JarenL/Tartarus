@@ -31,7 +31,7 @@ contract Tartarus is Ownable, CloneFactory {
         cloneUser = new User();
         cloneForum = new Forum();
         clonePost = new Post();
-        cloneComment = new Comment("cloneComment", address(0), address(0));
+        cloneComment = new Comment();
     }
 
     function createForum(string _forumName) public {
@@ -56,7 +56,7 @@ contract Tartarus is Ownable, CloneFactory {
     function createComment(address _forumAddress, address _postAddress, address _targetAddress, string _commentText) public {
         require(users[msg.sender] != address(0), "User account not found");
         Forum targetForum = Forum(_forumAddress);
-        address newCommentAddress = targetForum.createComment(_commentText, _postAddress, _targetAddress, users[msg.sender]);
+        address newCommentAddress = targetForum.createComment(_commentText, _postAddress, _targetAddress, users[msg.sender], cloneComment);
         User targetUser = User(users[msg.sender]);
         targetUser.notifyCreateComment(newCommentAddress);
         if (_targetAddress == _postAddress) {

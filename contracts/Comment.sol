@@ -1,8 +1,6 @@
 pragma solidity ^0.4.24;
 
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "./User.sol"; 
-import "./Post.sol"; 
 
 contract Comment is Ownable {
     struct CommentInfo {
@@ -16,7 +14,9 @@ contract Comment is Ownable {
 
     CommentInfo public commentInfo;
 
-    constructor(string _commentText, address _commentCreator, address _targetAddress) public {
+    function initialize(string _commentText, address _commentCreator, address _targetAddress) public {
+        require(owner == address(0), "Nice try");
+        owner = msg.sender;
         commentInfo.comment = _commentText;
         commentInfo.creator = _commentCreator;
         commentInfo.target = _targetAddress;

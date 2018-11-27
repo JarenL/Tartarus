@@ -1,9 +1,9 @@
 pragma solidity ^0.4.24;
 
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "./Post.sol"; 
 import "./User.sol"; 
-import "./Tartarus.sol";
+import "@optionality.io/clone-factory/contracts/CloneFactory.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract Forum is Ownable, CloneFactory {
     event UserBanned(address userAddress);
@@ -41,12 +41,12 @@ contract Forum is Ownable, CloneFactory {
         return clone;
     }
 
-    function createComment(string _commentText, address _postAddress, address _targetAddress, address _commentCreator) 
+    function createComment(string _commentText, address _postAddress, address _targetAddress, address _commentCreator, address _cloneComment) 
     public onlyOwner returns(address) {
         require(!banned[_commentCreator], "User is banned from this forum");
         require(posts[_postAddress], "Post does not exist.");
         Post targetPost = Post(_postAddress);
-        address newComment = targetPost.createComment(_commentText, _commentCreator, _targetAddress);
+        address newComment = targetPost.createComment(_commentText, _commentCreator, _targetAddress, _cloneComment);
         return newComment;
     }
 

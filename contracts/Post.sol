@@ -1,10 +1,10 @@
 pragma solidity ^0.4.24;
 
 import "./Comment.sol"; 
-import "./User.sol"; 
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "@optionality.io/clone-factory/contracts/CloneFactory.sol";
 
-contract Post is Ownable {
+contract Post is Ownable, CloneFactory {
     event CommentCreated (address commentAddress);
 
     struct PostInfo {
@@ -26,11 +26,13 @@ contract Post is Ownable {
         postInfo.forum = address(msg.sender);
     }
 
-    function createComment (string _commentText, address _commentCreator, address _targetAddress) public onlyOwner returns(address) {
-        address newCommentAddress = new Comment(_commentText, _commentCreator, _targetAddress);
-        postInfo.comments[newCommentAddress] = true;
-        emit CommentCreated(newCommentAddress);
-        return newCommentAddress;
+    function createComment (string _commentText, address _commentCreator, address _targetAddress, address _cloneComment) 
+    public onlyOwner returns(address) {
+        address clone = createClone(_cloneComment);
+        Comment(clone).initialize(_commentText, _commentCreator, _targetAddress);
+        postInfo.comments[clone] = true;
+        emit CommentCreated(clone);
+        return clone;
     }
 
     function getCreator () public view returns(address) {

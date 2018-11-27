@@ -1,7 +1,6 @@
 pragma solidity ^0.4.24;
 
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "./User.sol"; 
 
 contract User is Ownable {
     event SubscribeForum (address forumAddress); 
