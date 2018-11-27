@@ -86,6 +86,7 @@ function mapStateToProps(state) {
 	return {
 		web3: state.web3,
 		accounts: state.accounts,
+		currentForumAddress: state.forum.currentForumAddress
 	};
 }
 
