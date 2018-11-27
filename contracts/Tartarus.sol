@@ -25,8 +25,10 @@ contract Tartarus is Ownable, CloneFactory {
     address cloneForum;
     address clonePost;
     address cloneComment;
+    address cloneUser;
 
     constructor() public {
+        cloneUser = new User();
         cloneForum = new Forum();
         clonePost = new Post("clonePost", address(0));
         cloneComment = new Comment("cloneComment", address(0), address(0));

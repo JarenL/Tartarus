@@ -57,6 +57,9 @@ class ForumPage extends Component {
 					})
 				}
 			})
+			instance.owner.call().then((result) => {
+				console.log(result)
+			})
 		}).catch((err) => {
 			console.log("error")
 		})

@@ -26,6 +26,8 @@ contract Forum is Ownable {
     }
 
     function initialize(string _forumName, address _forumCreator) public {
+        require(owner == address(0), "Nice try");
+        owner = msg.sender;
         name = _forumName;
         creator = _forumCreator;
     }
