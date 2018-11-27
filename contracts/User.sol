@@ -15,7 +15,9 @@ contract User is Ownable {
     address creator;
     mapping(address => bool) private forumSubscriptions;
 
-    constructor(address _creator) public {
+    function initialize(address _creator) public {
+        require(owner == address(0), "Nice try");
+        owner = msg.sender;
         creator = _creator;
     }
 

@@ -30,7 +30,7 @@ contract Tartarus is Ownable, CloneFactory {
     constructor() public {
         cloneUser = new User();
         cloneForum = new Forum();
-        clonePost = new Post("clonePost", address(0));
+        clonePost = new Post();
         cloneComment = new Comment("cloneComment", address(0), address(0));
     }
 
@@ -73,9 +73,10 @@ contract Tartarus is Ownable, CloneFactory {
     function createUser() public payable {
         require((msg.value >= createUserCost), "Insufficient Eth Sent");
         require(users[msg.sender] == address(0), "User account not found");
-        address newUserAddress = new User(msg.sender);
-        users[msg.sender] = newUserAddress;
-        emit UserCreated(newUserAddress);
+        address clone = createClone(cloneUser);
+        User(clone).initialize(msg.sender);
+        users[msg.sender] = clone;
+        emit UserCreated(clone);
     }
 
     function authenticateUser() public view returns(address) {
