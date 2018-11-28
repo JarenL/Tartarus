@@ -5,7 +5,8 @@ import DrawerContainer from './Components/Drawer/DrawerContainer';
 import AppBarContainer from './Components/AppBar/AppBarContainer';
 import getWeb3 from './utils/getWeb3';
 import TartarusContract from '../build/contracts/Tartarus.json';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { connect } from 'react-redux';
 import FrontPage from './Components/FrontPage';
 import ForumPage from './Components/Forum/ForumPage';
@@ -14,10 +15,10 @@ import UserPage from './Components/User/UserPage';
 
 
 import {
-    initializeWeb3,
-    setCurrentUserAddress,
-    setTartarusAddress
-  } from './actions/actions'
+  initializeWeb3,
+  setCurrentUserAddress,
+  setTartarusAddress
+} from './actions/actions'
 
 // Styles
 import './css/oswald.css'
@@ -44,12 +45,11 @@ const styles = theme => ({
 class App extends Component {
   constructor(props) {
     super(props)
-
     this.state = {
-      tartarusInstance: null
+      tartarusInstance: null,
+      loading: true
     }
     this.instantiateContract = this.instantiateContract.bind(this);
-    this.authenticateUser = this.authenticateUser.bind(this);
   }
 
   componentDidMount() {
@@ -72,33 +72,32 @@ class App extends Component {
   }
 
   instantiateContract = () => {
+    this.props.dispatch(setCurrentUserAddress(0))
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0x75c35c980c0d37ef46df04d31a140b65503c0eed"))
+    this.props.dispatch(setTartarusAddress("0x447db080264bed6ed21d3a082ae4cdd7ebfe4e32"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
-      this.setState({
-        tartarusInstance: instance
+      instance.authenticateUser({from : this.props.accounts.currentOwnerAddress}).then((result) => {
+        console.log(result)
+        if (result !== "0x0000000000000000000000000000000000000000") {
+          this.props.dispatch(setCurrentUserAddress(result))
+        } else {
+          console.log("user account not found")
+        }
+        this.setState({ loading: false })
       })
-      this.authenticateUser();
-    })
-  }
-
-  authenticateUser = () => {
-    this.props.dispatch(setCurrentUserAddress(0))
-    const userCreatedEvent = this.state.tartarusInstance.UserCreated({ ownerAddress: this.props.accounts.currentOwnerAddress }, { fromBlock: 0, toBlock: 'latest' });
-    userCreatedEvent.watch((error, result) => {
-      if (!error) {
-        this.props.dispatch(setCurrentUserAddress(result.args.userAddress))
-      } else {
-        console.log("authentication event error")
-      }
     })
   }
 
   render() {
     const { classes } = this.props;
-    return (
+    if (this.state.loading) {
+      return (
+        <CircularProgress />
+      )
+    } else {
+      return (
         <div>
           <AppBarContainer />
           <div className={classes.main}>
@@ -115,7 +114,9 @@ class App extends Component {
             </div>
           </div>
         </div>
-    )
+      )
+    }
+
   }
 }
 
@@ -134,4 +135,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, null, null, {
-  pure: false})(withStyles(styles) (App));
+  pure: false
+})(withStyles(styles)(App));

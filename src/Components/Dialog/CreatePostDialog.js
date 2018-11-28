@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from '@material-ui/core/styles';
-import ForumContract from '../../../build/contracts/Forum.json';
+import TartarusContract from '../../../build/contracts/Tartarus.json';
 import { connect } from 'react-redux'
 import CreatePostButton from '../Buttons/CreatePostButton.js';
 
@@ -55,11 +55,12 @@ class CreatePostDialog extends Component {
 
 	createPost = (postTitle) => {
 		const contract = require('truffle-contract')
-		const forum = contract(ForumContract)
-		forum.setProvider(this.props.web3.currentProvider)
+		const tartarus = contract(TartarusContract)
+		tartarus.setProvider(this.props.web3.currentProvider)
 		this.props.web3.eth.getAccounts((error, accounts) => {
-			forum.at(this.props.currentForumAddress).then((instance) => {
+			tartarus.at(this.props.tartarusAddress).then((instance) => {
 				instance.createPost(
+					this.props.currentForumAddress,
 					postTitle,
 					{ from: accounts[0], gasPrice: 20000000000 }
 				)

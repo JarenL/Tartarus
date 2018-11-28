@@ -1,23 +1,41 @@
 pragma solidity ^0.4.24;
 
 import "./Comment.sol"; 
-import "./User.sol"; 
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "@optionality.io/clone-factory/contracts/CloneFactory.sol";
 
-contract Post is Ownable {
-    event CommentCreated (address parentAddress, address commentAddress, address senderAddress, string commentText, uint timestamp);
+contract Post is Ownable, CloneFactory {
+    event CommentCreated (address commentAddress);
 
-    string public postTitle;  
-
-    constructor(string _postTitle) public {
-        owner = msg.sender;
-        postTitle = _postTitle;
+    struct PostInfo {
+        string title;
+        address creator;
+        address forum;
+        uint time;
+        mapping(address => bool) comments;
     }
 
-    function createComment (address _parentAddress, address _parentAddressOwner, string _commentText) public {
-        address newCommentAddress = new Comment(_parentAddress);
-        User parentUser = User(_parentAddressOwner);
-        parentUser.receiveComment(_parentAddress, newCommentAddress, msg.sender, _commentText);
-        emit CommentCreated(_parentAddress, newCommentAddress, msg.sender, _commentText, block.timestamp);
+    PostInfo public postInfo;
+
+    function initialize(string _postTitle, address _postCreator) public {
+        require(owner == address(0), "Nice try");
+        owner = msg.sender;
+        postInfo.title = _postTitle;
+        postInfo.creator = _postCreator;
+        postInfo.time = now;
+        postInfo.forum = address(msg.sender);
+    }
+
+    function createComment (string _commentText, address _commentCreator, address _targetAddress, address _cloneComment) 
+    public onlyOwner returns(address) {
+        address clone = createClone(_cloneComment);
+        Comment(clone).initialize(_commentText, _commentCreator, _targetAddress);
+        postInfo.comments[clone] = true;
+        emit CommentCreated(clone);
+        return clone;
+    }
+
+    function getCreator () public view returns(address) {
+        return postInfo.creator;
     }
 }

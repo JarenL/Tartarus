@@ -7,9 +7,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from '@material-ui/core/styles';
-import PostContact from '../../../build/contracts/Post.json';
 import { connect } from 'react-redux'
 import CreateCommentButton from '../Buttons/CreateCommentButton';
+import TartarusContract from '../../../build/contracts/Tartarus.json';
 
 const styles = theme => ({
 	button: {
@@ -46,7 +46,8 @@ class CreateCommentDialog extends Component {
 
 	submit = () => {
 		this.handleClose();
-		this.createPost(this.state.dialogText);
+		console.log(this.state.dialogText)
+		this.createComment(this.state.dialogText);
 	}
 
 	setDialogText = (event) => {
@@ -54,17 +55,22 @@ class CreateCommentDialog extends Component {
 	}
 
 	createComment = (commentText) => {
-		// const contract = require('truffle-contract')
-		// const post = contract(ForumContract)
-		// post.setProvider(this.props.web3.currentProvider)
-		// this.props.web3.eth.getAccounts((error, accounts) => {
-		// 	post.at(this.props.currentForumAddress).then((instance) => {
-		// 		instance.createPost(
-		// 			postTitle,
-		// 			{ from: accounts[0], gasPrice: 20000000000 }
-		// 		)
-		// 	})
-		// })
+		const contract = require('truffle-contract')
+		const tartarus = contract(TartarusContract)
+		tartarus.setProvider(this.props.web3.currentProvider)
+		this.props.web3.eth.getAccounts((error, accounts) => {
+			tartarus.at(this.props.tartarusAddress).then((instance) => {
+				console.log("hello")
+				console.log(this.props.tartarusAddress)
+				instance.createComment(
+					this.props.currentForumAddress,
+					this.props.currentPostAddress,
+					this.props.currentPostAddress,
+					commentText,
+					{ from: accounts[0], gasPrice: 20000000000 }
+				)
+			})
+		})
 	}
 	
 	render() {
@@ -78,7 +84,7 @@ class CreateCommentDialog extends Component {
 					onClose={this.handleClose}
 					aria-labelledby="form-dialog-title"
 				>
-					<DialogTitle id="form-dialog-title">Post</DialogTitle>
+					<DialogTitle id="form-dialog-title">Comment</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
 							Create Comment.
@@ -112,8 +118,8 @@ function mapStateToProps(state) {
 		web3: state.web3,
 		tartarusAddress: state.tartarus.tartarusAddress,
 		currentForum: state.forum.currentForum,
-		currentForumAddress: state.forum.currentForumAddress
-
+		currentForumAddress: state.forum.currentForumAddress,
+		currentPostAddress: state.forum.currentPostAddress
 	};
 }
 

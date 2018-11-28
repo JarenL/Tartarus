@@ -38,7 +38,6 @@ class AuthDrawer extends Component {
 				let newForumArray = this.state.forums.slice();
 				newForumArray.push({
 					address: result.args.forumAddress,
-					name: result.args.forumName
 				});
 				this.setState({
 					forums: newForumArray

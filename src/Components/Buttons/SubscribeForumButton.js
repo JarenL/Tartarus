@@ -1,0 +1,1 @@
+//if user.forums (currentForum) exists, + / -

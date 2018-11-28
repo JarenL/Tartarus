@@ -1,33 +1,82 @@
 pragma solidity ^0.4.24;
 
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "./Post.sol"; 
 import "./User.sol"; 
+import "@optionality.io/clone-factory/contracts/CloneFactory.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
-contract Forum is Ownable {
+contract Forum is Ownable, CloneFactory {
     event UserBanned(address userAddress);
     event UserUnbanned(address userAddress);
-    event PostCreated (address postAddress, string postTitle, address postOwner, uint timestamp);  
+    event PostCreated(address postAddress);  
+    event PostDeleted(address postAddress);
+    
+    string public name;
+    address public creator;
+    string public rules;
 
-    string public forumName;
+    mapping(address => bool) banned;
+    mapping(address => bool) posts;
+    mapping(address => permissions) moderators;
 
-    constructor(string _forumName) public {
-        owner = msg.sender;
-        forumName = _forumName;
+    struct permissions {
+        bool banUser;
+        bool deletePost;
+        bool createMod;
     }
 
+    function initialize(string _forumName, address _forumCreator) public {
+        require(owner == address(0), "Nice try");
+        owner = msg.sender;
+        name = _forumName;
+        creator = _forumCreator;
+    }
+
+    function createPost(string _postTitle, address _postCreator, address _clonePost) public onlyOwner returns(address){
+        require(!banned[_postCreator], "User is banned from this forum");
+        address clone = createClone(_clonePost);
+        Post(clone).initialize(_postTitle, _postCreator);
+        posts[clone] = true;
+        emit PostCreated(clone);
+        return clone;
+    }
+
+    function createComment(string _commentText, address _postAddress, address _targetAddress, address _commentCreator, address _cloneComment) 
+    public onlyOwner returns(address) {
+        require(!banned[_commentCreator], "User is banned from this forum");
+        require(posts[_postAddress], "Post does not exist.");
+        Post targetPost = Post(_postAddress);
+        address newComment = targetPost.createComment(_commentText, _commentCreator, _targetAddress, _cloneComment);
+        return newComment;
+    }
+
+    //todo cut out unnecessary call routing
+
+    // function deletePost(address _postAddress) public onlyOwner {
+    //     //todo
+    // }
+
+    // function deleteComment(address _postAddress, address _commentAddress) public onlyOwner {
+    //     //todo
+    // }
+
     function banUser(address _userAddress) public onlyOwner {
+        require(!banned[_userAddress], "User already banned");
+        banned[_userAddress] = true;
         emit UserBanned(_userAddress);
     }
 
     function unBanUser(address _userAddress) public onlyOwner {
+        require(banned[_userAddress], "User not banned");
+        delete banned[_userAddress];
         emit UserUnbanned(_userAddress);
     }
 
-    function createPost(string _postTitle) public {
-        address newPostAddress = new Post(_postTitle);
-        // User postCreator = User(msg.sender);
-        // postCreator.createPost(newPostAddress, _postTitle);
-        emit PostCreated(newPostAddress, _postTitle, msg.sender, block.timestamp);
-    }
+    // function createMod(address _modUserAddress) public onlyOwner {
+    //     //todo
+    // }
+
+    // function removeMod(address _modUserAddress) public onlyOwner {
+    //     //todo
+    // }
 }
