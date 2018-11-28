@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles';
 
+import SelectComments from '../Select/SelectComments'
 
 const styles = theme => ({
   header: {
@@ -17,6 +18,7 @@ class PostHeader extends Component {
             <p>User address = {this.props.currentUserAddress}</p>
             <p>Current post = {this.props.currentPost}</p>
             <p>Current post address = {this.props.currentPostAddress}</p>
+			<SelectComments/>
 			</div>
 		)
 	}

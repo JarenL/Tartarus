@@ -6,13 +6,11 @@ export default class CommentList extends Component {
   render() {
     const commentContainers = this.props.comments.map(comment => {
       return (
-        <Link to={"/comment/" + comment.address} style={{ textDecoration: 'none', color: 'black' }} key={comment.address}>
           <div >
             <CommentContainer
               address={comment.address}
             />
           </div>
-        </Link>
       )
     });
     return (
