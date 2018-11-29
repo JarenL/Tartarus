@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PostContract from '../../../build/contracts/Post.json';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Post from './Post';
+import ipfs from '../../ipfs'
 
 class PostContainer extends Component {
   constructor(props) {
@@ -26,14 +27,15 @@ class PostContainer extends Component {
     post.setProvider(this.props.web3.currentProvider)
     post.at(this.props.address).then((instance) => {
       instance.postInfo.call().then((result) => {
-        let postDate = new Date(result[3].c[0] * 1000).toString()
-        console.log(postDate)
-        this.setState({
-          title: result[0],
-          creator: result[1],
-          date: postDate,
-          loading: false
-        });
+        console.log(result)
+        ipfs.catJSON(result[0], (err, ipfsData) => {
+          console.log(ipfsData)
+          this.setState({
+            title: ipfsData.title,
+            creator: ipfsData.creator,
+            loading: false
+          });
+        })
       })
     })
   }

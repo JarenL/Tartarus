@@ -8,28 +8,24 @@ contract Post is Ownable, CloneFactory {
     event CommentCreated (address commentAddress);
 
     struct PostInfo {
-        string title;
+        string ipfsHash;
         address creator;
-        address forum;
-        uint time;
         mapping(address => bool) comments;
     }
 
     PostInfo public postInfo;
 
-    function initialize(string _postTitle, address _postCreator) public {
+    function initialize(string _ipfsHash, address _postCreator) public {
         require(owner == address(0), "Nice try");
         owner = msg.sender;
-        postInfo.title = _postTitle;
+        postInfo.ipfsHash = _ipfsHash;
         postInfo.creator = _postCreator;
-        postInfo.time = now;
-        postInfo.forum = address(msg.sender);
     }
 
-    function createComment (string _commentText, address _commentCreator, address _targetAddress, address _cloneComment) 
+    function createComment (string _ipfsHash, address _commentCreator, address _cloneComment) 
     public onlyOwner returns(address) {
         address clone = createClone(_cloneComment);
-        Comment(clone).initialize(_commentText, _commentCreator, _targetAddress);
+        Comment(clone).initialize(_ipfsHash, _commentCreator);
         postInfo.comments[clone] = true;
         emit CommentCreated(clone);
         return clone;

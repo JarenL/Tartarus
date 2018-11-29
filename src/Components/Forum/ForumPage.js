@@ -9,7 +9,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import { setCurrentPage, setCurrentForumAddress } from '../../actions/actions' 
 
-
 const styles = theme => ({
 	// header: {
 	// 	display: 'flex',

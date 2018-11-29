@@ -10,7 +10,7 @@ export default class Comment extends Component {
                     <p>Address - {this.props.address}</p>
                     <p>Creator Address - {this.props.creator}</p>
                     <p>Target - {this.props.target}</p>
-                    <p>Date - {this.props.date}</p>
+                    <p>Time - {this.props.time}</p>
                 </div>
             </Card>
         )

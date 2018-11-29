@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
 import CreateCommentButton from '../Buttons/CreateCommentButton';
 import TartarusContract from '../../../build/contracts/Tartarus.json';
+import ipfs from '../../ipfs';
 
 const styles = theme => ({
 	button: {
@@ -57,18 +58,30 @@ class CreateCommentDialog extends Component {
 	createComment = (commentText) => {
 		const contract = require('truffle-contract')
 		const tartarus = contract(TartarusContract)
-		tartarus.setProvider(this.props.web3.currentProvider)
-		this.props.web3.eth.getAccounts((error, accounts) => {
-			tartarus.at(this.props.tartarusAddress).then((instance) => {
-				console.log("hello")
-				console.log(this.props.tartarusAddress)
-				instance.createComment(
-					this.props.currentForumAddress,
-					this.props.currentPostAddress,
-					this.props.currentPostAddress,
-					commentText,
-					{ from: accounts[0], gasPrice: 20000000000 }
-				)
+		const currentTime = (new Date).getTime();
+		const data = JSON.stringify({
+			comment: commentText,
+			creator: this.props.accounts.currentUserAddress,
+			target: this.props.currentPostAddress,
+			forum: this.props.currentForumAddress,
+			post: this.props.currentPostAddress,
+			time: currentTime
+		})
+
+		ipfs.add(data, (err, hash) => {
+			console.log(data)
+			console.log(hash)
+			tartarus.setProvider(this.props.web3.currentProvider)
+			this.props.web3.eth.getAccounts((error, accounts) => {
+				tartarus.at(this.props.tartarusAddress).then((instance) => {
+					instance.createComment(
+						this.props.currentForumAddress,
+						this.props.currentPostAddress,
+						this.props.currentPostAddress,
+						hash,
+						{ from: accounts[0], gasPrice: 20000000000 }
+					)
+				})
 			})
 		})
 	}
@@ -117,6 +130,7 @@ function mapStateToProps(state) {
 	return {
 		web3: state.web3,
 		tartarusAddress: state.tartarus.tartarusAddress,
+		accounts: state.accounts,
 		currentForum: state.forum.currentForum,
 		currentForumAddress: state.forum.currentForumAddress,
 		currentPostAddress: state.forum.currentPostAddress

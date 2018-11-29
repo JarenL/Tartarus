@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TartarusContract from '../../../build/contracts/Tartarus.json';
 import { connect } from 'react-redux'
 import CreatePostButton from '../Buttons/CreatePostButton.js';
+import ipfs from '../../ipfs';
 
 const styles = theme => ({
 	button: {
@@ -56,18 +57,27 @@ class CreatePostDialog extends Component {
 	createPost = (postTitle) => {
 		const contract = require('truffle-contract')
 		const tartarus = contract(TartarusContract)
-		tartarus.setProvider(this.props.web3.currentProvider)
-		this.props.web3.eth.getAccounts((error, accounts) => {
-			tartarus.at(this.props.tartarusAddress).then((instance) => {
-				instance.createPost(
-					this.props.currentForumAddress,
-					postTitle,
-					{ from: accounts[0], gasPrice: 20000000000 }
-				)
+		const data = JSON.stringify({
+			title: postTitle,
+			creator: this.props.accounts.currentUserAddress,
+			forum: this.props.currentForumAddress
+		})
+
+		ipfs.add(data, (err, hash) => {
+			tartarus.setProvider(this.props.web3.currentProvider)
+			this.props.web3.eth.getAccounts((error, accounts) => {
+				tartarus.at(this.props.tartarusAddress).then((instance) => {
+					console.log(hash)
+					instance.createPost(
+						this.props.currentForumAddress,
+						hash,
+						{ from: accounts[0], gasPrice: 20000000000 }
+					)
+				})
 			})
 		})
 	}
-	
+
 	render() {
 		return (
 			<div>
@@ -113,8 +123,8 @@ function mapStateToProps(state) {
 		web3: state.web3,
 		tartarusAddress: state.tartarus.tartarusAddress,
 		currentForum: state.forum.currentForum,
-		currentForumAddress: state.forum.currentForumAddress
-
+		currentForumAddress: state.forum.currentForumAddress,
+		accounts: state.accounts,
 	};
 }
 

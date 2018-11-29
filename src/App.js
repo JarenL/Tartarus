@@ -13,7 +13,6 @@ import ForumPage from './Components/Forum/ForumPage';
 import PostPage from './Components/Post/PostPage';
 import UserPage from './Components/User/UserPage';
 
-
 import {
   initializeWeb3,
   setCurrentUserAddress,
@@ -75,10 +74,10 @@ class App extends Component {
     this.props.dispatch(setCurrentUserAddress(0))
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0x447db080264bed6ed21d3a082ae4cdd7ebfe4e32"))
+    this.props.dispatch(setTartarusAddress("0xf12b5dd4ead5f743c6baa640b0216200e89b60da"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
-      instance.authenticateUser({from : this.props.accounts.currentOwnerAddress}).then((result) => {
+      instance.authenticateUser({ from: this.props.accounts.currentOwnerAddress }).then((result) => {
         console.log(result)
         if (result !== "0x0000000000000000000000000000000000000000") {
           this.props.dispatch(setCurrentUserAddress(result))

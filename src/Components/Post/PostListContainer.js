@@ -26,7 +26,6 @@ class PostListContainer extends Component {
     }
   }
 
-
   instantiateContract() {
     const contract = require('truffle-contract')
     const forum = contract(ForumContract)

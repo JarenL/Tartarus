@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import CommentContract from '../../../build/contracts/Comment.json';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Comment from './Comment';
+import ipfs from '../../ipfs'
 
 class CommentContainer extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class CommentContainer extends Component {
       post: null,
       forum: null,
       target: null,
-      date: null,
+      time: null,
       loading: true
     }
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -30,17 +31,24 @@ class CommentContainer extends Component {
     comment.at(this.props.address).then((instance) => {
       instance.commentInfo.call().then((result) => {
         console.log(result)
-        let commentDate = new Date(result[5].c[0] * 1000).toString()
-        this.setState({
-          comment: result[0],
-          creator: result[1],
-          target: result[4],
-          date: commentDate,
-          loading: false
-        });
+        ipfs.catJSON(result[0], (err, ipfsData) => {
+          console.log(ipfsData)
+          var utcSeconds = ipfsData.time;
+          var time = new Date(0); 
+          time.setUTCSeconds(utcSeconds / 1000);
+          time = time.toString();
+          this.setState({
+            comment: ipfsData.comment,
+            creator: ipfsData.creator,
+            target: ipfsData.target,
+            time: time,
+            loading: false
+          });
+        })
       })
     })
   }
+
   render() {
     if (this.state.loading) {
       return (
@@ -53,7 +61,7 @@ class CommentContainer extends Component {
           comment={this.state.comment}
           creator={this.state.creator}
           target={this.state.target}
-          date={this.state.date}
+          time={this.state.time}
         />
       )
     }
