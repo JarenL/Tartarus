@@ -11,7 +11,7 @@ class PostContainer extends Component {
     this.state = {
       title: null,
       creator: null,
-      date: null,
+      time: null,
       loading: true
     }
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -30,9 +30,14 @@ class PostContainer extends Component {
         console.log(result)
         ipfs.catJSON(result[0], (err, ipfsData) => {
           console.log(ipfsData)
+          var utcSeconds = ipfsData.time;
+          var time = new Date(0); 
+          time.setUTCSeconds(utcSeconds / 1000);
+          time = time.toString();
           this.setState({
             title: ipfsData.title,
             creator: ipfsData.creator,
+            time: time,
             loading: false
           });
         })
@@ -50,7 +55,7 @@ class PostContainer extends Component {
           address={this.props.address}
           title={this.state.title}
           creator={this.state.creator}
-          date={this.state.date}
+          time={this.state.time}
         />
       )
     }

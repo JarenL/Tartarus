@@ -57,10 +57,12 @@ class CreatePostDialog extends Component {
 	createPost = (postTitle) => {
 		const contract = require('truffle-contract')
 		const tartarus = contract(TartarusContract)
+		const currentTime = (new Date).getTime();
 		const data = JSON.stringify({
 			title: postTitle,
 			creator: this.props.accounts.currentUserAddress,
-			forum: this.props.currentForumAddress
+			forum: this.props.currentForumAddress,
+			time: currentTime
 		})
 
 		ipfs.add(data, (err, hash) => {
