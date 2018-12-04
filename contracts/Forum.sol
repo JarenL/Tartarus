@@ -16,15 +16,7 @@ contract Forum is Ownable, CloneFactory {
     string public rules;
 
     mapping(address => bool) banned;
-    //todo in front end check if post exists in mapping
     mapping(address => bool) posts;
-    mapping(address => permissions) moderators;
-
-    struct permissions {
-        bool banUser;
-        bool deletePost;
-        bool createMod;
-    }
 
     function initialize(string _forumName, address _forumCreator) public {
         require(owner == address(0), "Nice try");
