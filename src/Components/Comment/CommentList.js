@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CommentContainer from './CommentContainer';
 import { Link } from "react-router-dom";
+import Divider from "@material-ui/core/Divider"
 
 export default class CommentList extends Component {
   render() {
@@ -11,6 +12,7 @@ export default class CommentList extends Component {
             <CommentContainer
               address={comment.address}
             />
+            <Divider/>
           </div>
         </Link>
       )

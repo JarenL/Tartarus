@@ -58,14 +58,8 @@ class CreateCommentDialog extends Component {
 	createComment = (commentText) => {
 		const contract = require('truffle-contract')
 		const tartarus = contract(TartarusContract)
-		const currentTime = (new Date).getTime();
 		const data = JSON.stringify({
-			comment: commentText,
-			creator: this.props.accounts.currentUserAddress,
-			target: this.props.currentPostAddress,
-			forum: this.props.currentForumAddress,
-			post: this.props.currentPostAddress,
-			time: currentTime
+			comment: commentText
 		})
 
 		ipfs.add(data, (err, hash) => {

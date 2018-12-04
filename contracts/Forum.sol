@@ -42,24 +42,13 @@ contract Forum is Ownable, CloneFactory {
         return clone;
     }
 
-    function createComment(string _ipfsHash, address _postAddress, address _commentCreator, address _cloneComment) 
-    public onlyOwner returns(address) {
+    function createComment(address _postAddress, address _targetAddress, address _commentCreator, string _ipfsHash, address _cloneComment) 
+    public onlyOwner {
         require(!banned[_commentCreator], "User is banned from this forum");
         require(posts[_postAddress], "Post does not exist.");
         Post targetPost = Post(_postAddress);
-        address newComment = targetPost.createComment(_ipfsHash, _commentCreator, _cloneComment);
-        return newComment;
+        targetPost.createComment(_ipfsHash, _commentCreator, _targetAddress, _cloneComment);
     }
-
-    //todo cut out unnecessary call routing
-
-    // function deletePost(address _postAddress) public onlyOwner {
-    //     //todo
-    // }
-
-    // function deleteComment(address _postAddress, address _commentAddress) public onlyOwner {
-    //     //todo
-    // }
 
     function banUser(address _userAddress) public onlyOwner {
         require(!banned[_userAddress], "User already banned");
@@ -72,12 +61,4 @@ contract Forum is Ownable, CloneFactory {
         delete banned[_userAddress];
         emit UserUnbanned(_userAddress);
     }
-
-    // function createMod(address _modUserAddress) public onlyOwner {
-    //     //todo
-    // }
-
-    // function removeMod(address _modUserAddress) public onlyOwner {
-    //     //todo
-    // }
 }
