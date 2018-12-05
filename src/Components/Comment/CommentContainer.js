@@ -36,7 +36,7 @@ class CommentContainer extends Component {
           console.log(ipfsData)
           var utcSeconds = result[3];
           var time = new Date(0); 
-          time.setUTCSeconds(utcSeconds / 1000);
+          time.setUTCSeconds(utcSeconds);
           time = time.toString();
           this.setState({
             comment: ipfsData.comment,
