@@ -101,6 +101,8 @@ class CreateCommentDialog extends Component {
 							onChange={this.setDialogText}
 							margin="dense"
 							id="name"
+							multiline
+							rows={10}
 							label="Comment"
 							type="String"
 							fullWidth
