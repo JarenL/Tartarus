@@ -1,0 +1,4229 @@
+{
+  "contractName": "Post",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "postInfo",
+      "outputs": [
+        {
+          "name": "ipfsHash",
+          "type": "string"
+        },
+        {
+          "name": "creator",
+          "type": "address"
+        },
+        {
+          "name": "time",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "commentAddress",
+          "type": "address"
+        }
+      ],
+      "name": "CommentCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "previousOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipRenounced",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_ipfsHash",
+          "type": "string"
+        },
+        {
+          "name": "_postCreator",
+          "type": "address"
+        }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_ipfsHash",
+          "type": "string"
+        },
+        {
+          "name": "_commentCreator",
+          "type": "address"
+        },
+        {
+          "name": "_targetAddress",
+          "type": "address"
+        },
+        {
+          "name": "_cloneComment",
+          "type": "address"
+        }
+      ],
+      "name": "createComment",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_commentAddress",
+          "type": "address"
+        }
+      ],
+      "name": "getComment",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405260008054600160a060020a031916331790556109a1806100256000396000f3006080604052600436106100825763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663715018a681146100875780637ab4339d1461009e5780638bd178e9146101025780638da5cb5b146101af578063e9e4c919146101e0578063f2fde38b14610253578063f6bb0cf114610274575b600080fd5b34801561009357600080fd5b5061009c610346565b005b3480156100aa57600080fd5b506040805160206004803580820135601f810184900484028501840190955284845261009c94369492936024939284019190819084018382808284375094975050509235600160a060020a031693506103b292505050565b34801561010e57600080fd5b50610117610491565b604051808060200184600160a060020a0316600160a060020a03168152602001838152602001828103825285818151815260200191508051906020019080838360005b8381101561017257818101518382015260200161015a565b50505050905090810190601f16801561019f5780820380516001836020036101000a031916815260200191505b5094505050505060405180910390f35b3480156101bb57600080fd5b506101c4610538565b60408051600160a060020a039092168252519081900360200190f35b3480156101ec57600080fd5b506040805160206004803580820135601f810184900484028501840190955284845261009c94369492936024939284019190819084018382808284375094975050600160a060020a0385358116965060208601358116956040013516935061054792505050565b34801561025f57600080fd5b5061009c600160a060020a03600435166106cf565b34801561028057600080fd5b50610295600160a060020a03600435166106f2565b604051808060200185600160a060020a0316600160a060020a0316815260200184600160a060020a0316600160a060020a03168152602001838152602001828103825286818151815260200191508051906020019080838360005b838110156103085781810151838201526020016102f0565b50505050905090810190601f1680156103355780820380516001836020036101000a031916815260200191505b509550505050505060405180910390f35b600054600160a060020a0316331461035d57600080fd5b60008054604051600160a060020a03909116917ff8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c6482091a26000805473ffffffffffffffffffffffffffffffffffffffff19169055565b600054600160a060020a03161561042a57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152600860248201527f4e69636520747279000000000000000000000000000000000000000000000000604482015290519081900360640190fd5b6000805473ffffffffffffffffffffffffffffffffffffffff191633179055815161045c9060019060208501906108b3565b506002805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03929092169190911790555042600355565b60018054604080516020601f6002600019610100878916150201909516949094049384018190048102820181019092528281529183918301828280156105185780601f106104ed57610100808354040283529160200191610518565b820191906000526020600020905b8154815290600101906020018083116104fb57829003601f168201915b5050505060018301546002909301549192600160a060020a031691905083565b600054600160a060020a031681565b6000610551610931565b600054600160a060020a0316331461056857600080fd5b610571836107c3565b915081600160a060020a0316638129fc1c6040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401600060405180830381600087803b1580156105ca57600080fd5b505af11580156105de573d6000803e3d6000fd5b505060408051608081018252898152600160a060020a03808a166020808401919091528982168385015242606084015290871660009081526004825292909220815180519296508695509093506106399284929101906108b3565b5060208281015160018301805473ffffffffffffffffffffffffffffffffffffffff19908116600160a060020a0393841617909155604080860151600286018054909316908416179091556060909401516003909301929092558251918516825291517f2def86c85ed65bb7798ce8a3d3d1dc8553396bbb5d9f9e3f792747cd4e6c4b7a929181900390910190a1505050505050565b600054600160a060020a031633146106e657600080fd5b6106ef81610836565b50565b600160a060020a0381811660009081526004602090815260408083206001808201546002808401546003850154855487516101009682161596909602600019011692909204601f81018890048802850188019096528584526060988897889794821695929091169386918301828280156107ad5780601f10610782576101008083540402835291602001916107ad565b820191906000526020600020905b81548152906001019060200180831161079057829003601f168201915b5050505050935093509350935093509193509193565b6040517f3d602d80600a3d3981f3363d3d373d3d3d363d7300000000000000000000000081526c010000000000000000000000008202601482018190527f5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000602883015260009160378184f0949350505050565b600160a060020a038116151561084b57600080fd5b60008054604051600160a060020a03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0392909216919091179055565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106108f457805160ff1916838001178555610921565b82800160010185558215610921579182015b82811115610921578251825591602001919060010190610906565b5061092d929150610958565b5090565b60408051608081018252606080825260006020830181905292820183905281019190915290565b61097291905b8082111561092d576000815560010161095e565b905600a165627a7a7230582094e99df2a29aaf17f2a8d935833736215ace05439ad2c753506cbf1a3d409a100029",
+  "deployedBytecode": "0x6080604052600436106100825763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663715018a681146100875780637ab4339d1461009e5780638bd178e9146101025780638da5cb5b146101af578063e9e4c919146101e0578063f2fde38b14610253578063f6bb0cf114610274575b600080fd5b34801561009357600080fd5b5061009c610346565b005b3480156100aa57600080fd5b506040805160206004803580820135601f810184900484028501840190955284845261009c94369492936024939284019190819084018382808284375094975050509235600160a060020a031693506103b292505050565b34801561010e57600080fd5b50610117610491565b604051808060200184600160a060020a0316600160a060020a03168152602001838152602001828103825285818151815260200191508051906020019080838360005b8381101561017257818101518382015260200161015a565b50505050905090810190601f16801561019f5780820380516001836020036101000a031916815260200191505b5094505050505060405180910390f35b3480156101bb57600080fd5b506101c4610538565b60408051600160a060020a039092168252519081900360200190f35b3480156101ec57600080fd5b506040805160206004803580820135601f810184900484028501840190955284845261009c94369492936024939284019190819084018382808284375094975050600160a060020a0385358116965060208601358116956040013516935061054792505050565b34801561025f57600080fd5b5061009c600160a060020a03600435166106cf565b34801561028057600080fd5b50610295600160a060020a03600435166106f2565b604051808060200185600160a060020a0316600160a060020a0316815260200184600160a060020a0316600160a060020a03168152602001838152602001828103825286818151815260200191508051906020019080838360005b838110156103085781810151838201526020016102f0565b50505050905090810190601f1680156103355780820380516001836020036101000a031916815260200191505b509550505050505060405180910390f35b600054600160a060020a0316331461035d57600080fd5b60008054604051600160a060020a03909116917ff8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c6482091a26000805473ffffffffffffffffffffffffffffffffffffffff19169055565b600054600160a060020a03161561042a57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152600860248201527f4e69636520747279000000000000000000000000000000000000000000000000604482015290519081900360640190fd5b6000805473ffffffffffffffffffffffffffffffffffffffff191633179055815161045c9060019060208501906108b3565b506002805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03929092169190911790555042600355565b60018054604080516020601f6002600019610100878916150201909516949094049384018190048102820181019092528281529183918301828280156105185780601f106104ed57610100808354040283529160200191610518565b820191906000526020600020905b8154815290600101906020018083116104fb57829003601f168201915b5050505060018301546002909301549192600160a060020a031691905083565b600054600160a060020a031681565b6000610551610931565b600054600160a060020a0316331461056857600080fd5b610571836107c3565b915081600160a060020a0316638129fc1c6040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401600060405180830381600087803b1580156105ca57600080fd5b505af11580156105de573d6000803e3d6000fd5b505060408051608081018252898152600160a060020a03808a166020808401919091528982168385015242606084015290871660009081526004825292909220815180519296508695509093506106399284929101906108b3565b5060208281015160018301805473ffffffffffffffffffffffffffffffffffffffff19908116600160a060020a0393841617909155604080860151600286018054909316908416179091556060909401516003909301929092558251918516825291517f2def86c85ed65bb7798ce8a3d3d1dc8553396bbb5d9f9e3f792747cd4e6c4b7a929181900390910190a1505050505050565b600054600160a060020a031633146106e657600080fd5b6106ef81610836565b50565b600160a060020a0381811660009081526004602090815260408083206001808201546002808401546003850154855487516101009682161596909602600019011692909204601f81018890048802850188019096528584526060988897889794821695929091169386918301828280156107ad5780601f10610782576101008083540402835291602001916107ad565b820191906000526020600020905b81548152906001019060200180831161079057829003601f168201915b5050505050935093509350935093509193509193565b6040517f3d602d80600a3d3981f3363d3d373d3d3d363d7300000000000000000000000081526c010000000000000000000000008202601482018190527f5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000602883015260009160378184f0949350505050565b600160a060020a038116151561084b57600080fd5b60008054604051600160a060020a03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0392909216919091179055565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106108f457805160ff1916838001178555610921565b82800160010185558215610921579182015b82811115610921578251825591602001919060010190610906565b5061092d929150610958565b5090565b60408051608081018252606080825260006020830181905292820183905281019190915290565b61097291905b8082111561092d576000815560010161095e565b905600a165627a7a7230582094e99df2a29aaf17f2a8d935833736215ace05439ad2c753506cbf1a3d409a100029",
+  "sourceMap": "105:1442:5:-;;;566:5:4;:18;;-1:-1:-1;;;;;;566:18:4;574:10;566:18;;;105:1442:5;;;;;;",
+  "deployedSourceMap": "105:1442:5:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1000:111:4;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1000:111:4;;;;;;508:261:5;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;508:261:5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;508:261:5;;-1:-1:-1;;;508:261:5;;-1:-1:-1;;;;;508:261:5;;-1:-1:-1;508:261:5;;-1:-1:-1;;;508:261:5;477:24;;8:9:-1;5:2;;;30:1;27;20:12;5:2;477:24:5;;;;;;;;-1:-1:-1;;;;;477:24:5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;8:100;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;477:24:5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;238:20:4;;8:9:-1;5:2;;;30:1;27;20:12;5:2;238:20:4;;;;;;;;-1:-1:-1;;;;;238:20:4;;;;;;;;;;;;;;775:412:5;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;775:412:5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;775:412:5;;-1:-1:-1;;;;;;;775:412:5;;;;;-1:-1:-1;775:412:5;;;;;;;;;;;;-1:-1:-1;775:412:5;;-1:-1:-1;;;775:412:5;1273:103:4;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;1273:103:4;-1:-1:-1;;;;;1273:103:4;;;;;1193:352:5;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;1193:352:5;-1:-1:-1;;;;;1193:352:5;;;;;;;;;-1:-1:-1;;;;;1193:352:5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;1193:352:5;;;;;;;;;-1:-1:-1;8:100;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;1193:352:5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1000:111:4;718:5;;-1:-1:-1;;;;;718:5:4;704:10;:19;696:28;;;;;;1076:5;;;1057:25;;-1:-1:-1;;;;;1076:5:4;;;;1057:25;;;1104:1;1088:18;;-1:-1:-1;;1088:18:4;;;1000:111::o;508:261:5:-;610:1;593:5;-1:-1:-1;;;;;593:5:5;:19;585:40;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;635:5;:18;;-1:-1:-1;;635:18:5;643:10;635:18;;;663:29;;;;-1:-1:-1;;663:29:5;;;;;:::i;:::-;-1:-1:-1;702:16:5;:31;;-1:-1:-1;;702:31:5;-1:-1:-1;;;;;702:31:5;;;;;;;;;;-1:-1:-1;759:3:5;743:13;:19;508:261::o;477:24::-;;;;;;;;;;-1:-1:-1;;477:24:5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;477:24:5;;;;;;;;;;;-1:-1:-1;;;;;477:24:5;;;-1:-1:-1;477:24:5;:::o;238:20:4:-;;;-1:-1:-1;;;;;238:20:4;;:::o;775:412:5:-;916:13;1005:29;;:::i;:::-;718:5:4;;-1:-1:-1;;;;;718:5:4;704:10;:19;696:28;;;;;;932:26:5;944:13;932:11;:26::i;:::-;916:42;;976:5;-1:-1:-1;;;;;968:25:5;;:27;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;968:27:5;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;-1:-1;;1037:60:5;;;;;;;;;;;-1:-1:-1;;;;;1037:60:5;;;;;;;;;;;;;;;;;;1093:3;1037:60;;;;1107:24;;;-1:-1:-1;1107:24:5;;;:17;:24;;;;;;:37;;;;1037:60;;-1:-1:-1;1037:60:5;;-1:-1:-1;1107:24:5;;-1:-1:-1;1107:37:5;;:24;;:37;;;;:::i;:::-;-1:-1:-1;1107:37:5;;;;;;;;;;-1:-1:-1;;1107:37:5;;;-1:-1:-1;;;;;1107:37:5;;;;;;;;;;;;-1:-1:-1;1107:37:5;;;;;;;;;;;;;;;;;;;;;;;;;;;1159:21;;;;;;;;;;;;;;;;;;;;775:412;;;;;;:::o;1273:103:4:-;718:5;;-1:-1:-1;;;;;718:5:4;704:10;:19;696:28;;;;;;1342:29;1361:9;1342:18;:29::i;:::-;1273:103;:::o;1193:352:5:-;-1:-1:-1;;;;;1321:34:5;;;1266:7;1321:34;;;:17;:34;;;;;;;;:8;1378:42;;;;1434:41;;;;;1321:17;1489:39;;;1300:238;;;;1378:42;1300:238;;;;;;;;-1:-1:-1;;1300:238:5;;;;;;;;;;;;;;;;;;;;;;;;1258:6;;1266:7;;;;1378:42;;;;1434:41;;;;;1321:34;;1300:238;;1321:34;1300:238;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1193:352;;;;;:::o;1215:441:0:-;1371:4;1365:11;1397:66;1383:81;;1314:15;;;1489:4;1478:16;;1471:37;;;1540:66;1533:4;1522:16;;1515:92;1270:14;;1641:4;1365:11;1270:14;1624:22;1614:32;1344:308;-1:-1:-1;;;;1344:308:0:o;1511:171:4:-;-1:-1:-1;;;;;1581:23:4;;;;1573:32;;;;;;1637:5;;;1616:38;;-1:-1:-1;;;;;1616:38:4;;;;1637:5;;;1616:38;;;1660:5;:17;;-1:-1:-1;;1660:17:4;-1:-1:-1;;;;;1660:17:4;;;;;;;;;;1511:171::o;105:1442:5:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;105:1442:5;;;-1:-1:-1;105:1442:5;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;-1:-1:-1;105:1442:5;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.24;\n\nimport \"./Comment.sol\"; \nimport \"./CloneFactory.sol\";\nimport \"./Ownable.sol\";\n\ncontract Post is Ownable, CloneFactory {\n    event CommentCreated (address commentAddress);\n\n    struct PostInfo {\n        string ipfsHash;\n        address creator;\n        uint time;\n        mapping(address => CommentInfo) comments;\n    }  \n\n    struct CommentInfo {\n        string ipfsHash;\n        address creator;\n        address target;\n        uint time;\n    }\n\n    PostInfo public postInfo;\n\n    function initialize(string _ipfsHash, address _postCreator) public {\n        require(owner == address(0), \"Nice try\");\n        owner = msg.sender;\n        postInfo.ipfsHash = _ipfsHash;\n        postInfo.creator = _postCreator;\n        postInfo.time = now;\n    }\n\n    function createComment (string _ipfsHash, address _commentCreator, address _targetAddress, address _cloneComment) public onlyOwner {\n        address clone = createClone(_cloneComment);\n        Comment(clone).initialize();\n        CommentInfo memory newComment = CommentInfo(_ipfsHash, _commentCreator, _targetAddress, now);\n        postInfo.comments[clone] = newComment;\n        emit CommentCreated(clone);\n    }\n\n    function getComment(address _commentAddress) public view returns(string, address, address, uint) {\n        return (\n            postInfo.comments[_commentAddress].ipfsHash,\n            postInfo.comments[_commentAddress].creator,\n            postInfo.comments[_commentAddress].target,\n            postInfo.comments[_commentAddress].time\n        );\n    }\n}",
+  "sourcePath": "/Users/jarenlynch/Ethereum/CleanTartarus/contracts/Post.sol",
+  "ast": {
+    "absolutePath": "/Users/jarenlynch/Ethereum/CleanTartarus/contracts/Post.sol",
+    "exportedSymbols": {
+      "Post": [
+        575
+      ]
+    },
+    "id": 576,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 418,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:5"
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/CleanTartarus/contracts/Comment.sol",
+        "file": "./Comment.sol",
+        "id": 419,
+        "nodeType": "ImportDirective",
+        "scope": 576,
+        "sourceUnit": 59,
+        "src": "26:23:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/CleanTartarus/contracts/CloneFactory.sol",
+        "file": "./CloneFactory.sol",
+        "id": 420,
+        "nodeType": "ImportDirective",
+        "scope": 576,
+        "sourceUnit": 35,
+        "src": "51:28:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/CleanTartarus/contracts/Ownable.sol",
+        "file": "./Ownable.sol",
+        "id": 421,
+        "nodeType": "ImportDirective",
+        "scope": 576,
+        "sourceUnit": 417,
+        "src": "80:23:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 422,
+              "name": "Ownable",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 416,
+              "src": "122:7:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Ownable_$416",
+                "typeString": "contract Ownable"
+              }
+            },
+            "id": 423,
+            "nodeType": "InheritanceSpecifier",
+            "src": "122:7:5"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 424,
+              "name": "CloneFactory",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 34,
+              "src": "131:12:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_CloneFactory_$34",
+                "typeString": "contract CloneFactory"
+              }
+            },
+            "id": 425,
+            "nodeType": "InheritanceSpecifier",
+            "src": "131:12:5"
+          }
+        ],
+        "contractDependencies": [
+          34,
+          416
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 575,
+        "linearizedBaseContracts": [
+          575,
+          34,
+          416
+        ],
+        "name": "Post",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 429,
+            "name": "CommentCreated",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 428,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 427,
+                  "indexed": false,
+                  "name": "commentAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 429,
+                  "src": "172:22:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 426,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "172:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "171:24:5"
+            },
+            "src": "150:46:5"
+          },
+          {
+            "canonicalName": "Post.PostInfo",
+            "id": 440,
+            "members": [
+              {
+                "constant": false,
+                "id": 431,
+                "name": "ipfsHash",
+                "nodeType": "VariableDeclaration",
+                "scope": 440,
+                "src": "228:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 430,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "228:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 433,
+                "name": "creator",
+                "nodeType": "VariableDeclaration",
+                "scope": 440,
+                "src": "253:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 432,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "253:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 435,
+                "name": "time",
+                "nodeType": "VariableDeclaration",
+                "scope": 440,
+                "src": "278:9:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 434,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "278:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 439,
+                "name": "comments",
+                "nodeType": "VariableDeclaration",
+                "scope": 440,
+                "src": "297:40:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CommentInfo_$449_storage_$",
+                  "typeString": "mapping(address => struct Post.CommentInfo)"
+                },
+                "typeName": {
+                  "id": 438,
+                  "keyType": {
+                    "id": 436,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "305:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "Mapping",
+                  "src": "297:31:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CommentInfo_$449_storage_$",
+                    "typeString": "mapping(address => struct Post.CommentInfo)"
+                  },
+                  "valueType": {
+                    "contractScope": null,
+                    "id": 437,
+                    "name": "CommentInfo",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 449,
+                    "src": "316:11:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_CommentInfo_$449_storage_ptr",
+                      "typeString": "struct Post.CommentInfo"
+                    }
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "PostInfo",
+            "nodeType": "StructDefinition",
+            "scope": 575,
+            "src": "202:142:5",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Post.CommentInfo",
+            "id": 449,
+            "members": [
+              {
+                "constant": false,
+                "id": 442,
+                "name": "ipfsHash",
+                "nodeType": "VariableDeclaration",
+                "scope": 449,
+                "src": "381:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 441,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "381:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 444,
+                "name": "creator",
+                "nodeType": "VariableDeclaration",
+                "scope": 449,
+                "src": "406:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 443,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "406:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 446,
+                "name": "target",
+                "nodeType": "VariableDeclaration",
+                "scope": 449,
+                "src": "431:14:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 445,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "431:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 448,
+                "name": "time",
+                "nodeType": "VariableDeclaration",
+                "scope": 449,
+                "src": "455:9:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 447,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "455:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "CommentInfo",
+            "nodeType": "StructDefinition",
+            "scope": 575,
+            "src": "352:119:5",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 451,
+            "name": "postInfo",
+            "nodeType": "VariableDeclaration",
+            "scope": 575,
+            "src": "477:24:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+              "typeString": "struct Post.PostInfo"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 450,
+              "name": "PostInfo",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 440,
+              "src": "477:8:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_PostInfo_$440_storage_ptr",
+                "typeString": "struct Post.PostInfo"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 490,
+              "nodeType": "Block",
+              "src": "575:194:5",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        "id": 463,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 459,
+                          "name": "owner",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 334,
+                          "src": "593:5:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "==",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            {
+                              "argumentTypes": null,
+                              "hexValue": "30",
+                              "id": 461,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "kind": "number",
+                              "lValueRequested": false,
+                              "nodeType": "Literal",
+                              "src": "610:1:5",
+                              "subdenomination": null,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              },
+                              "value": "0"
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              }
+                            ],
+                            "id": 460,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "602:7:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_address_$",
+                              "typeString": "type(address)"
+                            },
+                            "typeName": "address"
+                          },
+                          "id": 462,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "602:10:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "src": "593:19:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "4e69636520747279",
+                        "id": 464,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "614:10:5",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_27b081b4d0d03dccfe378cc9eba5d3d5252d416eefce9df4be9b3a42af463374",
+                          "typeString": "literal_string \"Nice try\""
+                        },
+                        "value": "Nice try"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_27b081b4d0d03dccfe378cc9eba5d3d5252d416eefce9df4be9b3a42af463374",
+                          "typeString": "literal_string \"Nice try\""
+                        }
+                      ],
+                      "id": 458,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        1040,
+                        1041
+                      ],
+                      "referencedDeclaration": 1041,
+                      "src": "585:7:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 465,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "585:40:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 466,
+                  "nodeType": "ExpressionStatement",
+                  "src": "585:40:5"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 470,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 467,
+                      "name": "owner",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 334,
+                      "src": "635:5:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 468,
+                        "name": "msg",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1037,
+                        "src": "643:3:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_magic_message",
+                          "typeString": "msg"
+                        }
+                      },
+                      "id": 469,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "sender",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "643:10:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "635:18:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 471,
+                  "nodeType": "ExpressionStatement",
+                  "src": "635:18:5"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 476,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 472,
+                        "name": "postInfo",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 451,
+                        "src": "663:8:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                          "typeString": "struct Post.PostInfo storage ref"
+                        }
+                      },
+                      "id": 474,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "ipfsHash",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 431,
+                      "src": "663:17:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage",
+                        "typeString": "string storage ref"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 475,
+                      "name": "_ipfsHash",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 453,
+                      "src": "683:9:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_memory_ptr",
+                        "typeString": "string memory"
+                      }
+                    },
+                    "src": "663:29:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage",
+                      "typeString": "string storage ref"
+                    }
+                  },
+                  "id": 477,
+                  "nodeType": "ExpressionStatement",
+                  "src": "663:29:5"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 482,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 478,
+                        "name": "postInfo",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 451,
+                        "src": "702:8:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                          "typeString": "struct Post.PostInfo storage ref"
+                        }
+                      },
+                      "id": 480,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "creator",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 433,
+                      "src": "702:16:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 481,
+                      "name": "_postCreator",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 455,
+                      "src": "721:12:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "702:31:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 483,
+                  "nodeType": "ExpressionStatement",
+                  "src": "702:31:5"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 488,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 484,
+                        "name": "postInfo",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 451,
+                        "src": "743:8:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                          "typeString": "struct Post.PostInfo storage ref"
+                        }
+                      },
+                      "id": 486,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "time",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 435,
+                      "src": "743:13:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 487,
+                      "name": "now",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1039,
+                      "src": "759:3:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "743:19:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 489,
+                  "nodeType": "ExpressionStatement",
+                  "src": "743:19:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 491,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "initialize",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 456,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 453,
+                  "name": "_ipfsHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 491,
+                  "src": "528:16:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 452,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "528:6:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 455,
+                  "name": "_postCreator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 491,
+                  "src": "546:20:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 454,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "546:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "527:40:5"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 457,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "575:0:5"
+            },
+            "scope": 575,
+            "src": "508:261:5",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 537,
+              "nodeType": "Block",
+              "src": "906:281:5",
+              "statements": [
+                {
+                  "assignments": [
+                    505
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 505,
+                      "name": "clone",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 538,
+                      "src": "916:13:5",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 504,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "916:7:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 509,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 507,
+                        "name": "_cloneComment",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 499,
+                        "src": "944:13:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 506,
+                      "name": "createClone",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 16,
+                      "src": "932:11:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$_t_address_$",
+                        "typeString": "function (address) returns (address)"
+                      }
+                    },
+                    "id": 508,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "932:26:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "916:42:5"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "id": 511,
+                            "name": "clone",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 505,
+                            "src": "976:5:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          ],
+                          "id": 510,
+                          "name": "Comment",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 58,
+                          "src": "968:7:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_Comment_$58_$",
+                            "typeString": "type(contract Comment)"
+                          }
+                        },
+                        "id": 512,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "968:14:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_Comment_$58",
+                          "typeString": "contract Comment"
+                        }
+                      },
+                      "id": 513,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "initialize",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 57,
+                      "src": "968:25:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_nonpayable$__$returns$__$",
+                        "typeString": "function () external"
+                      }
+                    },
+                    "id": 514,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "968:27:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 515,
+                  "nodeType": "ExpressionStatement",
+                  "src": "968:27:5"
+                },
+                {
+                  "assignments": [
+                    517
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 517,
+                      "name": "newComment",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 538,
+                      "src": "1005:29:5",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_CommentInfo_$449_memory_ptr",
+                        "typeString": "struct Post.CommentInfo"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 516,
+                        "name": "CommentInfo",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 449,
+                        "src": "1005:11:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_CommentInfo_$449_storage_ptr",
+                          "typeString": "struct Post.CommentInfo"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 524,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 519,
+                        "name": "_ipfsHash",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 493,
+                        "src": "1049:9:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 520,
+                        "name": "_commentCreator",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 495,
+                        "src": "1060:15:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 521,
+                        "name": "_targetAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 497,
+                        "src": "1077:14:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 522,
+                        "name": "now",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1039,
+                        "src": "1093:3:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 518,
+                      "name": "CommentInfo",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 449,
+                      "src": "1037:11:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_CommentInfo_$449_storage_ptr_$",
+                        "typeString": "type(struct Post.CommentInfo storage pointer)"
+                      }
+                    },
+                    "id": 523,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1037:60:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_CommentInfo_$449_memory",
+                      "typeString": "struct Post.CommentInfo memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1005:92:5"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 531,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 525,
+                          "name": "postInfo",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 451,
+                          "src": "1107:8:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                            "typeString": "struct Post.PostInfo storage ref"
+                          }
+                        },
+                        "id": 528,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "comments",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 439,
+                        "src": "1107:17:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CommentInfo_$449_storage_$",
+                          "typeString": "mapping(address => struct Post.CommentInfo storage ref)"
+                        }
+                      },
+                      "id": 529,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 527,
+                        "name": "clone",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 505,
+                        "src": "1125:5:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "IndexAccess",
+                      "src": "1107:24:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_CommentInfo_$449_storage",
+                        "typeString": "struct Post.CommentInfo storage ref"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 530,
+                      "name": "newComment",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 517,
+                      "src": "1134:10:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_CommentInfo_$449_memory_ptr",
+                        "typeString": "struct Post.CommentInfo memory"
+                      }
+                    },
+                    "src": "1107:37:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_CommentInfo_$449_storage",
+                      "typeString": "struct Post.CommentInfo storage ref"
+                    }
+                  },
+                  "id": 532,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1107:37:5"
+                },
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 534,
+                        "name": "clone",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 505,
+                        "src": "1174:5:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 533,
+                      "name": "CommentCreated",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 429,
+                      "src": "1159:14:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
+                        "typeString": "function (address)"
+                      }
+                    },
+                    "id": 535,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1159:21:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 536,
+                  "nodeType": "EmitStatement",
+                  "src": "1154:26:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 538,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 502,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 501,
+                  "name": "onlyOwner",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 364,
+                  "src": "896:9:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "896:9:5"
+              }
+            ],
+            "name": "createComment",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 500,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 493,
+                  "name": "_ipfsHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 538,
+                  "src": "799:16:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 492,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "799:6:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 495,
+                  "name": "_commentCreator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 538,
+                  "src": "817:23:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 494,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "817:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 497,
+                  "name": "_targetAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 538,
+                  "src": "842:22:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 496,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "842:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 499,
+                  "name": "_cloneComment",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 538,
+                  "src": "866:21:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 498,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "866:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "798:90:5"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 503,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "906:0:5"
+            },
+            "scope": 575,
+            "src": "775:412:5",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 573,
+              "nodeType": "Block",
+              "src": "1290:255:5",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 551,
+                              "name": "postInfo",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 451,
+                              "src": "1321:8:5",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                                "typeString": "struct Post.PostInfo storage ref"
+                              }
+                            },
+                            "id": 552,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "comments",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 439,
+                            "src": "1321:17:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CommentInfo_$449_storage_$",
+                              "typeString": "mapping(address => struct Post.CommentInfo storage ref)"
+                            }
+                          },
+                          "id": 554,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 553,
+                            "name": "_commentAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 540,
+                            "src": "1339:15:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1321:34:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_CommentInfo_$449_storage",
+                            "typeString": "struct Post.CommentInfo storage ref"
+                          }
+                        },
+                        "id": 555,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "ipfsHash",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 442,
+                        "src": "1321:43:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_storage",
+                          "typeString": "string storage ref"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 556,
+                              "name": "postInfo",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 451,
+                              "src": "1378:8:5",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                                "typeString": "struct Post.PostInfo storage ref"
+                              }
+                            },
+                            "id": 557,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "comments",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 439,
+                            "src": "1378:17:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CommentInfo_$449_storage_$",
+                              "typeString": "mapping(address => struct Post.CommentInfo storage ref)"
+                            }
+                          },
+                          "id": 559,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 558,
+                            "name": "_commentAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 540,
+                            "src": "1396:15:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1378:34:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_CommentInfo_$449_storage",
+                            "typeString": "struct Post.CommentInfo storage ref"
+                          }
+                        },
+                        "id": 560,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "creator",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 444,
+                        "src": "1378:42:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 561,
+                              "name": "postInfo",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 451,
+                              "src": "1434:8:5",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                                "typeString": "struct Post.PostInfo storage ref"
+                              }
+                            },
+                            "id": 562,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "comments",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 439,
+                            "src": "1434:17:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CommentInfo_$449_storage_$",
+                              "typeString": "mapping(address => struct Post.CommentInfo storage ref)"
+                            }
+                          },
+                          "id": 564,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 563,
+                            "name": "_commentAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 540,
+                            "src": "1452:15:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1434:34:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_CommentInfo_$449_storage",
+                            "typeString": "struct Post.CommentInfo storage ref"
+                          }
+                        },
+                        "id": 565,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "target",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 446,
+                        "src": "1434:41:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 566,
+                              "name": "postInfo",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 451,
+                              "src": "1489:8:5",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                                "typeString": "struct Post.PostInfo storage ref"
+                              }
+                            },
+                            "id": 567,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "comments",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 439,
+                            "src": "1489:17:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CommentInfo_$449_storage_$",
+                              "typeString": "mapping(address => struct Post.CommentInfo storage ref)"
+                            }
+                          },
+                          "id": 569,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 568,
+                            "name": "_commentAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 540,
+                            "src": "1507:15:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1489:34:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_CommentInfo_$449_storage",
+                            "typeString": "struct Post.CommentInfo storage ref"
+                          }
+                        },
+                        "id": 570,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "time",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 448,
+                        "src": "1489:39:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "id": 571,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "1307:231:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_string_storage_$_t_address_$_t_address_$_t_uint256_$",
+                      "typeString": "tuple(string storage ref,address,address,uint256)"
+                    }
+                  },
+                  "functionReturnParameters": 550,
+                  "id": 572,
+                  "nodeType": "Return",
+                  "src": "1300:238:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 574,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getComment",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 541,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 540,
+                  "name": "_commentAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 574,
+                  "src": "1213:23:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 539,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1213:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1212:25:5"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 550,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 543,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 574,
+                  "src": "1258:6:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 542,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1258:6:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 545,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 574,
+                  "src": "1266:7:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 544,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1266:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 547,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 574,
+                  "src": "1275:7:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 546,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1275:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 549,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 574,
+                  "src": "1284:4:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 548,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1284:4:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1257:32:5"
+            },
+            "scope": 575,
+            "src": "1193:352:5",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 576,
+        "src": "105:1442:5"
+      }
+    ],
+    "src": "0:1547:5"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/jarenlynch/Ethereum/CleanTartarus/contracts/Post.sol",
+    "exportedSymbols": {
+      "Post": [
+        575
+      ]
+    },
+    "id": 576,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 418,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:5"
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/CleanTartarus/contracts/Comment.sol",
+        "file": "./Comment.sol",
+        "id": 419,
+        "nodeType": "ImportDirective",
+        "scope": 576,
+        "sourceUnit": 59,
+        "src": "26:23:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/CleanTartarus/contracts/CloneFactory.sol",
+        "file": "./CloneFactory.sol",
+        "id": 420,
+        "nodeType": "ImportDirective",
+        "scope": 576,
+        "sourceUnit": 35,
+        "src": "51:28:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/CleanTartarus/contracts/Ownable.sol",
+        "file": "./Ownable.sol",
+        "id": 421,
+        "nodeType": "ImportDirective",
+        "scope": 576,
+        "sourceUnit": 417,
+        "src": "80:23:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 422,
+              "name": "Ownable",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 416,
+              "src": "122:7:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Ownable_$416",
+                "typeString": "contract Ownable"
+              }
+            },
+            "id": 423,
+            "nodeType": "InheritanceSpecifier",
+            "src": "122:7:5"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 424,
+              "name": "CloneFactory",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 34,
+              "src": "131:12:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_CloneFactory_$34",
+                "typeString": "contract CloneFactory"
+              }
+            },
+            "id": 425,
+            "nodeType": "InheritanceSpecifier",
+            "src": "131:12:5"
+          }
+        ],
+        "contractDependencies": [
+          34,
+          416
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 575,
+        "linearizedBaseContracts": [
+          575,
+          34,
+          416
+        ],
+        "name": "Post",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 429,
+            "name": "CommentCreated",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 428,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 427,
+                  "indexed": false,
+                  "name": "commentAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 429,
+                  "src": "172:22:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 426,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "172:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "171:24:5"
+            },
+            "src": "150:46:5"
+          },
+          {
+            "canonicalName": "Post.PostInfo",
+            "id": 440,
+            "members": [
+              {
+                "constant": false,
+                "id": 431,
+                "name": "ipfsHash",
+                "nodeType": "VariableDeclaration",
+                "scope": 440,
+                "src": "228:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 430,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "228:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 433,
+                "name": "creator",
+                "nodeType": "VariableDeclaration",
+                "scope": 440,
+                "src": "253:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 432,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "253:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 435,
+                "name": "time",
+                "nodeType": "VariableDeclaration",
+                "scope": 440,
+                "src": "278:9:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 434,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "278:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 439,
+                "name": "comments",
+                "nodeType": "VariableDeclaration",
+                "scope": 440,
+                "src": "297:40:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CommentInfo_$449_storage_$",
+                  "typeString": "mapping(address => struct Post.CommentInfo)"
+                },
+                "typeName": {
+                  "id": 438,
+                  "keyType": {
+                    "id": 436,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "305:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "Mapping",
+                  "src": "297:31:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CommentInfo_$449_storage_$",
+                    "typeString": "mapping(address => struct Post.CommentInfo)"
+                  },
+                  "valueType": {
+                    "contractScope": null,
+                    "id": 437,
+                    "name": "CommentInfo",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 449,
+                    "src": "316:11:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_CommentInfo_$449_storage_ptr",
+                      "typeString": "struct Post.CommentInfo"
+                    }
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "PostInfo",
+            "nodeType": "StructDefinition",
+            "scope": 575,
+            "src": "202:142:5",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Post.CommentInfo",
+            "id": 449,
+            "members": [
+              {
+                "constant": false,
+                "id": 442,
+                "name": "ipfsHash",
+                "nodeType": "VariableDeclaration",
+                "scope": 449,
+                "src": "381:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 441,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "381:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 444,
+                "name": "creator",
+                "nodeType": "VariableDeclaration",
+                "scope": 449,
+                "src": "406:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 443,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "406:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 446,
+                "name": "target",
+                "nodeType": "VariableDeclaration",
+                "scope": 449,
+                "src": "431:14:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 445,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "431:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 448,
+                "name": "time",
+                "nodeType": "VariableDeclaration",
+                "scope": 449,
+                "src": "455:9:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 447,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "455:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "CommentInfo",
+            "nodeType": "StructDefinition",
+            "scope": 575,
+            "src": "352:119:5",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 451,
+            "name": "postInfo",
+            "nodeType": "VariableDeclaration",
+            "scope": 575,
+            "src": "477:24:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+              "typeString": "struct Post.PostInfo"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 450,
+              "name": "PostInfo",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 440,
+              "src": "477:8:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_PostInfo_$440_storage_ptr",
+                "typeString": "struct Post.PostInfo"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 490,
+              "nodeType": "Block",
+              "src": "575:194:5",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        "id": 463,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 459,
+                          "name": "owner",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 334,
+                          "src": "593:5:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "==",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            {
+                              "argumentTypes": null,
+                              "hexValue": "30",
+                              "id": 461,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "kind": "number",
+                              "lValueRequested": false,
+                              "nodeType": "Literal",
+                              "src": "610:1:5",
+                              "subdenomination": null,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              },
+                              "value": "0"
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              }
+                            ],
+                            "id": 460,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "602:7:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_address_$",
+                              "typeString": "type(address)"
+                            },
+                            "typeName": "address"
+                          },
+                          "id": 462,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "602:10:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "src": "593:19:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "4e69636520747279",
+                        "id": 464,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "614:10:5",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_27b081b4d0d03dccfe378cc9eba5d3d5252d416eefce9df4be9b3a42af463374",
+                          "typeString": "literal_string \"Nice try\""
+                        },
+                        "value": "Nice try"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_27b081b4d0d03dccfe378cc9eba5d3d5252d416eefce9df4be9b3a42af463374",
+                          "typeString": "literal_string \"Nice try\""
+                        }
+                      ],
+                      "id": 458,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        1040,
+                        1041
+                      ],
+                      "referencedDeclaration": 1041,
+                      "src": "585:7:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 465,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "585:40:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 466,
+                  "nodeType": "ExpressionStatement",
+                  "src": "585:40:5"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 470,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 467,
+                      "name": "owner",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 334,
+                      "src": "635:5:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 468,
+                        "name": "msg",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1037,
+                        "src": "643:3:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_magic_message",
+                          "typeString": "msg"
+                        }
+                      },
+                      "id": 469,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "sender",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "643:10:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "635:18:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 471,
+                  "nodeType": "ExpressionStatement",
+                  "src": "635:18:5"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 476,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 472,
+                        "name": "postInfo",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 451,
+                        "src": "663:8:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                          "typeString": "struct Post.PostInfo storage ref"
+                        }
+                      },
+                      "id": 474,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "ipfsHash",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 431,
+                      "src": "663:17:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage",
+                        "typeString": "string storage ref"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 475,
+                      "name": "_ipfsHash",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 453,
+                      "src": "683:9:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_memory_ptr",
+                        "typeString": "string memory"
+                      }
+                    },
+                    "src": "663:29:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage",
+                      "typeString": "string storage ref"
+                    }
+                  },
+                  "id": 477,
+                  "nodeType": "ExpressionStatement",
+                  "src": "663:29:5"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 482,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 478,
+                        "name": "postInfo",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 451,
+                        "src": "702:8:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                          "typeString": "struct Post.PostInfo storage ref"
+                        }
+                      },
+                      "id": 480,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "creator",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 433,
+                      "src": "702:16:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 481,
+                      "name": "_postCreator",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 455,
+                      "src": "721:12:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "702:31:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 483,
+                  "nodeType": "ExpressionStatement",
+                  "src": "702:31:5"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 488,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 484,
+                        "name": "postInfo",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 451,
+                        "src": "743:8:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                          "typeString": "struct Post.PostInfo storage ref"
+                        }
+                      },
+                      "id": 486,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "time",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 435,
+                      "src": "743:13:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 487,
+                      "name": "now",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1039,
+                      "src": "759:3:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "743:19:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 489,
+                  "nodeType": "ExpressionStatement",
+                  "src": "743:19:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 491,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "initialize",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 456,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 453,
+                  "name": "_ipfsHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 491,
+                  "src": "528:16:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 452,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "528:6:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 455,
+                  "name": "_postCreator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 491,
+                  "src": "546:20:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 454,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "546:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "527:40:5"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 457,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "575:0:5"
+            },
+            "scope": 575,
+            "src": "508:261:5",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 537,
+              "nodeType": "Block",
+              "src": "906:281:5",
+              "statements": [
+                {
+                  "assignments": [
+                    505
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 505,
+                      "name": "clone",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 538,
+                      "src": "916:13:5",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 504,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "916:7:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 509,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 507,
+                        "name": "_cloneComment",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 499,
+                        "src": "944:13:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 506,
+                      "name": "createClone",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 16,
+                      "src": "932:11:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$_t_address_$",
+                        "typeString": "function (address) returns (address)"
+                      }
+                    },
+                    "id": 508,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "932:26:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "916:42:5"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "id": 511,
+                            "name": "clone",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 505,
+                            "src": "976:5:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          ],
+                          "id": 510,
+                          "name": "Comment",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 58,
+                          "src": "968:7:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_Comment_$58_$",
+                            "typeString": "type(contract Comment)"
+                          }
+                        },
+                        "id": 512,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "968:14:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_Comment_$58",
+                          "typeString": "contract Comment"
+                        }
+                      },
+                      "id": 513,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "initialize",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 57,
+                      "src": "968:25:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_nonpayable$__$returns$__$",
+                        "typeString": "function () external"
+                      }
+                    },
+                    "id": 514,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "968:27:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 515,
+                  "nodeType": "ExpressionStatement",
+                  "src": "968:27:5"
+                },
+                {
+                  "assignments": [
+                    517
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 517,
+                      "name": "newComment",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 538,
+                      "src": "1005:29:5",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_CommentInfo_$449_memory_ptr",
+                        "typeString": "struct Post.CommentInfo"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 516,
+                        "name": "CommentInfo",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 449,
+                        "src": "1005:11:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_CommentInfo_$449_storage_ptr",
+                          "typeString": "struct Post.CommentInfo"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 524,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 519,
+                        "name": "_ipfsHash",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 493,
+                        "src": "1049:9:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 520,
+                        "name": "_commentCreator",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 495,
+                        "src": "1060:15:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 521,
+                        "name": "_targetAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 497,
+                        "src": "1077:14:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 522,
+                        "name": "now",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1039,
+                        "src": "1093:3:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 518,
+                      "name": "CommentInfo",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 449,
+                      "src": "1037:11:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_CommentInfo_$449_storage_ptr_$",
+                        "typeString": "type(struct Post.CommentInfo storage pointer)"
+                      }
+                    },
+                    "id": 523,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1037:60:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_CommentInfo_$449_memory",
+                      "typeString": "struct Post.CommentInfo memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1005:92:5"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 531,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 525,
+                          "name": "postInfo",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 451,
+                          "src": "1107:8:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                            "typeString": "struct Post.PostInfo storage ref"
+                          }
+                        },
+                        "id": 528,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "comments",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 439,
+                        "src": "1107:17:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CommentInfo_$449_storage_$",
+                          "typeString": "mapping(address => struct Post.CommentInfo storage ref)"
+                        }
+                      },
+                      "id": 529,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 527,
+                        "name": "clone",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 505,
+                        "src": "1125:5:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "IndexAccess",
+                      "src": "1107:24:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_CommentInfo_$449_storage",
+                        "typeString": "struct Post.CommentInfo storage ref"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 530,
+                      "name": "newComment",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 517,
+                      "src": "1134:10:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_CommentInfo_$449_memory_ptr",
+                        "typeString": "struct Post.CommentInfo memory"
+                      }
+                    },
+                    "src": "1107:37:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_CommentInfo_$449_storage",
+                      "typeString": "struct Post.CommentInfo storage ref"
+                    }
+                  },
+                  "id": 532,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1107:37:5"
+                },
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 534,
+                        "name": "clone",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 505,
+                        "src": "1174:5:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 533,
+                      "name": "CommentCreated",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 429,
+                      "src": "1159:14:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
+                        "typeString": "function (address)"
+                      }
+                    },
+                    "id": 535,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1159:21:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 536,
+                  "nodeType": "EmitStatement",
+                  "src": "1154:26:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 538,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 502,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 501,
+                  "name": "onlyOwner",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 364,
+                  "src": "896:9:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "896:9:5"
+              }
+            ],
+            "name": "createComment",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 500,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 493,
+                  "name": "_ipfsHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 538,
+                  "src": "799:16:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 492,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "799:6:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 495,
+                  "name": "_commentCreator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 538,
+                  "src": "817:23:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 494,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "817:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 497,
+                  "name": "_targetAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 538,
+                  "src": "842:22:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 496,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "842:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 499,
+                  "name": "_cloneComment",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 538,
+                  "src": "866:21:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 498,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "866:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "798:90:5"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 503,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "906:0:5"
+            },
+            "scope": 575,
+            "src": "775:412:5",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 573,
+              "nodeType": "Block",
+              "src": "1290:255:5",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 551,
+                              "name": "postInfo",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 451,
+                              "src": "1321:8:5",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                                "typeString": "struct Post.PostInfo storage ref"
+                              }
+                            },
+                            "id": 552,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "comments",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 439,
+                            "src": "1321:17:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CommentInfo_$449_storage_$",
+                              "typeString": "mapping(address => struct Post.CommentInfo storage ref)"
+                            }
+                          },
+                          "id": 554,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 553,
+                            "name": "_commentAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 540,
+                            "src": "1339:15:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1321:34:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_CommentInfo_$449_storage",
+                            "typeString": "struct Post.CommentInfo storage ref"
+                          }
+                        },
+                        "id": 555,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "ipfsHash",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 442,
+                        "src": "1321:43:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_storage",
+                          "typeString": "string storage ref"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 556,
+                              "name": "postInfo",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 451,
+                              "src": "1378:8:5",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                                "typeString": "struct Post.PostInfo storage ref"
+                              }
+                            },
+                            "id": 557,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "comments",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 439,
+                            "src": "1378:17:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CommentInfo_$449_storage_$",
+                              "typeString": "mapping(address => struct Post.CommentInfo storage ref)"
+                            }
+                          },
+                          "id": 559,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 558,
+                            "name": "_commentAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 540,
+                            "src": "1396:15:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1378:34:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_CommentInfo_$449_storage",
+                            "typeString": "struct Post.CommentInfo storage ref"
+                          }
+                        },
+                        "id": 560,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "creator",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 444,
+                        "src": "1378:42:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 561,
+                              "name": "postInfo",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 451,
+                              "src": "1434:8:5",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                                "typeString": "struct Post.PostInfo storage ref"
+                              }
+                            },
+                            "id": 562,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "comments",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 439,
+                            "src": "1434:17:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CommentInfo_$449_storage_$",
+                              "typeString": "mapping(address => struct Post.CommentInfo storage ref)"
+                            }
+                          },
+                          "id": 564,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 563,
+                            "name": "_commentAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 540,
+                            "src": "1452:15:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1434:34:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_CommentInfo_$449_storage",
+                            "typeString": "struct Post.CommentInfo storage ref"
+                          }
+                        },
+                        "id": 565,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "target",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 446,
+                        "src": "1434:41:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 566,
+                              "name": "postInfo",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 451,
+                              "src": "1489:8:5",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_PostInfo_$440_storage",
+                                "typeString": "struct Post.PostInfo storage ref"
+                              }
+                            },
+                            "id": 567,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "comments",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 439,
+                            "src": "1489:17:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CommentInfo_$449_storage_$",
+                              "typeString": "mapping(address => struct Post.CommentInfo storage ref)"
+                            }
+                          },
+                          "id": 569,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 568,
+                            "name": "_commentAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 540,
+                            "src": "1507:15:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1489:34:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_CommentInfo_$449_storage",
+                            "typeString": "struct Post.CommentInfo storage ref"
+                          }
+                        },
+                        "id": 570,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "time",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 448,
+                        "src": "1489:39:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "id": 571,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "1307:231:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_string_storage_$_t_address_$_t_address_$_t_uint256_$",
+                      "typeString": "tuple(string storage ref,address,address,uint256)"
+                    }
+                  },
+                  "functionReturnParameters": 550,
+                  "id": 572,
+                  "nodeType": "Return",
+                  "src": "1300:238:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 574,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getComment",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 541,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 540,
+                  "name": "_commentAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 574,
+                  "src": "1213:23:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 539,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1213:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1212:25:5"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 550,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 543,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 574,
+                  "src": "1258:6:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 542,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1258:6:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 545,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 574,
+                  "src": "1266:7:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 544,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1266:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 547,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 574,
+                  "src": "1275:7:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 546,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1275:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 549,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 574,
+                  "src": "1284:4:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 548,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1284:4:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1257:32:5"
+            },
+            "scope": 575,
+            "src": "1193:352:5",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 576,
+        "src": "105:1442:5"
+      }
+    ],
+    "src": "0:1547:5"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-12-12T07:37:06.051Z"
+}
