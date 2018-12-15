@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import AuthDrawer from './AuthDrawer';
 import UnauthDrawer from './UnauthDrawer';
 
+
 class DrawerContainer extends Component {
   render() {
     if (this.props.accounts.currentUserAddress === "0" || !this.props.accounts.currentUserAddress || this.props.accounts.currentUserAddress === undefined) {
@@ -24,7 +25,10 @@ class DrawerContainer extends Component {
 function mapStateToProps(state) {
   return {
     accounts: state.accounts,
+      drawerState: state.drawerState
   };
 }
 
 export default connect(mapStateToProps)(DrawerContainer);
+
+

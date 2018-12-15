@@ -106,15 +106,11 @@ class PrimarySearchAppBar extends React.Component {
       currentPage: null
     }
   }
-  
 
-    handleDrawerOpen = () => {
-        this.setState({ open: true });
-    };
-
-    handleDrawerClose = () => {
-        this.setState({ open: false });
-    };
+  handleDrawerToggle = () => {
+    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+    console.log("hello it was clicked")
+  };
 
   componentDidMount = () => {
     this.setState({
@@ -218,7 +214,11 @@ class PrimarySearchAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static" style={{ background: primary }}>
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer" onClick={this.handleDrawerOpen}>
+            <IconButton
+                className={classes.menuButton}
+                onClick={this.handleDrawerToggle}
+                color="inherit" aria-label="Open drawer"
+            >
               <MenuIcon />
             </IconButton>
             <Typography className={classes.title} color="inherit" noWrap>
