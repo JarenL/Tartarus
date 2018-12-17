@@ -43,6 +43,7 @@ const styles = theme => ({
 
 class App extends Component {
   constructor(props) {
+    console.log(props.match)
     super(props)
     this.state = {
       tartarusInstance: null,
