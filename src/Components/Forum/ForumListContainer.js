@@ -8,6 +8,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import ForumList from './ForumList'
 import { Link } from 'react-router-dom';
 import { updateForum } from '../../actions/actions'
+import color from '@material-ui/core/colors';
 
 
 class ForumListContainer extends Component {
@@ -15,10 +16,11 @@ class ForumListContainer extends Component {
     console.log("forum clicked")
     this.props.dispatch(updateForum(forum))
   }
+
   render() {
     return (
       <div>
-        <Link to="/" style={{ textDecoration: 'none' }}>
+        <Link to="/" style={{ textDecoration: 'none'}}>
           <div onClick={() => this.changeForum({ name: "Frontpage", address: null })}>
             <ListItem button>
               <ListItemIcon>

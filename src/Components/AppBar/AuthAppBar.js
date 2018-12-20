@@ -21,6 +21,8 @@ import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom"
 import blueGrey from '@material-ui/core/colors/blueGrey';
 import red from '@material-ui/core/colors/red';
+import { Link } from 'react-router-dom';
+import { updateForum } from '../../actions/actions'
 
 const primary = blueGrey[500]; // #F44336
 const accent = red['A200']; // #E040FB
@@ -40,6 +42,8 @@ const styles = theme => ({
   },
   title: {
     display: 'none',
+    fontSize: "20px",
+    paddingRight: "20px",
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -107,6 +111,10 @@ class PrimarySearchAppBar extends React.Component {
     }
   }
 
+  changeForum = (forum) => {
+    console.log("forum clicked")
+    this.props.dispatch(updateForum(forum))
+  }
 
   componentDidMount = () => {
     this.setState({
@@ -213,9 +221,13 @@ class PrimarySearchAppBar extends React.Component {
             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
               <MenuIcon />
             </IconButton>
-            <Typography className={classes.title} color="inherit" noWrap>
-              Tartarus
-            </Typography>
+                <Link to="/" style={{ textDecoration: 'none', color: "white" }}>
+                   <div onClick={() => this.changeForum({ name: "Frontpage", address: null })}>
+                      <Typography className={classes.title} color="inherit" noWrap>
+                        Tartarus
+                      </Typography>
+                    </div>
+                </Link>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
