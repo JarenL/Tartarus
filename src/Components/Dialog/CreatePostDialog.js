@@ -11,6 +11,7 @@ import TartarusContract from '../../../build/contracts/Tartarus.json';
 import { connect } from 'react-redux'
 import CreatePostButton from '../Buttons/CreatePostButton.js';
 
+
 const styles = theme => ({
 	button: {
 		margin: theme.spacing.unit,

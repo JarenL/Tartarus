@@ -8,13 +8,27 @@ class CommentListContainer extends Component {
     super(props)
     this.state = {
       comments: [],
+      sorting: 'newest',
       loading: true
     }
     this.instantiateContract = this.instantiateContract.bind(this);
   }
 
+  
   componentDidMount = () => {
+    this.setState({
+      sorting: this.props.sorting
+    })
     this.instantiateContract();
+  }
+
+  componentDidUpdate = (newProps) => {
+    if (this.props.sorting !== this.state.sorting) {
+      console.log(newProps.sorting)
+      this.setState({
+        sorting: this.props.sorting
+      })
+    }
   }
 
   instantiateContract() {
@@ -35,23 +49,23 @@ class CommentListContainer extends Component {
             });
           }
         }
+        
       })
     })
   }
 
   render() {
-    return (
-      <div>
-        <CommentList comments={this.state.comments} />
-      </div>
-    )
-  }
+          return (
+            <div><CommentList comments={this.state.comments} /></div>
+          )
+        }
 }
 
 const mapStateToProps = (state) => {
   return {
     web3: state.web3,
-    currentPostAddress: state.forum.currentPostAddress
+    currentPostAddress: state.forum.currentPostAddress,
+    sorting : state.forum.sorting
   };
 }
 

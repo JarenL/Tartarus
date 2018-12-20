@@ -29,7 +29,6 @@ class CommentContainer extends Component {
     comment.setProvider(this.props.web3.currentProvider)
     comment.at(this.props.address).then((instance) => {
       instance.commentInfo.call().then((result) => {
-        console.log(result)
         let commentDate = new Date(result[5].c[0] * 1000).toString()
         this.setState({
           comment: result[0],

@@ -13,6 +13,7 @@ export const UPDATE_FORUM = 'UPDATE_FORUM'
 export const CURRENT_FORUM_ADDRESS = 'CURRENT_FORUM_ADDRESS'
 export const CURRENT_POST_ADDRESS = 'CURRENT_POST_ADDRESS'
 export const UPDATE_PAGE = 'UPDATE_PAGE'
+export const UPDATE_COMMENTS = 'UPDATE_COMMENTS'
 
 /*
  * action creators
@@ -92,5 +93,12 @@ export function setCurrentPage(newPage) {
     return {
         type: UPDATE_PAGE,
         payload: newPage
+    }
+}
+
+export function setCommentSort(commentSortType) {
+    return {
+        type: UPDATE_COMMENTS,
+        payload: commentSortType
     }
 }
