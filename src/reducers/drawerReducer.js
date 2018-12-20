@@ -12,12 +12,12 @@ const draweReducer = (state = initialState, action) => {
             if (state.drawerState) {
                 return {
                     ...state,
-                    currentForum: false
+                    drawerState: false
                 };
             } else {
                 return {
                     ...state,
-                    currentForum: true
+                    drawerState: true
                 };
             }
         default:

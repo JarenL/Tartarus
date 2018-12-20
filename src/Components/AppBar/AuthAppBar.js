@@ -21,6 +21,7 @@ import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom"
 import blueGrey from '@material-ui/core/colors/blueGrey';
 import red from '@material-ui/core/colors/red';
+import { setDrawerState } from '../../actions/actions'
 
 const primary = blueGrey[500]; // #F44336
 const accent = red['A200']; // #E040FB
@@ -109,6 +110,7 @@ class PrimarySearchAppBar extends React.Component {
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+    this.props.dispatch(setDrawerState());
     console.log("hello it was clicked")
   };
 
@@ -276,7 +278,8 @@ class PrimarySearchAppBar extends React.Component {
 function mapStateToProps(state) {
   return {
     currentForum: state.forum.currentForum,
-    currentPage: state.page
+    currentPage: state.page,
+    drawerState: state.drawerState
   };
 }
 
