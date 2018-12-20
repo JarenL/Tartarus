@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PostHeader from '../Headers/PostHeader'
 import Divider from '@material-ui/core/Divider';
 import PostContract from '../../contracts/Post.json'
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Loading from '../Loading'
 import { setCurrentPage, setCurrentPostAddress } from '../../actions/actions'
 import CommentListContainer from '../Comment/CommentListContainer' 
 
@@ -45,7 +45,7 @@ class PostPage extends Component {
 	render() {
 		if (this.state.loading) {
 			return (
-				<CircularProgress/>
+				<Loading/>
 			)
 		} else {
 			return (

@@ -1,8 +1,13 @@
 import Web3 from 'web3'
+import { Web3Provider } from 'react-web3';
 
 let getWeb3 = new Promise(function(resolve, reject) {
   // Wait for loading completion to avoid race conditions with web3 injection timing.
   window.addEventListener('load', function() {
+    if (window.web3) {
+      // Then replace the old injected version by the local Web3.JS version 1.0.0-beta.N
+      window.web3 = new Web3(window.web3.currentProvider);
+    }
     var results
     var web3 = window.web3
 

@@ -4,7 +4,7 @@ import ForumHeader from '../Headers/ForumHeader'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles';
 import ForumContract from '../../contracts/Forum.json'
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Loading from '../Loading'
 import Divider from '@material-ui/core/Divider';
 import { setCurrentPage, setCurrentForumAddress } from '../../actions/actions' 
 
@@ -66,7 +66,7 @@ class ForumPage extends Component {
 	render() {
 		if (this.state.loading) {
 			return (
-				<CircularProgress/>
+				<Loading/>
 			)
 		} else {
 			return (

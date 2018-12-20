@@ -12,6 +12,8 @@ import FrontPage from './Components/FrontPage';
 import ForumPage from './Components/Forum/ForumPage';
 import PostPage from './Components/Post/PostPage';
 import UserPage from './Components/User/UserPage';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import theme from './Components/Style/theme'
 
 import {
   initializeWeb3,
@@ -98,8 +100,9 @@ class App extends Component {
       )
     } else {
       return (
+        <MuiThemeProvider theme={theme}>
         <div>
-          <AppBarContainer />
+          <AppBarContainer/>
           <div className={classes.main}>
             <div>
               <DrawerContainer />
@@ -114,6 +117,7 @@ class App extends Component {
             </div>
           </div>
         </div>
+        </MuiThemeProvider>
       )
     }
 
@@ -136,4 +140,4 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, null, null, {
   pure: false
-})(withStyles(styles)(App));
+})(withStyles(styles, {withTheme: true})(App));

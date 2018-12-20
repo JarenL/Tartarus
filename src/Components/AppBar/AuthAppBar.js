@@ -18,12 +18,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import CreatePostDialog from '../Dialog/CreatePostDialog'
 import CreateCommentDialog from '../Dialog/CreateCommentDialog'
 import { connect } from 'react-redux';
-import blueGrey from '@material-ui/core/colors/blueGrey';
-// import red from '@material-ui/core/colors/red';
-
-const primary = blueGrey[500]; // #F44336
-// const accent = red['A200']; // #E040FB
-// const accent2 = purple.A200; // #E040FB (alternative method)
+import UserMenu from '../User/UserMenu'
 
 const styles = theme => ({
   root: {
@@ -207,7 +202,7 @@ class PrimarySearchAppBar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static" style={{ background: primary }}>
+        <AppBar position="static" color="primary">
           <Toolbar>
             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
               <MenuIcon />
@@ -231,24 +226,7 @@ class PrimarySearchAppBar extends React.Component {
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {buttonSwitch()}
-              <IconButton color="inherit">
-                <Badge className={classes.margin} badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton color="inherit">
-                <Badge className={classes.margin} badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-owns={isMenuOpen ? 'material-appbar' : null}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
+              <UserMenu/>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">

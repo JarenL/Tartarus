@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import CommentContract from '../../contracts/Comment.json';
 import PostContract from '../../contracts/Post.json';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Loading from '../Loading'
 import Comment from './Comment';
 import ipfs from '../../ipfs'
 
@@ -53,7 +52,7 @@ class CommentContainer extends Component {
   render() {
     if (this.state.loading) {
       return (
-        <CircularProgress />
+        <Loading />
       )
     } else {
       return (

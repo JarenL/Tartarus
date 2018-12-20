@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PostContract from '../../contracts/Post.json';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Loading from '../Loading'
 import Post from './Post';
 import ipfs from '../../ipfs'
+
+const styles = {
+  center: {
+    marginLeft: "auto",
+    marginRight: "auto",
+  }
+}
 
 class PostContainer extends Component {
   constructor(props) {
@@ -27,9 +34,7 @@ class PostContainer extends Component {
     post.setProvider(this.props.web3.currentProvider)
     post.at(this.props.address).then((instance) => {
       instance.postInfo.call().then((result) => {
-        console.log(result)
         ipfs.catJSON(result[0], (err, ipfsData) => {
-          console.log(ipfsData)
           var utcSeconds = ipfsData.time;
           var time = new Date(0); 
           time.setUTCSeconds(utcSeconds / 1000);
@@ -47,7 +52,9 @@ class PostContainer extends Component {
   render() {
     if (this.state.loading) {
       return (
-        <CircularProgress />
+        <div className={styles.center}>
+          <Loading />
+        </div>
       )
     } else {
       return (
