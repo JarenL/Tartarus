@@ -3,7 +3,7 @@ import {
 } from '../actions/actions';
 
 const initialState = {
-    drawerState: true
+    drawerState: false
 }
 
 const draweReducer = (state = initialState, action) => {

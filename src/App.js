@@ -35,7 +35,9 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.default,
     // backgroundColor: 'red',
     marginTop: 45,
-    marginLeft: '15%',
+    
+    marginLeft: '0%',
+
     padding: theme.spacing.unit,
     minHeight: '100vh',
     minWidth: 0, // So the Typography noWrap works
