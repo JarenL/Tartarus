@@ -91,10 +91,10 @@ class CreatePostDialog extends Component {
 					onClose={this.handleClose}
 					aria-labelledby="form-dialog-title"
 				>
-					<DialogTitle id="form-dialog-title">Post</DialogTitle>
+					<DialogTitle id="form-dialog-title" style={{ marginTop: '0px' }}>Post</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							Create Post.
+							<p style={{ marginTop: '0px' }}>Create Post.</p>
             </DialogContentText>
 						<TextField
 							autoFocus
@@ -103,14 +103,16 @@ class CreatePostDialog extends Component {
 							id="name"
 							label="Post"
 							type="String"
-							fullWidth
+							multiline="true"
+							style={{ width: '300px' }}
+							variant="outlined"
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={this.handleClose} color="primary">
+						<Button onClick={this.handleClose} color="primary" style={{ marginTop: '0px' }}>
 							Cancel
             </Button>
-						<Button onClick={this.submit} color="primary">
+						<Button onClick={this.submit} color="primary" style={{ marginTop: '0px' }}>
 							Post
             </Button>
 					</DialogActions>

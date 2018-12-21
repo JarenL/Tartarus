@@ -56,7 +56,6 @@ class PostPage extends Component {
 						currentPost={this.state.postTitle}
 						currentPostAddress={this.state.postAddress}
 					/>
-					<Divider/>
 					<CommentListContainer />
 				</div>
 			)

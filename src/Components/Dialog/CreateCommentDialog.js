@@ -91,10 +91,10 @@ class CreateCommentDialog extends Component {
 					onClose={this.handleClose}
 					aria-labelledby="form-dialog-title"
 				>
-					<DialogTitle id="form-dialog-title">Comment</DialogTitle>
+					<DialogTitle id="form-dialog-title" style={{ marginTop: '0px' }}>Comment</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							Create Comment.
+							<p style={{ marginTop: '0px' }}>Create Comment.</p>
             </DialogContentText>
 						<TextField
 							autoFocus
@@ -105,14 +105,16 @@ class CreateCommentDialog extends Component {
 							rows={10}
 							label="Comment"
 							type="String"
-							fullWidth
+							multiline="true"
+							style={{ width: '400px' }}
+							variant="outlined"
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={this.handleClose} color="primary">
+						<Button onClick={this.handleClose} color="primary" style={{ marginTop: '0px' }}>
 							Cancel
             </Button>
-						<Button onClick={this.submit} color="primary">
+						<Button onClick={this.submit} color="primary" style={{ marginTop: '0px' }}>
 							Comment
             </Button>
 					</DialogActions>

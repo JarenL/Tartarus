@@ -9,7 +9,7 @@ export default class Forum extends Component {
         return (
             <ListItem button>
                 <ListItemIcon>
-                    <Message />
+                    <Message/>
                 </ListItemIcon>
                 <ListItemText primary={this.props.name} />
             </ListItem>   

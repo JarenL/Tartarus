@@ -77,7 +77,6 @@ class ForumPage extends Component {
 						currentForum={this.state.forumName}
 						currentForumAddress={this.props.currentForumAddress}
 					/>
-					<Divider/>
 					<PostListContainer />
 				</div>
 			)

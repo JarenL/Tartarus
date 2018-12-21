@@ -1,97 +1,62 @@
 import React, { Component } from 'react'
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import { withStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
-import PropTypes from 'prop-types';
-import ShareIcon from '@material-ui/icons/Share';
-import PostIcon from '@material-ui/icons/ChatRounded';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Badge from '@material-ui/core/Badge';
-import UpArrow from '@material-ui/icons/ArrowUpwardTwoTone';
-import AddComment from '@material-ui/icons/AddComment';
-import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
+import { Card } from '@material-ui/core';
+import color from '@material-ui/core/colors';
 
-const styles = theme => ({
-  actions: {
-    display: 'flex',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
-  buttons: {
-    direction: 'column',
-  },
-  root: {
-    flexGrow: 1,
-    direction: "row"
-  }
-});
 
-// https://ropsten.etherscan.io/address/xxxxx
+const header = {
+    height: '15%',
+	paddingTop: '15px',
+	paddingBottom: '18px',
+    paddingLeft: '20px',
+    paddingRight: '20px',
+	margin: '0px',
+};
+const cAddress = {
+    fontWeight: 'bold',
+	fontSize: '12px',
+	color: '#6A6A6A',
+	display: 'inline-block',
+    paddingTop: '0px',
+    marginTop: '0px',
+};
+const date = {
+    fontSize: '12px',
+    color: 'grey',
+    display: 'inline-block',
+    paddingLeft: '4px',
+    paddingTop: '0px',
+    marginTop: '0px',
+};
+const title = {
+    fontWeight: 'bold',
+	fontSize: '15px',
+	paddingTop: '0px',
+    paddingBottom: '0px',
+    paddingRight: '20px',
+	margin: '0px',
 
-class Post extends Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <Card className="post">
-        <CardHeader
-          avatar={
-            <Avatar aria-label="icon" className={classes.avatar}>
-              <PostIcon />
-            </Avatar>
-          }
-          action={
-            <IconButton>
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title={"Title - " + this.props.title}
-        />
-        <CardContent>
-          <Grid container direction="row">
-            <Grid item>
-              <Grid container direction={"column"} xs={3} justify="center">
-                <Grid item xs={3}>
-                  <IconButton aria-label="upvote">
-                    <UpArrow />
-                  </IconButton>
-                </Grid>
-                <Grid item xs={3}>
-                  1000
-                </Grid>
-                <Grid item xs={3}>
-                  <IconButton aria-label="add-comment">
-                    <Badge badgeContent={400} color="secondary" classes={{ badge: classes.badge }}>
-                      <AddComment />
-                    </Badge>
-                  </IconButton>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid container direction={"column"} xs={9} justify="flex-start">
-              <Grid item>
-                Address - {this.props.address}
-              </Grid>
-              <Grid item>
-                Creator - {this.props.creator}
-              </Grid>
-              <Grid item>
-                Time - {this.props.time}
-              </Grid>
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
-    )
-  }
+};
+const pAddress = {
+    fontSize: '12px',
+	color: 'grey',
+	display: 'inline-block',
+    paddingBottom: '0px',
+    marginBottom: '0px',
+};
+
+export default class Post extends Component {
+    render() {
+        return (
+            <Card className="post" style={{ borderRadius: '10px', marginTop: '0px', marginBottom: '15px' }} >
+                <div style={header}>
+                    <p style={cAddress}>Created by {this.props.creator}</p>
+                    <p style={date}>{this.props.date}</p>
+                    <p style={title}>{this.props.title}</p>
+                    <p style={pAddress}>Post Address: {this.props.address}</p>
+                </div>
+            </Card>
+        )
+    }
 }
 
 Post.propTypes = {

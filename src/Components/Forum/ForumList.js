@@ -8,7 +8,12 @@ export default class ForumList extends Component {
     const forumContainers = this.props.forums.map(forum => {
       return (
         <Link to={"/forum/" + forum.address} style={{ textDecoration: 'none' }} key={forum.address}>
-          <div onClick={() => this.props.changeForum(forum)}>
+          
+          
+          <div onClick={() => this.props.changeForum(forum)} > 
+          
+          
+          
             <ForumContainer
               address={forum.address} >
             </ForumContainer>
