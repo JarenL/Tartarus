@@ -18,11 +18,9 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import CreatePostDialog from '../Dialog/CreatePostDialog'
 import CreateCommentDialog from '../Dialog/CreateCommentDialog'
 import { connect } from 'react-redux';
-<<<<<<< HEAD
-import UserMenu from '../User/UserMenu'
-import { setDrawerState } from '../../actions/actions'
-=======
-import { withRouter } from "react-router-dom"
+import UserMenu from '../User/UserMenu';
+import { setDrawerState } from '../../actions/actions';
+import { withRouter } from "react-router-dom";
 import blueGrey from '@material-ui/core/colors/blueGrey';
 import red from '@material-ui/core/colors/red';
 import { Link } from 'react-router-dom';
@@ -31,7 +29,6 @@ import { updateForum } from '../../actions/actions'
 const primary = blueGrey[500]; // #F44336
 const accent = red['A200']; // #E040FB
 // const accent2 = purple.A200; // #E040FB (alternative method)
->>>>>>> ui
 
 const styles = theme => ({
   root: {
@@ -225,19 +222,19 @@ class PrimarySearchAppBar extends React.Component {
         <AppBar position="static" color="primary">
           <Toolbar>
             <IconButton
-                className={classes.menuButton}
-                onClick={this.handleDrawerToggle}
-                color="inherit" aria-label="Open drawer"
+              className={classes.menuButton}
+              onClick={this.handleDrawerToggle}
+              color="inherit" aria-label="Open drawer"
             >
               <MenuIcon />
             </IconButton>
-                <Link to="/" style={{ textDecoration: 'none', color: "white" }}>
-                   <div onClick={() => this.changeForum({ name: "Frontpage", address: null })}>
-                      <Typography className={classes.title} color="inherit" noWrap>
-                        Tartarus
+            <Link to="/" style={{ textDecoration: 'none', color: "white" }}>
+              <div onClick={() => this.changeForum({ name: "Frontpage", address: null })}>
+                <Typography className={classes.title} color="inherit" noWrap>
+                  Tartarus
                       </Typography>
-                    </div>
-                </Link>
+              </div>
+            </Link>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -254,7 +251,7 @@ class PrimarySearchAppBar extends React.Component {
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {buttonSwitch()}
-              <UserMenu/>
+              <UserMenu />
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">

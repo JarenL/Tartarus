@@ -37,9 +37,8 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.default,
     // backgroundColor: 'red',
     marginTop: 45,
-    
-    marginLeft: '0%',
 
+    marginLeft: '0%',
     padding: theme.spacing.unit,
     minHeight: '100vh',
     minWidth: 0, // So the Typography noWrap works
@@ -51,6 +50,7 @@ class App extends Component {
     console.log(props.match)
     super(props)
     this.state = {
+      marginLeft: "0%",
       tartarusInstance: null,
       loading: true
     }
@@ -69,6 +69,7 @@ class App extends Component {
   }
 
   componentDidUpdate(newProps) {
+    console.log(newProps)
     if (newProps.accounts.currentOwnerAddress !== "0") {
       if (newProps.accounts.currentOwnerAddress !== this.props.accounts.currentOwnerAddress) {
         window.location.reload();
@@ -110,7 +111,7 @@ class App extends Component {
             <div>
               <DrawerContainer />
             </div>
-            <div className={classes.content}>
+            <div className={classes.content} style={{ marginLeft: this.props.drawerState.drawerState ? '15%': '0%'}}>
               <Switch>
                 <Route exact path="/" component={FrontPage} />
                 <Route path={"/forum/:forumAddress"} component={ForumPage} />
@@ -138,6 +139,7 @@ function mapStateToProps(state) {
     web3: state.web3,
     tartarusAddress: state.tartarus.tartarusAddress,
     accounts: state.accounts,
+    drawerState: state.drawerState,
     currentForum: state.forum.currentForum,
     currentForumAddress: state.forum.currentForumAddress
   };

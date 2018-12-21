@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Card } from '@material-ui/core';
 import color from '@material-ui/core/colors';
 
-
 const header = {
     height: '15%',
 	paddingTop: '15px',
@@ -44,7 +43,7 @@ const pAddress = {
     marginBottom: '0px',
 };
 
-export default class Post extends Component {
+class Post extends Component {
     render() {
         return (
             <Card className="post" style={{ borderRadius: '10px', marginTop: '0px', marginBottom: '15px' }} >
@@ -59,8 +58,4 @@ export default class Post extends Component {
     }
 }
 
-Post.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(Post);
+export default Post;
