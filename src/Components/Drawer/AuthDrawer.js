@@ -11,7 +11,8 @@ const styles = theme => ({
 	drawerPaper: {
 		position: 'ablsolute',
 		marginTop: 65,
-		width: '15%'
+		width: '15%',
+		boxShadow: "2px 4px 40px #9E9E9E",
 	}
 });
 

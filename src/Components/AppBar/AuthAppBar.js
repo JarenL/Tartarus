@@ -19,6 +19,7 @@ import CreatePostDialog from '../Dialog/CreatePostDialog'
 import CreateCommentDialog from '../Dialog/CreateCommentDialog'
 import { connect } from 'react-redux';
 import UserMenu from '../User/UserMenu'
+import { setDrawerState } from '../../actions/actions'
 
 const styles = theme => ({
   root: {
@@ -101,6 +102,11 @@ class PrimarySearchAppBar extends React.Component {
     }
   }
 
+  handleDrawerToggle = () => {
+    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+    this.props.dispatch(setDrawerState());
+    console.log("hello it was clicked")
+  };
 
   componentDidMount = () => {
     this.setState({
@@ -204,7 +210,11 @@ class PrimarySearchAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static" color="primary">
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
+            <IconButton
+                className={classes.menuButton}
+                onClick={this.handleDrawerToggle}
+                color="inherit" aria-label="Open drawer"
+            >
               <MenuIcon />
             </IconButton>
             <Typography className={classes.title} color="inherit" noWrap>
@@ -245,7 +255,8 @@ class PrimarySearchAppBar extends React.Component {
 function mapStateToProps(state) {
   return {
     currentForum: state.forum.currentForum,
-    currentPage: state.page
+    currentPage: state.page,
+    drawerState: state.drawerState
   };
 }
 

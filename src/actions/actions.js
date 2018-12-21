@@ -53,10 +53,9 @@ export function setTartarusInstance(tartarusInstance) {
     }
 }
 
-export function setDrawerState(drawerState) {
+export function setDrawerState() {
     return {
-        type: DRAWER_STATE,
-        payload: drawerState
+        type: DRAWER_STATE
     }
 }
 
