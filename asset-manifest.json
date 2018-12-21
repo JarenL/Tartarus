@@ -1,15 +1,15 @@
 {
-  "main.css": "/JarenL/Tartarus/tree/development/static/css/main.8065d06c.chunk.css",
-  "main.js": "/JarenL/Tartarus/tree/development/static/js/main.c3efbab5.chunk.js",
-  "main.js.map": "/JarenL/Tartarus/tree/development/static/js/main.c3efbab5.chunk.js.map",
-  "static/js/1.cb8bea00.chunk.js": "/JarenL/Tartarus/tree/development/static/js/1.cb8bea00.chunk.js",
-  "static/js/1.cb8bea00.chunk.js.map": "/JarenL/Tartarus/tree/development/static/js/1.cb8bea00.chunk.js.map",
-  "runtime~main.js": "/JarenL/Tartarus/tree/development/static/js/runtime~main.f20ac8a0.js",
-  "runtime~main.js.map": "/JarenL/Tartarus/tree/development/static/js/runtime~main.f20ac8a0.js.map",
-  "static/media/oswald.css": "/JarenL/Tartarus/tree/development/static/media/Oswald-regular.48b6c164.svg",
-  "static/media/open-sans.css": "/JarenL/Tartarus/tree/development/static/media/Open-Sans-regular.7e735d7a.svg",
-  "static/css/main.8065d06c.chunk.css.map": "/JarenL/Tartarus/tree/development/static/css/main.8065d06c.chunk.css.map",
-  "index.html": "/JarenL/Tartarus/tree/development/index.html",
-  "precache-manifest.11e5fb944ec1c0887659b6dc73b25242.js": "/JarenL/Tartarus/tree/development/precache-manifest.11e5fb944ec1c0887659b6dc73b25242.js",
-  "service-worker.js": "/JarenL/Tartarus/tree/development/service-worker.js"
+  "main.css": "/Tartarus/static/css/main.12a620be.chunk.css",
+  "main.js": "/Tartarus/static/js/main.15fcac1e.chunk.js",
+  "main.js.map": "/Tartarus/static/js/main.15fcac1e.chunk.js.map",
+  "static/js/1.a73a86eb.chunk.js": "/Tartarus/static/js/1.a73a86eb.chunk.js",
+  "static/js/1.a73a86eb.chunk.js.map": "/Tartarus/static/js/1.a73a86eb.chunk.js.map",
+  "runtime~main.js": "/Tartarus/static/js/runtime~main.06c9ac75.js",
+  "runtime~main.js.map": "/Tartarus/static/js/runtime~main.06c9ac75.js.map",
+  "static/media/oswald.css": "/Tartarus/static/media/Oswald-300.fe401aad.svg",
+  "static/media/open-sans.css": "/Tartarus/static/media/Open-Sans-regular.7e735d7a.svg",
+  "static/css/main.12a620be.chunk.css.map": "/Tartarus/static/css/main.12a620be.chunk.css.map",
+  "index.html": "/Tartarus/index.html",
+  "precache-manifest.ce4af10c604028a97f52164775e78df1.js": "/Tartarus/precache-manifest.ce4af10c604028a97f52164775e78df1.js",
+  "service-worker.js": "/Tartarus/service-worker.js"
 }

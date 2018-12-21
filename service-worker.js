@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/JarenL/Tartarus/tree/development/precache-manifest.11e5fb944ec1c0887659b6dc73b25242.js"
+  "/Tartarus/precache-manifest.ce4af10c604028a97f52164775e78df1.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/JarenL/Tartarus/tree/development/index.html", {
+workbox.routing.registerNavigationRoute("/Tartarus/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
