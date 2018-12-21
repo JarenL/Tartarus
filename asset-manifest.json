@@ -1,15 +1,15 @@
 {
-  "main.css": "/Tartarus/static/css/main.12a620be.chunk.css",
-  "main.js": "/Tartarus/static/js/main.15fcac1e.chunk.js",
-  "main.js.map": "/Tartarus/static/js/main.15fcac1e.chunk.js.map",
-  "static/js/1.a73a86eb.chunk.js": "/Tartarus/static/js/1.a73a86eb.chunk.js",
-  "static/js/1.a73a86eb.chunk.js.map": "/Tartarus/static/js/1.a73a86eb.chunk.js.map",
-  "runtime~main.js": "/Tartarus/static/js/runtime~main.06c9ac75.js",
-  "runtime~main.js.map": "/Tartarus/static/js/runtime~main.06c9ac75.js.map",
-  "static/media/oswald.css": "/Tartarus/static/media/Oswald-300.fe401aad.svg",
-  "static/media/open-sans.css": "/Tartarus/static/media/Open-Sans-regular.7e735d7a.svg",
-  "static/css/main.12a620be.chunk.css.map": "/Tartarus/static/css/main.12a620be.chunk.css.map",
-  "index.html": "/Tartarus/index.html",
-  "precache-manifest.ce4af10c604028a97f52164775e78df1.js": "/Tartarus/precache-manifest.ce4af10c604028a97f52164775e78df1.js",
-  "service-worker.js": "/Tartarus/service-worker.js"
+  "main.css": "/static/css/main.b1d33070.chunk.css",
+  "main.js": "/static/js/main.0ea1a045.chunk.js",
+  "main.js.map": "/static/js/main.0ea1a045.chunk.js.map",
+  "static/js/1.21994ca5.chunk.js": "/static/js/1.21994ca5.chunk.js",
+  "static/js/1.21994ca5.chunk.js.map": "/static/js/1.21994ca5.chunk.js.map",
+  "runtime~main.js": "/static/js/runtime~main.229c360f.js",
+  "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
+  "static/media/oswald.css": "/static/media/Oswald-regular.48b6c164.svg",
+  "static/media/open-sans.css": "/static/media/Open-Sans-regular.7e735d7a.svg",
+  "static/css/main.b1d33070.chunk.css.map": "/static/css/main.b1d33070.chunk.css.map",
+  "index.html": "/index.html",
+  "precache-manifest.452d765951063bfab15152e37d6ea0ed.js": "/precache-manifest.452d765951063bfab15152e37d6ea0ed.js",
+  "service-worker.js": "/service-worker.js"
 }
