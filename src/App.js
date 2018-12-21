@@ -12,6 +12,7 @@ import FrontPage from './Components/FrontPage';
 import ForumPage from './Components/Forum/ForumPage';
 import PostPage from './Components/Post/PostPage';
 import UserPage from './Components/User/UserPage';
+import AboutPage from './Components/User/AboutPage';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from './Components/Style/theme'
 
@@ -113,6 +114,8 @@ class App extends Component {
                 <Route path={"/forum/:forumAddress"} component={ForumPage} />
                 <Route path={"/post/:postAddress"} component={PostPage} />
                 <Route path={"/user/:userAddress"} component={UserPage} />
+                <Route path={"/about"} component={AboutPage} />
+                <Route path={"/user"} component={UserPage} />
               </Switch>
             </div>
           </div>

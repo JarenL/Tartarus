@@ -16,27 +16,23 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Badge from '@material-ui/core/Badge';
 import UpArrow from '@material-ui/icons/ArrowUpwardTwoTone';
 import AddComment from '@material-ui/icons/AddComment';
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
 
 const styles = theme => ({
-  post: {
-    display: "flex"
-  },
-  header: {
-  },
   actions: {
     display: 'flex',
-  },
-  main: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  vote: {
-
   },
   avatar: {
     backgroundColor: red[500],
   },
+  buttons: {
+    direction: 'column',
+  },
+  root: {
+    flexGrow: 1,
+    direction: "row"
+  }
 });
 
 // https://ropsten.etherscan.io/address/xxxxx
@@ -60,30 +56,37 @@ class Post extends Component {
           title={"Title - " + this.props.title}
         />
         <CardContent>
-          <Grid fluid>
-            <Row style={{marginTop : -25, marginBottom: -20}}>
-              <Col >
-                <Col style={{marginLeft : -3, marginRight : 20}}>
-                  <Row>
-                    <IconButton aria-label="upvote">
-                      <UpArrow />
-                    </IconButton>
-                  </Row>
-                  <Row>
-                    <IconButton aria-label="add-comment">
-                      <Badge badgeContent={400} color="secondary" classes={{ badge: classes.badge }}>
-                        <AddComment />
-                      </Badge>
-                    </IconButton>
-                  </Row>
-                </Col>
-              </Col>
-              <Col style={{marginTop : -10}}>
-                <p> Address - {this.props.address}</p>
-                <p> Creator - {this.props.creator}</p>
-                <p> Time - {this.props.time}</p>
-              </Col>
-            </Row>
+          <Grid container direction="row">
+            <Grid item>
+              <Grid container direction={"column"} xs={3} justify="center">
+                <Grid item xs={3}>
+                  <IconButton aria-label="upvote">
+                    <UpArrow />
+                  </IconButton>
+                </Grid>
+                <Grid item xs={3}>
+                  1000
+                </Grid>
+                <Grid item xs={3}>
+                  <IconButton aria-label="add-comment">
+                    <Badge badgeContent={400} color="secondary" classes={{ badge: classes.badge }}>
+                      <AddComment />
+                    </Badge>
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid container direction={"column"} xs={9} justify="flex-start">
+              <Grid item>
+                Address - {this.props.address}
+              </Grid>
+              <Grid item>
+                Creator - {this.props.creator}
+              </Grid>
+              <Grid item>
+                Time - {this.props.time}
+              </Grid>
+            </Grid>
           </Grid>
         </CardContent>
       </Card>
@@ -96,7 +99,3 @@ Post.propTypes = {
 };
 
 export default withStyles(styles)(Post);
-
-{/* <p>Address - {this.props.address}</p>
-            <p>Creator Address - {this.props.creator}</p>
-            <p>Time - {this.props.time}</p> */}
