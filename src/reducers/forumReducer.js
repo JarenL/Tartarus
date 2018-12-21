@@ -5,6 +5,7 @@ import {
 	UPDATE_FORUM,
 	UPDATE_COMMENTS
 } from '../actions/actions';
+import { runInContext } from 'vm';
 
 const initialState = {
 	currentForum: "Frontpage",
@@ -36,11 +37,6 @@ const forumReducer = (state = initialState, action) => {
 				currentForum: action.payload.name,
 				currentForumAddress: action.payload.address
 			};
-		case UPDATE_COMMENTS:
-			return {
-				...state,
-				sorting: action.payload.name
-			}
 		default:
 			return state
 	}

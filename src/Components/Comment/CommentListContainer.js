@@ -49,7 +49,7 @@ class CommentListContainer extends Component {
     return (
       <div>
         <u1><SelectCommentSort/></u1>
-        <CommentList comments={this.state.comments.reverse()} />
+        <CommentList comments={this.state.comments} />
       </div>
     )
   }

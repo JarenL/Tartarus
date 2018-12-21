@@ -36,7 +36,7 @@ class SimpleSelect extends React.Component {
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
-    setCommentSortType(this.props.sortType);
+    setCommentSortType(event);
   };
 
   render() {
