@@ -4,6 +4,7 @@ import {
 	CURRENT_POST_ADDRESS,
 	UPDATE_FORUM
 } from '../actions/actions';
+import { runInContext } from 'vm';
 
 const initialState = {
 	currentForum: "Frontpage",

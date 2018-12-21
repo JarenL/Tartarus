@@ -3,18 +3,26 @@ import CommentList from './CommentList';
 import { connect } from 'react-redux';
 import PostContract from '../../contracts/Post.json';
 
+import SelectCommentSort from '../Select/SelectCommentSort'
+
 class CommentListContainer extends Component {
+  
   constructor(props) {
     super(props)
     this.state = {
       comments: [],
-      loading: true
+      loading: true,
+      sorting: 'newest'
     }
     this.instantiateContract = this.instantiateContract.bind(this);
   }
 
   componentDidMount = () => {
     this.instantiateContract();
+  }
+
+  componentDidUpdate(newProps) {
+    console.log(newProps)
   }
 
   instantiateContract() {
@@ -42,7 +50,26 @@ class CommentListContainer extends Component {
   render() {
     return (
       <div>
-        <CommentList comments={this.state.comments} />
+        <SelectCommentSort/>
+        {(() => {
+          if (this.props.commentSorting === "newest") {
+            console.log("ret a");
+            return (
+              
+              <div><CommentList comments={this.state.comments} /></div>
+            )
+          } else if (this.props.commentSorting === "oldest") {
+            console.log("ret b")
+            return (
+              <div><CommentList comments={this.state.comments.reverse()} /></div>
+            )
+          } else {
+            console.log("ret c")
+            return (
+              <div><CommentList comments={this.state.comments} /></div>
+            )
+          }
+        })()}
       </div>
     )
   }
@@ -51,7 +78,8 @@ class CommentListContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     web3: state.web3,
-    currentPostAddress: state.forum.currentPostAddress
+    currentPostAddress: state.forum.currentPostAddress,
+    commentSorting: state.comment.sorting
   };
 }
 

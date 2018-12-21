@@ -5,8 +5,7 @@ import accountsReducer from './accountsReducer'
 import forumReducer from './forumReducer'
 import pageReducer from './pageReducer'
 import drawerReducer from './drawerReducer'
-
-
+import commentReducer from './commentReducer'
 
 const rootReducer = combineReducers({
     web3: web3Reducer,
@@ -14,7 +13,9 @@ const rootReducer = combineReducers({
     tartarus: tartarusReducer,
     forum: forumReducer,
     page: pageReducer,
-    drawerState: drawerReducer
+    drawerState: drawerReducer,
+    comment: commentReducer
 });
+
 
 export default rootReducer
