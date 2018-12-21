@@ -15,7 +15,7 @@ contract VoteForums is Ownable {
     
     int256 voteCount;
     
-    event VoteCreated(address voteAddress);
+    event VoteCreated(address voteAddress, );
     
     struct Forums {
         string postAddress;
