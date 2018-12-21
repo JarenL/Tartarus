@@ -10,7 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {setCommentSortType} from '../../actions/actions'
+import {setCommentSortType} from '../../actions/actions';
+import { connect } from 'react-redux';
 
 const styles = theme => ({
   root: {
@@ -26,7 +27,7 @@ const styles = theme => ({
   },
 });
 
-class SimpleSelect extends React.Component {
+class SelectCommentSort extends React.Component {
   state = {
     sortType: ''
   };
@@ -36,7 +37,7 @@ class SimpleSelect extends React.Component {
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
-    setCommentSortType(event);
+    this.props.dispatch(setCommentSortType(event));
   };
 
   render() {
@@ -49,12 +50,7 @@ class SimpleSelect extends React.Component {
           <Select
             value={this.state.age}
             onChange={this.handleChange}
-            inputProps={{
-              name: 'sortType',
-              id: 'sortType-simple',
-            }}
-          >
-            
+          > 
             <MenuItem value='oldest'>Oldest</MenuItem>
             <MenuItem value='newest'>Newest</MenuItem>
           </Select>
@@ -64,8 +60,15 @@ class SimpleSelect extends React.Component {
   }
 }
 
-SimpleSelect.propTypes = {
+SelectCommentSort.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+function mapStateToProps(state) {
+  return {
+    sortType: state.sorting
+  };
+}
+export default connect(mapStateToProps, null, null, {
+  pure: false
+})(withStyles(styles)(SelectCommentSort));
 
-export default withStyles(styles)(SimpleSelect);

@@ -43,13 +43,25 @@ class CommentListContainer extends Component {
     })
   }
 
-
-
   render() {
     return (
       <div>
-        <u1><SelectCommentSort/></u1>
-        <CommentList comments={this.state.comments} />
+        <SelectCommentSort/>
+        {(() => {
+          if (this.props.commentSorting == "newest") {
+            return (
+              <div><CommentList comments={this.state.comments} /></div>
+            )
+          } else if (this.props.commentSorting == "oldest") {
+            return (
+              <div><CommentList comments={this.state.comments.reverse()} /></div>
+            )
+          } else {
+            return (
+              <div><CommentList comments={this.state.comments} /></div>
+            )
+          }
+        })()}
       </div>
     )
   }
@@ -58,7 +70,8 @@ class CommentListContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     web3: state.web3,
-    currentPostAddress: state.forum.currentPostAddress
+    currentPostAddress: state.forum.currentPostAddress,
+    commentSorting: state.SelectCommentSort
   };
 }
 

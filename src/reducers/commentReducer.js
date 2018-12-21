@@ -1,15 +1,15 @@
 import {
     UPDATE_COMMENTS
-} from '../actions/actions';
+} from '../actions/actions.js';
 
 const initialState = {
-	sorting: "newest",
+	sorting: "newest"
 }
 
 const commentReducer = (state = initialState, action) => {
 	switch (action.type) {
-        
         case UPDATE_COMMENTS:
+            console.log(action.payload.target.value);
 			return {
 				...state,
 				sorting: action.payload.target.value

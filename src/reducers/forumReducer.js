@@ -2,16 +2,14 @@ import {
 	CURRENT_FORUM,
 	CURRENT_FORUM_ADDRESS,
 	CURRENT_POST_ADDRESS,
-	UPDATE_FORUM,
-	UPDATE_COMMENTS
+	UPDATE_FORUM
 } from '../actions/actions';
 import { runInContext } from 'vm';
 
 const initialState = {
 	currentForum: "Frontpage",
 	currentForumAddress: null,
-	currentPostAddress: null,
-	commentSortType: "newest"
+	currentPostAddress: null
 }
 
 const forumReducer = (state = initialState, action) => {
