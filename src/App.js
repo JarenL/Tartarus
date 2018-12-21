@@ -77,7 +77,7 @@ class App extends Component {
     this.props.dispatch(setCurrentUserAddress(0))
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0x7f69a57ebe7bb160695e49455febe63c6f08c71b"))
+    this.props.dispatch(setTartarusAddress("0xbe1bd4bcf34df76265f39b13886cf18bfd333611"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
       instance.authenticateUser({from : this.props.accounts.currentOwnerAddress}).then((result) => {
