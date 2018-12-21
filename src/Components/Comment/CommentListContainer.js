@@ -3,12 +3,16 @@ import CommentList from './CommentList';
 import { connect } from 'react-redux';
 import PostContract from '../../../build/contracts/Post.json';
 
+import SelectCommentSort from '../Select/SelectCommentSort'
+
 class CommentListContainer extends Component {
+  
   constructor(props) {
     super(props)
     this.state = {
       comments: [],
-      loading: true
+      loading: true,
+      sorting: 'newest'
     }
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -39,10 +43,13 @@ class CommentListContainer extends Component {
     })
   }
 
+
+
   render() {
     return (
       <div>
-        <CommentList comments={this.state.comments} />
+        <u1><SelectCommentSort/></u1>
+        <CommentList comments={this.state.comments.reverse()} />
       </div>
     )
   }

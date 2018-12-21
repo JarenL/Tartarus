@@ -1,67 +1,62 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Input from '@material-ui/core/Input';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import FilledInput from '@material-ui/core/FilledInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
+import {setCommentSortType} from '../../actions/actions'
 
 const styles = theme => ({
-  button: {
-    display: 'block',
-    marginTop: theme.spacing.unit * 2,
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
   },
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120,
   },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
 });
 
-class ControlledOpenSelect extends React.Component {
+class SimpleSelect extends React.Component {
   state = {
-    sortType: '',
-    open: false,
+    sortType: ''
   };
+
+  componentDidMount() {
+  }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  handleOpen = () => {
-    this.setState({ open: true });
+    setCommentSortType(this.props.sortType);
   };
 
   render() {
     const { classes } = this.props;
 
     return (
-      <form autoComplete="off">
-        <Button className={classes.button} onClick={this.handleOpen}>
-          Open the select
-        </Button>
+      <form className={classes.root} autoComplete="off">
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="demo-controlled-open-select">Age</InputLabel>
+          <InputLabel htmlFor="sortType-simple">Sort Type</InputLabel>
           <Select
-            open={this.state.open}
-            onClose={this.handleClose}
-            onOpen={this.handleOpen}
             value={this.state.age}
             onChange={this.handleChange}
             inputProps={{
-              name: 'age',
-              id: 'demo-controlled-open-select',
+              name: 'sortType',
+              id: 'sortType-simple',
             }}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
+            
             <MenuItem value='oldest'>Oldest</MenuItem>
-            <MenuItem value='newest>Newest</MenuItem>
+            <MenuItem value='newest'>Newest</MenuItem>
           </Select>
         </FormControl>
       </form>
@@ -69,8 +64,8 @@ class ControlledOpenSelect extends React.Component {
   }
 }
 
-ControlledOpenSelect.propTypes = {
+SimpleSelect.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ControlledOpenSelect);
+export default withStyles(styles)(SimpleSelect);
