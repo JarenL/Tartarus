@@ -1,6 +1,7 @@
 // react
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 // material
 import Grid from '@material-ui/core/Grid'
@@ -65,9 +66,6 @@ const styles = theme => ({
     [theme.breakpoints.up(800 + theme.spacing.unit * 2 * 2)]: {
       marginBottom: theme.spacing.unit * 6
     },
-    '& a:hover': {
-      textDecoration: 'underline'
-    },
     [theme.breakpoints.down(500 + theme.spacing.unit * 2 * 2)]: {
       '& h1': {
         fontSize: '2rem'
@@ -93,7 +91,7 @@ class Help extends React.Component {
       <div className={classes.layout}>
 
         <Typography className={classes.title} variant='display3' gutterBottom>
-          An uncensorable platform for content creators.
+          The marketplace of ideas.
         </Typography>
 
         <Grid className={classes.grid} container spacing={24}>
@@ -104,7 +102,7 @@ class Help extends React.Component {
                 Step 1
               </Typography>
               <Typography variant='body1' gutterBottom>
-                A content creator publishes a piece of content online (e.g. Youtube, Torrent, etc.)
+                A content creator publishes a piece of content online (e.g. Vidro, Image, Text, etc.)
               </Typography>
             </Paper>
           </Grid>
@@ -115,7 +113,7 @@ class Help extends React.Component {
                 Step 2
               </Typography>
               <Typography variant='body1' gutterBottom>
-                They broadcast a link to this content on the Ethereum network for a small fee (approx. 5c worth of gas.)
+                They "post" this content and broadcast on the Ethereum network for a small fee (approx. 5c worth of gas.)
               </Typography>
             </Paper>
           </Grid>
@@ -126,32 +124,11 @@ class Help extends React.Component {
                 Step 3
               </Typography>
               <Typography variant='body1' gutterBottom>
-                Their Subby subscribers get it on their newsfeed directly from the Ethereum network, at no cost.
+                Forum and user subscribers get it on their newsfeed directly from the Ethereum network, at no cost.
               </Typography>
             </Paper>
           </Grid>
         </Grid>
-
-        <div className={classes.links}>
-          <Typography variant='display1' gutterBottom>
-            <a href='https://subby.io/follow' target='_blank'>Find accounts to follow</a>
-          </Typography>
-
-          <Typography variant='display1' gutterBottom>
-            <a href='https://subby.io/publish' target='_blank'>Start publishing content</a>
-          </Typography>
-
-          <Typography variant='display1' gutterBottom>
-            <a href='https://subby.io/github' target='_blank'>Look at the code</a>
-          </Typography>
-
-          {window.location.protocol !== 'file:' &&
-            <Typography variant='display1' gutterBottom>
-              <a href='' download='subby.html'>Download</a>
-            </Typography>
-          }
-        </div>
-
       </div>
     )
   }
