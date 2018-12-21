@@ -21,6 +21,10 @@ class CommentListContainer extends Component {
     this.instantiateContract();
   }
 
+  componentDidUpdate(newProps) {
+    console.log(newProps)
+  }
+
   instantiateContract() {
     const contract = require('truffle-contract')
     const post = contract(PostContract)
@@ -48,15 +52,19 @@ class CommentListContainer extends Component {
       <div>
         <SelectCommentSort/>
         {(() => {
-          if (this.props.commentSorting == "newest") {
+          if (this.props.commentSorting === "newest") {
+            console.log("ret a");
             return (
+              
               <div><CommentList comments={this.state.comments} /></div>
             )
-          } else if (this.props.commentSorting == "oldest") {
+          } else if (this.props.commentSorting === "oldest") {
+            console.log("ret b")
             return (
               <div><CommentList comments={this.state.comments.reverse()} /></div>
             )
           } else {
+            console.log("ret c")
             return (
               <div><CommentList comments={this.state.comments} /></div>
             )
@@ -71,7 +79,7 @@ const mapStateToProps = (state) => {
   return {
     web3: state.web3,
     currentPostAddress: state.forum.currentPostAddress,
-    commentSorting: state.SelectCommentSort
+    commentSorting: state.comment.sorting
   };
 }
 
