@@ -1,29 +1,23 @@
 pragma solidity ^0.4.24;
 
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "./Ownable.sol";
 
 contract Comment is Ownable {
-    struct CommentInfo {
-        string comment;
-        address creator;
-        address post;
-        address forum;
-        address target;
-        uint time;
-    }
+    // struct CommentInfo {
+    //     string ipfsHash;
+    //     address creator;
+    //     uint time;
+    // }
+    // CommentInfo public commentInfo;
 
-    CommentInfo public commentInfo;
-
-    function initialize(string _commentText, address _commentCreator, address _targetAddress) public {
+    function initialize() public {
         require(owner == address(0), "Nice try");
         owner = msg.sender;
-        commentInfo.comment = _commentText;
-        commentInfo.creator = _commentCreator;
-        commentInfo.target = _targetAddress;
-        commentInfo.time = now;
+        // commentInfo.ipfsHash = _ipfsHash;
+        // commentInfo.creator = _commentCreator;
     }
 
-    function getCreator () public view returns(address) {
-        return commentInfo.creator;
-    }
+    // function getCreator () public view returns(address) {
+    //     return commentInfo.creator;
+    // }
 }

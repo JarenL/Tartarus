@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PostList from './PostList';
 import { connect } from 'react-redux';
-import ForumContract from '../../../build/contracts/Forum.json';
+import ForumContract from '../../contracts/Forum.json';
 
 class PostListContainer extends Component {
   constructor(props) {
@@ -25,7 +25,6 @@ class PostListContainer extends Component {
       this.instantiateContract()
     }
   }
-
 
   instantiateContract() {
     const contract = require('truffle-contract')

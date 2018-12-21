@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import AuthAppBar from './AuthAppBar';
 import UnauthAppBar from './UnauthAppBar';
-import TartarusContract from '../../../build/contracts/Tartarus.json';
+import TartarusContract from '../../contracts/Tartarus.json';
 
 class AppBarContainer extends Component {
     createUser = () => {

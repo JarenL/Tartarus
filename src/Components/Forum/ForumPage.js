@@ -3,12 +3,10 @@ import PostListContainer from '../Post/PostListContainer'
 import ForumHeader from '../Headers/ForumHeader'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
-import ForumContract from '../../../build/contracts/Forum.json'
-import CircularProgress from '@material-ui/core/CircularProgress';
+import ForumContract from '../../contracts/Forum.json'
+import Loading from '../Loading'
 import Divider from '@material-ui/core/Divider';
 import { setCurrentPage, setCurrentForumAddress } from '../../actions/actions' 
-
 
 const styles = theme => ({
 	// header: {
@@ -68,7 +66,7 @@ class ForumPage extends Component {
 	render() {
 		if (this.state.loading) {
 			return (
-				<CircularProgress/>
+				<Loading/>
 			)
 		} else {
 			return (
@@ -79,7 +77,6 @@ class ForumPage extends Component {
 						currentForum={this.state.forumName}
 						currentForumAddress={this.props.currentForumAddress}
 					/>
-					<Divider/>
 					<PostListContainer />
 				</div>
 			)
@@ -91,6 +88,7 @@ function mapStateToProps(state) {
 	return {
 		web3: state.web3,
 		accounts: state.accounts,
+
 		currentForumAddress: state.forum.currentForumAddress
 	};
 }

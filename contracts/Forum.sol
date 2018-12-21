@@ -2,8 +2,8 @@ pragma solidity ^0.4.24;
 
 import "./Post.sol"; 
 import "./User.sol"; 
-import "@optionality.io/clone-factory/contracts/CloneFactory.sol";
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "./CloneFactory.sol";
+import "./Ownable.sol";
 
 contract Forum is Ownable, CloneFactory {
     event UserBanned(address userAddress);
@@ -17,13 +17,6 @@ contract Forum is Ownable, CloneFactory {
 
     mapping(address => bool) banned;
     mapping(address => bool) posts;
-    mapping(address => permissions) moderators;
-
-    struct permissions {
-        bool banUser;
-        bool deletePost;
-        bool createMod;
-    }
 
     function initialize(string _forumName, address _forumCreator) public {
         require(owner == address(0), "Nice try");
@@ -32,33 +25,22 @@ contract Forum is Ownable, CloneFactory {
         creator = _forumCreator;
     }
 
-    function createPost(string _postTitle, address _postCreator, address _clonePost) public onlyOwner returns(address){
+    function createPost(string _ipfsHash, address _postCreator, address _clonePost) public onlyOwner returns(address){
         require(!banned[_postCreator], "User is banned from this forum");
         address clone = createClone(_clonePost);
-        Post(clone).initialize(_postTitle, _postCreator);
+        Post(clone).initialize(_ipfsHash, _postCreator);
         posts[clone] = true;
         emit PostCreated(clone);
         return clone;
     }
 
-    function createComment(string _commentText, address _postAddress, address _targetAddress, address _commentCreator, address _cloneComment) 
-    public onlyOwner returns(address) {
+    function createComment(address _postAddress, address _targetAddress, address _commentCreator, string _ipfsHash, address _cloneComment) 
+    public onlyOwner {
         require(!banned[_commentCreator], "User is banned from this forum");
         require(posts[_postAddress], "Post does not exist.");
         Post targetPost = Post(_postAddress);
-        address newComment = targetPost.createComment(_commentText, _commentCreator, _targetAddress, _cloneComment);
-        return newComment;
+        targetPost.createComment(_ipfsHash, _commentCreator, _targetAddress, _cloneComment);
     }
-
-    //todo cut out unnecessary call routing
-
-    // function deletePost(address _postAddress) public onlyOwner {
-    //     //todo
-    // }
-
-    // function deleteComment(address _postAddress, address _commentAddress) public onlyOwner {
-    //     //todo
-    // }
 
     function banUser(address _userAddress) public onlyOwner {
         require(!banned[_userAddress], "User already banned");
@@ -71,12 +53,4 @@ contract Forum is Ownable, CloneFactory {
         delete banned[_userAddress];
         emit UserUnbanned(_userAddress);
     }
-
-    // function createMod(address _modUserAddress) public onlyOwner {
-    //     //todo
-    // }
-
-    // function removeMod(address _modUserAddress) public onlyOwner {
-    //     //todo
-    // }
 }

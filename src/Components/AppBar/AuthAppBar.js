@@ -18,9 +18,13 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import CreatePostDialog from '../Dialog/CreatePostDialog'
 import CreateCommentDialog from '../Dialog/CreateCommentDialog'
 import { connect } from 'react-redux';
-import { withRouter } from "react-router-dom"
+import UserMenu from '../User/UserMenu';
+import { setDrawerState } from '../../actions/actions';
+import { withRouter } from "react-router-dom";
 import blueGrey from '@material-ui/core/colors/blueGrey';
 import red from '@material-ui/core/colors/red';
+import { Link } from 'react-router-dom';
+import { updateForum } from '../../actions/actions'
 
 const primary = blueGrey[500]; // #F44336
 const accent = red['A200']; // #E040FB
@@ -40,6 +44,8 @@ const styles = theme => ({
   },
   title: {
     display: 'none',
+    fontSize: "20px",
+    paddingRight: "20px",
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -107,6 +113,11 @@ class PrimarySearchAppBar extends React.Component {
     }
   }
 
+  handleDrawerToggle = () => {
+    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+    this.props.dispatch(setDrawerState());
+    console.log("hello it was clicked")
+  };
 
   componentDidMount = () => {
     this.setState({
@@ -208,14 +219,22 @@ class PrimarySearchAppBar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static" style={{ background: primary }}>
+        <AppBar position="static" color="primary">
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
+            <IconButton
+              className={classes.menuButton}
+              onClick={this.handleDrawerToggle}
+              color="inherit" aria-label="Open drawer"
+            >
               <MenuIcon />
             </IconButton>
-            <Typography className={classes.title} color="inherit" noWrap>
-              Tartarus
-            </Typography>
+            <Link to="/" style={{ textDecoration: 'none', color: "white" }}>
+              <div onClick={() => this.changeForum({ name: "Frontpage", address: null })}>
+                <Typography className={classes.title} color="inherit" noWrap>
+                  Tartarus
+                      </Typography>
+              </div>
+            </Link>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -232,24 +251,7 @@ class PrimarySearchAppBar extends React.Component {
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {buttonSwitch()}
-              <IconButton color="inherit">
-                <Badge className={classes.margin} badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton color="inherit">
-                <Badge className={classes.margin} badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-owns={isMenuOpen ? 'material-appbar' : null}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
+              <UserMenu />
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
@@ -268,7 +270,8 @@ class PrimarySearchAppBar extends React.Component {
 function mapStateToProps(state) {
   return {
     currentForum: state.forum.currentForum,
-    currentPage: state.page
+    currentPage: state.page,
+    drawerState: state.drawerState
   };
 }
 

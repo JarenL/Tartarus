@@ -1,5 +1,6 @@
 import {
-  CURRENT_USER_ADDRESS
+  CURRENT_USER_ADDRESS,
+  CURRENT_OWNER_ADDRESS
 } from '../actions/actions';
 
 const initialState = {
@@ -25,6 +26,11 @@ const accountsReducer = (state = initialState, action) => {
         ...state,
         currentOwnerAddress: null
       }
+    case CURRENT_OWNER_ADDRESS:
+      return {
+        ...state,
+        currentOwnerAddress: action.payload
+      };
     case CURRENT_USER_ADDRESS:
       return {
         ...state,

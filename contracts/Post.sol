@@ -1,41 +1,50 @@
 pragma solidity ^0.4.24;
 
 import "./Comment.sol"; 
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "@optionality.io/clone-factory/contracts/CloneFactory.sol";
+import "./CloneFactory.sol";
+import "./Ownable.sol";
 
 contract Post is Ownable, CloneFactory {
     event CommentCreated (address commentAddress);
 
     struct PostInfo {
-        string title;
+        string ipfsHash;
         address creator;
-        address forum;
         uint time;
-        mapping(address => bool) comments;
+        mapping(address => CommentInfo) comments;
+    }  
+
+    struct CommentInfo {
+        string ipfsHash;
+        address creator;
+        address target;
+        uint time;
     }
 
     PostInfo public postInfo;
 
-    function initialize(string _postTitle, address _postCreator) public {
+    function initialize(string _ipfsHash, address _postCreator) public {
         require(owner == address(0), "Nice try");
         owner = msg.sender;
-        postInfo.title = _postTitle;
+        postInfo.ipfsHash = _ipfsHash;
         postInfo.creator = _postCreator;
         postInfo.time = now;
-        postInfo.forum = address(msg.sender);
     }
 
-    function createComment (string _commentText, address _commentCreator, address _targetAddress, address _cloneComment) 
-    public onlyOwner returns(address) {
+    function createComment (string _ipfsHash, address _commentCreator, address _targetAddress, address _cloneComment) public onlyOwner {
         address clone = createClone(_cloneComment);
-        Comment(clone).initialize(_commentText, _commentCreator, _targetAddress);
-        postInfo.comments[clone] = true;
+        Comment(clone).initialize();
+        CommentInfo memory newComment = CommentInfo(_ipfsHash, _commentCreator, _targetAddress, now);
+        postInfo.comments[clone] = newComment;
         emit CommentCreated(clone);
-        return clone;
     }
 
-    function getCreator () public view returns(address) {
-        return postInfo.creator;
+    function getComment(address _commentAddress) public view returns(string, address, address, uint) {
+        return (
+            postInfo.comments[_commentAddress].ipfsHash,
+            postInfo.comments[_commentAddress].creator,
+            postInfo.comments[_commentAddress].target,
+            postInfo.comments[_commentAddress].time
+        );
     }
 }

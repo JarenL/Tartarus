@@ -9,7 +9,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
 import CreateCommentButton from '../Buttons/CreateCommentButton';
-import TartarusContract from '../../../build/contracts/Tartarus.json';
+import TartarusContract from '../../contracts/Tartarus.json';
+import ipfs from '../../ipfs';
 
 const styles = theme => ({
 	button: {
@@ -57,18 +58,24 @@ class CreateCommentDialog extends Component {
 	createComment = (commentText) => {
 		const contract = require('truffle-contract')
 		const tartarus = contract(TartarusContract)
-		tartarus.setProvider(this.props.web3.currentProvider)
-		this.props.web3.eth.getAccounts((error, accounts) => {
-			tartarus.at(this.props.tartarusAddress).then((instance) => {
-				console.log("hello")
-				console.log(this.props.tartarusAddress)
-				instance.createComment(
-					this.props.currentForumAddress,
-					this.props.currentPostAddress,
-					this.props.currentPostAddress,
-					commentText,
-					{ from: accounts[0], gasPrice: 20000000000 }
-				)
+		const data = JSON.stringify({
+			comment: commentText
+		})
+
+		ipfs.add(data, (err, hash) => {
+			console.log(data)
+			console.log(hash)
+			tartarus.setProvider(this.props.web3.currentProvider)
+			this.props.web3.eth.getAccounts((error, accounts) => {
+				tartarus.at(this.props.tartarusAddress).then((instance) => {
+					instance.createComment(
+						this.props.currentForumAddress,
+						this.props.currentPostAddress,
+						this.props.currentPostAddress,
+						hash,
+						{ from: accounts[0], gasPrice: 20000000000 }
+					)
+				})
 			})
 		})
 	}
@@ -84,26 +91,30 @@ class CreateCommentDialog extends Component {
 					onClose={this.handleClose}
 					aria-labelledby="form-dialog-title"
 				>
-					<DialogTitle id="form-dialog-title">Comment</DialogTitle>
+					<DialogTitle id="form-dialog-title" style={{ marginTop: '0px' }}>Comment</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							Create Comment.
+							<p style={{ marginTop: '0px' }}>Create Comment.</p>
             </DialogContentText>
 						<TextField
 							autoFocus
 							onChange={this.setDialogText}
 							margin="dense"
 							id="name"
+							multiline
+							rows={10}
 							label="Comment"
 							type="String"
-							fullWidth
+							multiline="true"
+							style={{ width: '400px' }}
+							variant="outlined"
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={this.handleClose} color="primary">
+						<Button onClick={this.handleClose} color="primary" style={{ marginTop: '0px' }}>
 							Cancel
             </Button>
-						<Button onClick={this.submit} color="primary">
+						<Button onClick={this.submit} color="primary" style={{ marginTop: '0px' }}>
 							Comment
             </Button>
 					</DialogActions>
@@ -117,6 +128,7 @@ function mapStateToProps(state) {
 	return {
 		web3: state.web3,
 		tartarusAddress: state.tartarus.tartarusAddress,
+		accounts: state.accounts,
 		currentForum: state.forum.currentForum,
 		currentForumAddress: state.forum.currentForumAddress,
 		currentPostAddress: state.forum.currentPostAddress

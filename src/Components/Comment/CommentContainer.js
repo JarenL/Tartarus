@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import CommentContract from '../../../build/contracts/Comment.json';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import PostContract from '../../contracts/Post.json';
+import Loading from '../Loading'
 import Comment from './Comment';
+import ipfs from '../../ipfs'
 
 class CommentContainer extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class CommentContainer extends Component {
       post: null,
       forum: null,
       target: null,
-      date: null,
+      time: null,
       loading: true
     }
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -25,26 +26,33 @@ class CommentContainer extends Component {
 
   instantiateContract() {
     const contract = require('truffle-contract')
-    const comment = contract(CommentContract)
-    comment.setProvider(this.props.web3.currentProvider)
-    comment.at(this.props.address).then((instance) => {
-      instance.commentInfo.call().then((result) => {
+    const post = contract(PostContract)
+    post.setProvider(this.props.web3.currentProvider)
+    post.at(this.props.currentPostAddress).then((instance) => {
+      instance.getComment(this.props.address).then((result) => {
         console.log(result)
-        let commentDate = new Date(result[5].c[0] * 1000).toString()
-        this.setState({
-          comment: result[0],
-          creator: result[1],
-          target: result[4],
-          date: commentDate,
-          loading: false
-        });
+        ipfs.catJSON(result[0], (err, ipfsData) => {
+          console.log(ipfsData)
+          var utcSeconds = result[3];
+          var time = new Date(0); 
+          time.setUTCSeconds(utcSeconds);
+          time = time.toString();
+          this.setState({
+            comment: ipfsData.comment,
+            creator: result[1],
+            target: result[2],
+            time: time,
+            loading: false
+          });
+        })
       })
     })
   }
+
   render() {
     if (this.state.loading) {
       return (
-        <CircularProgress />
+        <Loading />
       )
     } else {
       return (
@@ -53,7 +61,7 @@ class CommentContainer extends Component {
           comment={this.state.comment}
           creator={this.state.creator}
           target={this.state.target}
-          date={this.state.date}
+          time={this.state.time}
         />
       )
     }
@@ -65,6 +73,7 @@ function mapStateToProps(state) {
     web3: state.web3,
     accounts: state.accounts,
     tartarusAddress: state.tartarus.tartarusAddress,
+    currentPostAddress: state.forum.currentPostAddress
   };
 }
 

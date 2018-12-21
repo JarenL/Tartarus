@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ForumContract from '../../../build/contracts/Forum.json';
+import ForumContract from '../../contracts/Forum.json';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Forum from './Forum';

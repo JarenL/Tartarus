@@ -7,9 +7,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from '@material-ui/core/styles';
-import TartarusContract from '../../../build/contracts/Tartarus.json';
+import TartarusContract from '../../contracts/Tartarus.json';
 import { connect } from 'react-redux'
 import CreatePostButton from '../Buttons/CreatePostButton.js';
+import ipfs from '../../ipfs';
 
 const styles = theme => ({
 	button: {
@@ -56,18 +57,29 @@ class CreatePostDialog extends Component {
 	createPost = (postTitle) => {
 		const contract = require('truffle-contract')
 		const tartarus = contract(TartarusContract)
-		tartarus.setProvider(this.props.web3.currentProvider)
-		this.props.web3.eth.getAccounts((error, accounts) => {
-			tartarus.at(this.props.tartarusAddress).then((instance) => {
-				instance.createPost(
-					this.props.currentForumAddress,
-					postTitle,
-					{ from: accounts[0], gasPrice: 20000000000 }
-				)
+		const currentTime = (new Date()).getTime();
+		const data = JSON.stringify({
+			title: postTitle,
+			creator: this.props.accounts.currentUserAddress,
+			forum: this.props.currentForumAddress,
+			time: currentTime
+		})
+
+		ipfs.add(data, (err, hash) => {
+			tartarus.setProvider(this.props.web3.currentProvider)
+			this.props.web3.eth.getAccounts((error, accounts) => {
+				tartarus.at(this.props.tartarusAddress).then((instance) => {
+					console.log(hash)
+					instance.createPost(
+						this.props.currentForumAddress,
+						hash,
+						{ from: accounts[0], gasPrice: 20000000000 }
+					)
+				})
 			})
 		})
 	}
-	
+
 	render() {
 		return (
 			<div>
@@ -79,10 +91,10 @@ class CreatePostDialog extends Component {
 					onClose={this.handleClose}
 					aria-labelledby="form-dialog-title"
 				>
-					<DialogTitle id="form-dialog-title">Post</DialogTitle>
+					<DialogTitle id="form-dialog-title" style={{ marginTop: '0px' }}>Post</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							Create Post.
+							<p style={{ marginTop: '0px' }}>Create Post.</p>
             </DialogContentText>
 						<TextField
 							autoFocus
@@ -91,14 +103,16 @@ class CreatePostDialog extends Component {
 							id="name"
 							label="Post"
 							type="String"
-							fullWidth
+							multiline="true"
+							style={{ width: '300px' }}
+							variant="outlined"
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={this.handleClose} color="primary">
+						<Button onClick={this.handleClose} color="primary" style={{ marginTop: '0px' }}>
 							Cancel
             </Button>
-						<Button onClick={this.submit} color="primary">
+						<Button onClick={this.submit} color="primary" style={{ marginTop: '0px' }}>
 							Post
             </Button>
 					</DialogActions>
@@ -113,8 +127,8 @@ function mapStateToProps(state) {
 		web3: state.web3,
 		tartarusAddress: state.tartarus.tartarusAddress,
 		currentForum: state.forum.currentForum,
-		currentForumAddress: state.forum.currentForumAddress
-
+		currentForumAddress: state.forum.currentForumAddress,
+		accounts: state.accounts,
 	};
 }
 

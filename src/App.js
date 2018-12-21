@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import DrawerContainer from './Components/Drawer/DrawerContainer';
 import AppBarContainer from './Components/AppBar/AppBarContainer';
 import getWeb3 from './utils/getWeb3';
-import TartarusContract from '../build/contracts/Tartarus.json';
+import TartarusContract from './contracts/Tartarus.json';
 import { Route, Switch } from "react-router-dom";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { connect } from 'react-redux';
@@ -12,7 +12,9 @@ import FrontPage from './Components/FrontPage';
 import ForumPage from './Components/Forum/ForumPage';
 import PostPage from './Components/Post/PostPage';
 import UserPage from './Components/User/UserPage';
-
+import AboutPage from './Components/User/AboutPage';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import theme from './Components/Style/theme'
 
 import {
   initializeWeb3,
@@ -35,7 +37,8 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.default,
     // backgroundColor: 'red',
     marginTop: 45,
-    marginLeft: '15%',
+
+    marginLeft: '0%',
     padding: theme.spacing.unit,
     minHeight: '100vh',
     minWidth: 0, // So the Typography noWrap works
@@ -44,8 +47,10 @@ const styles = theme => ({
 
 class App extends Component {
   constructor(props) {
+    console.log(props.match)
     super(props)
     this.state = {
+      marginLeft: "0%",
       tartarusInstance: null,
       loading: true
     }
@@ -64,6 +69,7 @@ class App extends Component {
   }
 
   componentDidUpdate(newProps) {
+    console.log(newProps)
     if (newProps.accounts.currentOwnerAddress !== "0") {
       if (newProps.accounts.currentOwnerAddress !== this.props.accounts.currentOwnerAddress) {
         window.location.reload();
@@ -75,10 +81,10 @@ class App extends Component {
     this.props.dispatch(setCurrentUserAddress(0))
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0x447db080264bed6ed21d3a082ae4cdd7ebfe4e32"))
+    this.props.dispatch(setTartarusAddress("0xee548e79a1a8b89625b0b704a353a4b95e38bd60"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
-      instance.authenticateUser({from : this.props.accounts.currentOwnerAddress}).then((result) => {
+      instance.authenticateUser({ from: this.props.accounts.currentOwnerAddress }).then((result) => {
         console.log(result)
         if (result !== "0x0000000000000000000000000000000000000000") {
           this.props.dispatch(setCurrentUserAddress(result))
@@ -98,22 +104,26 @@ class App extends Component {
       )
     } else {
       return (
+        <MuiThemeProvider theme={theme}>
         <div>
-          <AppBarContainer />
+          <AppBarContainer/>
           <div className={classes.main}>
             <div>
               <DrawerContainer />
             </div>
-            <div className={classes.content}>
+            <div className={classes.content} style={{ marginLeft: this.props.drawerState.drawerState ? '15%': '0%'}}>
               <Switch>
                 <Route exact path="/" component={FrontPage} />
                 <Route path={"/forum/:forumAddress"} component={ForumPage} />
                 <Route path={"/post/:postAddress"} component={PostPage} />
                 <Route path={"/user/:userAddress"} component={UserPage} />
+                <Route path={"/about"} component={AboutPage} />
+                <Route path={"/user"} component={UserPage} />
               </Switch>
             </div>
           </div>
         </div>
+        </MuiThemeProvider>
       )
     }
 
@@ -129,6 +139,7 @@ function mapStateToProps(state) {
     web3: state.web3,
     tartarusAddress: state.tartarus.tartarusAddress,
     accounts: state.accounts,
+    drawerState: state.drawerState,
     currentForum: state.forum.currentForum,
     currentForumAddress: state.forum.currentForumAddress
   };
@@ -136,4 +147,4 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, null, null, {
   pure: false
-})(withStyles(styles)(App));
+})(withStyles(styles, {withTheme: true})(App));

@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import TartarusContract from '../../../build/contracts/Tartarus.json';
+import TartarusContract from '../../contracts/Tartarus.json';
 import { connect } from 'react-redux'
 import CreateForumButton from '../Buttons/CreateForumButton'
 
@@ -69,10 +69,10 @@ class CreateForumDialog extends Component {
 					onClose={this.handleClose}
 					aria-labelledby="form-dialog-title"
 				>
-					<DialogTitle id="form-dialog-title">Create New Forum</DialogTitle>
+					<DialogTitle id="form-dialog-title" style={{ marginBottom: '0px' }}>Create New Forum</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							To create a new forum, please enter the name of your forum here. If it exists already transaction will fail.
+							<p style={{ marginTop: '0px' }}>To create a new forum, please enter the name of your forum here. If it exists already transaction will fail.</p>
             </DialogContentText>
 						<TextField
 							autoFocus
@@ -85,10 +85,10 @@ class CreateForumDialog extends Component {
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={this.handleClose} color="primary">
+						<Button onClick={this.handleClose} color="primary" style={{ marginTop: '0px' }}>
 							Cancel
             </Button>
-						<Button onClick={this.submit} color="primary">
+						<Button onClick={this.submit} color="primary" style={{ marginTop: '0px' }}>
 							Create
             </Button>
 					</DialogActions>

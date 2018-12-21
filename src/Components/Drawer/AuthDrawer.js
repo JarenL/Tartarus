@@ -4,14 +4,15 @@ import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import ForumListContainer from '../Forum/ForumListContainer';
 import { connect } from 'react-redux';
-import UserContract from '../../../build/contracts/User.json';
+import UserContract from '../../contracts/User.json';
 import CreateForumDialog from '../Dialog/CreateForumDialog'
 
 const styles = theme => ({
 	drawerPaper: {
 		position: 'ablsolute',
 		marginTop: 65,
-		width: '15%'
+		width: '15%',
+		boxShadow: "2px 4px 40px #9E9E9E",
 	}
 });
 
@@ -33,8 +34,8 @@ class AuthDrawer extends Component {
 		const user = contract(UserContract)
 		user.setProvider(this.props.web3.currentProvider)
 		user.at(this.props.accounts.currentUserAddress).then((instance) => {
-			const forumSubscribeEvemt = instance.SubscribeForum({}, { fromBlock: 0, toBlock: 'latest' });
-			forumSubscribeEvemt.watch((error, result) => {
+			const forumSubscribeEvent = instance.SubscribeForum({}, { fromBlock: 0, toBlock: 'latest' });
+			forumSubscribeEvent.watch((error, result) => {
 				let newForumArray = this.state.forums.slice();
 				newForumArray.push({
 					address: result.args.forumAddress,

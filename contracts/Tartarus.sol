@@ -3,8 +3,8 @@ pragma solidity ^0.4.24;
 import "./User.sol"; 
 import "./Forum.sol"; 
 import "./Comment.sol";
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "@optionality.io/clone-factory/contracts/CloneFactory.sol";
+import "./CloneFactory.sol";
+import "./Ownable.sol";
 
 contract Tartarus is Ownable, CloneFactory {
     event AdminCreated (address adminAddress);
@@ -43,31 +43,31 @@ contract Tartarus is Ownable, CloneFactory {
         User targetUser = User(users[msg.sender]);
         targetUser.subscribe(clone);
         emit ForumCreated(clone);
-    }
+    }   
 
-    function createPost(address _forumAddress, string _postTitle) public {
+    function createPost(address _forumAddress, string _ipfsHash) public {
         require(users[msg.sender] != address(0), "User account not found");
         Forum targetForum = Forum(_forumAddress);
-        address newPostAddress = targetForum.createPost(_postTitle, users[msg.sender], clonePost);
-        User targetUser = User(users[msg.sender]);
-        targetUser.notifyCreatePost(newPostAddress);
+        targetForum.createPost(_ipfsHash, users[msg.sender], clonePost);
+        // User targetUser = User(users[msg.sender]);
+        // targetUser.notifyCreatePost(newPostAddress);
     }
 
-    function createComment(address _forumAddress, address _postAddress, address _targetAddress, string _commentText) public {
+    function createComment(address _forumAddress, address _postAddress, address _targetAddress, string _ipfsHash) public {
         require(users[msg.sender] != address(0), "User account not found");
         Forum targetForum = Forum(_forumAddress);
-        address newCommentAddress = targetForum.createComment(_commentText, _postAddress, _targetAddress, users[msg.sender], cloneComment);
-        User targetUser = User(users[msg.sender]);
-        targetUser.notifyCreateComment(newCommentAddress);
-        if (_targetAddress == _postAddress) {
-            Post targetPost = Post(_targetAddress);
-            targetUser = User(targetPost.getCreator());
-            targetUser.notifyCommentReceived(newCommentAddress);
-        } else {
-            Comment targetComment = Comment(_targetAddress);
-            targetUser = User(targetComment.getCreator());
-            targetUser.notifyCommentReceived(newCommentAddress);
-        }
+        targetForum.createComment(_postAddress, _targetAddress, users[msg.sender], _ipfsHash, cloneComment);
+        // User targetUser = User(users[msg.sender]);
+        // targetUser.notifyCreateComment(newCommentAddress);
+        // if (_targetAddress == _postAddress) {
+        //     Post targetPost = Post(_targetAddress);
+        //     targetUser = User(targetPost.postInfo.creator);
+        //     targetUser.notifyCommentReceived(newCommentAddress);
+        // } else {
+        //     Comment targetComment = Comment(_targetAddress);
+        //     targetUser = User(targetComment.getCreator());
+        //     targetUser.notifyCommentReceived(newCommentAddress);
+        // }
     }
 
     function createUser() public payable {
