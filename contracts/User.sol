@@ -11,6 +11,9 @@ contract User is Ownable {
     event MessageSent (address targetAddress, string messageText);
     event MessageReceived (address senderAddress, string messageText);
 
+    // event VoteSent (address targetAddress, uint voteIndex);
+    // event VoteRecieved (address senderAddress, uint voteIndex);
+
     address creator;
     mapping(address => bool) private forumSubscriptions;
 
