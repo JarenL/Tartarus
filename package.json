@@ -19,6 +19,7 @@
     "react-web3": "^1.2.0",
     "redux": "^4.0.1",
     "redux-auth-wrapper": "^2.0.3",
+    "redux-persist": "^5.10.0",
     "redux-saga": "^0.16.2",
     "redux-thunk": "^2.3.0",
     "truffle-contract": "^3.0.6",

@@ -104,7 +104,6 @@ export function setCurrentPage(newPage) {
 }
 
 export function setCommentSortType(newCommentSortType) {
-    //console.log(newCommentSortType); //this is triggering
     return {
         type: UPDATE_COMMENTS,
         payload: newCommentSortType

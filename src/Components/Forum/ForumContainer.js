@@ -22,6 +22,7 @@ class ForumContainer extends Component {
   instantiateContract() {
     const contract = require('truffle-contract')
     const forum = contract(ForumContract)
+    console.log(this.props.address)
     forum.setProvider(this.props.web3.currentProvider)
     forum.at(this.props.address).then((instance) => {
       instance.name.call().then((result) => {

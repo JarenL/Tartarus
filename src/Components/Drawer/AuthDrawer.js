@@ -38,19 +38,15 @@ class AuthDrawer extends Component {
 		const user = contract(UserContract)
 		user.setProvider(this.props.web3.currentProvider)
 		user.at(this.props.accounts.currentUserAddress).then((instance) => {
-			instance.SubscribeForum({}, { fromBlock: 0, toBlock: 'latest' }).get((error, result) => {
-				console.log(result)
-				let newForumArray = this.state.forums.slice();
-				result.forEach((result) => {
-					newForumArray.push({
-						address: result.args.forumAddress,
-					});
-				})
-				this.setState({
-					forums: newForumArray
-				});
-				this.props.dispatch(updateForumSubscriptions(newForumArray))
-			})
+			// instance.SubscribeForum({}, { fromBlock: 0, toBlock: 'latest' }).get((error, result) => {
+			// 	let newForumArray = this.state.forums.slice();
+			// 	result.forEach((result) => {
+			// 		newForumArray.push({
+			// 			address: result.args.forumAddress,
+			// 		});
+			// 	})
+			// 	this.props.dispatch(updateForumSubscriptions(newForumArray))
+			// })
 		})
 	}
 
@@ -63,7 +59,7 @@ class AuthDrawer extends Component {
 					classes={{
 						paper: classes.drawerPaper,
 					}}>
-					<ForumListContainer forums={this.state.forums} />
+					<ForumListContainer forums={this.props.forumSubscriptions} />
 					<CreateForumDialog />
 				</Drawer>
 			</div>
@@ -81,7 +77,8 @@ function mapStateToProps(state) {
 	return {
 		web3: state.web3,
 		tartarusAddress: state.tartarus.tartarusAddress,
-		accounts: state.accounts
+		accounts: state.accounts,
+		forumSubscriptions: state.forum.forumSubscriptions
 	};
 }
 

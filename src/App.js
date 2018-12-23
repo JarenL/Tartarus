@@ -89,7 +89,7 @@ class App extends Component {
         } else {
           console.log("user account not found")
         }
-        this.setState({ loading: false })
+        this.setState({loading: false})
       })
     })
   }

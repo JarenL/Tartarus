@@ -20,11 +20,10 @@ import CreateCommentDialog from '../Dialog/CreateCommentDialog'
 import { connect } from 'react-redux';
 import UserMenu from '../User/UserMenu';
 import { setDrawerState } from '../../actions/actions';
-import { withRouter } from "react-router-dom";
-import blueGrey from '@material-ui/core/colors/blueGrey';
-import red from '@material-ui/core/colors/red';
 import { Link } from 'react-router-dom';
 import { updateForum } from '../../actions/actions'
+import SubscribeButton from '../Buttons/SubscribeButton'
+import UnsubscribeButton from '../Buttons/UnsubscribeButton';
 
 const styles = theme => ({
   root: {
@@ -205,7 +204,7 @@ class PrimarySearchAppBar extends React.Component {
       </Menu>
     );
 
-    const buttonSwitch = () => {
+    const createButtonSwitch = () => {
       switch (this.state.currentPage) {
         case 'Frontpage':
           return null;
@@ -215,6 +214,21 @@ class PrimarySearchAppBar extends React.Component {
           return <CreateCommentDialog />;
         default:
           return null;
+      }
+    }
+
+    const subscribeButtonSwitch = () => {
+      console.log(this.props.forumSubscriptions.indexOf({"address" : this.props.currentForumAddress}))
+      if (this.props.currentForumAddress) {
+        var index = this.props.forumSubscriptions.findIndex( forum => forum.address === this.props.currentForumAddress )
+        console.log(index)
+        if (index === -1) {
+          return <SubscribeButton forumContext={this.props.currentForumAddress} />;
+        } else {
+          return <UnsubscribeButton forumContext={this.props.currentForumAddress} />;
+        }
+      } else {
+        return null
       }
     }
 
@@ -251,7 +265,8 @@ class PrimarySearchAppBar extends React.Component {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {buttonSwitch()}
+              {subscribeButtonSwitch()}
+              {createButtonSwitch()}
               <UserMenu />
             </div>
             <div className={classes.sectionMobile}>
@@ -270,8 +285,9 @@ class PrimarySearchAppBar extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    currentForum: state.forum.currentForum,
     currentPage: state.page,
+    currentForumAddress: state.forum.currentForumAddress,
+    forumSubscriptions: state.forum.forumSubscriptions,
     drawerState: state.drawerState
   };
 }
