@@ -15,7 +15,7 @@ contract VoteForums is Ownable {
     
     int256 voteCount;
     
-    event VoteCreated(address voteAddress, );
+    event VoteCreated(address voteAddress);
     
     struct Forums {
         string postAddress;
@@ -62,7 +62,7 @@ contract VoteForums is Ownable {
     uint public voteWieght;
     
     function sendUpVote() public payable authorizedVote inState(State.AWAITING_REWARD) {
-        require(msg.sender == subscriber);
+        require(msg.sender == subscriber, "Subscriber....");
         require(msg.value > 0.1 ether, "Not enough either to vote");
         voteCount += 1;
         currentState = State.AWAITING_VOTE;
@@ -72,7 +72,11 @@ contract VoteForums is Ownable {
     function voteRecieved() public authorizedVote inState(State.AWAITING_VOTE) {
         currentState = State.VOTE_RECIEVED;
         // both owner and subscriber should be authoried to vote
-        owner.transfer(address(this).balance);
-        subscriber.transfer(address(this).balance);
+        if (owner) {
+            owner.transfer(address(this).balance);
+        }
+        if (subscriber) {
+            subscriber.transfer(address(this).balance);
+        }
     }
 }
