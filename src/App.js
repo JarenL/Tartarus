@@ -6,7 +6,7 @@ import AppBarContainer from './Components/AppBar/AppBarContainer';
 import getWeb3 from './utils/getWeb3';
 import TartarusContract from './contracts/Tartarus.json';
 import { Route, Switch } from "react-router-dom";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Loading from './Components/Loading';
 import { connect } from 'react-redux';
 import FrontPage from './Components/FrontPage';
 import ForumPage from './Components/Forum/ForumPage';
@@ -69,7 +69,6 @@ class App extends Component {
   }
 
   componentDidUpdate(newProps) {
-    console.log(newProps)
     if (newProps.accounts.currentOwnerAddress !== "0") {
       if (newProps.accounts.currentOwnerAddress !== this.props.accounts.currentOwnerAddress) {
         window.location.reload();
@@ -85,7 +84,6 @@ class App extends Component {
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
       instance.authenticateUser({ from: this.props.accounts.currentOwnerAddress }).then((result) => {
-        console.log(result)
         if (result !== "0x0000000000000000000000000000000000000000") {
           this.props.dispatch(setCurrentUserAddress(result))
         } else {
@@ -100,7 +98,7 @@ class App extends Component {
     const { classes } = this.props;
     if (this.state.loading) {
       return (
-        <CircularProgress />
+        <Loading />
       )
     } else {
       return (

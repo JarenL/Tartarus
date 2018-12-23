@@ -19,7 +19,8 @@ class PostContainer extends Component {
       title: null,
       creator: null,
       time: null,
-      loading: true
+      loading: true,
+      exists: true
     }
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -35,27 +36,38 @@ class PostContainer extends Component {
     post.at(this.props.address).then((instance) => {
       instance.postInfo.call().then((result) => {
         ipfs.catJSON(result[0], (err, ipfsData) => {
-          var utcSeconds = ipfsData.time;
-          var time = new Date(0); 
-          time.setUTCSeconds(utcSeconds / 1000);
-          time = time.toString();
-          this.setState({
-            title: ipfsData.title,
-            creator: ipfsData.creator,
-            time: time,
-            loading: false
-          });
+          if (ipfsData) {
+            var utcSeconds = ipfsData.time;
+            var time = new Date(0);
+            time.setUTCSeconds(utcSeconds / 1000);
+            time = time.toString();
+            this.setState({
+              title: ipfsData.title,
+              creator: ipfsData.creator,
+              time: time,
+              loading: false,
+            });
+          } else {
+            this.setState({
+              exists: false
+            })
+          }
         })
       })
     })
   }
   render() {
     if (this.state.loading) {
-      return (
-        <div className={styles.center}>
-          <Loading />
-        </div>
-      )
+      if (this.state.exists) {
+        return (
+          <div className={styles.center}>
+            <Loading />
+          </div>
+        )
+      } else {
+        return null
+      }
+
     } else {
       return (
         <Post

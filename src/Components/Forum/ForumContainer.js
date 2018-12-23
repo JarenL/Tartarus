@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ForumContract from '../../contracts/Forum.json';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Loading from '../Loading'
 
 import Forum from './Forum';
 
@@ -36,7 +36,7 @@ class ForumContainer extends Component {
 
     if (this.state.loading) {
       return (
-        <CircularProgress />
+        <Loading />
       )
     } else {
       return (

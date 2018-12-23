@@ -26,10 +26,6 @@ import red from '@material-ui/core/colors/red';
 import { Link } from 'react-router-dom';
 import { updateForum } from '../../actions/actions'
 
-const primary = blueGrey[500]; // #F44336
-const accent = red['A200']; // #E040FB
-// const accent2 = purple.A200; // #E040FB (alternative method)
-
 const styles = theme => ({
   root: {
     width: '100%',
@@ -118,6 +114,11 @@ class PrimarySearchAppBar extends React.Component {
     this.props.dispatch(setDrawerState());
     console.log("hello it was clicked")
   };
+
+  changeForum = (forum) => {
+    console.log("forum clicked")
+    this.props.dispatch(updateForum(forum))
+  }
 
   componentDidMount = () => {
     this.setState({

@@ -6,6 +6,7 @@ import PostContract from '../../contracts/Post.json'
 import Loading from '../Loading'
 import { setCurrentPage, setCurrentPostAddress } from '../../actions/actions'
 import CommentListContainer from '../Comment/CommentListContainer' 
+import ipfs from '../../ipfs'
 
 class PostPage extends Component {
 	constructor(match) {
@@ -30,12 +31,12 @@ class PostPage extends Component {
 		post.setProvider(this.props.web3.currentProvider)
 		post.at(this.state.postAddress).then((instance) => {
 			instance.postInfo.call().then((result) => {
-				if (result !== null) {
+				ipfs.catJSON(result[0], (err, ipfsData) => {
 					this.setState({
-						postTitle: result[0],
+						postTitle: ipfsData.title,
 						loading: false
 					})
-				}
+				})
 			})
 		}).catch((err) => {
 			console.log("error")

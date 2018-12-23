@@ -7,6 +7,10 @@ import { connect } from 'react-redux';
 import UserContract from '../../contracts/User.json';
 import CreateForumDialog from '../Dialog/CreateForumDialog'
 
+import {
+  updateForumSubscriptions
+} from '../../actions/actions'
+
 const styles = theme => ({
 	drawerPaper: {
 		position: 'ablsolute',
@@ -34,15 +38,18 @@ class AuthDrawer extends Component {
 		const user = contract(UserContract)
 		user.setProvider(this.props.web3.currentProvider)
 		user.at(this.props.accounts.currentUserAddress).then((instance) => {
-			const forumSubscribeEvent = instance.SubscribeForum({}, { fromBlock: 0, toBlock: 'latest' });
-			forumSubscribeEvent.watch((error, result) => {
+			instance.SubscribeForum({}, { fromBlock: 0, toBlock: 'latest' }).get((error, result) => {
+				console.log(result)
 				let newForumArray = this.state.forums.slice();
-				newForumArray.push({
-					address: result.args.forumAddress,
-				});
+				result.forEach((result) => {
+					newForumArray.push({
+						address: result.args.forumAddress,
+					});
+				})
 				this.setState({
 					forums: newForumArray
 				});
+				this.props.dispatch(updateForumSubscriptions(newForumArray))
 			})
 		})
 	}

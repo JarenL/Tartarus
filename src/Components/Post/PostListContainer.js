@@ -31,20 +31,17 @@ class PostListContainer extends Component {
     const forum = contract(ForumContract)
     forum.setProvider(this.props.web3.currentProvider)
     forum.at(this.props.currentForumAddress).then((instance) => {
-      const postCreationEvent = instance.allEvents({ fromBlock: 0, toBlock: 'latest' });
-      postCreationEvent.watch((error, result) => {
-        if (!error) {
-          if (result.event === "PostCreated") {
-            let newPostArray = this.state.posts.slice();
-            newPostArray.push({
-              address: result.args.postAddress,
-            });
-            this.setState({
-              posts: newPostArray
-            });
-          }
-        }
-      })
+      instance.PostCreated({}, { fromBlock: 0, toBlock: 'latest' }).get((error, result) => {
+        let newPostArray = this.state.posts.slice();
+        result.forEach((result) => {
+          newPostArray.push({
+            address: result.args.postAddress,
+          });
+        })
+        this.setState({
+          posts: newPostArray
+        });
+      });
     })
   }
 

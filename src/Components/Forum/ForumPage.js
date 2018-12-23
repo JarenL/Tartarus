@@ -77,6 +77,7 @@ class ForumPage extends Component {
 						currentForum={this.state.forumName}
 						currentForumAddress={this.props.currentForumAddress}
 					/>
+					<Divider/>
 					<PostListContainer />
 				</div>
 			)
@@ -88,7 +89,6 @@ function mapStateToProps(state) {
 	return {
 		web3: state.web3,
 		accounts: state.accounts,
-
 		currentForumAddress: state.forum.currentForumAddress
 	};
 }

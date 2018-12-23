@@ -30,20 +30,17 @@ class CommentListContainer extends Component {
     const post = contract(PostContract)
     post.setProvider(this.props.web3.currentProvider)
     post.at(this.props.currentPostAddress).then((instance) => {
-      const commentCreationEvent = instance.allEvents({ fromBlock: 0, toBlock: 'latest' });
-      commentCreationEvent.watch((error, result) => {
-        if (!error) {
-          if (result.event === "CommentCreated") {
-            let newCommentArray = this.state.comments.slice();
-            newCommentArray.push({
-              address: result.args.commentAddress
-            });
-            this.setState({
-              comments: newCommentArray
-            });
-          }
-        }
-      })
+      instance.CommentCreated({}, { fromBlock: 0, toBlock: 'latest' }).get((error, result) => {
+        let newCommentsArray = this.state.comments.slice();
+        result.forEach((result) => {
+          newCommentsArray.push({
+            address: result.args.commentAddress,
+          });
+        })
+        this.setState({
+          comments: newCommentsArray
+        });
+      });
     })
   }
 
