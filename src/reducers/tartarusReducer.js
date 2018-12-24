@@ -1,6 +1,5 @@
 import {
     TARTARUS_ADDRESS,
-    TARTARUS_INSTANCE
 } from '../actions/actions';
 
 const initialState = {
@@ -13,10 +12,6 @@ const tartarusReducer = (state = initialState, action) => {
         case TARTARUS_ADDRESS:
             return Object.assign({}, state, {
                 tartarusAddress: action.payload
-            })
-        case TARTARUS_INSTANCE:
-            return Object.assign({}, state, {
-                tartarusInstance: action.payload
             })
         default:
             return state

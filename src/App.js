@@ -47,7 +47,6 @@ const styles = theme => ({
 
 class App extends Component {
   constructor(props) {
-    console.log(props.match)
     super(props)
     this.state = {
       marginLeft: "0%",
@@ -80,7 +79,7 @@ class App extends Component {
     this.props.dispatch(setCurrentUserAddress(0))
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0xee548e79a1a8b89625b0b704a353a4b95e38bd60"))
+    this.props.dispatch(setTartarusAddress("0x95abd5ab778d070cc1b6ede72a91dc06da554064"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
       instance.authenticateUser({ from: this.props.accounts.currentOwnerAddress }).then((result) => {

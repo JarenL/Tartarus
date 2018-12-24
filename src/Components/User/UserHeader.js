@@ -10,9 +10,6 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd'
 import EditIcon from '@material-ui/icons/Edit'
 import GetAppIcon from '@material-ui/icons/GetApp'
 import { connect } from 'react-redux';
-import UserHeader from './UserHeader';
-import { Divider } from '@material-ui/core';
-import UserTabs from './UserTabs';
 
 const styles = theme => ({
 	profile: {
@@ -61,16 +58,21 @@ const styles = theme => ({
 	}
 })
 
-class Profile extends React.Component {
+class UserHeader extends React.Component {
 	render() {
 		const { classes } = this.props
 		return (
 			<div className={classes.profile}>
-				<UserHeader/>
-				<Divider/>
-				<div className={classes.contents}>
-					<UserTabs/>
-				</div>
+				<Avatar
+					alt={this.props.accounts.currentUserAddress}
+					className={classNames(classes.avatar, classes.bigAvatar)}
+				>
+					{this.props.accounts.currentUserAddress && this.props.accounts.currentUserAddress.substring(0, 2)}
+				</Avatar>
+
+				<Typography className={classes.username} variant='title' noWrap gutterBottom>
+					<Link to={"/user"} style={{ textDecoration: 'none' }}>{this.props.accounts.currentUserAddress}</Link>
+				</Typography>
 			</div>
 		)
 	}
@@ -86,4 +88,4 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, null, null, {
   pure: false
-})(withStyles(styles, {withTheme: true})(Profile));
+})(withStyles(styles, {withTheme: true})(UserHeader));

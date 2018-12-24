@@ -36,18 +36,18 @@ class AuthDrawer extends Component {
 	instantiateContract() {
 		const contract = require('truffle-contract')
 		const user = contract(UserContract)
-		user.setProvider(this.props.web3.currentProvider)
-		user.at(this.props.accounts.currentUserAddress).then((instance) => {
-			// instance.SubscribeForum({}, { fromBlock: 0, toBlock: 'latest' }).get((error, result) => {
-			// 	let newForumArray = this.state.forums.slice();
-			// 	result.forEach((result) => {
-			// 		newForumArray.push({
-			// 			address: result.args.forumAddress,
-			// 		});
-			// 	})
-			// 	this.props.dispatch(updateForumSubscriptions(newForumArray))
-			// })
-		})
+		// user.setProvider(this.props.web3.currentProvider)
+		// user.at(this.props.accounts.currentUserAddress).then((instance) => {
+		// 	instance.SubscribeForum({}, { fromBlock: 0, toBlock: 'latest' }).get((error, result) => {
+		// 		let newForumArray = this.state.forums.slice();
+		// 		result.forEach((result) => {
+		// 			newForumArray.push({
+		// 				address: result.args.forumAddress,
+		// 			});
+		// 		})
+		// 		this.props.dispatch(updateForumSubscriptions(newForumArray))
+		// 	})
+		// })
 	}
 
 	render() {

@@ -105,7 +105,6 @@ class CreateCommentDialog extends Component {
 							rows={10}
 							label="Comment"
 							type="String"
-							multiline="true"
 							style={{ width: '400px' }}
 							variant="outlined"
 						/>

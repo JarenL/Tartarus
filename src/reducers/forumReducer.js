@@ -6,6 +6,15 @@ import {
 	UPDATE_FORUM_SUBSCRIPTIONS
 } from '../actions/actions';
 
+import { persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+
+const forumPersistConfig = {
+  key: 'forum',
+  storage: storage,
+  whitelist: ['forumSubscriptions']
+}
+
 const initialState = {
 	currentForum: "Frontpage",
 	currentForumAddress: null,
@@ -46,4 +55,4 @@ const forumReducer = (state = initialState, action) => {
 	}
 }
 
-export default forumReducer
+export default persistReducer(forumPersistConfig, forumReducer)

@@ -6,7 +6,6 @@ export const WEB3_INITIALIZED = 'WEB3_INITIALIZED'
 export const CURRENT_USER_ADDRESS = 'CURRENT_USER_ADDRESS'
 export const CURRENT_OWNER_ADDRESS = 'CURRENT_OWNER_ADDRESS'
 export const TARTARUS_ADDRESS = 'TARTARUS_ADDRESS'
-export const TARTARUS_INSTANCE = 'TARTARUS_INSTANCE'
 export const DRAWER_STATE = 'DRAWER_STATE'
 export const CURRENT_FORUM = 'CURRENT_FORUM'
 export const UPDATE_FORUM = 'UPDATE_FORUM'
@@ -45,13 +44,6 @@ export function setTartarusAddress(tartarusAddress) {
     return {
         type: TARTARUS_ADDRESS,
         payload: tartarusAddress
-    }
-}
-
-export function setTartarusInstance(tartarusInstance) {
-    return {
-        type: TARTARUS_INSTANCE,
-        payload: tartarusInstance
     }
 }
 

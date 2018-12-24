@@ -8,8 +8,6 @@ import { PersistGate } from 'redux-persist/lib/integration/react';
 import { persistor, store } from './store/store';
 import Loading from './Components/Loading'
 
-
-
 ReactDOM.render(
   <Provider store={store}>
     <Web3Provider>

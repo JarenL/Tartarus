@@ -91,6 +91,7 @@ class Menu extends React.Component {
 							<ListItemText classes={{ primary: classes.primary }} inset primary='Profile' />
 						</MenuItem>
 					</Link>
+
 					<Link to='/settings' style={{ textDecoration: 'none' }}>
 						<MenuItem onClick={this.handleClose}>
 							<ListItemIcon className={classes.icon}>
@@ -99,6 +100,7 @@ class Menu extends React.Component {
 							<ListItemText classes={{ primary: classes.primary }} inset primary='Settings' />
 						</MenuItem>
 					</Link>
+
 					<Link to='/about' style={{ textDecoration: 'none' }}>
 						<MenuItem onClick={this.handleClose}>
 							<ListItemIcon className={classes.icon}>

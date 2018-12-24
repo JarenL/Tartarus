@@ -111,7 +111,6 @@ class PrimarySearchAppBar extends React.Component {
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
     this.props.dispatch(setDrawerState());
-    console.log("hello it was clicked")
   };
 
   changeForum = (forum) => {
@@ -127,11 +126,9 @@ class PrimarySearchAppBar extends React.Component {
 
   componentWillReceiveProps = (newProps) => {
     if (newProps.currentPage !== this.props.currentPage) {
-      console.log(newProps.currentPage.currentPage)
       this.setState({
         currentPage: newProps.currentPage.currentPage
       })
-      console.log("change")
     }
   }
 
@@ -218,18 +215,20 @@ class PrimarySearchAppBar extends React.Component {
     }
 
     const subscribeButtonSwitch = () => {
-      console.log(this.props.forumSubscriptions.indexOf({"address" : this.props.currentForumAddress}))
-      if (this.props.currentForumAddress) {
-        var index = this.props.forumSubscriptions.findIndex( forum => forum.address === this.props.currentForumAddress )
-        console.log(index)
-        if (index === -1) {
-          return <SubscribeButton forumContext={this.props.currentForumAddress} />;
-        } else {
-          return <UnsubscribeButton forumContext={this.props.currentForumAddress} />;
-        }
-      } else {
+      if (this.state.currentPage !== 'Forum') {
         return null
-      }
+      } else {
+        if (this.props.currentForumAddress) {
+          var index = this.props.forumSubscriptions.findIndex( forum => forum.address === this.props.currentForumAddress )
+          if (index === -1) {
+            return <SubscribeButton forumContext={this.props.currentForumAddress} />;
+          } else {
+            return <UnsubscribeButton forumContext={this.props.currentForumAddress} />;
+          }
+        } else {
+          return null
+        }
+      } 
     }
 
     return (
