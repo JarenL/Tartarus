@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ForumContract from '../../contracts/Forum.json';
 import Loading from '../Loading'
+import Subscription from './Subscription.js';
 
-import Forum from './Forum';
-
-class ForumContainer extends Component {
+class SubscriptionContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -34,14 +33,13 @@ class ForumContainer extends Component {
     })
   }
   render() {
-
     if (this.state.loading) {
       return (
         <Loading />
       )
     } else {
       return (
-        <Forum
+        <Subscription
           name={this.state.name}
           address={this.props.address} />
       )
@@ -57,4 +55,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ForumContainer);
+export default connect(mapStateToProps)(SubscriptionContainer);

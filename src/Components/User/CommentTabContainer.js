@@ -24,6 +24,7 @@ class CommentTabContainer extends Component {
     user.setProvider(this.props.web3.currentProvider)
     user.at(this.props.accounts.currentUserAddress).then((instance) => {
       instance.CommentCreated({}, { fromBlock: 0, toBlock: 'latest' }).get((error, result) => {
+        console.log(result)
         let newCommentArray = this.state.comments.slice();
         result.forEach((comment) => {
           newCommentArray.push({
@@ -31,24 +32,31 @@ class CommentTabContainer extends Component {
           });
         })
         this.setState({
-					comments: newCommentArray,
-					loading: false
+          comments: newCommentArray,
+          loading: false
         });
       });
     })
   }
 
   render() {
-		console.log(this.state.comments)
-		if (this.state.loading) {
-			return <Loading/>
-		} else {
-			return (
-				<div>
-					<CommentList comments={this.state.comments} />
-				</div>
-			)
-		}
+    console.log(this.state.comments)
+    if (this.state.loading) {
+      return <Loading />
+    } else {
+      if (this.state.comments.length === 0) {
+        return (
+          <div>No comments</div>
+        )
+      } else {
+        return (
+          <div>
+            <CommentList comments={this.state.comments} />
+          </div>
+        )
+      }
+
+    }
   }
 }
 

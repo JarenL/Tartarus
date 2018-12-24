@@ -5,20 +5,18 @@ import SubscriptionList from '../Subscriptions/SubscriptionList.js';
 
 class SubscriptionTabContainer extends Component {
 	render() {
-		if (this.state.loading) {
-			return <Loading />
+		console.log(this.props.forumSubscriptions)
+		if (this.props.forumSubscriptions === undefined || this.props.forumSubscriptions.length === 0) {
+			return (
+				<div>No subscriptions</div>
+			)
 		} else {
-			if (this.props.forumSubscriptions) {
-				return (
-					<div>
-						<SubscriptionList subscriptions={this.props.forumSubscriptions} />
-					</div>
-				)
-			} else {
-				return (
-					<div>No subscriptions</div>
-				)
-			}
+			
+			return (
+				<div>
+					<SubscriptionList subscriptions={this.props.forumSubscriptions} />
+				</div>
+			)
 		}
 	}
 }

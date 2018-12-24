@@ -8,6 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import CommentTabContainer from './CommentTabContainer';
 import PostTabContainer from './PostTabContainer';
+import SubscriptionTabContainer from './SubscriptionTabContainer';
 
 function TabContainer(props) {
   return (
@@ -57,7 +58,7 @@ class NavTabs extends React.Component {
           </AppBar>
           {value === 0 && <PostTabContainer/>}
           {value === 1 && <CommentTabContainer/>}
-          {value === 2 && <TabContainer>Page Three</TabContainer>}
+          {value === 2 && <SubscriptionTabContainer/>}
         </div>
       </NoSsr>
     );

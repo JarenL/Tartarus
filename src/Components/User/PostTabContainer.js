@@ -24,31 +24,39 @@ class PostTabContainer extends Component {
     user.setProvider(this.props.web3.currentProvider)
     user.at(this.props.accounts.currentUserAddress).then((instance) => {
       instance.PostCreated({}, { fromBlock: 0, toBlock: 'latest' }).get((error, result) => {
-        let newPostsArray = this.state.posts.slice();
+        let newPostsList = this.state.posts.slice()
         result.forEach((post) => {
-          newPostsArray.push({
-            address: post.args.postAddress,
-          });
+          newPostsList.push({
+            address: post.args.postAddress
+          })
+          this.setState({
+            posts: newPostsList
+          })
         })
         this.setState({
-					posts: newPostsArray,
-					loading: false
-        });
+          loading: false
+        })
       });
     })
   }
 
   render() {
-		console.log(this.state.comments)
-		if (this.state.loading) {
-			return <Loading/>
-		} else {
-			return (
-				<div>
-					<PostList posts={this.state.posts} />
-				</div>
-			)
-		}
+    console.log(this.state.posts)
+    if (this.state.loading) {
+      return <Loading />
+    } else {
+      if (this.state.posts.length === 0) {
+        return (
+          <div>No posts</div>
+        )
+      } else {
+        return (
+          <div>
+            <PostList posts={this.state.posts} />
+          </div>
+        )
+      }
+    }
   }
 }
 

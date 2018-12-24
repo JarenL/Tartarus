@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import PostContainer from './PostContainer';
 import { Link } from "react-router-dom";
 import SubscriptionContainer from './SubscriptionContainer';
 
-export default class PostList extends Component {
+export default class SubscriptionList extends Component {
   render() {
-    const postContainers = this.props.forumSubscriptions.map(subscription => {
+    const forumContainers = this.props.subscriptions.map(subscription => {
       return (
         <Link to={"/forum/" + subscription.address} style={{ textDecoration: 'none', color: 'black' }} key={subscription.address}>
           <div >
@@ -18,7 +17,7 @@ export default class PostList extends Component {
     });
     return (
       <div>
-        {postContainers}
+        {forumContainers}
       </div>
     );
   }

@@ -11,15 +11,8 @@ contract Post is Ownable, CloneFactory {
         string ipfsHash;
         address creator;
         uint time;
-        mapping(address => CommentInfo) comments;
+        mapping(address => bool) comments;
     }  
-
-    struct CommentInfo {
-        string ipfsHash;
-        address creator;
-        address target;
-        uint time;
-    }
 
     PostInfo public postInfo;
 
@@ -33,20 +26,11 @@ contract Post is Ownable, CloneFactory {
 
     function createComment (string _ipfsHash, address _commentCreator, address _targetAddress, address _cloneComment) 
     public onlyOwner returns(address) {
+        require(postInfo.comments[_targetAddress] || _targetAddress == address(this), "Invalid target");
         address clone = createClone(_cloneComment);
-        Comment(clone).initialize();
-        CommentInfo memory newComment = CommentInfo(_ipfsHash, _commentCreator, _targetAddress, now);
-        postInfo.comments[clone] = newComment;
+        Comment(clone).initialize(_ipfsHash, _commentCreator, _targetAddress);
+        postInfo.comments[clone] = true;
         emit CommentCreated(clone);
         return clone;
-    }
-
-    function getComment(address _commentAddress) public view returns(string, address, address, uint) {
-        return (
-            postInfo.comments[_commentAddress].ipfsHash,
-            postInfo.comments[_commentAddress].creator,
-            postInfo.comments[_commentAddress].target,
-            postInfo.comments[_commentAddress].time
-        );
     }
 }

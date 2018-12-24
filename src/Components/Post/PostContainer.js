@@ -18,6 +18,7 @@ class PostContainer extends Component {
     this.state = {
       title: null,
       creator: null,
+      forum: null,
       time: null,
       loading: true,
       exists: true
@@ -35,23 +36,26 @@ class PostContainer extends Component {
     post.setProvider(this.props.web3.currentProvider)
     post.at(this.props.address).then((instance) => {
       instance.postInfo.call().then((result) => {
-        ipfs.catJSON(result[0], (err, ipfsData) => {
-          if (ipfsData) {
-            var utcSeconds = ipfsData.time;
-            var time = new Date(0);
-            time.setUTCSeconds(utcSeconds / 1000);
-            time = time.toString();
-            this.setState({
-              title: ipfsData.title,
-              creator: ipfsData.creator,
-              time: time,
-              loading: false,
-            });
-          } else {
-            this.setState({
-              exists: false
-            })
-          }
+        instance.owner.call().then((owner) => {
+          ipfs.catJSON(result[0], (err, ipfsData) => {
+            if (ipfsData) {
+              var utcSeconds = result[2];
+              var time = new Date(0);
+              time.setUTCSeconds(utcSeconds / 1000);
+              time = time.toString();
+              this.setState({
+                title: ipfsData.title,
+                creator: result[1],
+                forum: owner,
+                time: time,
+                loading: false,
+              });
+            } else {
+              this.setState({
+                exists: false
+              })
+            }
+          })
         })
       })
     })
