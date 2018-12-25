@@ -9,9 +9,12 @@ import "./Ownable.sol";
 contract Tartarus is Ownable, CloneFactory {
     event AdminCreated (address adminAddress);
     event ForumCreated(address forumAddress);  
+    event PostCreated(address forumAddress, address postAddress);
+    event CommentCreated(address forumAddress, address postAddress, address commentAddress);
     event UserCreated (address userAddress);  
     
     mapping (string => address) private forums;
+    mapping (address => bool) private forumList;
     mapping (address => address) private users;
     // mapping (address => bool) private admins;
     uint createUserCost = 0;

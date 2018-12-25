@@ -15,15 +15,15 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import CreatePostDialog from '../Dialog/CreatePostDialog'
-import CreateCommentDialog from '../Dialog/CreateCommentDialog'
+import CreatePostDialog from '../Buttons/ButtonDialogs/CreatePostDialog'
+import CreateCommentDialog from '../Buttons/ButtonDialogs/CreateCommentDialog'
 import { connect } from 'react-redux';
-import UserMenu from '../User/UserMenu';
-import { setDrawerState } from '../../actions/actions';
+import UserMenu from '../Views/User/UserMenu';
 import { Link } from 'react-router-dom';
-import { updateForum } from '../../actions/actions'
+import { updateForum, setDrawerState } from '../../redux/actions/actions'
 import SubscribeButton from '../Buttons/SubscribeButton'
 import UnsubscribeButton from '../Buttons/UnsubscribeButton';
+import { withRouter } from "react-router";
 
 const styles = theme => ({
   root: {
@@ -104,7 +104,8 @@ class PrimarySearchAppBar extends React.Component {
     this.state = {
       anchorEl: null,
       mobileMoreAnchorEl: null,
-      currentPage: null
+      currentPage: null,
+      searchText: null
     }
   }
 
@@ -148,6 +149,25 @@ class PrimarySearchAppBar extends React.Component {
   handleMobileMenuClose = () => {
     this.setState({ mobileMoreAnchorEl: null });
   };
+
+	handleSearchText = (event) => {
+    this.setState({ searchText: event.target.value });
+    console.log(this.state.searchText)
+  }
+  
+	handleSubmitSearch = () => {
+    console.log(this.state.searchText)
+    console.log(this.props)
+    this.props.history.replace('search');
+
+  }
+  
+  handleSearchKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      this.handleSubmitSearch();
+      event.preventDefault();
+    }
+  }
 
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state;
@@ -256,6 +276,9 @@ class PrimarySearchAppBar extends React.Component {
               <Input
                 placeholder="Search…"
                 disableUnderline
+                onChange={this.handleSearchText}
+                onSubmit={this.handleSubmitSearch}
+                onKeyPress={this.handleSearchKeyPress}
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
@@ -291,4 +314,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(PrimarySearchAppBar));
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(PrimarySearchAppBar)));

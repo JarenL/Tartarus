@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import AuthDrawer from './AuthDrawer';
-import UnauthDrawer from './UnauthDrawer';
-
+import AuthDrawer from './Authenticated/AuthDrawer';
+import UnauthDrawer from './Unauthenticated/UnauthDrawer';
 
 class DrawerContainer extends Component {
   render() {

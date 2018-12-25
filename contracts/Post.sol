@@ -6,7 +6,9 @@ import "./Ownable.sol";
 
 contract Post is Ownable, CloneFactory {
     event CommentCreated (address commentAddress);
-
+    //add to postInfo
+    // string postTitle
+    // string contentHash
     struct PostInfo {
         string ipfsHash;
         address creator;

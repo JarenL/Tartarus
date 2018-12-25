@@ -6,7 +6,7 @@ import MinusIcon from '@material-ui/icons/RemoveCircleOutlined';
 import { connect } from 'react-redux';
 import {
 	updateForumSubscriptions
-} from '../../actions/actions'
+} from '../../redux/actions/actions'
 
 const styles = theme => ({
 	button: {
