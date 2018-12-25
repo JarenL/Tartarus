@@ -37,14 +37,9 @@ class FeedPage extends Component {
 					forums.forEach((forumObject) => {
 						forum.at(forumObject.args.forumAddress).then((instance) => {
 							instance.PostCreated({}, { fromBlock: 0, toBlock: 'latest' }).get((error, posts) => {
-								let newPostsList = this.state.posts.slice()
-								posts.forEach((postObject) => {
-									newPostsList.push({
-										address: postObject.args.postAddress
-									})
-									this.setState({
-										posts: newPostsList
-									})
+								let newPostsList = [...this.state.posts.slice(), ...posts]
+								this.setState({
+									posts: newPostsList
 								})
 							})
 						})

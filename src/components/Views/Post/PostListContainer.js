@@ -32,18 +32,10 @@ class PostListContainer extends Component {
     forum.setProvider(this.props.web3.currentProvider)
     forum.at(this.props.currentForumAddress).then((instance) => {
       instance.PostCreated({}, { fromBlock: 0, toBlock: 'latest' }).get((error, result) => {
-        let newPostsList = this.state.posts.slice()
-        result.forEach((post) => {
-          newPostsList.push({
-            address: post.args.postAddress
-          })
-          this.setState({
-            posts: newPostsList
-          })
-        })
         this.setState({
+          posts: result,
           loading: false
-        })
+        });
       });
     })
   }

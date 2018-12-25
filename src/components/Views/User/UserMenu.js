@@ -83,7 +83,7 @@ class Menu extends React.Component {
 						</MenuItem>
 					</Link>
 
-					<Link className={classes.menuLink} to='/user' style={{ textDecoration: 'none' }}>
+					<Link to='/user' className={classes.menuLink}  style={{ textDecoration: 'none' }}>
 						<MenuItem onClick={this.handleClose}>
 							<ListItemIcon className={classes.icon}>
 								<AccountCircleIcon />

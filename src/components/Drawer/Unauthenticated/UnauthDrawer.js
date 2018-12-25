@@ -5,7 +5,7 @@ import Divider from '@material-ui/core/Divider';
 
 const styles = theme => ({
   drawerPaper: {
-    position: 'ablsolute',
+		position: 'fixed',
     marginTop: 65,
     width: '15%'
   }

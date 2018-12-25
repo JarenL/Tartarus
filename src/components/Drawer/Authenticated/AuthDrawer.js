@@ -9,7 +9,7 @@ import CreateForumDialog from '../../Buttons/ButtonDialogs/CreateForumDialog'
 
 const styles = theme => ({
 	drawerPaper: {
-		position: 'absolute',
+		position: 'fixed',
 		marginTop: 65,
 		width: '15%',
 		boxShadow: "2px 4px 40px #9E9E9E",

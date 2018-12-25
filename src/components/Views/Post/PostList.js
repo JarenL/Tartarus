@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 
 export default class PostList extends Component {
   render() {
+    console.log(this.props.posts)
     const postContainers = this.props.posts.map(post => {
       return (
-        <Link to={"/post/" + post.address} style={{ textDecoration: 'none', color: 'black' }} key={post.address}>
+        <Link to={"/post/" + post.args.postAddress} style={{ textDecoration: 'none', color: 'black' }} key={post.args.postAddress}>
           <div >
             <PostContainer
-              address={post.address}
+              address={post.args.postAddress}
             />
           </div>
         </Link>

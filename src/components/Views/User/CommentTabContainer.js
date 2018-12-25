@@ -24,15 +24,8 @@ class CommentTabContainer extends Component {
     user.setProvider(this.props.web3.currentProvider)
     user.at(this.props.accounts.currentUserAddress).then((instance) => {
       instance.CommentCreated({}, { fromBlock: 0, toBlock: 'latest' }).get((error, result) => {
-        console.log(result)
-        let newCommentArray = this.state.comments.slice();
-        result.forEach((comment) => {
-          newCommentArray.push({
-            address: comment.args.commentAddress,
-          });
-        })
         this.setState({
-          comments: newCommentArray,
+          comments: result,
           loading: false
         });
       });

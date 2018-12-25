@@ -29,14 +29,10 @@ class CommentListContainer extends Component {
     post.setProvider(this.props.web3.currentProvider)
     post.at(this.props.currentPostAddress).then((instance) => {
       instance.CommentCreated({}, { fromBlock: 0, toBlock: 'latest' }).get((error, result) => {
-        let newCommentsArray = this.state.comments.slice();
-        result.forEach((result) => {
-          newCommentsArray.push({
-            address: result.args.commentAddress,
-          });
-        })
+        console.log(result)
         this.setState({
-          comments: newCommentsArray
+          comments: result,
+          loading: false
         });
       });
     })
@@ -45,7 +41,7 @@ class CommentListContainer extends Component {
   render() {
     return (
       <div>
-        <SelectCommentSort/>
+        {/* <SelectCommentSort/>
         {(() => {
           if (this.props.commentSorting === "newest") {
             console.log("ret a");
@@ -64,7 +60,8 @@ class CommentListContainer extends Component {
               <div><CommentList comments={this.state.comments} /></div>
             )
           }
-        })()}
+        })()} */}
+        <CommentList comments={this.state.comments} />
       </div>
     )
   }

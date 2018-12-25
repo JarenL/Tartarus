@@ -15,7 +15,8 @@ class CommentContainer extends Component {
       forum: null,
       target: null,
       time: null,
-      loading: true
+      loading: true,
+      exists: true
     }
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -42,7 +43,7 @@ class CommentContainer extends Component {
                 creator: result[1],
                 post: owner,
                 time: time,
-                loading: false,
+                loading: false
               });
             } else {
               this.setState({
@@ -57,9 +58,13 @@ class CommentContainer extends Component {
 
   render() {
     if (this.state.loading) {
-      return (
-        <Loading />
-      )
+      if (this.state.exists) {
+        return (
+            <Loading />
+        )
+      } else {
+        return null
+      }
     } else {
       return (
         <Comment
