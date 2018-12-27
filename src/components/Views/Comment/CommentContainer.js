@@ -40,6 +40,7 @@ class CommentContainer extends Component {
               time = time.toString();
               this.setState({
                 title: ipfsData.title,
+                comment: ipfsData.comment,
                 creator: result[1],
                 post: owner,
                 time: time,

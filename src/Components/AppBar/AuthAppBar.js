@@ -24,6 +24,7 @@ import { updateForum, setDrawerState } from '../../redux/actions/actions'
 import SubscribeButton from '../Buttons/SubscribeButton'
 import UnsubscribeButton from '../Buttons/UnsubscribeButton';
 import { withRouter } from "react-router";
+import Publish from '../testPublish'
 
 const styles = theme => ({
   root: {
@@ -287,6 +288,7 @@ class PrimarySearchAppBar extends React.Component {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
+              <Publish/>
               {subscribeButtonSwitch()}
               {createButtonSwitch()}
               <UserMenu />

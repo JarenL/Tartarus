@@ -22,6 +22,7 @@
     "redux-persist": "^5.10.0",
     "redux-saga": "^0.16.2",
     "redux-thunk": "^2.3.0",
+    "timeago.js": "^4.0.0-beta.2",
     "truffle-contract": "^3.0.6",
     "truffle-hdwallet-provider": "0.0.6",
     "web3": "^1.0.0-beta.36"
