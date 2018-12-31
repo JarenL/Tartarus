@@ -34,16 +34,12 @@ class CommentContainer extends Component {
         instance.owner.call().then((owner) => {
           ipfs.catJSON(result[0], (err, ipfsData) => {
             if (ipfsData) {
-              var utcSeconds = result[2];
-              var time = new Date(0);
-              time.setUTCSeconds(utcSeconds / 1000);
-              time = time.toString();
               this.setState({
                 title: ipfsData.title,
                 comment: ipfsData.comment,
                 creator: result[1],
                 post: owner,
-                time: time,
+                time: result[3].c[0] * 1000,
                 loading: false
               });
             } else {

@@ -31,7 +31,7 @@ class PublishButton extends React.Component {
         className={classes.publishButton}
         onClick={this.handleOpen}
       >
-        <span className={classes.publishButtonText}>Create Post</span>
+        <span className={classes.publishButtonText}>Create Comment</span>
         <CloudUploadIcon className={classes.rightIcon} />
       </Button>
     )

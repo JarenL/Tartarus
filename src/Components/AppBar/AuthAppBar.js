@@ -24,7 +24,8 @@ import { updateForum, setDrawerState } from '../../redux/actions/actions'
 import SubscribeButton from '../Buttons/SubscribeButton'
 import UnsubscribeButton from '../Buttons/UnsubscribeButton';
 import { withRouter } from "react-router";
-import Publish from '../testPublish'
+import Publish from '../testPublish';
+import CreateComment from '../testComment/CreateComment'
 
 const styles = theme => ({
   root: {
@@ -227,9 +228,9 @@ class PrimarySearchAppBar extends React.Component {
         case 'Frontpage':
           return null;
         case 'Forum':
-          return <CreatePostDialog />;
+          return <Publish/>;
         case 'Post':
-          return <CreateCommentDialog />;
+          return <CreateComment/>;
         default:
           return null;
       }
@@ -288,7 +289,6 @@ class PrimarySearchAppBar extends React.Component {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <Publish/>
               {subscribeButtonSwitch()}
               {createButtonSwitch()}
               <UserMenu />

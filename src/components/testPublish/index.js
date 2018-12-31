@@ -8,22 +8,27 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import LinkIcon from '@material-ui/icons/Link'
+import UploadIcon from '@material-ui/icons/InsertPhoto'
+import TextIcon from '@material-ui/icons/Message';
+
 import HelpIcon from '@material-ui/icons/Help'
 import Tooltip from '@material-ui/core/Tooltip'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+import { ReactMdeDemo } from "./ReactMdeDemo";
+import 'react-mde/lib/styles/css/react-mde-all.css';
+import TartarusContract from '../../contracts/Tartarus.json';
+
 
 import { Preview, PublishButton, HelpText } from './components'
 import Modal from './Modal'
 import Post from './Post'
 import styles from './styles'
 
-const { fileToTypedArray, clearDataTransfer, isMagnet, isIpfsHash, formatBytes } = require('./util')
+const { fileToTypedArray, clearDataTransfer, isIpfsHash, formatBytes, stringToIpfsBuffer } = require('./util')
 const services = require('./services')
 
 class Publish extends React.Component {
@@ -32,36 +37,16 @@ class Publish extends React.Component {
     isPreviewing: false,
     comment: '',
     title: '',
-    link: null,
+    link: '',
+    url: '',
+    titleLink: '',
+    urlLink: '',
+    commentLink: '',
     submitLink: '',
     errorMessage: null,
     publishButtonIsLoading: false,
     value: 'text',
 
-  }
-
-  constructor(props) {
-    super(props)
-    this.handleGlobalClipboardPasting = this.handleGlobalClipboardPasting.bind(this)
-  }
-
-  componentDidMount = () => {
-    this.addGlobalClipboardPastingListener()
-  }
-
-  componentDidUpdate = (prevProps) => {
-  }
-
-  componentWillUnmount = () => {
-    this.removeGlobalClipboardPastingListener()
-  }
-
-  addGlobalClipboardPastingListener = () => {
-    document.querySelector('body').addEventListener('paste', this.handleGlobalClipboardPasting)
-  }
-
-  removeGlobalClipboardPastingListener = () => {
-    document.querySelector('body').removeEventListener('paste', this.handleGlobalClipboardPasting)
   }
 
   handleLinkDragEnter = (e) => {
@@ -95,31 +80,17 @@ class Publish extends React.Component {
     console.log(typedArray)
     const ipfsHash = await services.ipfs.uploadTypedArray(typedArray)
     console.log(ipfsHash)
-    // const settings = await services.getSettings()
+
+    this.setState({ isDragging: false, isPreviewing: true, link: ipfsHash })
+    console.log(this.state.link)
+  }
+
+  handleIpfsText = async (text) => {
+    const ipfsHash = await services.ipfs.uploadString(text)
+    console.log(ipfsHash)
 
     this.setState({ isDragging: false, isPreviewing: true, link: `ipfs:${ipfsHash}` })
-  }
-
-  handleLinkPaste = async (e) => {
-    const pastedValue = e.clipboardData.getData('text/plain')
-
-    let link = pastedValue.trim()
-
-    if (isIpfsHash(link)) {
-      link = 'ipfs:' + link
-    }
-
-    console.log(link)
-
-    // const settings = await services.getSettings()
-
-    this.setState({ isPreviewing: true, link: link })
-  }
-
-  handleGlobalClipboardPasting = (e) => {
-    if (e.path[0].tagName !== 'TEXTAREA') {
-      this.handleLinkPaste(e)
-    }
+    console.log(this.state.link)
   }
 
   blockRegularTypingInLinkInput = ({ target }) => {
@@ -130,9 +101,9 @@ class Publish extends React.Component {
     this.setState({ isPreviewing: false })
   }
 
-  handleCommentChange = ({ target }) => {
-    console.log(this.state.comment)
-    this.setState({ comment: target.value })
+  handleCommentChange = ( value ) => {
+    console.log(value)
+    this.setState({ comment: value })
   }
 
   handleTitleChange = ({ target }) => {
@@ -141,55 +112,98 @@ class Publish extends React.Component {
   }
 
   handleLinkChange = ({ target }) => {
-    console.log(this.state.submitLink)
-    this.setState({ submitLink: target.value })
+    console.log(this.state.url)
+    this.setState({ url: target.value })
   }
 
   handleModalClose = () => {
-    this.setState({ errorMessage: null })
-    this.setState({ title: null })
-    this.setState({ submitLink: null })
-    this.setState({ value: "text" })
-    this.setState({ comment: null })
-
-  }
-
-  // isDragging: false,
-  // isPreviewing: false,
-  // comment: '',
-  // title: '',
-  // link: null,
-  // submitLink: '',
-  // errorMessage: null,
-  // publishButtonIsLoading: false,
-  // value: 'text',
-
-
-  handlePublish = async () => {
-    let { comment, link } = this.state
-    const { classes, profile } = this.props
-    this.setState({ errorMessage: null })
-
-    // handle errors
-    if (!comment && !link) {
-      this.setState({ errorMessage: <Typography variant='body1'>Cannot publish empty posts. <a href='https://subby.io/publish'>Need help?</a></Typography> })
-      return
-    }
+    this.setState({ 
+      errorMessage: null,
+      title: '',
+      url: '',
+      comment: '',
+      link: '',
+      value: "text"
+    })
   }
 
   handleChange = event => {
-    this.setState({ value: event.target.value });
+    this.setState({ 
+      value: event.target.value,
+      errorMessage: null,
+      title: '',
+      url: '',
+      comment: '',
+      link: ''
+    });
+    console.log(this.state.title)
   };
+
+  handlePublish = async () => {
+    let { comment, link, title, url, value } = this.state
+    this.setState({ errorMessage: null })
+
+    if (value === "text") {
+      if (title && comment) {
+        let postObject = {title : title, postContent : comment }
+        console.log(postObject)
+        const ipfsHash = await services.ipfs.uploadObject(postObject)
+        this.submitPostTransaction(ipfsHash)
+      } else {
+        this.setState({ errorMessage: <Typography variant='body1'>Cannot submit empty posts.</Typography> })
+        return
+      }
+    }
+    
+    if (value === "link") {
+      if (title && url) {
+        let postObject = {title : title, postContent : url }
+        const ipfsHash = await services.ipfs.uploadObject(postObject)
+        this.submitPostTransaction(ipfsHash)
+      } else {
+        this.setState({ errorMessage: <Typography variant='body1'>Cannot submit empty posts.</Typography> })
+        return
+      }
+    }
+
+    if (value === "upload") {
+      if (title && link) {
+        let postObject = {title : title, postContent : link }
+        console.log(postObject)
+        const ipfsHash = await services.ipfs.uploadObject(postObject)
+        this.submitPostTransaction(ipfsHash)
+      } else {
+        this.setState({ errorMessage: <Typography variant='body1'>Cannot submit empty posts.</Typography> })
+        return
+      }
+    }
+  }
+
+  submitPostTransaction = (ipfsHash) => {
+    const contract = require('truffle-contract')
+    const tartarus = contract(TartarusContract)
+    tartarus.setProvider(this.props.web3.currentProvider)
+    this.props.web3.eth.getAccounts((error, accounts) => {
+      tartarus.at(this.props.tartarusAddress).then((instance) => {
+        console.log(ipfsHash)
+        instance.createPost(
+          this.props.currentForumAddress,
+          ipfsHash,
+          { from: accounts[0], gasPrice: 20000000000 }
+        )
+      })
+    })
+  }
 
   render() {
     const { classes, address, profile } = this.props
-    const { isDragging, isPreviewing, comment, title, link, submitLink, errorMessage, settings, publishButtonIsLoading } = this.state
+    const { isDragging, isPreviewing, comment, title, link, url, errorMessage, settings, publishButtonIsLoading } = this.state
 
     const post = {
       comment,
       title,
       link,
-      submitLink,
+      url,
       username: "test",
       address,
       id: 0
@@ -197,23 +211,24 @@ class Publish extends React.Component {
 
     const textTitleModal =         
       <TextField
+        id="title"
         label="Title"
         className={classes.titleTextField}
         fullWidth
         rows={2}
         multiline
-        placeholder={`Title`}
-        value={title}
+        placeholder={"Title..."}
+        value={this.state.title}
         onChange={this.handleTitleChange.bind(this)}
       />
     const textContentModal = 
       <TextField
-        label="Content"
+        label="Text"
         className={classes.textField}
         fullWidth
         rows={5}
         multiline
-        placeholder={`Post Text`}
+        placeholder={"Text..."}
         value={comment}
         onChange={this.handleCommentChange.bind(this)}
       />
@@ -226,7 +241,7 @@ class Publish extends React.Component {
       rows={2}
       multiline
       placeholder={`Link`}
-      value={submitLink}
+      value={url}
       onChange={this.handleLinkChange.bind(this)}
     />
 
@@ -243,7 +258,7 @@ class Publish extends React.Component {
       onDragOver={this.handleLinkDragOver.bind(this)}
       onDragLeave={this.handleLinkDragLeave.bind(this)}
       onDrop={this.handleLinkDrop.bind(this)}
-      onPaste={this.handleLinkPaste.bind(this)}
+      // onPaste={this.handleLinkPaste.bind(this)}
       contentEditable
       suppressContentEditableWarning
       variant='title'
@@ -259,7 +274,7 @@ class Publish extends React.Component {
     let linkText = null
     if (this.state.value === "text") {
       publishTitle = textTitleModal
-      content = textContentModal
+      content = <ReactMdeDemo handleChange={this.handleCommentChange.bind(this)}/>
     }
 
     if ( this.state.value === "link") {
@@ -274,19 +289,14 @@ class Publish extends React.Component {
 
     return (
       <Modal onClose={this.handleModalClose} trigger={<PublishButton />} title="hello">
-        {isPreviewing &&
-          <Preview>
-            <Post post={post} settings={settings} preview onPostChange={this.handlePostChange} onPreviewClose={this.cancelPostPreview.bind(this)} />
-          </Preview>
-        }
-                {publishTitle}
+        {publishTitle}
         {content}
         {upload}
         {linkText}
 
-        <FormControl component="fieldset">
+        <div>
           <RadioGroup
-            style={{ display: 'flex' }}
+            style={{ display: 'flex' , justifyContent: 'center', alignItems: 'center'}}
             aria-label="position"
             name="position"
             value={this.state.value}
@@ -296,23 +306,23 @@ class Publish extends React.Component {
             <FormControlLabel
               value="text"
               control={<Radio color="secondary" />}
-              label="Text"
-              labelPlacement="top"
+              label={<TextIcon/>}
+              labelPlacement="bottom"
             />
             <FormControlLabel
               value="link"
               control={<Radio color="secondary" />}
-              label="Link"
-              labelPlacement="top"
+              label={<LinkIcon/>}
+              labelPlacement="bottom"
             />
             <FormControlLabel
               value="upload"
               control={<Radio color="secondary" />}
-              label="Upload"
-              labelPlacement="top"
+              label={<UploadIcon/>}
+              labelPlacement="bottom"
             />
           </RadioGroup>
-        </FormControl>
+        </div>
 
         <div className={classes.buttonsContainer}>
 
@@ -326,7 +336,7 @@ class Publish extends React.Component {
 
           <Button
             variant='contained'
-            color='default'
+            color='secondary'
             className={classes.publishButton}
             onClick={this.handlePublish.bind(this)}
           >
@@ -341,7 +351,7 @@ class Publish extends React.Component {
   }
 }
 
-const dangerouslySetUploadMessage = 'Drop an image, torrent or paste a link'
+const dangerouslySetUploadMessage = 'Drop an image or video'
 
 Publish.propTypes = {
   classes: PropTypes.object.isRequired
@@ -350,6 +360,9 @@ Publish.propTypes = {
 const mapStateToProps = state => ({
   // profile: state.app.profile,
   // address: state.app.address
+  web3: state.web3,
+  tartarusAddress: state.tartarus.tartarusAddress,
+  currentForumAddress: state.forum.currentForumAddress
 })
 
 const enhance = compose(

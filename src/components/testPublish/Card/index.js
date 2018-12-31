@@ -306,7 +306,7 @@ class Card extends React.Component {
         <Collapse in={this.state.expanded} timeout='auto' unmountOnExit>
           <CardContent>
             <Typography className={classes.comment} component='p'>
-              {isLongComment(post.comment) && post.comment}
+              {/* {isLongComment(post.comment) && post.comment} */}
             </Typography>
           </CardContent>
         </Collapse>

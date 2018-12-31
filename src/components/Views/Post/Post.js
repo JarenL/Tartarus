@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Card } from '@material-ui/core';
 import color from '@material-ui/core/colors';
+import TimeAgo from 'timeago-react';
 
 const header = {
     height: '15%',
@@ -49,7 +50,7 @@ class Post extends Component {
             <Card className="post" style={{ borderRadius: '10px', marginTop: '0px', marginBottom: '15px' }} >
                 <div style={header}>
                     <p style={cAddress}>Created by {this.props.creator}</p>
-                    <p style={date}>{this.props.date}</p>
+                    <p style={date}><TimeAgo datetime={this.props.time}/></p>
                     <p style={title}>{this.props.title}</p>
                     <p style={pAddress}>Post Address: {this.props.address}</p>
                 </div>
