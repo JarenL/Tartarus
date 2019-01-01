@@ -2,13 +2,7 @@ import * as React from "react";
 import ReactMde, { ReactMdeTypes } from "react-mde";
 import * as Showdown from "showdown";
 
-export interface ReactMdeDemoState {
-  mdeState: ReactMdeTypes.MdeState;
-}
-
-export default class MarkdownTextBox extends React.Component<{}, ReactMdeDemoState> {
-  converter: Showdown.Converter;
-
+export default class MarkdownTextBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,23 +10,19 @@ export default class MarkdownTextBox extends React.Component<{}, ReactMdeDemoSta
     };
     this.converter = new Showdown.Converter({
       tables: true,
-      simplifiedAutoLink: true,
-      strikethrough: true,
-      tasklists: true
+      simplifiedAutoLink: true
     });
   }
 
-  handleValueChange = (value: ReactMdeTypes.MdeState) => {
-		// this.setState({ value });
+  handleValueChange = (value) => {
 		this.props.handleChange(value)
   };
 
   render() {
     return (
       <ReactMde
-				onChange={this.handleValueChange}
-				minEditorHeight="125px"
-        // value={this.state.value}
+        onChange={this.handleValueChange}
+        placeholder={"Text..."}
         generateMarkdownPreview={markdown =>
           Promise.resolve(this.converter.makeHtml(markdown))
         }

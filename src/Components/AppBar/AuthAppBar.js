@@ -24,8 +24,8 @@ import { updateForum, setDrawerState } from '../../redux/actions/actions'
 import SubscribeButton from '../Buttons/SubscribeButton'
 import UnsubscribeButton from '../Buttons/UnsubscribeButton';
 import { withRouter } from "react-router";
-import Publish from '../testPublish';
-import CreateComment from '../testComment/CreateComment'
+import CreatePost from '../Buttons/CreatePost/CreatePost';
+import CreateComment from '../Buttons/CreateComment/CreateComment'
 
 const styles = theme => ({
   root: {
@@ -228,7 +228,7 @@ class PrimarySearchAppBar extends React.Component {
         case 'Frontpage':
           return null;
         case 'Forum':
-          return <Publish/>;
+          return <CreatePost/>;
         case 'Post':
           return <CreateComment/>;
         default:
@@ -267,7 +267,7 @@ class PrimarySearchAppBar extends React.Component {
             <Link to="/" style={{ textDecoration: 'none', color: "white" }}>
               <div onClick={() => this.changeForum({ name: "Frontpage", address: null })}>
                 <Typography className={classes.title} color="inherit" noWrap>
-                  Tartarus
+                  tartarus
                       </Typography>
               </div>
             </Link>

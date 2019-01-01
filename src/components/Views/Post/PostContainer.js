@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PostContract from '../../../contracts/Post.json';
 import Loading from '../../Loading'
-import Post from './Post';
+import Post from './Post'
 import ipfs from '../../../services/ipfs/ipfs'
 
 const styles = {
@@ -44,9 +44,11 @@ class PostContainer extends Component {
                 creator: result[1],
                 forum: owner,
                 time: result[2].c[0] * 1000,
-                loading: false,
+                loading: false
               });
+              console.log(ipfsData)
             } else {
+              console.log(ipfsData)
               this.setState({
                 exists: false
               })

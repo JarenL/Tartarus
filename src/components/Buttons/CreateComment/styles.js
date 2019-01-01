@@ -17,7 +17,8 @@ const styles = theme => ({
   buttonsContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 10
   },
   publishButton: {
     marginLeft: 'auto',

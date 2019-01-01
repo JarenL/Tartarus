@@ -5,26 +5,21 @@ import classnames from 'classnames'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
-import LinkIcon from '@material-ui/icons/Link'
-import UploadIcon from '@material-ui/icons/InsertPhoto'
-import TextIcon from '@material-ui/icons/Message';
+import CheckIcon from '@material-ui/icons/Done'
 import HelpIcon from '@material-ui/icons/Help'
 import Tooltip from '@material-ui/core/Tooltip'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import MarkdownTextBox from "./MarkdownTextBox";
-import 'react-mde/lib/styles/css/react-mde-all.css';
-import TartarusContract from '../../contracts/Tartarus.json';
+import MarkdownTextBox from "../MarkdownTextBox";
+import TartarusContract from '../../../contracts/Tartarus.json';
 
-
-import { PublishButton, HelpText } from './components'
-import Modal from './Modal'
+import HelpText from './HelpText'
+import CreateCommentButton from '../CreateCommentButton'
+import Modal from '../Modal'
 import styles from './styles'
+import 'react-mde/lib/styles/css/react-mde-all.css';
 
-const services = require('../../services')
-// import services from '../../services'
+const services = require('../../../services')
 
 class CreateComment extends Component {
 	constructor(props) {
@@ -77,7 +72,7 @@ class CreateComment extends Component {
   render() {
 		const { classes, address, profile } = this.props
     return (
-      <Modal onClose={this.handleModalClose} trigger={<PublishButton />} title="hello">
+      <Modal onClose={this.handleModalClose} trigger={<CreateCommentButton />} title="hello">
 				<MarkdownTextBox handleChange={this.handleCommentChange.bind(this)}/>
         <div className={classes.buttonsContainer}>
 
@@ -96,8 +91,8 @@ class CreateComment extends Component {
             onClick={this.handlePublish.bind(this)}
           >
             <span className={classes.publishButtonText}>Submit</span>
-            {<CloudUploadIcon className={classes.rightIcon} />}
-            {<span className={classes.rightIcon}><span className={classes.publishButtonLoading}><CircularProgress className={classes.black} size={17} /></span></span>}
+            {<CheckIcon className={classes.rightIcon} />}
+            {<span className={classes.rightIcon}></span>}
           </Button>
         </div>
       </Modal>

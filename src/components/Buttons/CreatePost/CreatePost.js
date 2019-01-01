@@ -15,59 +15,73 @@ import TextIcon from '@material-ui/icons/Message';
 import HelpIcon from '@material-ui/icons/Help'
 import Tooltip from '@material-ui/core/Tooltip'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import CheckIcon from '@material-ui/icons/Done'
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { ReactMdeDemo } from "./ReactMdeDemo";
-import 'react-mde/lib/styles/css/react-mde-all.css';
-import TartarusContract from '../../contracts/Tartarus.json';
 
+import SnackBar from './testSnackBar'
 
-import { Preview, PublishButton, HelpText } from './components'
-import Modal from './Modal'
-import Post from './Post'
+import TartarusContract from '../../../contracts/Tartarus.json';
+import { HelpText } from './components'
+import MarkDownTextBox from '../MarkdownTextBox'
+import CreatePostButton from '../CreatePostButton'
+import Loading from '../../Loading'
+import Modal from '../Modal'
 import styles from './styles'
+import 'react-mde/lib/styles/css/react-mde-all.css';
 
 const { fileToTypedArray, clearDataTransfer, isIpfsHash, formatBytes, stringToIpfsBuffer } = require('./util')
-const services = require('./services')
+const services = require('../../../services')
 
-class Publish extends React.Component {
+class CreatePost extends React.Component {
   state = {
     isDragging: false,
     isPreviewing: false,
-    comment: '',
+    snackBarOpen: false,
     title: '',
+    post: '',
     link: '',
-    url: '',
-    titleLink: '',
-    urlLink: '',
-    commentLink: '',
-    submitLink: '',
+    upload: '',
+    titleIpfsHash: null,
+    postIpfsHash: null,
+    linkIpfsHash: null,
+    uploadIpfsHash: null,
+    uploadLoading: false,
     errorMessage: null,
-    publishButtonIsLoading: false,
-    value: 'text',
-
+    value: 'text'
   }
+  
+  handleSnackBarOpen = () => {
+    this.setState({ snackBarOpen: true });
+  };
 
-  handleLinkDragEnter = (e) => {
+  handleSnackBarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({ snackBarOpen: false });
+  };
+
+  handleUploadDragEnter = (e) => {
     e.preventDefault()
     this.setState({ isDragging: true })
   }
 
-  handleLinkDragOver = (e) => {
+  handleUploadDragOver = (e) => {
     e.preventDefault()
   }
 
-  handleLinkDragLeave = (e) => {
+  handleUploadDragLeave = (e) => {
     e.stopPropagation()
     e.preventDefault()
     this.setState({ isDragging: false })
   }
 
-  handleLinkDrop = async (e) => {
+  handleUploadDrop = async (e) => {
     e.preventDefault()
 
-    this.setState({ isDragging: false, isPreviewing: true, link: 'loading:Uploading' })
+    this.setState({ isDragging: false, isPreviewing: true, upload: 'loading:Uploading' })
 
     const { dataTransfer } = e
     const file = dataTransfer.items[0].getAsFile()
@@ -76,24 +90,16 @@ class Publish extends React.Component {
   }
 
   handleIpfsFile = async (file) => {
+    this.setState({
+      uploadLoading : true
+    })
     const typedArray = await fileToTypedArray(file)
-    console.log(typedArray)
     const ipfsHash = await services.ipfs.uploadTypedArray(typedArray)
-    console.log(ipfsHash)
-
-    this.setState({ isDragging: false, isPreviewing: true, link: ipfsHash })
+    this.setState({ isDragging: false, isPreviewing: true, uploadLoading: false, uploadSuccess: true, uploadIpfsHash: ipfsHash })
     console.log(this.state.link)
   }
 
-  handleIpfsText = async (text) => {
-    const ipfsHash = await services.ipfs.uploadString(text)
-    console.log(ipfsHash)
-
-    this.setState({ isDragging: false, isPreviewing: true, link: `ipfs:${ipfsHash}` })
-    console.log(this.state.link)
-  }
-
-  blockRegularTypingInLinkInput = ({ target }) => {
+  blockRegularTypingInUploadInput = ({ target }) => {
     target.innerHTML = dangerouslySetUploadMessage
   }
 
@@ -101,9 +107,9 @@ class Publish extends React.Component {
     this.setState({ isPreviewing: false })
   }
 
-  handleCommentChange = ( value ) => {
+  handlePostChange = ( value ) => {
     console.log(value)
-    this.setState({ comment: value })
+    this.setState({ post: value })
   }
 
   handleTitleChange = ({ target }) => {
@@ -120,8 +126,8 @@ class Publish extends React.Component {
     this.setState({ 
       errorMessage: null,
       title: '',
-      url: '',
-      comment: '',
+      uploadIpfsHash: null,
+      post: '',
       link: '',
       value: "text"
     })
@@ -132,20 +138,20 @@ class Publish extends React.Component {
       value: event.target.value,
       errorMessage: null,
       title: '',
-      url: '',
-      comment: '',
+      uploadIpfsHash: null,
+      post: '',
       link: ''
     });
     console.log(this.state.title)
   };
 
   handlePublish = async () => {
-    let { comment, link, title, url, value } = this.state
+    let { post, link, title, uploadIpfsHash, value } = this.state
     this.setState({ errorMessage: null })
 
     if (value === "text") {
-      if (title && comment) {
-        let postObject = {title : title, postContent : comment }
+      if (title && post) {
+        let postObject = {title : title, post : post }
         console.log(postObject)
         const ipfsHash = await services.ipfs.uploadObject(postObject)
         this.submitPostTransaction(ipfsHash)
@@ -156,8 +162,8 @@ class Publish extends React.Component {
     }
     
     if (value === "link") {
-      if (title && url) {
-        let postObject = {title : title, postContent : url }
+      if (title && link) {
+        let postObject = {title : title, post : link }
         const ipfsHash = await services.ipfs.uploadObject(postObject)
         this.submitPostTransaction(ipfsHash)
       } else {
@@ -167,8 +173,8 @@ class Publish extends React.Component {
     }
 
     if (value === "upload") {
-      if (title && link) {
-        let postObject = {title : title, postContent : link }
+      if (title && uploadIpfsHash) {
+        let postObject = {title : title, post : uploadIpfsHash }
         console.log(postObject)
         const ipfsHash = await services.ipfs.uploadObject(postObject)
         this.submitPostTransaction(ipfsHash)
@@ -191,23 +197,19 @@ class Publish extends React.Component {
           ipfsHash,
           { from: accounts[0], gasPrice: 20000000000 }
         )
+      }).then((error, result) => {
+        if (error) {
+
+        } else {
+          this.handleSnackBarOpen()
+        }
       })
     })
   }
 
   render() {
     const { classes, address, profile } = this.props
-    const { isDragging, isPreviewing, comment, title, link, url, errorMessage, settings, publishButtonIsLoading } = this.state
-
-    const post = {
-      comment,
-      title,
-      link,
-      url,
-      username: "test",
-      address,
-      id: 0
-    }
+    const { isDragging, isPreviewing, comment, title, link, uploadIpfsHash, errorMessage, settings, publishButtonIsLoading } = this.state
 
     const textTitleModal =         
       <TextField
@@ -218,19 +220,8 @@ class Publish extends React.Component {
         rows={2}
         multiline
         placeholder={"Title..."}
-        value={this.state.title}
+        value={title}
         onChange={this.handleTitleChange.bind(this)}
-      />
-    const textContentModal = 
-      <TextField
-        label="Text"
-        className={classes.textField}
-        fullWidth
-        rows={5}
-        multiline
-        placeholder={"Text..."}
-        value={comment}
-        onChange={this.handleCommentChange.bind(this)}
       />
 
     const linkModal = 
@@ -241,7 +232,7 @@ class Publish extends React.Component {
       rows={2}
       multiline
       placeholder={`Link`}
-      value={url}
+      value={link}
       onChange={this.handleLinkChange.bind(this)}
     />
 
@@ -254,45 +245,54 @@ class Publish extends React.Component {
           isDragging && classes.uploadDragging
         )
       }
-      onDragEnter={this.handleLinkDragEnter.bind(this)}
-      onDragOver={this.handleLinkDragOver.bind(this)}
-      onDragLeave={this.handleLinkDragLeave.bind(this)}
-      onDrop={this.handleLinkDrop.bind(this)}
-      // onPaste={this.handleLinkPaste.bind(this)}
+      onDragEnter={this.handleUploadDragEnter.bind(this)}
+      onDragOver={this.handleUploadDragOver.bind(this)}
+      onDragLeave={this.handleUploadDragLeave.bind(this)}
+      onDrop={this.handleUploadDrop.bind(this)}
       contentEditable
       suppressContentEditableWarning
       variant='title'
       component='div'
-      onInput={this.blockRegularTypingInLinkInput.bind(this)}
+      onInput={this.blockRegularTypingInUploadInput.bind(this)}
       >
       {dangerouslySetUploadMessage}
     </Typography>
 
-    let publishTitle = null
-    let content = null
-    let upload = null
-    let linkText = null
+    let postTitle = null
+    let postText = null
+    let postUpload = null
+    let postLink = null
+    console.log(this.state.value)
     if (this.state.value === "text") {
-      publishTitle = textTitleModal
-      content = <ReactMdeDemo handleChange={this.handleCommentChange.bind(this)}/>
+      postTitle = textTitleModal
+      postText = <MarkDownTextBox handleChange={this.handlePostChange.bind(this)}/>
     }
 
     if ( this.state.value === "link") {
-      publishTitle = textTitleModal
-      linkText = linkModal
+      postTitle = textTitleModal
+      postLink = linkModal
     }
 
     if (this.state.value === "upload") {
-      publishTitle = textTitleModal
-      upload = uploadModal
+      postTitle = textTitleModal
+      if (this.state.uploadLoading) {
+        postUpload = <Loading/>
+      } else {
+        if (this.state.uploadSuccess) {
+          postUpload = <CheckIcon/>
+        } else {
+          postUpload = uploadModal
+        }
+      }
     }
 
     return (
-      <Modal onClose={this.handleModalClose} trigger={<PublishButton />} title="hello">
-        {publishTitle}
-        {content}
-        {upload}
-        {linkText}
+      <div>
+        <Modal onClose={this.handleModalClose} trigger={<CreatePostButton />} title="hello">
+        {postTitle}
+        {postText}
+        {postUpload}
+        {postLink}
 
         <div>
           <RadioGroup
@@ -325,11 +325,9 @@ class Publish extends React.Component {
         </div>
 
         <div className={classes.buttonsContainer}>
-
           <Tooltip title={<HelpText />} placement='top-start'>
             <HelpIcon className={classes.greyIcon} />
           </Tooltip>
-
           <span className={classes.errorMessage}>
             {errorMessage}
           </span>
@@ -340,26 +338,26 @@ class Publish extends React.Component {
             className={classes.publishButton}
             onClick={this.handlePublish.bind(this)}
           >
-            <span className={classes.publishButtonText}>Publish</span>
-            {!publishButtonIsLoading && <CloudUploadIcon className={classes.rightIcon} />}
-            {publishButtonIsLoading && <span className={classes.rightIcon}><span className={classes.publishButtonLoading}><CircularProgress className={classes.black} size={17} /></span></span>}
+            <span className={classes.publishButtonText}>Submit</span>
+            {<CheckIcon className={classes.rightIcon} />}
+            {<span className={classes.rightIcon}></span>}
           </Button>
         </div>
-
       </Modal>
+      <SnackBar open={this.state.snackBarOpen} handleClose={this.handleSnackBarClose}/>
+      </div>
+      
     )
   }
 }
 
 const dangerouslySetUploadMessage = 'Drop an image or video'
 
-Publish.propTypes = {
+CreatePost.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  // profile: state.app.profile,
-  // address: state.app.address
   web3: state.web3,
   tartarusAddress: state.tartarus.tartarusAddress,
   currentForumAddress: state.forum.currentForumAddress
@@ -370,4 +368,4 @@ const enhance = compose(
   withStyles(styles)
 )
 
-export default enhance(Publish) // eslint-disable-line
+export default enhance(CreatePost) // eslint-disable-line
