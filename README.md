@@ -1,6 +1,8 @@
 # Tartarus
 
-Ethereum decentralized application built using Ethereum smart contracts. Reddit-like discussion platform. 
+Ethereum decentralized application built using Ethereum smart contracts. Reddit-like discussion platform. \
+
+DEMO (WIP) on ROPSTEN - [Demp](https://jarenl.github.io/Tartarus/)
 
 ## Getting Started
 
