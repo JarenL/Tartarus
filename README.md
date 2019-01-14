@@ -20,7 +20,7 @@ What things you need to run this application:
 
 ### Installing
 
-Install NodeJS & NPM:
+Install NodeJS & NPM (or other package manager):
 - Follow instructions https://www.npmjs.com/get-npm
 
 Install Ganache:
