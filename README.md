@@ -2,11 +2,13 @@
 
 Ethereum decentralized application built using Ethereum smart contracts. Reddit-like discussion platform. \
 
-DEMO (WIP) on ROPSTEN - [tartarus](https://jarenl.github.io/Tartarus/)
-
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine to check it up. 
+- DEMO (WIP) on ROPSTEN - [tartarus](https://jarenl.github.io/Tartarus/)
+
+OR
+
+- Follow these instructions to get you a copy of the project up and running on your local machine to check it out. 
 
 ### Prerequisites
 
