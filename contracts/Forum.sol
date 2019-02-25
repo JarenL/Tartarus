@@ -34,7 +34,7 @@ contract Forum is Ownable, CloneFactory {
         return clone;
     }
 
-    function createComment(address _postAddress, address _targetAddress, address _commentCreator, string _ipfsHash, address _cloneComment) 
+    function createComment(address _postAddress, address _targetAddress, address _commentCreator, bytes32 _ipfsHash, address _cloneComment) 
     public onlyOwner returns(address) {
         require(!banned[_commentCreator], "User is banned from this forum");
         require(posts[_postAddress], "Post does not exist.");

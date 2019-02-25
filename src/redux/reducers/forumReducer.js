@@ -3,7 +3,8 @@ import {
 	CURRENT_FORUM_ADDRESS,
 	CURRENT_POST_ADDRESS,
 	UPDATE_FORUM,
-	UPDATE_FORUM_SUBSCRIPTIONS
+	UPDATE_FORUM_SUBSCRIPTIONS,
+	CURRENT_COMMENT_ADDRESS
 } from '../actions/actions';
 
 import { persistReducer } from 'redux-persist'
@@ -19,6 +20,7 @@ const initialState = {
 	currentForum: "Frontpage",
 	currentForumAddress: null,
 	currentPostAddress: null,
+	currentCommentAddress: null,
 	forumSubscriptions: []
 }
 
@@ -38,6 +40,11 @@ const forumReducer = (state = initialState, action) => {
 			return {
 				...state,
 				currentPostAddress: action.payload
+			};
+		case CURRENT_COMMENT_ADDRESS:
+			return {
+				...state,
+				currentCommentAddress: action.payload
 			};
 		case UPDATE_FORUM:
 			return {

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 export default class ForumList extends Component {
   render() {
+    console.log(this.props.forums)
     const drawerItemContainers = this.props.forums.map(forum => {
       return (
         <Link to={"/forum/" + forum.address} style={{ textDecoration: 'none' }} key={forum.address}>

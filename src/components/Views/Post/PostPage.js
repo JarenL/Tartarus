@@ -53,6 +53,7 @@ class PostPage extends Component {
 					currentPost={this.state.postTitle}
 					currentPostAddress={this.state.postAddress}
 				/>
+				<Divider/>
 				<Loading/>
 			</div>
 			)
@@ -65,6 +66,7 @@ class PostPage extends Component {
 						currentPost={this.state.postTitle}
 						currentPostAddress={this.state.postAddress}
 					/>
+					<Divider/>
 					<CommentListContainer />
 				</div>
 			)

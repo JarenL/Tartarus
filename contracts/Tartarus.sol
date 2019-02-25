@@ -55,12 +55,15 @@ contract Tartarus is Ownable, CloneFactory {
         targetUser.notifyCreatePost(newPostAddress);
     }
 
-    function createComment(address _forumAddress, address _postAddress, address _targetAddress, string _ipfsHash) public {
+    function createComment(address _forumAddress, address _postAddress, address _targetAddress, bytes32 _ipfsHash) public {
         require(users[msg.sender] != address(0), "User account not found");
         Forum targetForum = Forum(_forumAddress);
-        address newCommentAddress = targetForum.createComment(_postAddress, _targetAddress, users[msg.sender], _ipfsHash, cloneComment);
-        User targetUser = User(users[msg.sender]);
-        targetUser.notifyCreateComment(newCommentAddress);
+        // address newCommentAddress = targetForum.createComment(_postAddress, _targetAddress, users[msg.sender], _ipfsHash, cloneComment);
+        targetForum.createComment(_postAddress, _targetAddress, users[msg.sender], _ipfsHash, cloneComment);
+        
+        //todo notify user of new comment, (commentHash, postAddress)
+        // User targetUser = User(users[msg.sender]);
+        // targetUser.notifyCreateComment(newCommentAddress);
     }
 
     function createUser() public payable {

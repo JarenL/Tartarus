@@ -22,16 +22,16 @@ import 'react-mde/lib/styles/css/react-mde-all.css';
 const services = require('../../../services')
 
 class CreateComment extends Component {
-	constructor(props) {
-		super(props)
+  constructor(props) {
+    super(props)
 
-		this.state = {
-			comment: '',
-			errorMessage: null
-		}
-	}
+    this.state = {
+      comment: '',
+      errorMessage: null
+    }
+  }
 
-  handleCommentChange = ( value ) => {
+  handleCommentChange = (value) => {
     console.log(value)
     this.setState({ comment: value })
   }
@@ -39,16 +39,39 @@ class CreateComment extends Component {
   handlePublish = async () => {
     this.setState({ errorMessage: null })
     if (this.state.comment) {
-        let commentObject = { comment : this.state.comment }
-        console.log(commentObject)
-				const ipfsHash = await services.ipfs.uploadObject(commentObject)
-				console.log(ipfsHash)
-        this.submitCommentTransaction(ipfsHash)
+      let commentObject = { comment: this.state.comment }
+      console.log(commentObject)
+      const ipfsHash = await services.ipfs.uploadObject(commentObject)
+      console.log(ipfsHash)
+
+      //encode ipfs Hash base 58 -> hex address base 32
+      const bs58 = require('bs58')
+      const base58 = (
+        "0x" +
+        bs58
+          .decode(ipfsHash)
+          .slice(2)
+          .toString("hex")
+      )
+
+      console.log(base58)
+
+      const hashHex = "1220" + base58.slice(2)
+      const hashBytes = Buffer.from(hashHex, "hex")
+      const hashStr = bs58.encode(hashBytes)
+      console.log(hashStr)
+
+
+
+      this.submitCommentTransaction(base58)
+      // 16UjcYNBG9GTK4uq2f7yYEbuifqCzoLMGS
+      // QmZWjZ1Su7KjYQ5YAGtRRNzP4hPQ3fWSKuHBzvtq1sqKyr
+      // 003c176e659bea0f29a3e9bf7880c112b1b31b4dc826268187
     } else {
-			this.setState({ 
-				errorMessage: <Typography variant='body1'>Cannot submit empty comments.</Typography> 
-			})
-		}
+      this.setState({
+        errorMessage: <Typography variant='body1'>Cannot submit empty comments.</Typography>
+      })
+    }
   }
 
   submitCommentTransaction = (ipfsHash) => {
@@ -58,22 +81,33 @@ class CreateComment extends Component {
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then((instance) => {
         console.log(ipfsHash)
-				instance.createComment(
-					this.props.currentForumAddress,
-					this.props.currentPostAddress,
-					this.props.currentPostAddress,
-					ipfsHash,
-					{ from: accounts[0], gasPrice: 20000000000 }
-				)
+        console.log(this.props.currentPage)
+        let currentTarget = null;
+        if (this.props.currentPage === "Post") {
+          currentTarget = this.props.currentPostAddress
+        }
+
+        if (this.props.currentPage === "Comment") {
+          currentTarget = this.props.currentCommentAddress
+        }
+
+        console.log(currentTarget)
+        instance.createComment(
+          this.props.currentForumAddress,
+          this.props.currentPostAddress,
+          currentTarget,
+          ipfsHash,
+          { from: accounts[0], gasPrice: 20000000000 }
+        )
       })
     })
   }
 
   render() {
-		const { classes, address, profile } = this.props
+    const { classes, address, profile } = this.props
     return (
       <Modal onClose={this.handleModalClose} trigger={<CreateCommentButton />} title="hello">
-				<MarkdownTextBox handleChange={this.handleCommentChange.bind(this)}/>
+        <MarkdownTextBox handleChange={this.handleCommentChange.bind(this)} />
         <div className={classes.buttonsContainer}>
 
           <Tooltip title={<HelpText />} placement='top-start'>
@@ -105,14 +139,14 @@ CreateComment.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  // profile: state.app.profile,
-  // address: state.app.address
-	web3: state.web3,
-	tartarusAddress: state.tartarus.tartarusAddress,
-	accounts: state.accounts,
-	currentForum: state.forum.currentForum,
-	currentForumAddress: state.forum.currentForumAddress,
-	currentPostAddress: state.forum.currentPostAddress
+  web3: state.web3,
+  tartarusAddress: state.tartarus.tartarusAddress,
+  accounts: state.accounts,
+  currentPage: state.page.currentPage,
+  currentForum: state.forum.currentForum,
+  currentForumAddress: state.forum.currentForumAddress,
+  currentPostAddress: state.forum.currentPostAddress,
+  currentCommentAddress: state.forum.currentCommentAddress
 })
 
 const enhance = compose(

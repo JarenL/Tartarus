@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles';
-import PostContainer from './PostContainer';
+import CommentContainer from './CommentContainer';
+import { connect } from 'react-redux'
 
 const styles = theme => ({
 	header: {
@@ -25,14 +26,14 @@ const styles = theme => ({
 		display: 'inline-block',
 		paddingLeft: '4px',
 	},
-	pAddress: {
+	cAddress: {
 		fontSize: '12px',
 		color: 'grey',
 		display: 'inline-block',
 		paddingBottom: '0px',
 		marginBottom: '0px',
 	},
-	forum: {
+	comment: {
 		fontWeight: 'bold',
 		fontSize: '25px',
 		paddingTop: '0px',
@@ -42,23 +43,31 @@ const styles = theme => ({
 	},
 });
 
-class PostHeader extends Component {
+class CommentHeader extends Component {
 	render() {
 		const { classes } = this.props;
 		return (
 			// <div className={classes.header}>
 			// 	<p className={classes.uAddress}>Posted by {this.props.currentUserAddress}</p>
 			// 	<p className={classes.oAddress}>from {this.props.currentOwnerAddress}</p>
-			// 	<p className={classes.forum}>{this.props.currentPost}</p>
-			// 	<p className={classes.pAddress}>Post Address: {this.props.currentPostAddress}</p>
+			// 	<p className={classes.comment}>{this.props.currentComment}</p>
+			// 	<p className={classes.cAddress}>Comment Address: {this.props.currentCommentAddress}</p>
 			// </div>
 			<div className={classes.header}>
-				<PostContainer
-					address={this.props.currentPostAddress}
+				<CommentContainer
+					address={this.props.currentCommentAddress}
 				/>
 			</div>
 		)
 	}
 }
 
-export default withStyles(styles)(PostHeader)
+function mapStateToProps(state) {
+  return {
+    currentCommentAddress: state.forum.currentCommentAddress
+  };
+}
+
+export default connect(mapStateToProps, null, null, {
+  pure: false
+})(withStyles(styles)(CommentHeader));

@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import FeedPage from './components/Views/Feed/FeedPage';
 import ForumPage from './components/Views/Forum/ForumPage';
 import PostPage from './components/Views/Post/PostPage';
+import CommentPage from './components/Views/Comment/CommentPage'
 import UserPage from './components/Views/User/UserPage';
 import AboutPage from './components/Views/About/AboutPage';
 import SearchPage from './components/Views/Search/Forum/ForumSearchPage'
@@ -80,7 +81,7 @@ class App extends Component {
     this.props.dispatch(setCurrentUserAddress(0))
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0xaf708b0a275f23453ef11032c9ce41a27a1acd35"))
+    this.props.dispatch(setTartarusAddress("0x75c35c980c0d37ef46df04d31a140b65503c0eed"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
       instance.authenticateUser({ from: this.props.accounts.currentOwnerAddress }).then((result) => {
@@ -89,7 +90,9 @@ class App extends Component {
         } else {
           console.log("user account not found")
         }
-        this.setState({loading: false})
+        this.setState({
+          loading: false
+        })
       })
     })
   }
@@ -97,9 +100,7 @@ class App extends Component {
   render() {
     const { classes } = this.props;
     if (this.state.loading) {
-      return (
-        <Loading />
-      )
+      return  <Loading />
     } else {
       return (
         <MuiThemeProvider theme={theme}>
@@ -114,6 +115,7 @@ class App extends Component {
                 <Route exact path="/" component={FeedPage} />
                 <Route path={"/forum/:forumAddress"} component={ForumPage} />
                 <Route path={"/post/:postAddress"} component={PostPage} />
+                <Route path={"/comment/:commentAddress"} component={CommentPage} />
                 <Route path={"/user/:userAddress"} component={UserPage} />
                 <Route path={"/about"} component={AboutPage} />
                 <Route path={"/user"} component={UserPage} />

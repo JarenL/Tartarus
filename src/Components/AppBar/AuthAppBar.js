@@ -231,6 +231,8 @@ class PrimarySearchAppBar extends React.Component {
           return <CreatePost/>;
         case 'Post':
           return <CreateComment/>;
+        case 'Comment':
+          return <CreateComment/>;
         default:
           return null;
       }

@@ -51,7 +51,7 @@ class CreatePost extends React.Component {
     errorMessage: null,
     value: 'text'
   }
-  
+
   handleSnackBarOpen = () => {
     this.setState({ snackBarOpen: true });
   };
@@ -96,7 +96,6 @@ class CreatePost extends React.Component {
     const typedArray = await fileToTypedArray(file)
     const ipfsHash = await services.ipfs.uploadTypedArray(typedArray)
     this.setState({ isDragging: false, isPreviewing: true, uploadLoading: false, uploadSuccess: true, uploadIpfsHash: ipfsHash })
-    console.log(this.state.link)
   }
 
   blockRegularTypingInUploadInput = ({ target }) => {
@@ -108,17 +107,14 @@ class CreatePost extends React.Component {
   }
 
   handlePostChange = ( value ) => {
-    console.log(value)
     this.setState({ post: value })
   }
 
   handleTitleChange = ({ target }) => {
-    console.log(this.state.title)
     this.setState({ title: target.value })
   }
 
   handleLinkChange = ({ target }) => {
-    console.log(this.state.url)
     this.setState({ url: target.value })
   }
 
@@ -142,7 +138,6 @@ class CreatePost extends React.Component {
       post: '',
       link: ''
     });
-    console.log(this.state.title)
   };
 
   handlePublish = async () => {
@@ -262,7 +257,7 @@ class CreatePost extends React.Component {
     let postText = null
     let postUpload = null
     let postLink = null
-    console.log(this.state.value)
+
     if (this.state.value === "text") {
       postTitle = textTitleModal
       postText = <MarkDownTextBox handleChange={this.handlePostChange.bind(this)}/>

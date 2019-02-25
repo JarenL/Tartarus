@@ -11,6 +11,7 @@ export const CURRENT_FORUM = 'CURRENT_FORUM'
 export const UPDATE_FORUM = 'UPDATE_FORUM'
 export const CURRENT_FORUM_ADDRESS = 'CURRENT_FORUM_ADDRESS'
 export const CURRENT_POST_ADDRESS = 'CURRENT_POST_ADDRESS'
+export const CURRENT_COMMENT_ADDRESS = 'CURRENT_COMMENT_ADDRESS'
 export const UPDATE_PAGE = 'UPDATE_PAGE'
 export const UPDATE_COMMENTS = 'UPDATE_COMMENTS'
 export const UPDATE_FORUM_SUBSCRIPTIONS = 'UPDATE_FORUM_SUBSCRIPTIONS'
@@ -71,6 +72,13 @@ export function setCurrentPostAddress(currentPostAddress) {
     return {
         type: CURRENT_POST_ADDRESS,
         payload: currentPostAddress
+    }
+}
+
+export function setCurrentCommentAddress(currentCommentAddress) {
+    return {
+        type: CURRENT_COMMENT_ADDRESS,
+        payload: currentCommentAddress
     }
 }
 
