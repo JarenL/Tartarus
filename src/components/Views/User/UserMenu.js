@@ -2,6 +2,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
+import { connect } from 'react-redux';
 
 // menu
 import IconButton from '@material-ui/core/IconButton'
@@ -83,7 +84,7 @@ class Menu extends React.Component {
 						</MenuItem>
 					</Link>
 
-					<Link to='/user' className={classes.menuLink}  style={{ textDecoration: 'none' }}>
+					<Link to={'/user/' + this.props.accounts.currentUserAddress} className={classes.menuLink}  style={{ textDecoration: 'none' }}>
 						<MenuItem onClick={this.handleClose}>
 							<ListItemIcon className={classes.icon}>
 								<AccountCircleIcon />
@@ -116,4 +117,12 @@ class Menu extends React.Component {
 	}
 }
 
-export default withStyles(styles)(Menu) // eslint-disable-line
+function mapStateToProps(state) {
+  return {
+    accounts: state.accounts,
+  };
+}
+
+export default connect(mapStateToProps, null, null, {
+  pure: false
+})(withStyles(styles)(Menu));

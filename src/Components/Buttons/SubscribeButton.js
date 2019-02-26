@@ -5,7 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/AddCircleOutlined';
 import { connect } from 'react-redux';
 import {
-	updateForumSubscriptions
+	updateForumSubscriptions, 
+	updateUserSubscriptions
 } from '../../redux/actions/actions'
 
 const styles = theme => ({
@@ -19,11 +20,17 @@ const styles = theme => ({
 
 class SubscribeButton extends Component {
 	subscribeHandlder = (forumContext) => {
-		let newSubscriptionsArray = this.props.forumSubscriptions.slice();
+		let newSubscriptionsArray = this.props.userSettings[this.props.currentUserAddress].subscriptions.slice();
 		newSubscriptionsArray.push({
 			address : forumContext
 		});
-		this.props.dispatch(updateForumSubscriptions(newSubscriptionsArray))
+
+		let payload = {
+			user : this.props.currentUserAddress,
+			subscriptions : newSubscriptionsArray
+		}
+		// this.props.dispatch(updateForumSubscriptions(newSubscriptionsArray))
+		this.props.dispatch(updateUserSubscriptions(payload))
 	}
 
 	render() {
@@ -46,7 +53,8 @@ SubscribeButton.propTypes = {
 
 function mapStateToProps(state) {
 	return {
-		forumSubscriptions: state.forum.forumSubscriptions
+		userSettings: state.accounts.userSettings,
+		currentUserAddress : state.accounts.currentUserAddress
 	};
 }
 

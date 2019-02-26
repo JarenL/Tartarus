@@ -243,7 +243,7 @@ class PrimarySearchAppBar extends React.Component {
         return null
       } else {
         if (this.props.currentForumAddress) {
-          var index = this.props.forumSubscriptions.findIndex( forum => forum.address === this.props.currentForumAddress )
+          var index = this.props.userSettings[this.props.currentUserAddress].subscriptions.findIndex( forum => forum.address === this.props.currentForumAddress )
           if (index === -1) {
             return <SubscribeButton forumContext={this.props.currentForumAddress} />;
           } else {
@@ -313,7 +313,8 @@ function mapStateToProps(state) {
   return {
     currentPage: state.page,
     currentForumAddress: state.forum.currentForumAddress,
-    forumSubscriptions: state.forum.forumSubscriptions,
+    userSettings: state.accounts.userSettings,
+    currentUserAddress: state.accounts.currentUserAddress,
     drawerState: state.drawerState
   };
 }

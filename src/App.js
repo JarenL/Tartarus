@@ -22,7 +22,8 @@ import theme from './style/theme'
 import {
   initializeWeb3,
   setCurrentUserAddress,
-  setTartarusAddress
+  setTartarusAddress,
+  initializeUserSettings
 } from './redux/actions/actions'
 
 // Styles
@@ -87,6 +88,9 @@ class App extends Component {
       instance.authenticateUser({ from: this.props.accounts.currentOwnerAddress }).then((result) => {
         if (result !== "0x0000000000000000000000000000000000000000") {
           this.props.dispatch(setCurrentUserAddress(result))
+          if (this.props.accounts.userSettings[result] === undefined) {
+            this.props.dispatch(initializeUserSettings(result));
+          }
         } else {
           console.log("user account not found")
         }
@@ -118,7 +122,6 @@ class App extends Component {
                 <Route path={"/comment/:commentAddress"} component={CommentPage} />
                 <Route path={"/user/:userAddress"} component={UserPage} />
                 <Route path={"/about"} component={AboutPage} />
-                <Route path={"/user"} component={UserPage} />
                 <Route path={"/search"} component={SearchPage} />
               </Switch>
             </div>
@@ -142,7 +145,7 @@ function mapStateToProps(state) {
     accounts: state.accounts,
     drawerState: state.drawerState,
     currentForum: state.forum.currentForum,
-    currentForumAddress: state.forum.currentForumAddress
+    currentForumAddress: state.forum.currentForumAddress,
   };
 }
 

@@ -15,6 +15,8 @@ export const CURRENT_COMMENT_ADDRESS = 'CURRENT_COMMENT_ADDRESS'
 export const UPDATE_PAGE = 'UPDATE_PAGE'
 export const UPDATE_COMMENTS = 'UPDATE_COMMENTS'
 export const UPDATE_FORUM_SUBSCRIPTIONS = 'UPDATE_FORUM_SUBSCRIPTIONS'
+export const UPDATE_USER_SUBSCRIPTIONS = 'UPDATE_USER_SUBSCRIPTIONS'
+export const INITIALIZE_USER_SETTINGS = 'INITIALIZE_USER_SETTINGS'
 
 /*
  * action creators
@@ -93,6 +95,20 @@ export function updateForumSubscriptions(forumSubscriptions) {
     return {
         type: UPDATE_FORUM_SUBSCRIPTIONS,
         payload: forumSubscriptions
+    }
+}
+
+export function initializeUserSettings(userAddress) {
+    return {
+        type: INITIALIZE_USER_SETTINGS,
+        payload: userAddress
+    }
+}
+
+export function updateUserSubscriptions(userSubscriptions) {
+    return {
+        type: UPDATE_USER_SUBSCRIPTIONS,
+        payload: userSubscriptions
     }
 }
 
