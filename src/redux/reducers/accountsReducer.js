@@ -51,32 +51,42 @@ const accountsReducer = (state = initialState, action) => {
       };
     case INITIALIZE_USER_SETTINGS:
       console.log(action)
-      return {
-        ...state,
-        userSettings : {
-          ...state.userSettings,
-          [action.payload] : {
-            subscriptions: [],
-            test1: [],
-            test2: []
+      console.log(state)
+      console.log(state.userSettings[action.payload])
+      if (state.userSettings[action.payload] === undefined) {
+        return {
+          ...state,
+          userSettings : {
+            ...state.userSettings,
+            [action.payload] : {
+              subscriptions: [],
+              test1: [],
+              test2: []
+            }
           }
         }
-      };
+      } else {
+        return {
+          ...state
+        }
+      }
+
     case UPDATE_USER_SUBSCRIPTIONS:
       console.log(action)
-      let user = action.payload.user
       return {
         ...state,
         userSettings: {
           ...state.userSettings,
           [action.payload.user]: {
-            ...state.userSettings[user],
+            ...state.userSettings,
             subscriptions: action.payload.subscriptions 
           }
         }
       };
     default:
-      return state
+      return {
+        ...state
+      }
   }
 }
 

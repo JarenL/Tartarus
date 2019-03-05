@@ -18,6 +18,9 @@ import CreateCommentButton from '../CreateCommentButton'
 import Modal from '../Modal'
 import styles from './styles'
 import 'react-mde/lib/styles/css/react-mde-all.css';
+import Loading from '../../Loading';
+import PostContainer from '../../Views/Post/PostContainer';
+import CommentContainer from '../../Views/Comment/CommentContainer';
 
 const services = require('../../../services')
 
@@ -27,7 +30,8 @@ class CreateComment extends Component {
 
     this.state = {
       comment: '',
-      errorMessage: null
+      errorMessage: null,
+      submitting: false
     }
   }
 
@@ -39,6 +43,7 @@ class CreateComment extends Component {
   handlePublish = async () => {
     this.setState({ errorMessage: null })
     if (this.state.comment) {
+      this.setState({ submitting: true })
       let commentObject = { comment: this.state.comment }
       console.log(commentObject)
       const ipfsHash = await services.ipfs.uploadObject(commentObject)
@@ -104,21 +109,20 @@ class CreateComment extends Component {
   }
 
   render() {
-    const { classes, address, profile } = this.props
+    const { classes } = this.props
     return (
       <Modal onClose={this.handleModalClose} trigger={<CreateCommentButton />} title="hello">
+        {this.props.currentPage === "Post" ? <PostContainer address={this.props.currentPostAddress}/> : <CommentContainer address={this.props.currentCommentAddress}/>}
         <MarkdownTextBox handleChange={this.handleCommentChange.bind(this)} />
         <div className={classes.buttonsContainer}>
-
           <Tooltip title={<HelpText />} placement='top-start'>
             <HelpIcon className={classes.greyIcon} />
           </Tooltip>
-
           <span className={classes.errorMessage}>
             {this.state.errorMessage}
           </span>
 
-          <Button
+          {this.state.submitting ? <Loading/> : <Button
             variant='contained'
             color='secondary'
             className={classes.publishButton}
@@ -128,6 +132,7 @@ class CreateComment extends Component {
             {<CheckIcon className={classes.rightIcon} />}
             {<span className={classes.rightIcon}></span>}
           </Button>
+          }
         </div>
       </Modal>
     )
