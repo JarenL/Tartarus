@@ -3,23 +3,14 @@ import {
 	CURRENT_FORUM_ADDRESS,
 	CURRENT_POST_ADDRESS,
 	UPDATE_FORUM,
-	UPDATE_FORUM_SUBSCRIPTIONS
+	CURRENT_COMMENT_ADDRESS
 } from '../actions/actions';
-
-import { persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-
-const forumPersistConfig = {
-  key: 'forum',
-  storage: storage,
-  whitelist: ['forumSubscriptions']
-}
 
 const initialState = {
 	currentForum: "Frontpage",
 	currentForumAddress: null,
 	currentPostAddress: null,
-	forumSubscriptions: []
+	currentCommentAddress: null,
 }
 
 const forumReducer = (state = initialState, action) => {
@@ -39,20 +30,20 @@ const forumReducer = (state = initialState, action) => {
 				...state,
 				currentPostAddress: action.payload
 			};
+		case CURRENT_COMMENT_ADDRESS:
+			return {
+				...state,
+				currentCommentAddress: action.payload
+			};
 		case UPDATE_FORUM:
 			return {
 				...state,
 				currentForum: action.payload.name,
 				currentForumAddress: action.payload.address
 			};
-			case UPDATE_FORUM_SUBSCRIPTIONS:
-			return {
-				...state,
-				forumSubscriptions: action.payload
-			};
 		default:
 			return state
 	}
 }
 
-export default persistReducer(forumPersistConfig, forumReducer)
+export default forumReducer;

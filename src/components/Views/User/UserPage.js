@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import UserHeader from './UserHeader';
 import { Divider } from '@material-ui/core';
 import UserTabs from './UserTabs';
+import { setCurrentPage } from '../../../redux/actions/actions';
 
 const styles = theme => ({
 	profile: {
@@ -53,6 +54,11 @@ const styles = theme => ({
 })
 
 class Profile extends React.Component {
+
+	componentDidMount() {
+		this.props.dispatch(setCurrentPage("User"))
+	}
+
 	render() {
 		const { classes } = this.props
 		return (

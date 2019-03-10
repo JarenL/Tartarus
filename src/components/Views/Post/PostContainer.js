@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PostContract from '../../../contracts/Post.json';
 import Loading from '../../Loading'
-import Post from './Post';
+import Post from './Post'
 import ipfs from '../../../services/ipfs/ipfs'
 
 const styles = {
@@ -21,6 +21,8 @@ class PostContainer extends Component {
       forum: null,
       time: null,
       loading: true,
+      votes: null,
+      comments: null,
       exists: true
     }
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -37,29 +39,60 @@ class PostContainer extends Component {
     post.at(this.props.address).then((instance) => {
       instance.postInfo.call().then((result) => {
         instance.owner.call().then((owner) => {
-          ipfs.catJSON(result[0], (err, ipfsData) => {
-            if (ipfsData) {
-              var utcSeconds = result[2];
-              var time = new Date(0);
-              time.setUTCSeconds(utcSeconds / 1000);
-              time = time.toString();
-              this.setState({
-                title: ipfsData.title,
-                creator: result[1],
-                forum: owner,
-                time: time,
-                loading: false,
-              });
-            } else {
-              this.setState({
-                exists: false
-              })
-            }
+          instance.CommentCreated({}, { fromBlock: 0, toBlock: 'latest' }).get((error, comments) => {
+            console.log(comments.length)
+            console.log(result)
+            ipfs.catJSON(result[0], (err, ipfsData) => {
+              if (ipfsData) {
+                this.setState({
+                  title: ipfsData.title,
+                  creator: result[1],
+                  forum: owner,
+                  time: result[2].c[0] * 1000,
+                  votes: result[3].c[0],
+                  comments: comments.length,
+                  loading: false
+                });
+                console.log(ipfsData)
+              } else {
+                console.log(ipfsData)
+                this.setState({
+                  exists: false
+                })
+              }
+            })
           })
         })
       })
     })
   }
+
+  upvote = () => {
+    const contract = require('truffle-contract')
+    const post = contract(PostContract)
+    post.setProvider(this.props.web3.currentProvider)
+    this.props.web3.eth.getAccounts((error, accounts) => {
+      post.at(this.props.address).then((instance) => {
+        instance.upvote(
+          { from: accounts[0], gasPrice: 20000000000 }
+        )
+      })
+    })
+  }
+
+  downvote = () => {
+    const contract = require('truffle-contract')
+    const post = contract(PostContract)
+    post.setProvider(this.props.web3.currentProvider)
+    this.props.web3.eth.getAccounts((error, accounts) => {
+      post.at(this.props.address).then((instance) => {
+        instance.downvote(
+          { from: accounts[0], gasPrice: 20000000000 }
+        )
+      })
+    })
+  }
+
   render() {
     if (this.state.loading) {
       if (this.state.exists) {
@@ -79,6 +112,10 @@ class PostContainer extends Component {
           title={this.state.title}
           creator={this.state.creator}
           time={this.state.time}
+          votes={this.state.votes}
+          upvote={this.upvote}
+          comments={this.state.comments}
+          downvote={this.downvote}
         />
       )
     }

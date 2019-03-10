@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MinusIcon from '@material-ui/icons/RemoveCircleOutlined';
 import { connect } from 'react-redux';
 import {
-	updateForumSubscriptions
+	updateForumSubscriptions, updateUserSubscriptions
 } from '../../redux/actions/actions'
 
 const styles = theme => ({
@@ -19,13 +19,19 @@ const styles = theme => ({
 
 class UnsubscribeButton extends Component {
 	unsubscribeHandler = (forumContext) => {
-		let newSubscriptionsArray = this.props.forumSubscriptions.slice();
+		let newSubscriptionsArray = this.props.userSettings[this.props.currentUserAddress].subscriptions.slice();
 		for (var i = 0; i < newSubscriptionsArray.length; i++) {
 			if (newSubscriptionsArray[i].address === forumContext) {
 				newSubscriptionsArray.splice(i, 1)
 			}
 		}
-		this.props.dispatch(updateForumSubscriptions(newSubscriptionsArray))
+		let payload = {
+			user : this.props.currentUserAddress,
+			subscriptions : newSubscriptionsArray
+		}
+		// this.props.dispatch(updateForumSubscriptions(newSubscriptionsArray))
+		this.props.dispatch(updateUserSubscriptions(payload))
+
 	}
 
 	render() {
@@ -48,7 +54,8 @@ UnsubscribeButton.propTypes = {
 
 function mapStateToProps(state) {
 	return {
-		forumSubscriptions: state.forum.forumSubscriptions
+		userSettings: state.accounts.userSettings,
+		currentUserAddress : state.accounts.currentUserAddress
 	};
 }
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import CommentContract from '../../../contracts/Comment.json';
 import Loading from '../../Loading'
 import Comment from './Comment';
+import PostContract from '../../../contracts/Post.json';
 import ipfs from '../../../services/ipfs/ipfs'
 
 class CommentContainer extends Component {
@@ -15,6 +16,7 @@ class CommentContainer extends Component {
       forum: null,
       target: null,
       time: null,
+      commentReplies: null,
       loading: true,
       exists: true
     }
@@ -27,29 +29,45 @@ class CommentContainer extends Component {
 
   instantiateContract() {
     const contract = require('truffle-contract')
+    const post = contract(PostContract)
     const comment = contract(CommentContract)
+    post.setProvider(this.props.web3.currentProvider)
     comment.setProvider(this.props.web3.currentProvider)
-    comment.at(this.props.address).then((instance) => {
-      instance.commentInfo.call().then((result) => {
-        instance.owner.call().then((owner) => {
-          ipfs.catJSON(result[0], (err, ipfsData) => {
-            if (ipfsData) {
-              var utcSeconds = result[2];
-              var time = new Date(0);
-              time.setUTCSeconds(utcSeconds / 1000);
-              time = time.toString();
-              this.setState({
-                title: ipfsData.title,
-                creator: result[1],
-                post: owner,
-                time: time,
-                loading: false
-              });
-            } else {
-              this.setState({
-                exists: false
+    post.at(this.props.currentPostAddress).then((postInstance) => {
+      postInstance.CommentCreated({targetAddress: this.props.address}, {fromBlock: 0, toBlock: 'latest'}).get((error, commentReplies) => {
+        console.log(commentReplies)
+        postInstance.owner.call().then((owner) => {
+          console.log(this.props)
+          comment.at(this.props.address).then((instance) => {
+            instance.commentInfo.call().then((result) => {
+              console.log(result)
+              const bs58 = require('bs58')
+              const hashHex = "1220" + result[0].slice(2)
+              const hashBytes = Buffer.from(hashHex, "hex")
+              const ipfsHash = bs58.encode(hashBytes)
+              console.log(ipfsHash)
+              ipfs.catJSON(ipfsHash, (err, ipfsData) => {
+                console.log(ipfsData)
+                if (ipfsData) {
+                  this.setState({
+                    title: ipfsData.title,
+                    comment: ipfsData.comment,
+                    commentReplies: commentReplies.length, 
+                    creator: result[1],
+                    target: result[2],
+                    votes: result[4].c[0],
+                    forum: owner,
+                    post: this.props.currentPostAddress,
+                    time: result[3].c[0] * 1000,
+                    loading: false
+                  });
+                } else {
+                  this.setState({
+                    exists: false
+                  })
+                }
               })
-            }
+            })
           })
         })
       })
@@ -60,7 +78,7 @@ class CommentContainer extends Component {
     if (this.state.loading) {
       if (this.state.exists) {
         return (
-            <Loading />
+          <Loading />
         )
       } else {
         return null
@@ -70,9 +88,11 @@ class CommentContainer extends Component {
         <Comment
           address={this.props.address}
           comment={this.state.comment}
+          commentReplies={this.state.commentReplies}
           creator={this.state.creator}
           target={this.state.target}
           time={this.state.time}
+          votes={this.state.votes}
         />
       )
     }

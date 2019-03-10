@@ -24,6 +24,8 @@ import { updateForum, setDrawerState } from '../../redux/actions/actions'
 import SubscribeButton from '../Buttons/SubscribeButton'
 import UnsubscribeButton from '../Buttons/UnsubscribeButton';
 import { withRouter } from "react-router";
+import CreatePost from '../Buttons/CreatePost/CreatePost';
+import CreateComment from '../Buttons/CreateComment/CreateComment'
 
 const styles = theme => ({
   root: {
@@ -226,9 +228,11 @@ class PrimarySearchAppBar extends React.Component {
         case 'Frontpage':
           return null;
         case 'Forum':
-          return <CreatePostDialog />;
+          return <CreatePost/>;
         case 'Post':
-          return <CreateCommentDialog />;
+          return <CreateComment/>;
+        case 'Comment':
+          return <CreateComment/>;
         default:
           return null;
       }
@@ -239,7 +243,7 @@ class PrimarySearchAppBar extends React.Component {
         return null
       } else {
         if (this.props.currentForumAddress) {
-          var index = this.props.forumSubscriptions.findIndex( forum => forum.address === this.props.currentForumAddress )
+          var index = this.props.userSettings[this.props.currentUserAddress].subscriptions.findIndex( forum => forum.address === this.props.currentForumAddress )
           if (index === -1) {
             return <SubscribeButton forumContext={this.props.currentForumAddress} />;
           } else {
@@ -265,7 +269,7 @@ class PrimarySearchAppBar extends React.Component {
             <Link to="/" style={{ textDecoration: 'none', color: "white" }}>
               <div onClick={() => this.changeForum({ name: "Frontpage", address: null })}>
                 <Typography className={classes.title} color="inherit" noWrap>
-                  Tartarus
+                  tartarus
                       </Typography>
               </div>
             </Link>
@@ -309,7 +313,8 @@ function mapStateToProps(state) {
   return {
     currentPage: state.page,
     currentForumAddress: state.forum.currentForumAddress,
-    forumSubscriptions: state.forum.forumSubscriptions,
+    userSettings: state.accounts.userSettings,
+    currentUserAddress: state.accounts.currentUserAddress,
     drawerState: state.drawerState
   };
 }

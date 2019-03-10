@@ -5,15 +5,14 @@ import "./CloneFactory.sol";
 import "./Ownable.sol";
 
 contract Post is Ownable, CloneFactory {
-    event CommentCreated (address commentAddress);
-    //add to postInfo
-    // string postTitle
-    // string contentHash
+    event CommentCreated (address indexed commentAddress, address indexed targetAddress);
+
     struct PostInfo {
         string ipfsHash;
         address creator;
         uint time;
-        mapping(address => bool) comments;
+        int32 votes;
+        mapping(address => bool) voters;
     }  
 
     PostInfo public postInfo;
@@ -24,15 +23,38 @@ contract Post is Ownable, CloneFactory {
         postInfo.ipfsHash = _ipfsHash;
         postInfo.creator = _postCreator;
         postInfo.time = now;
+        postInfo.votes = 0;
     }
 
-    function createComment (string _ipfsHash, address _commentCreator, address _targetAddress, address _cloneComment) 
+    function createComment (bytes32 _ipfsHash, address _commentCreator, address _targetAddress, address _cloneComment) 
     public onlyOwner returns(address) {
-        require(postInfo.comments[_targetAddress] || _targetAddress == address(this), "Invalid target");
         address clone = createClone(_cloneComment);
         Comment(clone).initialize(_ipfsHash, _commentCreator, _targetAddress);
-        postInfo.comments[clone] = true;
-        emit CommentCreated(clone);
+        emit CommentCreated(clone, _targetAddress);
         return clone;
+    }
+
+    // function getCommentInfo(address _commentAddress) public view returns(bytes32, address, address, uint) {
+    //     return (
+    //         postInfo.comments[_commentAddress].ipfsHash,
+    //         postInfo.comments[_commentAddress].creator,
+    //         postInfo.comments[_commentAddress].target,
+    //         postInfo.comments[_commentAddress].time
+    //     );
+    // }
+
+    // todo create separate createComment => comment function
+    // todo create upvote / downvote comment functions
+
+    function upvote() public {
+        require (!postInfo.voters[msg.sender], "Already voted");
+        postInfo.voters[msg.sender] = true;
+        postInfo.votes += 1;
+    }
+
+    function downvote() public {
+        require (!postInfo.voters[msg.sender], "Already voted");
+        postInfo.voters[msg.sender] = true;
+        postInfo.votes -= 1;
     }
 }

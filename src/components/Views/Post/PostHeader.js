@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles';
+import PostContainer from './PostContainer';
 
 const styles = theme => ({
 	header: {
-		height: '15%',
+		// height: '15%',
 		paddingTop: '18px',
-		paddingBottom: '18px',
-		paddingLeft: '20px',
-		paddingRight: '20px',
+		// paddingBottom: '18px',
+		// paddingLeft: '20px',
+		// paddingRight: '20px',
 		margin: '0px',
 	},
 	uAddress: {
@@ -45,11 +46,16 @@ class PostHeader extends Component {
 	render() {
 		const { classes } = this.props;
 		return (
+			// <div className={classes.header}>
+			// 	<p className={classes.uAddress}>Posted by {this.props.currentUserAddress}</p>
+			// 	<p className={classes.oAddress}>from {this.props.currentOwnerAddress}</p>
+			// 	<p className={classes.forum}>{this.props.currentPost}</p>
+			// 	<p className={classes.pAddress}>Post Address: {this.props.currentPostAddress}</p>
+			// </div>
 			<div className={classes.header}>
-				<p className={classes.uAddress}>Posted by {this.props.currentUserAddress}</p>
-				<p className={classes.oAddress}>from {this.props.currentOwnerAddress}</p>
-				<p className={classes.forum}>{this.props.currentPost}</p>
-				<p className={classes.pAddress}>Post Address: {this.props.currentPostAddress}</p>
+				<PostContainer
+					address={this.props.currentPostAddress}
+				/>
 			</div>
 		)
 	}

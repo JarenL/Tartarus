@@ -13,7 +13,7 @@ const styles = theme => ({
 	}
 });
 
-function CreatePostButton(props) {
+function CreateCommentButton(props) {
 	const { classes } = props;
 	return (
 		<div>
@@ -25,8 +25,8 @@ function CreatePostButton(props) {
 	);
 }
 
-CreatePostButton.propTypes = {
+CreateCommentButton.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CreatePostButton);
+export default withStyles(styles)(CreateCommentButton);

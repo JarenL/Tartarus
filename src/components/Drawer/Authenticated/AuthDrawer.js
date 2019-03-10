@@ -26,7 +26,7 @@ class AuthDrawer extends Component {
 					classes={{
 						paper: classes.drawerPaper,
 					}}>
-					<DrawerListContainer forums={this.props.forumSubscriptions} />
+					<DrawerListContainer forums={this.props.userSettings[this.props.currentUserAddress].subscriptions} />
 					<CreateForumDialog />
 				</Drawer>
 			</div>
@@ -44,8 +44,8 @@ function mapStateToProps(state) {
 	return {
 		web3: state.web3,
 		tartarusAddress: state.tartarus.tartarusAddress,
-		accounts: state.accounts,
-		forumSubscriptions: state.forum.forumSubscriptions
+		currentUserAddress: state.accounts.currentUserAddress,
+		userSettings: state.accounts.userSettings,
 	};
 }
 
