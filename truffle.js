@@ -1,7 +1,7 @@
 const path = require("path");
 var HDWalletProvider = require("truffle-hdwallet-provider");
 
-var mnemonic = "direct volume panda bike rather joy fever goat hammer ritual broccoli frame";
+const mnemonic =`${process.env.ETHEREUM_MNEMONIC}`
 
 module.exports = {
   contracts_build_directory: path.join(__dirname, "./src/contracts"),

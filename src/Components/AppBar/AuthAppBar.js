@@ -15,20 +15,17 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import CreatePostDialog from '../Dialog/CreatePostDialog'
-import CreateCommentDialog from '../Dialog/CreateCommentDialog'
+import CreatePostDialog from '../Buttons/ButtonDialogs/CreatePostDialog'
+import CreateCommentDialog from '../Buttons/ButtonDialogs/CreateCommentDialog'
 import { connect } from 'react-redux';
-import UserMenu from '../User/UserMenu';
-import { setDrawerState } from '../../actions/actions';
-import { withRouter } from "react-router-dom";
-import blueGrey from '@material-ui/core/colors/blueGrey';
-import red from '@material-ui/core/colors/red';
+import UserMenu from '../Views/User/UserMenu';
 import { Link } from 'react-router-dom';
-import { updateForum } from '../../actions/actions'
-
-const primary = blueGrey[500]; // #F44336
-const accent = red['A200']; // #E040FB
-// const accent2 = purple.A200; // #E040FB (alternative method)
+import { updateForum, setDrawerState } from '../../redux/actions/actions'
+import SubscribeButton from '../Buttons/SubscribeButton'
+import UnsubscribeButton from '../Buttons/UnsubscribeButton';
+import { withRouter } from "react-router";
+import CreatePost from '../Buttons/CreatePost/CreatePost';
+import CreateComment from '../Buttons/CreateComment/CreateComment'
 
 const styles = theme => ({
   root: {
@@ -109,15 +106,20 @@ class PrimarySearchAppBar extends React.Component {
     this.state = {
       anchorEl: null,
       mobileMoreAnchorEl: null,
-      currentPage: null
+      currentPage: null,
+      searchText: null
     }
   }
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
     this.props.dispatch(setDrawerState());
-    console.log("hello it was clicked")
   };
+
+  changeForum = (forum) => {
+    console.log("forum clicked")
+    this.props.dispatch(updateForum(forum))
+  }
 
   componentDidMount = () => {
     this.setState({
@@ -127,11 +129,9 @@ class PrimarySearchAppBar extends React.Component {
 
   componentWillReceiveProps = (newProps) => {
     if (newProps.currentPage !== this.props.currentPage) {
-      console.log(newProps.currentPage.currentPage)
       this.setState({
         currentPage: newProps.currentPage.currentPage
       })
-      console.log("change")
     }
   }
 
@@ -151,6 +151,25 @@ class PrimarySearchAppBar extends React.Component {
   handleMobileMenuClose = () => {
     this.setState({ mobileMoreAnchorEl: null });
   };
+
+	handleSearchText = (event) => {
+    this.setState({ searchText: event.target.value });
+    console.log(this.state.searchText)
+  }
+  
+	handleSubmitSearch = () => {
+    console.log(this.state.searchText)
+    console.log(this.props)
+    this.props.history.replace('search');
+
+  }
+  
+  handleSearchKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      this.handleSubmitSearch();
+      event.preventDefault();
+    }
+  }
 
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state;
@@ -204,17 +223,36 @@ class PrimarySearchAppBar extends React.Component {
       </Menu>
     );
 
-    const buttonSwitch = () => {
+    const createButtonSwitch = () => {
       switch (this.state.currentPage) {
         case 'Frontpage':
           return null;
         case 'Forum':
-          return <CreatePostDialog />;
+          return <CreatePost/>;
         case 'Post':
-          return <CreateCommentDialog />;
+          return <CreateComment/>;
+        case 'Comment':
+          return <CreateComment/>;
         default:
           return null;
       }
+    }
+
+    const subscribeButtonSwitch = () => {
+      if (this.state.currentPage !== 'Forum') {
+        return null
+      } else {
+        if (this.props.currentForumAddress) {
+          var index = this.props.userSettings[this.props.currentUserAddress].subscriptions.findIndex( forum => forum.address === this.props.currentForumAddress )
+          if (index === -1) {
+            return <SubscribeButton forumContext={this.props.currentForumAddress} />;
+          } else {
+            return <UnsubscribeButton forumContext={this.props.currentForumAddress} />;
+          }
+        } else {
+          return null
+        }
+      } 
     }
 
     return (
@@ -231,7 +269,7 @@ class PrimarySearchAppBar extends React.Component {
             <Link to="/" style={{ textDecoration: 'none', color: "white" }}>
               <div onClick={() => this.changeForum({ name: "Frontpage", address: null })}>
                 <Typography className={classes.title} color="inherit" noWrap>
-                  Tartarus
+                  tartarus
                       </Typography>
               </div>
             </Link>
@@ -242,6 +280,9 @@ class PrimarySearchAppBar extends React.Component {
               <Input
                 placeholder="Search…"
                 disableUnderline
+                onChange={this.handleSearchText}
+                onSubmit={this.handleSubmitSearch}
+                onKeyPress={this.handleSearchKeyPress}
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
@@ -250,7 +291,8 @@ class PrimarySearchAppBar extends React.Component {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {buttonSwitch()}
+              {subscribeButtonSwitch()}
+              {createButtonSwitch()}
               <UserMenu />
             </div>
             <div className={classes.sectionMobile}>
@@ -269,10 +311,12 @@ class PrimarySearchAppBar extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    currentForum: state.forum.currentForum,
     currentPage: state.page,
+    currentForumAddress: state.forum.currentForumAddress,
+    userSettings: state.accounts.userSettings,
+    currentUserAddress: state.accounts.currentUserAddress,
     drawerState: state.drawerState
   };
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(PrimarySearchAppBar));
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(PrimarySearchAppBar)));

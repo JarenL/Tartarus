@@ -34,12 +34,13 @@ contract Forum is Ownable, CloneFactory {
         return clone;
     }
 
-    function createComment(address _postAddress, address _targetAddress, address _commentCreator, string _ipfsHash, address _cloneComment) 
-    public onlyOwner {
+    function createComment(address _postAddress, address _targetAddress, address _commentCreator, bytes32 _ipfsHash, address _cloneComment) 
+    public onlyOwner returns(address) {
         require(!banned[_commentCreator], "User is banned from this forum");
         require(posts[_postAddress], "Post does not exist.");
         Post targetPost = Post(_postAddress);
-        targetPost.createComment(_ipfsHash, _commentCreator, _targetAddress, _cloneComment);
+        address newCommentAddress = targetPost.createComment(_ipfsHash, _commentCreator, _targetAddress, _cloneComment);
+        return newCommentAddress;
     }
 
     function banUser(address _userAddress) public onlyOwner {

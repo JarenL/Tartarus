@@ -1,32 +1,36 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import DrawerContainer from './Components/Drawer/DrawerContainer';
-import AppBarContainer from './Components/AppBar/AppBarContainer';
-import getWeb3 from './utils/getWeb3';
+import DrawerContainer from './components/Drawer/DrawerContainer';
+import AppBarContainer from './components/AppBar/AppBarContainer';
+import getWeb3 from './services/web3/getWeb3';
 import TartarusContract from './contracts/Tartarus.json';
 import { Route, Switch } from "react-router-dom";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Loading from './components/Loading';
 import { connect } from 'react-redux';
-import FrontPage from './Components/FrontPage';
-import ForumPage from './Components/Forum/ForumPage';
-import PostPage from './Components/Post/PostPage';
-import UserPage from './Components/User/UserPage';
-import AboutPage from './Components/User/AboutPage';
+import FeedPage from './components/Views/Feed/FeedPage';
+import ForumPage from './components/Views/Forum/ForumPage';
+import PostPage from './components/Views/Post/PostPage';
+import CommentPage from './components/Views/Comment/CommentPage'
+import UserPage from './components/Views/User/UserPage';
+import AboutPage from './components/Views/About/AboutPage';
+import SearchPage from './components/Views/Search/Forum/ForumSearchPage'
+
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import theme from './Components/Style/theme'
+import theme from './style/theme'
 
 import {
   initializeWeb3,
   setCurrentUserAddress,
-  setTartarusAddress
-} from './actions/actions'
+  setTartarusAddress,
+  initializeUserSettings
+} from './redux/actions/actions'
 
 // Styles
-import './css/oswald.css'
-import './css/open-sans.css'
-import './css/pure-min.css'
-import './App.css'
+import './style/css/oswald.css'
+import './style/css/open-sans.css'
+import './style/css/pure-min.css'
+import './style/css/App.css'
 
 const styles = theme => ({
   main: {
@@ -35,19 +39,17 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    // backgroundColor: 'red',
     marginTop: 45,
 
     marginLeft: '0%',
     padding: theme.spacing.unit,
     minHeight: '100vh',
-    minWidth: 0, // So the Typography noWrap works
+    minWidth: 0
   },
 });
 
 class App extends Component {
   constructor(props) {
-    console.log(props.match)
     super(props)
     this.state = {
       marginLeft: "0%",
@@ -69,7 +71,6 @@ class App extends Component {
   }
 
   componentDidUpdate(newProps) {
-    console.log(newProps)
     if (newProps.accounts.currentOwnerAddress !== "0") {
       if (newProps.accounts.currentOwnerAddress !== this.props.accounts.currentOwnerAddress) {
         window.location.reload();
@@ -81,17 +82,20 @@ class App extends Component {
     this.props.dispatch(setCurrentUserAddress(0))
     const contract = require('truffle-contract')
     const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0xee548e79a1a8b89625b0b704a353a4b95e38bd60"))
+    this.props.dispatch(setTartarusAddress("0x018aa6d90f65f83fd14b655818c159e3c5514e82"))
     tartarus.setProvider(this.props.web3.currentProvider)
     tartarus.at(this.props.tartarusAddress).then((instance) => {
       instance.authenticateUser({ from: this.props.accounts.currentOwnerAddress }).then((result) => {
         console.log(result)
         if (result !== "0x0000000000000000000000000000000000000000") {
           this.props.dispatch(setCurrentUserAddress(result))
+          this.props.dispatch(initializeUserSettings(result));
         } else {
           console.log("user account not found")
         }
-        this.setState({ loading: false })
+        this.setState({
+          loading: false
+        })
       })
     })
   }
@@ -99,9 +103,7 @@ class App extends Component {
   render() {
     const { classes } = this.props;
     if (this.state.loading) {
-      return (
-        <CircularProgress />
-      )
+      return  <Loading />
     } else {
       return (
         <MuiThemeProvider theme={theme}>
@@ -113,12 +115,13 @@ class App extends Component {
             </div>
             <div className={classes.content} style={{ marginLeft: this.props.drawerState.drawerState ? '15%': '0%'}}>
               <Switch>
-                <Route exact path="/" component={FrontPage} />
+                <Route exact path="/" component={FeedPage} />
                 <Route path={"/forum/:forumAddress"} component={ForumPage} />
                 <Route path={"/post/:postAddress"} component={PostPage} />
+                <Route path={"/comment/:commentAddress"} component={CommentPage} />
                 <Route path={"/user/:userAddress"} component={UserPage} />
                 <Route path={"/about"} component={AboutPage} />
-                <Route path={"/user"} component={UserPage} />
+                <Route path={"/search"} component={SearchPage} />
               </Switch>
             </div>
           </div>
@@ -141,7 +144,7 @@ function mapStateToProps(state) {
     accounts: state.accounts,
     drawerState: state.drawerState,
     currentForum: state.forum.currentForum,
-    currentForumAddress: state.forum.currentForumAddress
+    currentForumAddress: state.forum.currentForumAddress,
   };
 }
 
