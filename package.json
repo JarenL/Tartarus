@@ -19,7 +19,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-router-redux": "^4.0.8",
-    "react-scripts": "^2.1.1",
+    "react-scripts": "^2.1.8",
     "react-web3": "^1.2.0",
     "redux": "^4.0.1",
     "redux-auth-wrapper": "^2.0.3",
@@ -34,7 +34,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts --max_old_space_size=4096 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

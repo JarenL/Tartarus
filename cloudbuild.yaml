@@ -1,5 +1,16 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/quickstart-image', '.' ]
-images:
-- 'gcr.io/$PROJECT_ID/quickstart-image'
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['install']
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['audit', 'fix']
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['run', 'build']
+- name: gcr.io/cloud-builders/gcloud
+  args:
+  - beta
+  - functions
+  - deploy
+  - helloWorld
+  - --source=.
+  - --runtime=nodejs8
+  - --trigger-http
