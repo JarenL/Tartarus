@@ -1,16 +1,21 @@
 steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
+# - name: 'gcr.io/cloud-builders/npm'
+#   args: ['find', 'CODEBUILD_SRC_DIR/node_modules', '-mtime', '+10950', '-exec', 'touch', '{}', '\;']
 - name: 'gcr.io/cloud-builders/npm'
-  args: ['audit', 'fix']
-- name: 'gcr.io/cloud-builders/npm'
-  args: ['run', 'build']
-- name: gcr.io/cloud-builders/gcloud
-  args:
-  - beta
-  - functions
-  - deploy
-  - helloWorld
-  - --source=.
-  - --runtime=nodejs8
-  - --trigger-http
+  args: ['run', '--max_old_space_size=8000', 'build']
+# - name: gcr.io/cloud-builders/gcloud
+#   args:
+#   - beta
+#   - functions
+#   - deploy
+#   - helloWorld
+#   - --source=.
+#   - --runtime=nodejs6
+#   - --trigger-http
+# - name: 'gcr.io/cloud-builders/gcloud'
+#   args: ['functions', 'deploy', 'functions-test', '--runtime', 'nodejs6', '--trigger-http']
+
+
+
