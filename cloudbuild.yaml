@@ -5,5 +5,5 @@ steps:
   args: ['run', 'build']
 artifacts:
   objects:
-    location: 'gs://tartarus-app'
-    paths: ['/builds']
+    location: 'gs://tartarus-app/builds'
+    paths: ['/build']
