@@ -1,8 +1,8 @@
 steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
-- name: 'gcr.io/cloud-builders/npm'
-  args: ['audit', 'fix']
+# - name: 'gcr.io/cloud-builders/npm'
+#   args: ['find', 'CODEBUILD_SRC_DIR/node_modules', '-mtime', '+10950', '-exec', 'touch', '{}', '\;']
 - name: 'gcr.io/cloud-builders/npm'
   args: ['run', 'build']
 - name: gcr.io/cloud-builders/gcloud
@@ -12,5 +12,9 @@ steps:
   - deploy
   - helloWorld
   - --source=.
-  - --runtime=nodejs8
+  - --runtime=nodejs6
   - --trigger-http
+
+
+
+
