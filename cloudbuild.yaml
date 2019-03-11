@@ -4,4 +4,4 @@ steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['run', 'build']
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['-m', 'cp', '-r', 'tartarus/build*', 'gs://tartarus-builds/$BUILD_ID']
+  args: ['-m', 'cp', '-r', 'tartarus/build*', 'gs://tartarus-app/builds/$BUILD_ID']
