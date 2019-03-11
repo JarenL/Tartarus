@@ -1,7 +1,8 @@
 steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
-- name: 'gcr.io/cloud-builders/npm'
-  args: ['run', 'build']
-- name: 'gcr.io/cloud-builders/gsutil'
-  args: ['-m', 'cp', '-r', './workspace/build*', 'gs://tartarus-app/builds/$BUILD_ID']
+# - name: 'gcr.io/cloud-builders/npm'
+#   args: ['test']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '--tag=gcr.io/$PROJECT_ID/tartarus', '.']
+images: ['gcr.io/$PROJECT_ID/tartarus']
