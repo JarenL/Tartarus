@@ -6,4 +6,4 @@ steps:
 artifacts:
   objects:
     location: 'gs://tartarus-app/builds'
-    paths: ['/build']
+    paths: ['build']
