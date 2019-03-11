@@ -3,7 +3,5 @@ steps:
   args: ['install']
 - name: 'gcr.io/cloud-builders/npm'
   args: ['run', 'build']
-artifacts:
-  objects:
-    location: 'gs://tartarus-app/builds'
-    paths: ['build']
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['-m', 'cp', '-r', 'tartarus/build*', 'gs://tartarus-builds/$BUILD_ID']
