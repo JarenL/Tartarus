@@ -17,10 +17,17 @@ export const UPDATE_COMMENTS = 'UPDATE_COMMENTS'
 export const UPDATE_FORUM_SUBSCRIPTIONS = 'UPDATE_FORUM_SUBSCRIPTIONS'
 export const UPDATE_USER_SUBSCRIPTIONS = 'UPDATE_USER_SUBSCRIPTIONS'
 export const INITIALIZE_USER_SETTINGS = 'INITIALIZE_USER_SETTINGS'
+export const TOGGLE_DARK_THEME = 'TOGGLE_DARK_THEME';
 
 /*
  * action creators
  */
+
+export function toggleDarkTheme() { 
+    return {
+        type: TOGGLE_DARK_THEME 
+    }
+}
 
 export function initializeWeb3(web3) {
     return {

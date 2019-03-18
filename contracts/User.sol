@@ -1,10 +1,12 @@
-pragma solidity ^0.4.24;
+pragma solidity >=0.4.22 <0.6.0;
 
 import "./Ownable.sol";
 
 contract User is Ownable {
     event PostCreated (address postAddress);
     event CommentCreated (address commentAddress);
+    event PostUpvoted (address postAddress);
+    event PostDownvoted (address postAddress);
     event MessageSent (address targetAddress, string messageText);
     event MessageReceived (address senderAddress, string messageText);
 

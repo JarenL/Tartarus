@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity >=0.4.22 <0.6.0;
 
 import "./Post.sol"; 
 import "./User.sol"; 
@@ -9,29 +9,31 @@ contract Forum is Ownable, CloneFactory {
     event UserBanned(address userAddress);
     event UserUnbanned(address userAddress);
     event PostCreated(address postAddress);  
-    event PostDeleted(address postAddress);
     
     string public name;
     address public creator;
-    string public rules;
+    bytes32 public rules;
 
+    mapping(address => bool) moderators;
     mapping(address => bool) banned;
     mapping(address => bool) posts;
 
-    function initialize(string _forumName, address _forumCreator) public {
+    // todo: forumName => bytes32
+
+    function initialize(string memory _forumName, address _forumCreator) public {
         require(owner == address(0), "Nice try");
         owner = msg.sender;
         name = _forumName;
         creator = _forumCreator;
     }
 
-    function createPost(string _ipfsHash, address _postCreator, address _clonePost) public onlyOwner returns(address){
+    function createPost(string memory _ipfsHash, address _postCreator, address _clonePost) public onlyOwner returns(address){
         require(!banned[_postCreator], "User is banned from this forum");
-        address clone = createClone(_clonePost);
-        Post(clone).initialize(_ipfsHash, _postCreator);
-        posts[clone] = true;
-        emit PostCreated(clone);
-        return clone;
+        address newPostAddress = createClone(_clonePost);
+        Post(newPostAddress).initialize(_ipfsHash, _postCreator);
+        posts[newPostAddress] = true;
+        emit PostCreated(newPostAddress);
+        return newPostAddress;
     }
 
     function createComment(address _postAddress, address _targetAddress, address _commentCreator, bytes32 _ipfsHash, address _cloneComment) 

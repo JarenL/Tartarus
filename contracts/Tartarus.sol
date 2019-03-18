@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity >=0.4.22 <0.6.0;
 
 import "./User.sol"; 
 import "./Forum.sol"; 
@@ -8,9 +8,9 @@ import "./Ownable.sol";
 
 contract Tartarus is Ownable, CloneFactory {
     event AdminCreated (address adminAddress);
-    event ForumCreated(address forumAddress);  
-    event PostCreated(address forumAddress, address postAddress);
-    event CommentCreated(address forumAddress, address postAddress, address commentAddress);
+    event ForumCreated (address forumAddress);  
+    event PostCreated (address postAddress);
+    event CommentCreated (address commentAddress);
     event UserCreated (address userAddress);  
     
     mapping (string => address) private forums;
@@ -31,39 +31,37 @@ contract Tartarus is Ownable, CloneFactory {
     address cloneUser;
 
     constructor() public {
-        cloneUser = new User();
-        cloneForum = new Forum();
-        clonePost = new Post();
-        cloneComment = new Comment();
+        cloneUser = address(new User());
+        cloneForum = address(new Forum());
+        clonePost = address(new Post());
+        cloneComment = address(new Comment());
     }
 
-    function createForum(string _forumName) public returns(address) {
+    function createForum(string memory _forumName) public {
         require(users[msg.sender] != address(0), "User account not found");
         require(forums[_forumName] == address(0), "Forum already exists");
         address clone = createClone(cloneForum);
         Forum(clone).initialize(_forumName, users[msg.sender]);
         forums[_forumName] = clone;
         emit ForumCreated(clone);
-        return clone;
     }   
 
-    function createPost(address _forumAddress, string _ipfsHash) public {
+    function createPost(address _forumAddress, string memory _ipfsHash) public {
         require(users[msg.sender] != address(0), "User account not found");
         Forum targetForum = Forum(_forumAddress);
         address newPostAddress = targetForum.createPost(_ipfsHash, users[msg.sender], clonePost);
         User targetUser = User(users[msg.sender]);
         targetUser.notifyCreatePost(newPostAddress);
+        emit PostCreated(newPostAddress);
     }
 
     function createComment(address _forumAddress, address _postAddress, address _targetAddress, bytes32 _ipfsHash) public {
         require(users[msg.sender] != address(0), "User account not found");
         Forum targetForum = Forum(_forumAddress);
-        // address newCommentAddress = targetForum.createComment(_postAddress, _targetAddress, users[msg.sender], _ipfsHash, cloneComment);
-        targetForum.createComment(_postAddress, _targetAddress, users[msg.sender], _ipfsHash, cloneComment);
-        
-        //todo notify user of new comment, (commentHash, postAddress)
-        // User targetUser = User(users[msg.sender]);
-        // targetUser.notifyCreateComment(newCommentAddress);
+        address newCommentAddress = targetForum.createComment(_postAddress, _targetAddress, users[msg.sender], _ipfsHash, cloneComment);
+        User targetUser = User(users[msg.sender]);
+        targetUser.notifyCreateComment(newCommentAddress);
+        emit CommentCreated(newCommentAddress);
     }
 
     function createUser() public payable {

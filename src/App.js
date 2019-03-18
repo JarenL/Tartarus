@@ -1,36 +1,28 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import DrawerContainer from './components/Drawer/DrawerContainer';
-import AppBarContainer from './components/AppBar/AppBarContainer';
+import { ThemeProvider } from 'styled-components';
+import theme from './theme';
 import getWeb3 from './services/web3/getWeb3';
 import TartarusContract from './contracts/Tartarus.json';
-import { Route, Switch } from "react-router-dom";
-import Loading from './components/Loading';
 import { connect } from 'react-redux';
-import FeedPage from './components/Views/Feed/FeedPage';
-import ForumPage from './components/Views/Forum/ForumPage';
-import PostPage from './components/Views/Post/PostPage';
-import CommentPage from './components/Views/Comment/CommentPage'
-import UserPage from './components/Views/User/UserPage';
-import AboutPage from './components/Views/About/AboutPage';
-import SearchPage from './components/Views/Search/Forum/ForumSearchPage'
+import GlobalStyle from './globalStyle';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+import HeaderContainer from './components/Header/Component';
+import Home from './components/Home';
+import LoginFormContainer from './components/LoginForm/Container';
+import SignupFormContainer from './components/SignupForm/Container';
 
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import theme from './style/theme'
+// import { MuiThemeProvider } from '@material-ui/core/styles';
+// import theme from './style/theme'
 
 import {
   initializeWeb3,
   setCurrentUserAddress,
   setTartarusAddress,
   initializeUserSettings
-} from './redux/actions/actions'
-
-// Styles
-import './style/css/oswald.css'
-import './style/css/open-sans.css'
-import './style/css/pure-min.css'
-import './style/css/App.css'
+} from './redux/actions/actions';
+import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner';
 
 const styles = theme => ({
   main: {
@@ -45,109 +37,119 @@ const styles = theme => ({
     padding: theme.spacing.unit,
     minHeight: '100vh',
     minWidth: 0
-  },
+  }
 });
 
 class App extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      marginLeft: "0%",
+      marginLeft: '0%',
       tartarusInstance: null,
       loading: true
-    }
+    };
     this.instantiateContract = this.instantiateContract.bind(this);
   }
 
   componentDidMount() {
     getWeb3
       .then(results => {
-        this.props.dispatch(initializeWeb3(results.web3))
+        this.props.dispatch(initializeWeb3(results.web3));
         this.instantiateContract();
       })
       .catch(() => {
-        console.log('Error finding web3.')
-      })
+        console.log('Error finding web3.');
+      });
   }
 
   componentDidUpdate(newProps) {
-    if (newProps.accounts.currentOwnerAddress !== "0") {
-      if (newProps.accounts.currentOwnerAddress !== this.props.accounts.currentOwnerAddress) {
+    if (newProps.accounts.currentOwnerAddress !== '0') {
+      if (
+        newProps.accounts.currentOwnerAddress !==
+        this.props.accounts.currentOwnerAddress
+      ) {
         window.location.reload();
       }
     }
   }
 
   instantiateContract = () => {
-    this.props.dispatch(setCurrentUserAddress(0))
-    const contract = require('truffle-contract')
-    const tartarus = contract(TartarusContract)
-    this.props.dispatch(setTartarusAddress("0x018aa6d90f65f83fd14b655818c159e3c5514e82"))
-    tartarus.setProvider(this.props.web3.currentProvider)
-    tartarus.at(this.props.tartarusAddress).then((instance) => {
-      instance.authenticateUser({ from: this.props.accounts.currentOwnerAddress }).then((result) => {
-        console.log(result)
-        if (result !== "0x0000000000000000000000000000000000000000") {
-          this.props.dispatch(setCurrentUserAddress(result))
-          this.props.dispatch(initializeUserSettings(result));
-        } else {
-          console.log("user account not found")
-        }
-        this.setState({
-          loading: false
-        })
-      })
-    })
-  }
+    this.props.dispatch(setCurrentUserAddress(0));
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    this.props.dispatch(
+      setTartarusAddress('0xAfB1a69F3a39d57547867E65a8b14bdF1c7a760B')
+    );
+    tartarus.setProvider(this.props.web3.currentProvider);
+    tartarus.at(this.props.tartarusAddress).then(instance => {
+      instance
+        .authenticateUser({ from: this.props.accounts.currentOwnerAddress })
+        .then(result => {
+          console.log(result);
+          // if (result !== '0x0000000000000000000000000000000000000000') {
+          //   this.props.dispatch(setCurrentUserAddress(result));
+          //   this.props.dispatch(initializeUserSettings(result));
+          // } else {
+          //   console.log('user account not found');
+          // }
+          this.setState({
+            loading: false
+          });
+        });
+    });
+  };
 
   render() {
-    const { classes } = this.props;
     if (this.state.loading) {
-      return  <Loading />
+      return <LoadingIndicatorSpinner />;
     } else {
       return (
-        <MuiThemeProvider theme={theme}>
-        <div>
-          <AppBarContainer/>
-          <div className={classes.main}>
-            <div>
-              <DrawerContainer />
-            </div>
-            <div className={classes.content} style={{ marginLeft: this.props.drawerState.drawerState ? '15%': '0%'}}>
+        <ThemeProvider theme={theme(this.props.dark)}>
+          <HashRouter>
+            <>
+              <GlobalStyle />
+              <Route component={HeaderContainer} />
+              {/* <Route component={ErrorNotificationContainer} /> */}
               <Switch>
-                <Route exact path="/" component={FeedPage} />
-                <Route path={"/forum/:forumAddress"} component={ForumPage} />
-                <Route path={"/post/:postAddress"} component={PostPage} />
-                <Route path={"/comment/:commentAddress"} component={CommentPage} />
-                <Route path={"/user/:userAddress"} component={UserPage} />
-                <Route path={"/about"} component={AboutPage} />
-                <Route path={"/search"} component={SearchPage} />
+                <Route path='/login' component={LoginFormContainer} />
+                <Route path='/signup' component={SignupFormContainer} />
+                {/* <Route path='/createpost' component={CreatePostFormContainer} /> */}
+                <Route path='/' component={Home} />
+                {/* <Route path={'/forum/:forumAddress'} component={ForumPage} /> */}
+                {/* <Route path={'/post/:postAddress'} component={PostPage} />
+                <Route
+                  path={'/comment/:commentAddress'}
+                  component={CommentPage}
+                />
+                <Route path={'/user/:userAddress'} component={UserPage} />
+                <Route path={'/about'} component={AboutPage} />
+                <Route path={'/search'} component={SearchPage} /> */}
               </Switch>
-            </div>
-          </div>
-        </div>
-        </MuiThemeProvider>
-      )
+            </>
+          </HashRouter>
+        </ThemeProvider>
+      );
     }
-
   }
 }
 
 App.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
   return {
     web3: state.web3,
+    dark: state.theme.dark,
     tartarusAddress: state.tartarus.tartarusAddress,
     accounts: state.accounts,
     drawerState: state.drawerState,
     currentForum: state.forum.currentForum,
     currentForumAddress: state.forum.currentForumAddress,
+    currentUserAddress: state.accounts.currentUserAddress
   };
 }
 
-export default connect(mapStateToProps, null, null, {
-  pure: false
-})(withStyles(styles, {withTheme: true})(App));
+const AppContainer = connect(mapStateToProps)(App);
+
+export default AppContainer;
