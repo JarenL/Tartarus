@@ -1,59 +1,83 @@
-pragma solidity >=0.4.22 <0.6.0;
+pragma solidity ^0.5.0;
 
 import "./Post.sol"; 
 import "./User.sol"; 
 import "./CloneFactory.sol";
-import "./Ownable.sol";
+pragma solidity ^0.5.0;
 
 contract Forum is Ownable, CloneFactory {
+    event PostCreated(address postAddress);
+    event PostDeleted(address postAddress);
     event UserBanned(address userAddress);
     event UserUnbanned(address userAddress);
-    event PostCreated(address postAddress);  
-    
-    string public name;
-    address public creator;
-    bytes32 public rules;
+    event ModeratorCreated(address userAddress);
+    event ModeratorRemoved(address userAddress);
 
     mapping(address => bool) moderators;
     mapping(address => bool) banned;
     mapping(address => bool) posts;
 
-    // todo: forumName => bytes32
+    uint public time;
+    bytes32 public name;
+    bytes32 public rules;
+    address public creator;
+    address[] public pinnedPosts;
 
-    function initialize(string memory _forumName, address _forumCreator) public {
+    function initialize(bytes32 _forumName, address _forumCreator) external {
         require(owner == address(0), "Nice try");
         owner = msg.sender;
         name = _forumName;
+        time = now;
         creator = _forumCreator;
     }
 
-    function createPost(string memory _ipfsHash, address _postCreator, address _clonePost) public onlyOwner returns(address){
+    function createPost(bytes32 _post, address _postCreator, address _clonePost) external onlyOwner returns(address){
         require(!banned[_postCreator], "User is banned from this forum");
         address newPostAddress = createClone(_clonePost);
-        Post(newPostAddress).initialize(_ipfsHash, _postCreator);
+        Post(newPostAddress).initialize(_post, _postCreator);
         posts[newPostAddress] = true;
         emit PostCreated(newPostAddress);
         return newPostAddress;
     }
 
-    function createComment(address _postAddress, address _targetAddress, address _commentCreator, bytes32 _ipfsHash, address _cloneComment) 
-    public onlyOwner returns(address) {
+    function deletePost(address _postAddress, address payable _suicideAddress) external {
+        require(posts[_postAddress], "Post not found");
+        require(msg.sender == Post(_postAddress).getPostCreator() || moderators[msg.sender], "Invalid sender address");
+        delete(posts[_postAddress]);
+        Post(_postAddress).deletePost(_suicideAddress);
+        emit PostDeleted(_postAddress);
+    }
+
+    function createComment(address _postAddress, address _targetAddress, address _commentCreator, bytes32 _comment, address _cloneComment) 
+    external onlyOwner returns(address) {
         require(!banned[_commentCreator], "User is banned from this forum");
         require(posts[_postAddress], "Post does not exist.");
-        Post targetPost = Post(_postAddress);
-        address newCommentAddress = targetPost.createComment(_ipfsHash, _commentCreator, _targetAddress, _cloneComment);
+        address newCommentAddress = Post(_postAddress).createComment(_targetAddress, _commentCreator, _comment, _cloneComment);
         return newCommentAddress;
     }
 
-    function banUser(address _userAddress) public onlyOwner {
-        require(!banned[_userAddress], "User already banned");
-        banned[_userAddress] = true;
-        emit UserBanned(_userAddress);
+    function deleteComment(address _postAddress, address _commentAddress, address payable _suicideAddress) external {
+        require(msg.sender == Post(_postAddress).getPostCreator() || moderators[msg.sender], "Invalid sender address");
+        require(posts[_postAddress], "Post not found");
+        Post(_postAddress).deleteComment(_commentAddress, _suicideAddress);
     }
 
-    function unBanUser(address _userAddress) public onlyOwner {
+    // function addModerator(address user) external {
+    //     require(msg.sender )
+    // }
+
+    function banUser(address _userAddress) external onlyOwner {
+        require(!banned[_userAddress], "User already banned");
+        banned[_userAddress] = true;
+    }
+
+    function unBanUser(address _userAddress) external onlyOwner {
         require(banned[_userAddress], "User not banned");
         delete banned[_userAddress];
-        emit UserUnbanned(_userAddress);
+    }
+
+    function updateRules(bytes32 _rules, address _user) public onlyOwner returns(address) {
+        require(moderators[_user], "User not moderator");
+        rules = _rules;
     }
 }

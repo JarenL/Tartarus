@@ -6,7 +6,10 @@ import { reduxForm } from 'redux-form';
 import LoginForm from './Component';
 
 const mapStateToProps = state => ({
-  // loading: state.auth.loading
+  web3: state.web3,
+  form: state.form,
+  user: state.user,
+  tartarusAddress: state.tartarus.tartarusAddress
 });
 
 const enhance = compose(

@@ -30,13 +30,15 @@ const trimmed = value => checkIfTrimmed(value);
 
 export const required = value => (value ? undefined : 'required');
 export const postType = value =>
-  value === 'link' || value === 'text'
+  value === 'link' || value === 'text' || value === 'upload'
     ? undefined
     : 'must be link or text post';
 export const usernameValidator = [required, max(32), validChars, trimmed];
-export const passwordValidator = [required, min(8), max(72)];
+// export const passwordValidator = [required, min(8), max(72)];
 export const titleValidator = value =>
   required(value) || checkMaxLength(value, 100);
+export const forumNameValidator = value =>
+  required(value) || checkMaxLength(value, 32);
 export const textPostValidator = value =>
   required(value) || checkMinLength(value, 4);
 export const urlValidator = value => required(value) || validUrl(value);

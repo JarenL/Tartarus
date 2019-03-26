@@ -4,8 +4,6 @@ import { reducer as formReducer } from 'redux-form';
 export default formReducer.plugin({
   comment: (state, action) => {
     switch (action.type) {
-      // case CREATE_COMMENT_SUCCESS:
-      //   return undefined;
       default:
         return state;
     }

@@ -4,8 +4,7 @@ import styled from 'styled-components/macro';
 import PostVoteUpvote from './Upvote';
 import PostVoteDownvote from './Downvote';
 import PostContract from '../../../contracts/Post.json';
-import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
-import Loading from '../../Loading';
+import Loading from '../../shared/LoadingIndicator/Spinner'
 
 const Wrapper = styled.div`
   display: flex;
@@ -74,7 +73,7 @@ class PostVote extends Component {
       return (
         <Wrapper>
           <div onClick={this.downvote}>
-            <PostVoteUpvote didVote={false} />
+            <PostVoteUpvote didVote={false} onClick={this.downvote} />
           </div>
           <span>{this.props.score}</span>
           <div onClick={this.downvote}>

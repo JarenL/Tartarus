@@ -1,6 +1,13 @@
-import withAuth from '../../util/withAuth';
 import Sidebar from './Component';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-const SidebarContainer = withAuth(Sidebar);
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+const enhance = compose(connect(mapStateToProps));
+
+const SidebarContainer = enhance(Sidebar);
 
 export default SidebarContainer;

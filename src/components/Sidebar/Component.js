@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import SidebarCreatePostButton from './CreatePostButton';
 import SidebarCategoryList from './CategoryList';
 import SidebarSubscribeContainer from './Subscribe/SidebarSubscribeContainer';
+import SidebarCreateForumButton from './CreateForumButton';
 
 const Wrapper = styled.aside`
   display: flex;
@@ -19,20 +20,25 @@ const Wrapper = styled.aside`
 `;
 
 const Sidebar = props => {
-  if (props.params.forumAddress !== undefined) {
-    return (
-      <Wrapper>
-        <SidebarSubscribeContainer forumAddress={props.params.forumAddress} />
-        <SidebarCreatePostButton />
-        <SidebarCategoryList />
-      </Wrapper>
-    );
+  if (props.user.userAddress === null || props.user.userAddress === undefined) {
+    return null;
   } else {
-    return (
-      <Wrapper>
-        <SidebarCategoryList />
-      </Wrapper>
-    );
+    if (props.params.forumAddress !== undefined) {
+      return (
+        <Wrapper>
+          <SidebarSubscribeContainer forumAddress={props.params.forumAddress} />
+          <SidebarCreatePostButton forumAddress={props.params.forumAddress} />
+          <SidebarCategoryList />
+        </Wrapper>
+      );
+    } else {
+      return (
+        <Wrapper>
+          <SidebarCreateForumButton />
+          <SidebarCategoryList />
+        </Wrapper>
+      );
+    }
   }
 };
 

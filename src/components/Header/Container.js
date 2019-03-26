@@ -1,14 +1,21 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import withAuth from '../../util/withAuth';
-import { logout } from '../../actions/auth';
+import { reduxForm } from 'redux-form';
 import Header from './Component';
+import { userLogout } from '../../redux/actions/actions';
 
-const mapDispatchToProps = { logout };
+const mapDispatchToProps = { userLogout };
+
+const mapStateToProps = state => ({
+  user: state.user
+});
 
 const enhance = compose(
-  withAuth,
-  connect(null, mapDispatchToProps)
+  reduxForm({ form: 'search' }),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 );
 
 const HeaderContainer = enhance(Header);

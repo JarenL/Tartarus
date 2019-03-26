@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ForumContract from '../../../contracts/Forum.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner.js';
 import SidebarCategoryListItem from './Item.js';
-import Loading from '../../Loading.js';
+// import Loading from '../../Loading.js';
 
 class ForumContainer extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class ForumContainer extends Component {
       instance.name.call().then(result => {
         console.log(result);
         this.setState({
-          name: result,
+          name: this.props.web3.utils.hexToAscii(result),
           loading: false
         });
       });
@@ -38,7 +38,7 @@ class ForumContainer extends Component {
   }
   render() {
     if (this.state.loading) {
-      return <Loading size={25} />;
+      return <LoadingIndicatorSpinner size={25} />;
     } else {
       return (
         <SidebarCategoryListItem

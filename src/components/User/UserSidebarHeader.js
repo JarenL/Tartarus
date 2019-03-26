@@ -11,6 +11,6 @@ const Header = styled.span`
   color: ${props => props.theme.mutedText};
 `;
 
-const SidebarCategoryListHeader = () => <Header>categories</Header>;
+const SidebarCategoryListHeader = props => <Header>{props.username}</Header>;
 
 export default SidebarCategoryListHeader;

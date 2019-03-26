@@ -26,15 +26,15 @@ const SidebarCategoryList = props => (
     <SidebarCategoryListHeader />
     {mapCategories([
       'all',
-      ...props.userSettings[props.currentUserAddress].subscriptions
+      ...props.userSettings[props.userAddress].subscriptions
     ])}
   </CategoryList>
 );
 
 function mapStateToProps(state) {
   return {
-    userSettings: state.accounts.userSettings,
-    currentUserAddress: state.accounts.currentUserAddress
+    userSettings: state.user.userSettings,
+    userAddress: state.user.userAddress
   };
 }
 

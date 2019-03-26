@@ -1,28 +1,46 @@
-pragma solidity >=0.4.22 <0.6.0;
+pragma solidity ^0.5.0;
 
 import "./Ownable.sol";
+import "./Tartarus.sol";
 
 contract User is Ownable {
-    event PostCreated (address postAddress);
-    event CommentCreated (address commentAddress);
-    event PostUpvoted (address postAddress);
-    event PostDownvoted (address postAddress);
-    event MessageSent (address targetAddress, string messageText);
-    event MessageReceived (address senderAddress, string messageText);
+    address public creator;
+    bytes32 public username;
 
-    address creator;
-
-    function initialize(address _creator) public {
+    function initialize(address _creator, bytes32 _username) external {
         require(owner == address(0), "Nice try");
         owner = msg.sender;
         creator = _creator;
+        username = _username;
     }
 
-    function notifyCreatePost(address _postAddress) public onlyOwner {
-        emit PostCreated(_postAddress);
+    function createForum(bytes32 _forumName) external {
+        require(msg.sender == creator, "Not user contract creator");
+        Tartarus(owner).createForum(_forumName);
+    }   
+
+    function createPost(address _forumAddress, bytes32 _post) external {
+        require(msg.sender == creator, "Not user contract creator");
+        Tartarus(owner).createPost(_forumAddress, _post);
     }
 
-    function notifyCreateComment(address _commentAddress) public onlyOwner {
-        emit CommentCreated(_commentAddress);
+    function deletePost(address _forumAddress, address _postAddress, address payable _suicideAddress) external {
+        require(msg.sender == creator, "Not user contract creator");
+        Forum(_forumAddress).deletePost(_postAddress, _suicideAddress);
+    }
+
+    function createComment(address _forumAddress, address _postAddress, address _targetAddress, bytes32 _comment) external {
+        require(msg.sender == creator, "Not user contract creator");
+        Tartarus(owner).createComment(_forumAddress, _postAddress, _targetAddress, _comment);
+    }
+
+    function deleteComment(address _forumAddress, address _postAddress, address _commentAddress, address payable _suicideAddress) external {
+        require(msg.sender == creator, "Not user contract creator");
+        Forum(_forumAddress).deleteComment(_postAddress, _commentAddress, _suicideAddress);
+    }
+
+    function deleteAccount() external {
+        require(msg.sender == creator, "Not user contract creator");
+        selfdestruct(msg.sender);
     }
 }

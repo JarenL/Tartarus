@@ -47,6 +47,23 @@ const VariableField = field => {
         </InputWrapper>
       );
 
+    case 'upload':
+      return (
+        <InputWrapper>
+          <Label>{field.label}</Label>
+          {field.meta.touched && field.meta.error && (
+            <Error>{field.meta.error}</Error>
+          )}
+          <Input
+            {...field.input}
+            as='text'
+            rows='1'
+            error={field.meta.touched && !!field.meta.error}
+            value={field.initialValue}
+          />
+        </InputWrapper>
+      );
+
     default:
       return (
         <InputWrapper>

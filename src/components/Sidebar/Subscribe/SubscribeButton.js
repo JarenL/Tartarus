@@ -17,17 +17,16 @@ const SubscribeButton = styled(Button)`
 const subscribeHandler = props => {
   console.log(props);
   let newSubscriptionsArray = props.userSettings[
-    props.currentUserAddress
+    props.userAddress
   ].subscriptions.slice();
   newSubscriptionsArray.push({
     address: props.forumContext
   });
 
   let payload = {
-    user: props.currentUserAddress,
+    user: props.userAddress,
     subscriptions: newSubscriptionsArray
   };
-  // this.props.dispatch(updateForumSubscriptions(newSubscriptionsArray))
   props.dispatch(updateUserSubscriptions(payload));
 };
 
@@ -39,8 +38,8 @@ const SidebarSubscribeButton = props => (
 
 function mapStateToProps(state) {
   return {
-    userSettings: state.accounts.userSettings,
-    currentUserAddress: state.accounts.currentUserAddress
+    userSettings: state.user.userSettings,
+    userAddress: state.user.userAddress
   };
 }
 

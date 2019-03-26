@@ -9,16 +9,16 @@ const CategoryList = styled.nav`
   flex-direction: column;
 `;
 
-const mapCategories = (categories, props) =>
-  categories.map((category, index) => (
-    <UserSidebarItem key={index} category={category} />
-  ));
+const mapCategories = categories =>
+  categories.map((category, index) => {
+    return <UserSidebarItem key={index} category={category} />;
+  });
 
-const SidebarCategoryList = props => (
+const UserSidebarCategoryList = props => (
   <CategoryList>
-    <UserSidebarHeader />
-    {mapCategories(['overview', ...categories])}
+    <UserSidebarHeader username={props.username} />
+    {mapCategories(['all', ...categories])}
   </CategoryList>
 );
 
-export default SidebarCategoryList;
+export default UserSidebarCategoryList;

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/macro';
 import UserSidebarList from './UserSidebarList';
 import UserMessageButton from './UserMessageButton';
+import UserContract from '../../contracts/User.json';
+import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 
 const Wrapper = styled.aside`
   display: flex;
@@ -18,27 +20,68 @@ const Wrapper = styled.aside`
   }
 `;
 
-const UserSidebar = props => {
-  console.log(props);
-  if (props.params.userAddress !== props.userAddress) {
-    return (
-      <Wrapper>
-        <UserMessageButton />
-        <UserSidebarList path={props.url} />
-      </Wrapper>
-    );
-  } else {
-    return (
-      <Wrapper>
-        <UserSidebarList path={props.url} />
-      </Wrapper>
-    );
+class UserSidebar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: null,
+      loading: true
+    };
+    this.instantiateContract = this.instantiateContract.bind(this);
   }
-};
+
+  componentDidMount = () => {
+    this.instantiateContract();
+  };
+
+  instantiateContract() {
+    const contract = require('truffle-contract');
+    const user = contract(UserContract);
+    user.setProvider(this.props.web3.currentProvider);
+    user.at(this.props.user.userAddress).then(userInstance => {
+      userInstance.username.call().then(username => {
+        this.setState({
+          username: this.props.web3.utils.hexToAscii(username),
+          loading: false
+        });
+      });
+    });
+  }
+
+  render() {
+    if (this.state.loading) {
+      return <LoadingIndicatorSpinner />;
+    } else {
+      if (this.props.params.userAddress !== this.props.user.userAddress) {
+        return (
+          <Wrapper>
+            <UserMessageButton />
+            <UserSidebarList
+              path={this.props.url}
+              userAddress={this.props.params.userAddress}
+              username={this.state.username}
+            />
+          </Wrapper>
+        );
+      } else {
+        return (
+          <Wrapper>
+            <UserSidebarList
+              path={this.props.url}
+              userAddress={this.props.params.userAddress}
+              username={this.state.username}
+            />
+          </Wrapper>
+        );
+      }
+    }
+  }
+}
 
 function mapStateToProps(state) {
   return {
-    currentUserAddress: state.accounts.currentUserAddress
+    web3: state.web3,
+    user: state.user
   };
 }
 

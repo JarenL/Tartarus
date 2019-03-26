@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import Empty from '../shared/Empty';
-import ForumContract from '../../contracts/Forum.json';
+import TartarusContract from '../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
-import PostList from '../PostList/PostList';
+import ForumList from '../Forum/ForumList';
 
-class PostListContainer extends React.Component {
+class ResultList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: [],
+      forums: [],
       loading: true
     };
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -21,16 +21,17 @@ class PostListContainer extends React.Component {
 
   instantiateContract() {
     const contract = require('truffle-contract');
-    const forum = contract(ForumContract);
-    forum.setProvider(this.props.web3.currentProvider);
-    forum
-      .at(this.props.forumAddress)
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    tartarus
+      .at(this.props.tartarusAddress)
       .then(instance => {
         instance
-          .PostCreated({}, { fromBlock: 0, toBlock: 'latest' })
-          .get((error, posts) => {
+          .ForumCreated({}, { fromBlock: 0, toBlock: 'latest' })
+          .get((error, forums) => {
+            console.log(forums);
             this.setState({
-              posts: posts,
+              forums: forums,
               loading: false
             });
           });
@@ -42,14 +43,9 @@ class PostListContainer extends React.Component {
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
-    if (!this.state.posts || this.state.posts.length === 0) return <Empty />;
-    return <PostList posts={this.state.posts} />;
+    if (!this.state.forums || this.state.forums.length === 0) return <Empty />;
+    return <ForumList forums={this.state.forums} />;
   }
 }
 
-export const mapStateToProps = state => ({
-  web3: state.web3,
-  tartarusAddress: state.tartarus.tartarusAddress
-});
-
-export default connect(mapStateToProps)(PostListContainer);
+export default ResultList;

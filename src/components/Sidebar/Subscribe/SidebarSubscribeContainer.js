@@ -6,7 +6,7 @@ import SidebarUnsubscribeButton from './UnsubscribeButton';
 class SideBarSubscribeContainer extends Component {
   render() {
     var index = this.props.userSettings[
-      this.props.currentUserAddress
+      this.props.userAddress
     ].subscriptions.findIndex(
       forum => forum.address === this.props.forumAddress
     );
@@ -22,8 +22,8 @@ class SideBarSubscribeContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    userSettings: state.accounts.userSettings,
-    currentUserAddress: state.accounts.currentUserAddress
+    userSettings: state.user.userSettings,
+    userAddress: state.user.userAddress
   };
 };
 

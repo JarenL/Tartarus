@@ -8,10 +8,10 @@ import { connect } from 'react-redux';
 import CategoryMenu from '../CategoryMenu/Component';
 import PostListContainer from '../PostList/PostListContainer';
 // import PostDetailContainer from '../PostDetail/Container';
-import SidebarContainer from '../Sidebar/Component';
-import PostDetail from '../PostDetail/Component';
-import ForumPostListContainer from '../Forum/ForumPostListContainer';
+import SidebarContainer from '../Sidebar/Container';
+import PostDetail from '../PostDetail/Container';
 import UserSidebar from '../User/UserSidebar';
+import CreatePostFormContainer from '../CreatePostForm/Container';
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,7 +29,8 @@ const Wrapper = styled.div`
 `;
 
 const Home = props => {
-  if (props.currentUserAddress === 0) {
+  if (props.userAddress === null) {
+    console.log(props);
     return (
       <Wrapper>
         <HomeMainSection>
@@ -39,13 +40,10 @@ const Home = props => {
             exact
             path='/f/:forumAddress'
             render={({ match }) => (
-              <ForumPostListContainer
-                forumAddress={match.params.forumAddress}
-              />
+              <PostListContainer forumAddress={match.params.forumAddress} />
             )}
           />
           <Route
-            exact
             path='/u/:username'
             render={({ match }) => (
               <PostListContainer username={match.params.username} />
@@ -62,14 +60,20 @@ const Home = props => {
             )}
           />
         </HomeMainSection>
-
-        <Switch>
-          <Route
-            exact
-            path='/u/:userAddress'
-            render={({ match }) => <UserSidebar {...match} />}
-          />
-        </Switch>
+        <Route
+          exact
+          path='/u/:userAddress'
+          render={({ match }) => <UserSidebar {...match} />}
+        />
+        <Route
+          path='/u/:userAddress/posts'
+          render={({ match }) => <UserSidebar {...match} />}
+        />
+        <Route
+          exact
+          path='/u/:userAddress/comments'
+          render={({ match }) => <UserSidebar {...match} />}
+        />
       </Wrapper>
     );
   } else {
@@ -82,9 +86,7 @@ const Home = props => {
             exact
             path='/f/:forumAddress'
             render={({ match }) => (
-              <ForumPostListContainer
-                forumAddress={match.params.forumAddress}
-              />
+              <PostListContainer forumAddress={match.params.forumAddress} />
             )}
           />
           <Route
@@ -101,6 +103,15 @@ const Home = props => {
               <PostDetail
                 forumAddress={match.params.forum}
                 postAddress={match.params.postAddress}
+              />
+            )}
+          />
+          <Route
+            exact
+            path='/f/:forumAddress/createpost'
+            render={({ match }) => (
+              <CreatePostFormContainer
+                forumAddress={match.params.forumAddress}
               />
             )}
           />
@@ -117,11 +128,11 @@ const Home = props => {
             path='/f/:forumAddress'
             render={({ match }) => <SidebarContainer {...match} />}
           />
-          <Route
+          {/* <Route
             exact
             path='/u/:userAddress'
             render={({ match }) => <UserSidebar {...match} />}
-          />
+          /> */}
         </Switch>
       </Wrapper>
     );
@@ -131,7 +142,7 @@ const Home = props => {
 function mapStateToProps(state) {
   return {
     web3: state.web3,
-    currentUserAddress: state.accounts.currentUserAddress
+    userAddress: state.user.userAddress
   };
 }
 

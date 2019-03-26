@@ -8,9 +8,7 @@ const StyledSubmitButton = styled(SubmitButton)`
 `;
 
 const CommentFormSubmitButton = props => (
-  <StyledSubmitButton type='submit' onClick={props.onClick}>
-    submit
-  </StyledSubmitButton>
+  <StyledSubmitButton type='button' onClick={props.onClick} >submit</StyledSubmitButton>
 );
 
 export default CommentFormSubmitButton;

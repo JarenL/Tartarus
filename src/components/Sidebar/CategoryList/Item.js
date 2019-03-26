@@ -17,7 +17,6 @@ const Item = styled(NavLink)`
 `;
 
 const SidebarCategoryListItem = props => {
-  console.log(props)
   const isAll = props.name === 'all';
   return (
     <Item exact={isAll} to={isAll ? '/' : `/f/${props.address}`}>

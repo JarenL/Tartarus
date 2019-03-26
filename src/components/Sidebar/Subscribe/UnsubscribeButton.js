@@ -16,7 +16,7 @@ const UnsubscribeButton = styled(Button)`
 
 const unsubscribeHandler = props => {
   let newSubscriptionsArray = props.userSettings[
-    props.currentUserAddress
+    props.userAddress
   ].subscriptions.slice();
   for (var i = 0; i < newSubscriptionsArray.length; i++) {
     if (newSubscriptionsArray[i].address === props.forumContext) {
@@ -24,7 +24,7 @@ const unsubscribeHandler = props => {
     }
   }
   let payload = {
-    user: props.currentUserAddress,
+    user: props.userAddress,
     subscriptions: newSubscriptionsArray
   };
   // this.props.dispatch(updateForumSubscriptions(newSubscriptionsArray))
@@ -39,8 +39,8 @@ const SidebarUnsubscribeButton = props => (
 
 function mapStateToProps(state) {
   return {
-    userSettings: state.accounts.userSettings,
-    currentUserAddress: state.accounts.currentUserAddress
+    userSettings: state.user.userSettings,
+    userAddress: state.user.userAddress
   };
 }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import NavLink from '../shared/NavLink';
+import { withRouter } from 'react-router';
 
 const Item = styled(NavLink)`
   padding: 12px;
@@ -16,13 +17,21 @@ const Item = styled(NavLink)`
   }
 `;
 
-const UserSidebarItem = ({category}) => {
-  const isAll = category === 'all';
+const UserSidebarItem = props => {
+  console.log(props);
+  const isAll = props.category === 'all';
   return (
-    <Item exact={isAll} to={isAll ? '/' : `/a/${category}`}>
-      {category}
+    <Item
+      exact={isAll}
+      to={
+        isAll
+          ? `/u/${props.match.params.userAddress}`
+          : `/u/${props.match.params.userAddress}/${props.category}`
+      }
+    >
+      {props.category}
     </Item>
   );
 };
 
-export default UserSidebarItem;
+export default withRouter(UserSidebarItem);

@@ -1,6 +1,4 @@
-import {
-  TOGGLE_DARK_THEME,
-} from '../actions/actions';
+import { TOGGLE_DARK_THEME } from '../actions/actions';
 
 const dark = localStorage.getItem('dark') === 'true';
 const initialState = { dark };

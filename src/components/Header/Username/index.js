@@ -11,8 +11,8 @@ const Wrapper = styled(HeaderNavLink)`
 `;
 
 const HeaderUsername = props => (
-  <Wrapper to={`/u/${props.username}`}>
-    <HeaderUsernameText>{props.username}</HeaderUsernameText>
+  <Wrapper to={`/u/${props.user.userAddress}`}>
+    <HeaderUsernameText>{props.user.username}</HeaderUsernameText>
   </Wrapper>
 );
 

@@ -1,15 +1,17 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
+import { change } from 'redux-form';
+
 import {
   titleValidator,
   urlValidator,
   textPostValidator,
   typeValidator
-} from '../../util/validators';
-import { attemptCreatePost } from '../../actions/posts';
+} from '../../services/validators';
+// import { attemptCreatePost } from '../../actions/posts';
 import categories from '../../categories';
-import withAuth from '../../util/withAuth';
+// import withAuth from '../../util/withAuth';
 import CreatePostForm from './Component';
 
 const validate = fields => {
@@ -28,12 +30,14 @@ const validate = fields => {
 };
 
 const mapStateToProps = state => ({
-  isFetching: state.posts.isFetching,
-  post: state.posts.newPost,
-  form: state.form.createPost
+  web3: state.web3,
+  tartarusAddress: state.tartarus.tartarusAddress,
+  form: state.form.createPost,
+  userSettings: state.user.userSettings,
+  userAddress: state.user.userAddress
 });
 
-const mapDispatchToProps = { attemptCreatePost };
+const mapDispatchToProps = { change };
 
 const enhance = compose(
   reduxForm({
@@ -41,7 +45,7 @@ const enhance = compose(
     initialValues: { category: categories[0], type: 'link' },
     validate
   }),
-  withAuth,
+  // withAuth,
   connect(
     mapStateToProps,
     mapDispatchToProps

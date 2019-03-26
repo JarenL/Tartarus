@@ -1,7 +1,7 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App.js'
-import { Provider } from 'react-redux'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App.js';
+import { Provider } from 'react-redux';
 import { Web3Provider } from 'react-web3';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { persistor, store } from './redux/store/store';
@@ -13,7 +13,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Web3Provider>
       <PersistGate loading={<LoadingIndicatorSpinner />} persistor={persistor}>
-          <App />
+        <App />
       </PersistGate>
     </Web3Provider>
   </Provider>,

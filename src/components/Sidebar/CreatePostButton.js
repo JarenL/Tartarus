@@ -10,8 +10,8 @@ const CreatePostButton = styled(Button)`
   text-align: center;
 `;
 
-const SidebarCreatePostButton = () => (
-  <CreatePostButton as={Link} to='/createpost'>
+const SidebarCreatePostButton = props => (
+  <CreatePostButton as={Link} to={`/f/${props.forumAddress}/createpost`}>
     create post
   </CreatePostButton>
 );

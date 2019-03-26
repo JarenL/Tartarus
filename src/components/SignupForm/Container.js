@@ -1,14 +1,19 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
-// import withAuth from '../../util/withAuth';
-// import { attemptSignup } from '../../actions/auth';
 import validate from './validate';
 import SignupForm from './Component';
 
-// const mapDispatchToProps = { attemptSignup };
+const mapStateToProps = state => ({
+  web3: state.web3,
+  form: state.form,
+  tartarusAddress: state.tartarus.tartarusAddress
+});
 
-const enhance = compose(reduxForm({ form: 'signup', validate }));
+const enhance = compose(
+  reduxForm({ form: 'signup', validate }),
+  connect(mapStateToProps)
+);
 
 const SignupFormContainer = enhance(SignupForm);
 

@@ -43,6 +43,7 @@ class CommentContainer extends Component {
   instantiateContract() {
     const contract = require('truffle-contract');
     const comment = contract(CommentContract);
+    console.log(this.props)
     comment.setProvider(this.props.web3.currentProvider);
     comment.at(this.props.commentAddress).then(instance => {
       instance.commentInfo.call().then(result => {
@@ -53,11 +54,11 @@ class CommentContainer extends Component {
         ipfs.catJSON(ipfsHash, (err, ipfsData) => {
           if (ipfsData) {
             this.setState({
-              comment: ipfsData.comment,
+              comment: ipfsData.comment.comment,
               // commentReplies: commentReplies.length,
               username: result[1],
               // target: result[2],
-              votes: result[4].c[0],
+              // votes: result[4].c[0],
               // post: this.props.currentPostAddress,
               time: result[3].c[0] * 1000,
               loading: false
