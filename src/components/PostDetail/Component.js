@@ -117,12 +117,12 @@ class PostDetail extends Component {
           creator={this.state.creator}
           commentCount={this.state.commentCount}
         />
-        <PostDetailInfoBarContainer
+        {/* <PostDetailInfoBarContainer
           address={this.props.postAddress}
           // views={post.views}
           // upvotePercentage={post.upvotePercentage}
           author={this.state.creator}
-        />
+        /> */}
         <CommentFormContainer
           postAddress={this.props.postAddress}
           forumAddress={this.state.forumAddress}

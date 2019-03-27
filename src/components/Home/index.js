@@ -86,14 +86,10 @@ const Home = props => {
             exact
             path='/f/:forumAddress'
             render={({ match }) => (
-              <PostListContainer forumAddress={match.params.forumAddress} />
-            )}
-          />
-          <Route
-            exact
-            path='/u/:username'
-            render={({ match }) => (
-              <PostListContainer username={match.params.username} />
+              <PostListContainer
+                key={match.url}
+                forumAddress={match.params.forumAddress}
+              />
             )}
           />
           <Route

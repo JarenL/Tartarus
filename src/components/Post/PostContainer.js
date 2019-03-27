@@ -119,25 +119,25 @@ class PostContainer extends Component {
   };
 
   render() {
-    if (this.state.loading) {
-      return <LoadingIndicatorSpinner />;
-    } else {
-      return (
-        <Post
-          address={this.props.address}
-          title={this.state.title}
-          post={this.state.post}
-          creator={this.state.creator}
-          forum={this.state.forum}
-          forumName={this.state.forumName}
-          time={this.state.time}
-          votes={this.state.votes}
-          upvote={this.upvote}
-          comments={this.state.comments}
-          downvote={this.downvote}
-        />
-      );
-    }
+    // if (this.state.loading) {
+    //   return <LoadingIndicatorSpinner />;
+    // } else {
+    return (
+      <Post
+        address={this.props.address}
+        title={this.state.title}
+        post={this.state.post}
+        creator={this.state.creator}
+        forum={this.state.forum}
+        forumName={this.state.forumName}
+        time={this.state.time}
+        votes={this.state.votes}
+        upvote={this.upvote}
+        comments={this.state.comments}
+        downvote={this.downvote}
+      />
+    );
+    // }
   }
 }
 

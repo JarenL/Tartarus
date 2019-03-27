@@ -21,6 +21,15 @@ class PostListContainer extends React.Component {
     this.instantiateContract();
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps === prevState) {
+      this.setState({
+        loading: false
+      });
+    }
+
+  }
+
   instantiateContract() {
     const contract = require('truffle-contract');
     console.log(this.props);
@@ -56,8 +65,7 @@ class PostListContainer extends React.Component {
               )
               .get((error, posts) => {
                 this.setState({
-                  posts: posts,
-                  loading: false
+                  posts: posts
                 });
               });
           })

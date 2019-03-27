@@ -108,7 +108,7 @@ class CreatePostForm extends React.Component {
     console.log(this.props);
     this.setState({
       loading: true
-    })
+    });
     let { title, type, upload, link, text } = this.props.form.values;
     if (type === 'text') {
       if (title && text) {
@@ -167,14 +167,22 @@ class CreatePostForm extends React.Component {
     user.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
       user.at(this.props.userAddress).then(instance => {
-        console.log(ipfsHash);
-        this.setState({
-          loading: false
-        })
-        instance.createPost(this.props.forumAddress, ipfsHash, {
-          from: accounts[0],
-          gasPrice: 20000000000
-        });
+        instance
+          .createPost(this.props.forumAddress, ipfsHash, {
+            from: accounts[0],
+            gasPrice: 20000000000
+          })
+          .then(result => {
+            this.setState({
+              loading: false
+            });
+          })
+          .catch(function(e) {
+            console.log('error');
+            this.setState({
+              loading: false
+            });
+          });
       });
     });
   };
@@ -196,6 +204,7 @@ class CreatePostForm extends React.Component {
       link,
       uploadIpfsHash
     } = this.state;
+    console.log(this.props.form)
     return (
       <Form
         loading={this.state.uploadLoading || this.state.loading}

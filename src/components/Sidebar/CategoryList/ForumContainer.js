@@ -3,50 +3,17 @@ import { connect } from 'react-redux';
 import ForumContract from '../../../contracts/Forum.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner.js';
 import SidebarCategoryListItem from './Item.js';
+import Loading from '../../shared/LoadingIndicator/Loading.js';
 // import Loading from '../../Loading.js';
 
 class ForumContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: null,
-      loading: true
-    };
-    this.instantiateContract = this.instantiateContract.bind(this);
-  }
-
-  componentDidMount() {
-    this.instantiateContract();
-  }
-
-  instantiateContract() {
-    console.log('forum');
-    console.log(this.props);
-    const contract = require('truffle-contract');
-    const forum = contract(ForumContract);
-    console.log(this.props.forumAddress);
-    forum.setProvider(this.props.web3.currentProvider);
-    forum.at(this.props.forumAddress).then(instance => {
-      instance.name.call().then(result => {
-        console.log(result);
-        this.setState({
-          name: this.props.web3.utils.hexToAscii(result),
-          loading: false
-        });
-      });
-    });
-  }
   render() {
-    if (this.state.loading) {
-      return <LoadingIndicatorSpinner size={25} />;
-    } else {
-      return (
-        <SidebarCategoryListItem
-          name={this.state.name}
-          address={this.props.forumAddress}
-        />
-      );
-    }
+    return (
+      <SidebarCategoryListItem
+        name={this.props.forumName}
+        address={this.props.forumAddress}
+      />
+    );
   }
 }
 

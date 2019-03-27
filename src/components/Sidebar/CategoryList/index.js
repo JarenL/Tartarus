@@ -17,7 +17,13 @@ const mapCategories = forums =>
       return <SidebarCategoryListItem name={'all'} />;
     } else {
       console.log(forum);
-      return <ForumContainer key={index} forumAddress={forum.address} />;
+      return (
+        <ForumContainer
+          key={index}
+          forumName={forum.name}
+          forumAddress={forum.address}
+        />
+      );
     }
   });
 

@@ -23,19 +23,19 @@ const Wrapper = styled.div`
   }
 `;
 
-// const renderTitle = props => {
-//   switch (props.type) {
-//     case 'link':
-//       return <a href={props.url}>{props.title}</a>;
+const renderTitle = props => {
+  switch (props.type) {
+    case 'link':
+      return <a href={props.url}>{props.title}</a>;
 
-//     case 'text':
-//       if (props.full) return <span>{props.title}</span>;
-//       return <Link to={`/a/${props.category}/${props.id}`}>{props.title}</Link>;
+    case 'text':
+      if (props.full) return <span>{props.title}</span>;
+      return <Link to={`/a/${props.category}/${props.id}`}>{props.title}</Link>;
 
-//     default:
-//       break;
-//   }
-// };
+    default:
+      break;
+  }
+};
 
 const PostContentTitle = props => (
   // <Wrapper full={props.full}>{renderTitle(props)}</Wrapper>

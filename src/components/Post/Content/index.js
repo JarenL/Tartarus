@@ -42,7 +42,7 @@ const PostContent = props => (
       // {...details}
     />
     {/* {renderContent({ type, url, text, showFullPost })} */}
-    {renderContent({ showFullPost: false, type: 'text', text: props.post })}
+    {renderContent({ showFullPost: true, type: 'text', text: props.post })}
     <PostContentDetail
       commentCount={props.commentCount}
       time={props.time}

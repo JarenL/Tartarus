@@ -73,8 +73,8 @@ class CommentForm extends React.Component {
       this.props.history.push('/login');
     } else {
       if (this.props.form.comment.values !== undefined) {
-        let commentObject = { comment: this.props.form.comment.values };
         this.setState({ loading: true });
+        let commentObject = { comment: this.props.form.comment.values };
         const ipfsHash = await services.ipfs.uploadObject(commentObject);
         const bs58 = require('bs58');
         const base58 =
@@ -93,27 +93,34 @@ class CommentForm extends React.Component {
     const user = contract(UserContract);
     user.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
-      user
-        .at(this.props.userAddress)
-        .then(instance => {
-          instance.createComment(
+      user.at(this.props.userAddress).then(instance => {
+        instance
+          .createComment(
             this.props.forumAddress,
             this.props.postAddress,
             this.props.postAddress,
             ipfsHash,
             { from: accounts[0], gasPrice: 20000000000 }
-          );
-        })
-        .then(() => {
-          this.setState({ loading: false });
-        });
+          )
+          .then(result => {
+            this.setState({
+              loading: false
+            });
+          })
+          .catch(function(e) {
+            console.log('error');
+            this.setState({
+              loading: false
+            });
+          });
+      });
     });
   };
 
   render() {
     if (this.state.commenting) {
       return (
-        <StyledForm loading={this.props.loading}>
+        <StyledForm loading={this.state.loading}>
           <CommentFormTextArea name='comment' />
           <Wrapper>
             <CommentFormSubmitButton onClick={this.handleSubmit} />

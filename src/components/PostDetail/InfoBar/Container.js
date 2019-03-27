@@ -4,15 +4,11 @@ import { compose } from 'redux';
 // import { attemptDeletePost } from '../../../redux/actions/posts';
 import PostDetailInfoBar from './Component';
 
-// const mapDispatchToProps = { attemptDeletePost };
-
-const enhance = compose(
-  // withAuth,
-  connect(
-    null
-    // mapDispatchToProps
-  )
-);
+export const mapStateToProps = state => ({
+  web3: state.web3,
+  username: state.user.username
+});
+const enhance = compose(connect(mapStateToProps));
 
 const PostDetailInfoBarContainer = enhance(PostDetailInfoBar);
 
