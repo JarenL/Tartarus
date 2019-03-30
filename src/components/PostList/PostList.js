@@ -7,12 +7,11 @@ import {
   CellMeasurer,
   CellMeasurerCache
 } from 'react-virtualized';
-import 'react-virtualized/styles.css';
 
 const VirtualList = styled(List)`
   list-style: none;
   // border: 1px solid ${props => props.theme.border};
-  // border-radius: 2px;
+  border-radius: 2px;
   height: 100%;
   width: 100%;
   @media (max-width: 768px) {
@@ -24,7 +23,7 @@ const VirtualList = styled(List)`
 `;
 
 const Wrapper = styled.div`
-  height: calc(100vh - 115px);
+  height: calc(100vh - 120px);
 `;
 
 class PostList extends Component {
@@ -37,7 +36,7 @@ class PostList extends Component {
     this.renderRow = this.renderRow.bind(this);
   }
 
-  renderRow({ index, parent, style }) {
+  renderRow({ index, parent }) {
     return (
       <CellMeasurer cache={this.cache} parent={parent} rowIndex={index}>
         <PostListItem address={this.props.posts[index].args.postAddress} />
