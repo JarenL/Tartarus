@@ -9,6 +9,7 @@ import ipfs from '../../services/ipfs/ipfs';
 import LoadingIndicatorBox from '../shared/LoadingIndicator/Box.js';
 import Empty from '../shared/Empty.js';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner.js';
+import Loading from '../shared/LoadingIndicator/Loading.js';
 
 class PostContainer extends Component {
   constructor(props) {
@@ -23,7 +24,8 @@ class PostContainer extends Component {
       loading: true,
       votes: null,
       comments: null,
-      exists: true
+      exists: true,
+      preview: false
     };
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -119,25 +121,26 @@ class PostContainer extends Component {
   };
 
   render() {
-    // if (this.state.loading) {
-    //   return <LoadingIndicatorSpinner />;
-    // } else {
-    return (
-      <Post
-        address={this.props.address}
-        title={this.state.title}
-        post={this.state.post}
-        creator={this.state.creator}
-        forum={this.state.forum}
-        forumName={this.state.forumName}
-        time={this.state.time}
-        votes={this.state.votes}
-        upvote={this.upvote}
-        comments={this.state.comments}
-        downvote={this.downvote}
-      />
-    );
-    // }
+    if (this.state.loading) {
+      return <Loading />;
+    } else {
+      return (
+        <Post
+          address={this.props.address}
+          title={this.state.title}
+          post={this.state.post}
+          creator={this.state.creator}
+          forum={this.state.forum}
+          forumName={this.state.forumName}
+          time={this.state.time}
+          votes={this.state.votes}
+          upvote={this.upvote}
+          comments={this.state.comments}
+          downvote={this.downvote}
+          preview={this.state.preview}
+        />
+      );
+    }
   }
 }
 

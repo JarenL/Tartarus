@@ -21,16 +21,7 @@ class PostListContainer extends React.Component {
     this.instantiateContract();
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps === prevState) {
-      this.setState({
-        loading: false
-      });
-    }
-
-  }
-
-  instantiateContract() {
+  instantiateContract = () => {
     const contract = require('truffle-contract');
     console.log(this.props);
     if (this.props.forumAddress === undefined) {
@@ -65,7 +56,8 @@ class PostListContainer extends React.Component {
               )
               .get((error, posts) => {
                 this.setState({
-                  posts: posts
+                  posts: posts,
+                  loading: false
                 });
               });
           })
@@ -92,7 +84,7 @@ class PostListContainer extends React.Component {
           console.log('error');
         });
     }
-  }
+  };
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;

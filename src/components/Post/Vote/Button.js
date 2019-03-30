@@ -31,10 +31,10 @@ const PostVoteButton = styled.button`
     height: 8px;
   }
   
-  ${({ canVote }) => !canVote && `
-    cursor: default;
-    pointer-events: none;
-  `}
+  // ${({ canVote }) => !canVote && `
+  //   cursor: default;
+  //   pointer-events: none;
+  // `}
 `;
 
 export default PostVoteButton;

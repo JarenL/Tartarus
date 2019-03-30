@@ -204,7 +204,6 @@ class CreatePostForm extends React.Component {
       link,
       uploadIpfsHash
     } = this.state;
-    console.log(this.props.form)
     return (
       <Form
         loading={this.state.uploadLoading || this.state.loading}
@@ -218,14 +217,6 @@ class CreatePostForm extends React.Component {
           component={renderField}
           options={postTypes}
         />
-        <Field
-          name='category'
-          label='category'
-          type='select'
-          component={renderField}
-        >
-          {this.mapCategories()}
-        </Field>
         <Field name='title' label='title' type='text' component={renderField} />
         {this.props.form.values.type === 'link' && (
           <Field name='url' label='url' type='url' component={renderField} />

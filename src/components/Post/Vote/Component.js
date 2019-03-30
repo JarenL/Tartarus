@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 import PostVoteUpvote from './Upvote';
 import PostVoteDownvote from './Downvote';
 import PostContract from '../../../contracts/Post.json';
-import Loading from '../../shared/LoadingIndicator/Spinner'
+import Loading from '../../shared/LoadingIndicator/Loading';
 
 const Wrapper = styled.div`
   display: flex;
@@ -66,7 +66,7 @@ class PostVote extends Component {
     if (this.state.loading) {
       return (
         <Wrapper>
-          <Loading size={25} />
+          <Loading size={10} />
         </Wrapper>
       );
     } else {
