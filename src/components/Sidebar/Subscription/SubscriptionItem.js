@@ -7,7 +7,6 @@ const Item = styled(NavLink)`
   font-size: 15px;
   text-decoration: none;
   color: ${props => props.theme.normalText};
-  
   ::after {
     left: -1px;
     top: 0;
@@ -16,7 +15,7 @@ const Item = styled(NavLink)`
   }
 `;
 
-const SidebarCategoryListItem = props => {
+const SubscriptionItem = props => {
   const isAll = props.name === 'all';
   return (
     <Item exact={isAll} to={isAll ? '/' : `/f/${props.address}`}>
@@ -25,4 +24,4 @@ const SidebarCategoryListItem = props => {
   );
 };
 
-export default SidebarCategoryListItem;
+export default SubscriptionItem;

@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import Button from '../../shared/Button';
+import Button from '../../../shared/Button';
 import styled from 'styled-components/macro';
 import { connect } from 'react-redux';
-import {
-  // updateForumSubscriptions,
-  updateUserSubscriptions
-} from '../../../redux/actions/actions';
+import { updateUserSubscriptions } from '../../../../redux/actions/actions';
 
-const UnsubscribeButton = styled(Button)`
+const Unsubscribe = styled(Button)`
   border-radius: 2px 2px 0 0;
   padding: 16px;
   text-decoration: none;
@@ -31,10 +28,10 @@ const unsubscribeHandler = props => {
   props.dispatch(updateUserSubscriptions(payload));
 };
 
-const SidebarUnsubscribeButton = props => (
-  <UnsubscribeButton onClick={() => unsubscribeHandler(props)}>
+const UnsubscribeButton = props => (
+  <Unsubscribe onClick={() => unsubscribeHandler(props)}>
     Unsubscrbe
-  </UnsubscribeButton>
+  </Unsubscribe>
 );
 
 function mapStateToProps(state) {
@@ -44,4 +41,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(SidebarUnsubscribeButton);
+export default connect(mapStateToProps)(UnsubscribeButton);

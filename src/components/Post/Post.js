@@ -24,7 +24,8 @@ const Post = ({
     <PostVoteContainer address={address} votes={votes} score={votes} />
     <PostContent
       postAddress={address}
-      // showFullPost={full}
+      showFullPost={false}
+      type={'text'}
       id={address}
       title={title}
       post={post}

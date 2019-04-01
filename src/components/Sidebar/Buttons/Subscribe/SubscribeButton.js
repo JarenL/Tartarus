@@ -1,25 +1,19 @@
 import React, { Component } from 'react';
-import Button from '../../shared/Button';
+import Button from '../../../shared/Button';
 import styled from 'styled-components/macro';
 import { connect } from 'react-redux';
-import {
-  // updateForumSubscriptions,
-  updateUserSubscriptions
-} from '../../../redux/actions/actions';
+import { updateUserSubscriptions } from '../../../../redux/actions/actions';
+import ForumContract from '../../../../contracts/Forum.json';
+import Loading from '../../../shared/LoadingIndicator/Loading';
 
-import ForumContract from '../../../contracts/Forum.json';
-import LoadingIndicatorBox from '../../shared/LoadingIndicator/Box';
-import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
-import Loading from '../../shared/LoadingIndicator/Loading';
-
-const SubscribeButton = styled(Button)`
+const Subscribe = styled(Button)`
   border-radius: 2px 2px 0 0;
   padding: 16px;
   text-decoration: none;
   text-align: center;
 `;
 
-class SidebarSubscribeButton extends Component {
+class SubscribeButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -67,9 +61,9 @@ class SidebarSubscribeButton extends Component {
       return <Loading size={10} />;
     } else {
       return (
-        <SubscribeButton onClick={() => this.subscribeHandler(this.props)}>
+        <Subscribe onClick={() => this.subscribeHandler(this.props)}>
           Subscrbe
-        </SubscribeButton>
+        </Subscribe>
       );
     }
   }
@@ -83,4 +77,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(SidebarSubscribeButton);
+export default connect(mapStateToProps)(SubscribeButton);

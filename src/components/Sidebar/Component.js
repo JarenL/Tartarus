@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import SidebarCreatePostButton from './CreatePostButton';
-import SidebarCategoryList from './CategoryList';
-import SidebarSubscribeContainer from './Subscribe/SidebarSubscribeContainer';
-import SidebarCreateForumButton from './CreateForumButton';
+import CreatePostButton from './Buttons/CreatePostButton';
+import SubscribeContainer from './Buttons/Subscribe/SubscribeContainer';
+import CreateForumButton from './Buttons/CreateForumButton';
+import ForumContainer from './Forum/ForumContainer';
+import SubscriptionContainer from './Subscription/SubscriptionContainer';
 
 const Wrapper = styled.aside`
+  position: sticky;
+  top: 60px;
   display: flex;
   flex-direction: column;
   flex-basis: 240px;
@@ -26,16 +29,17 @@ const Sidebar = props => {
     if (props.params.forumAddress !== undefined) {
       return (
         <Wrapper>
-          <SidebarSubscribeContainer forumAddress={props.params.forumAddress} />
-          <SidebarCreatePostButton forumAddress={props.params.forumAddress} />
-          <SidebarCategoryList />
+          <SubscribeContainer forumAddress={props.params.forumAddress} />
+          <CreatePostButton forumAddress={props.params.forumAddress} />
+          <ForumContainer forumAddress={props.params.forumAddress} />
+          <SubscriptionContainer />
         </Wrapper>
       );
     } else {
       return (
         <Wrapper>
-          <SidebarCreateForumButton />
-          <SidebarCategoryList />
+          <CreateForumButton />
+          <SubscriptionContainer />
         </Wrapper>
       );
     }

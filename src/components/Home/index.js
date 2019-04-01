@@ -10,9 +10,9 @@ import PostListContainer from '../PostList/PostListContainer';
 // import PostDetailContainer from '../PostDetail/Container';
 import SidebarContainer from '../Sidebar/Container';
 import PostDetail from '../PostDetail/Container';
-import UserSidebar from '../User/UserSidebar';
+import UserSidebar from '../User/UserContainer';
 import CreatePostFormContainer from '../CreatePostForm/Container';
-import UserListContainer from '../User/UserListContainer';
+import UserListContainer from '../User/UserHistory';
 
 const Wrapper = styled.div`
   display: flex;

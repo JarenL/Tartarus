@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import SidebarSubscribeButton from './SubscribeButton';
-import SidebarUnsubscribeButton from './UnsubscribeButton';
+import SubscribeButton from './SubscribeButton';
+import UnsubscribeButton from './UnsubscribeButton';
 
-class SideBarSubscribeContainer extends Component {
+class SubscribeContainer extends Component {
   render() {
     var index = this.props.userSettings[
       this.props.userAddress
@@ -11,11 +11,9 @@ class SideBarSubscribeContainer extends Component {
       forum => forum.address === this.props.forumAddress
     );
     if (index === -1) {
-      return <SidebarSubscribeButton forumContext={this.props.forumAddress} />;
+      return <SubscribeButton forumContext={this.props.forumAddress} />;
     } else {
-      return (
-        <SidebarUnsubscribeButton forumContext={this.props.forumAddress} />
-      );
+      return <UnsubscribeButton forumContext={this.props.forumAddress} />;
     }
   }
 }
@@ -27,4 +25,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(SideBarSubscribeContainer);
+export default connect(mapStateToProps)(SubscribeContainer);

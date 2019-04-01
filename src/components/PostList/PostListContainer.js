@@ -36,7 +36,7 @@ class PostListContainer extends React.Component {
               .PostCreated({}, { fromBlock: 0, toBlock: 'latest' })
               .get((error, posts) => {
                 this.setState({
-                  posts: posts,
+                  posts: posts.reverse(),
                   loading: false
                 });
               });
@@ -67,7 +67,7 @@ class PostListContainer extends React.Component {
                       )
                       .get((error, posts) => {
                         this.setState({
-                          posts: posts,
+                          posts: posts.reverse(),
                           loading: false
                         });
                         console.log(posts)
@@ -94,7 +94,7 @@ class PostListContainer extends React.Component {
             )
             .get((error, posts) => {
               this.setState({
-                posts: posts,
+                posts: posts.reverse(),
                 loading: false
               });
             });

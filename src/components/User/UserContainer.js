@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/macro';
-import UserSidebarList from './UserSidebarList';
+import UserList from './UserList';
 import UserMessageButton from './UserMessageButton';
 import UserContract from '../../contracts/User.json';
 import TartarusContract from '../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
+import UserHeader from './UserHeader';
+import { Divider } from '@material-ui/core';
 
 const Wrapper = styled.aside`
   display: flex;
@@ -21,7 +23,7 @@ const Wrapper = styled.aside`
   }
 `;
 
-class UserSidebar extends Component {
+class UserContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,7 +38,7 @@ class UserSidebar extends Component {
   };
 
   instantiateContract() {
-    console.log(this.props)
+    console.log(this.props);
     const contract = require('truffle-contract');
     const user = contract(UserContract);
     const tartarus = contract(TartarusContract);
@@ -50,7 +52,7 @@ class UserSidebar extends Component {
             gasPrice: 20000000000
           })
           .then(userAddress => {
-            console.log(userAddress)
+            console.log(userAddress);
             this.setState({
               userAddress: userAddress,
               loading: false
@@ -68,7 +70,11 @@ class UserSidebar extends Component {
         return (
           <Wrapper>
             <UserMessageButton />
-            <UserSidebarList
+            <UserHeader
+              userAddress={this.state.userAddress}
+              username={this.props.params.username}
+            />
+            <UserList
               path={this.props.url}
               userAddress={this.state.userAddress}
               username={this.props.params.username}
@@ -78,7 +84,12 @@ class UserSidebar extends Component {
       } else {
         return (
           <Wrapper>
-            <UserSidebarList
+            <UserHeader
+              userAddress={this.state.userAddress}
+              username={this.props.params.username}
+            />
+            <Divider />
+            <UserList
               path={this.props.url}
               userAddress={this.state.userAddress}
               username={this.props.params.username}
@@ -98,4 +109,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(UserSidebar);
+export default connect(mapStateToProps)(UserContainer);

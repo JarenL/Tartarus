@@ -18,7 +18,8 @@ const PostDetailPost = props => (
     />
     <PostContent
       postAddress={props.postAddress}
-      // showFullPost={full}
+      showFullPost={true}
+      type={'text'}
       post={props.post}
       id={props.postAddress}
       title={props.title}

@@ -11,6 +11,10 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import styled from 'styled-components/macro';
+import { transition } from '../shared/helpers';
 
 const {
   fileToTypedArray,
@@ -37,17 +41,76 @@ const postTypes = [
   }
 ];
 
+const StyledQuill = styled(ReactQuill)`
+  ${transition('border', 'box-shadow')};
+
+  --border: ${props => (props.error ? props.theme.error : props.theme.accent)};
+  --shadow: ${props =>
+    props.error ? props.theme.error + '4d' : props.theme.accent + '4d'};
+
+  display: block;
+  ${props =>
+    props.error
+      ? `
+    border: 1px solid var(--border)
+    `
+      : `
+    border: 1px solid ${props.theme.border}
+  `};
+  border-radius: 3px;
+  width: 100%;
+  height: 200px;
+  background-color: ${props => props.theme.inputBackground};
+  font-size: 15px;
+  color: ${props => props.theme.normalText};
+  appearance: none;
+  outline: none;
+  resize: vertical;
+  overflow-y: scroll;
+  margin-bottom: 15px;
+  :hover,
+  :focus {
+    border: 1px solid var(--border);
+  }
+
+  :focus {
+    box-shadow: 0 0 0 2px var(--shadow);
+  }
+`;
+
 class CreatePostForm extends React.Component {
-  state = {
-    isDragging: false,
-    isPreviewing: false,
-    snackBarOpen: false,
-    uploadIpfsHash: null,
-    uploadLoading: false,
-    errorMessage: null,
-    value: 'text',
-    loading: false
+  constructor(props) {
+    super(props);
+    this.state = {
+      isDragging: false,
+      isPreviewing: false,
+      snackBarOpen: false,
+      uploadIpfsHash: null,
+      uploadLoading: false,
+      errorMessage: null,
+      value: 'text',
+      loading: false,
+      text: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  renderQuill = ({ input }) => {
+    return (
+      <StyledQuill
+        {...input}
+        onChange={(newValue, delta, source) => {
+          if (source === 'user') {
+            input.onChange(newValue);
+          }
+        }}
+        onBlur={(range, source, quill) => {
+          input.onBlur(quill.getHTML());
+        }}
+      />
+    );
   };
+
   onSubmit = () => this.handlePublish();
 
   handleUploadDragEnter = e => {
@@ -94,6 +157,10 @@ class CreatePostForm extends React.Component {
       uploadIpfsHash: ipfsHash
     });
   };
+
+  handleChange(value) {
+    this.setState({ text: value });
+  }
 
   blockRegularTypingInUploadInput = ({ target }) => {
     target.innerHTML = dangerouslySetUploadMessage;
@@ -226,7 +293,7 @@ class CreatePostForm extends React.Component {
             name='text'
             label='text'
             type='textarea'
-            component={renderField}
+            component={this.renderQuill}
           />
         )}
         {this.props.form.values.type === 'upload' &&

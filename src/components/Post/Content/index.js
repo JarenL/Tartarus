@@ -16,16 +16,16 @@ const Wrapper = styled.div`
   min-width: 0;
 `;
 
-const Player = styled(ReactPlayer)`
-  position: absolute;
-  top: 0;
-  left: 0;
-`;
+// const Player = styled(ReactPlayer)`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+// `;
 
-const PlayerWrapper = styled.div`
-  position: relative;
-  padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
-`;
+// const PlayerWrapper = styled.div`
+//   position: relative;
+//   padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
+// `;
 
 const renderContent = props => {
   switch (props.type) {
@@ -36,8 +36,7 @@ const renderContent = props => {
       if (props.showFullPost) {
         return <PostContentFullText>{props.text}</PostContentFullText>;
       }
-      return <PostContentPreview>{props.text}</PostContentPreview>;
-
+      break;
     default:
       break;
   }
@@ -68,13 +67,12 @@ class PostContent extends Component {
           // full={showFullPost}
           // {...details}
         />
-        {/* {renderContent({ type, url, text, showFullPost })} */}
-        {/* {renderContent({
-          showFullPost: false,
-          type: 'text',
+        {renderContent({
+          showFullPost: this.props.showFullPost,
+          type: this.props.type,
           text: this.props.post
-        })} */}
-        <PostContentPreview>{this.props.post}</PostContentPreview>
+        })}
+        {/* <PostContentPreview>{this.props.post}</PostContentPreview> */}
         <PostContentDetail
           preview={this.state.preview}
           handlePreview={this.handlePreview}
@@ -94,11 +92,22 @@ class PostContent extends Component {
           //     url='https://ipfs.infura.io/ipfs/QmcM9ByDkCaR3smz3hYob9JJWaAbXna7fSk43vkWQR4uK2/Streamed%20from%20my%20GoPro%20with%20https%20-_live4.io_v%20%23LIVE4gopro-2350426065176752.mp4'
           //   />
           // </PlayerWrapper>
+          // <EmbedWidget
+          //   url={
+          //     'https://ipfs.infura.io/ipfs/QmbWJCHaKEFULo5FmmQgZSppfET7yThk3erBdYaYtkDRmd'
+          //   }
+          // />
           <EmbedWidget
             url={
-              'https://twitter.com/realDonaldTrump/status/1112500287577694208'
+              'https://ipfs.infura.io/ipfs/QmcM9ByDkCaR3smz3hYob9JJWaAbXna7fSk43vkWQR4uK2/Streamed%20from%20my%20GoPro%20with%20https%20-_live4.io_v%20%23LIVE4gopro-2350426065176752.mp4'
             }
           />
+
+          // <EmbedWidget
+          //   url={
+          //     'https://ipfs.io/ipfs/QmbWJCHaKEFULo5FmmQgZSppfET7yThk3erBdYaYtkDRmd'
+          //   }
+          // />
         )}
       </Wrapper>
     );

@@ -9,13 +9,13 @@ const styles = theme => ({
     alignItems: 'center'
   },
   progress: {
-    margin: theme.spacing.unit / 2
+    margin: theme.spacing.unit / 2,
+    colorPrimary: '#1890ff'
   }
 });
 
 const Loading = props => {
   const { classes } = props;
-
   return (
     <div className={classes.root}>
       <CircularProgress className={classes.progress} />
