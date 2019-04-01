@@ -24,7 +24,7 @@ import {
 export const ActionItem = styled.span`
   vertical-align: sub;
   cursor: pointer;
-  color: ${prop('color', '#000')};
+  // color: ${prop('color', '#000')};
   // & > svg {
   //   margin-right: 5px;
   // }
@@ -70,13 +70,13 @@ const PostContentDetail = props => (
       {!props.preview ? (
         <MdAddCircleOutline
           size={18}
-          color='#747474'
+          // color='#747474'
           onClick={props.handlePreview}
         />
       ) : (
         <MdRemoveCircleOutline
           size={18}
-          color='#747474'
+          // color='#747474'
           onClick={props.handlePreview}
         />
       )}

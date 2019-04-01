@@ -4,6 +4,7 @@ import styled from 'styled-components/macro';
 import UserSidebarList from './UserSidebarList';
 import UserMessageButton from './UserMessageButton';
 import UserContract from '../../contracts/User.json';
+import TartarusContract from '../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 
 const Wrapper = styled.aside`
@@ -24,7 +25,7 @@ class UserSidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: null,
+      userAddress: null,
       loading: true
     };
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -35,15 +36,26 @@ class UserSidebar extends Component {
   };
 
   instantiateContract() {
+    console.log(this.props)
     const contract = require('truffle-contract');
     const user = contract(UserContract);
+    const tartarus = contract(TartarusContract);
     user.setProvider(this.props.web3.currentProvider);
-    user.at(this.props.user.userAddress).then(userInstance => {
-      userInstance.username.call().then(username => {
-        this.setState({
-          username: this.props.web3.utils.hexToAscii(username),
-          loading: false
-        });
+    tartarus.setProvider(this.props.web3.currentProvider);
+    this.props.web3.eth.getAccounts((error, accounts) => {
+      tartarus.at(this.props.tartarusAddress).then(instance => {
+        instance.users
+          .call(this.props.user.username, {
+            from: accounts[0],
+            gasPrice: 20000000000
+          })
+          .then(userAddress => {
+            console.log(userAddress)
+            this.setState({
+              userAddress: userAddress,
+              loading: false
+            });
+          });
       });
     });
   }
@@ -52,14 +64,14 @@ class UserSidebar extends Component {
     if (this.state.loading) {
       return <LoadingIndicatorSpinner />;
     } else {
-      if (this.props.params.userAddress !== this.props.user.userAddress) {
+      if (this.props.user.userAddress !== this.state.userAddress) {
         return (
           <Wrapper>
             <UserMessageButton />
             <UserSidebarList
               path={this.props.url}
-              userAddress={this.props.params.userAddress}
-              username={this.state.username}
+              userAddress={this.state.userAddress}
+              username={this.props.params.username}
             />
           </Wrapper>
         );
@@ -68,8 +80,8 @@ class UserSidebar extends Component {
           <Wrapper>
             <UserSidebarList
               path={this.props.url}
-              userAddress={this.props.params.userAddress}
-              username={this.state.username}
+              userAddress={this.state.userAddress}
+              username={this.props.params.username}
             />
           </Wrapper>
         );
@@ -81,7 +93,8 @@ class UserSidebar extends Component {
 function mapStateToProps(state) {
   return {
     web3: state.web3,
-    user: state.user
+    user: state.user,
+    tartarusAddress: state.tartarus.tartarusAddress
   };
 }
 

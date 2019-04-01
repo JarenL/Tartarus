@@ -5,6 +5,7 @@ import PostContentPreview from './Preview';
 import PostContentFullText from './FullText';
 import PostContentDetail from './Detail';
 import ReactPlayer from 'react-player';
+import EmbedWidget from '../EmbedWidget';
 
 const Wrapper = styled.div`
   display: flex;
@@ -68,12 +69,12 @@ class PostContent extends Component {
           // {...details}
         />
         {/* {renderContent({ type, url, text, showFullPost })} */}
-        {renderContent({
+        {/* {renderContent({
           showFullPost: false,
           type: 'text',
           text: this.props.post
-        })}
-
+        })} */}
+        <PostContentPreview>{this.props.post}</PostContentPreview>
         <PostContentDetail
           preview={this.state.preview}
           handlePreview={this.handlePreview}
@@ -85,13 +86,19 @@ class PostContent extends Component {
           postAddress={this.props.postAddress}
         />
         {this.state.preview && (
-          <PlayerWrapper>
-            <Player
-              width='100%'
-              height='100%'
-              url='https://www.youtube.com/watch?v=ysz5S6PUM-U'
-            />
-          </PlayerWrapper>
+          // <PlayerWrapper>
+          //   <Player
+          //     controls={true}
+          //     width='100%'
+          //     height='100%'
+          //     url='https://ipfs.infura.io/ipfs/QmcM9ByDkCaR3smz3hYob9JJWaAbXna7fSk43vkWQR4uK2/Streamed%20from%20my%20GoPro%20with%20https%20-_live4.io_v%20%23LIVE4gopro-2350426065176752.mp4'
+          //   />
+          // </PlayerWrapper>
+          <EmbedWidget
+            url={
+              'https://twitter.com/realDonaldTrump/status/1112500287577694208'
+            }
+          />
         )}
       </Wrapper>
     );

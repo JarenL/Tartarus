@@ -25,8 +25,8 @@ const UserSidebarItem = props => {
       exact={isAll}
       to={
         isAll
-          ? `/u/${props.match.params.userAddress}`
-          : `/u/${props.match.params.userAddress}/${props.category}`
+          ? `/u/${props.match.params.username}`
+          : `/u/${props.match.params.username}/${props.category}`
       }
     >
       {props.category}

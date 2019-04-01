@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/macro';
 import SidebarCategoryListHeader from './Header';
-import categories from '../../../categories';
-import ForumContainer from './ForumContainer';
 import SidebarCategoryListItem from './Item';
 
 const CategoryList = styled.nav`
@@ -14,14 +12,13 @@ const CategoryList = styled.nav`
 const mapCategories = forums =>
   forums.map((forum, index) => {
     if (forum === 'all') {
-      return <SidebarCategoryListItem name={'all'} />;
+      return <SidebarCategoryListItem key={index} name={'all'} />;
     } else {
-      console.log(forum);
       return (
-        <ForumContainer
+        <SidebarCategoryListItem
           key={index}
-          forumName={forum.name}
-          forumAddress={forum.address}
+          name={forum.name}
+          address={forum.address}
         />
       );
     }

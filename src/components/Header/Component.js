@@ -36,7 +36,7 @@ const Wrapper = styled.header`
 const Header = props => (
   <Wrapper>
     <HeaderLogo />
-    <SearchBar />
+    {/* <SearchBar /> */}
     <HeaderDarkButtonContainer />
     {props.user.userAddress ? (
       <>

@@ -10,7 +10,7 @@ import {
 
 const VirtualList = styled(List)`
   list-style: none;
-  // border: 1px solid ${props => props.theme.border};
+  border: 1px solid ${props => props.theme.border};
   border-radius: 2px;
   height: 100%;
   width: 100%;
@@ -31,7 +31,7 @@ class PostList extends Component {
     super(props);
     this.cache = new CellMeasurerCache({
       fixedWidth: true,
-      defaultHeight: 100
+      defaultHeight: 200
     });
     this.renderRow = this.renderRow.bind(this);
   }

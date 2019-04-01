@@ -12,6 +12,7 @@ import SidebarContainer from '../Sidebar/Container';
 import PostDetail from '../PostDetail/Container';
 import UserSidebar from '../User/UserSidebar';
 import CreatePostFormContainer from '../CreatePostForm/Container';
+import UserListContainer from '../User/UserListContainer';
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,11 +45,24 @@ const Home = props => {
             )}
           />
           <Route
+            exact
             path='/u/:username'
             render={({ match }) => (
               <PostListContainer username={match.params.username} />
             )}
           />
+          {/* <Route
+            path='/u/:username/posts'
+            render={({ match }) => (
+              <PostListContainer username={match.params.username} />
+            )}
+          />
+          <Route
+            path='/u/:username/comments'
+            render={({ match }) => (
+              <PostListContainer username={match.params.username} />
+            )}
+          /> */}
           <Route
             exact
             path='/p/:postAddress'
@@ -62,16 +76,16 @@ const Home = props => {
         </HomeMainSection>
         <Route
           exact
-          path='/u/:userAddress'
+          path='/u/:username'
           render={({ match }) => <UserSidebar {...match} />}
         />
         <Route
-          path='/u/:userAddress/posts'
+          path='/u/:username/posts'
           render={({ match }) => <UserSidebar {...match} />}
         />
         <Route
           exact
-          path='/u/:userAddress/comments'
+          path='/u/:username/comments'
           render={({ match }) => <UserSidebar {...match} />}
         />
       </Wrapper>
@@ -111,6 +125,25 @@ const Home = props => {
               />
             )}
           />
+          <Route
+            exact
+            path='/u/:username'
+            render={({ match }) => (
+              <UserListContainer username={match.params.username} />
+            )}
+          />
+          <Route
+            path='/u/:username/posts'
+            render={({ match }) => (
+              <PostListContainer username={match.params.username} />
+            )}
+          />
+          <Route
+            path='/u/:username/comments'
+            render={({ match }) => (
+              <PostListContainer username={match.params.username} />
+            )}
+          />
         </HomeMainSection>
 
         <Switch>
@@ -122,13 +155,14 @@ const Home = props => {
           <Route
             exact
             path='/f/:forumAddress'
-            render={({ match }) => <SidebarContainer {...match} />}
+            render={({ match }) => (
+              <SidebarContainer key={match.url} {...match} />
+            )}
           />
-          {/* <Route
-            exact
-            path='/u/:userAddress'
+          <Route
+            path='/u/:username'
             render={({ match }) => <UserSidebar {...match} />}
-          /> */}
+          />
         </Switch>
       </Wrapper>
     );

@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import PostList from './PostList';
+// import PostList from './PostList';
 import React from 'react';
-import LoadingIndicatorBox from '../shared/LoadingIndicator/Box';
 import Empty from '../shared/Empty';
-import ForumContract from '../../contracts/Forum.json';
+import UserContract from '../../contracts/User.json';
 import TartarusContract from '../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
+import PostList from './InfinitePostList';
 
 class PostListContainer extends React.Component {
   constructor(props) {
@@ -26,6 +26,7 @@ class PostListContainer extends React.Component {
     console.log(this.props);
     if (this.props.forumAddress === undefined) {
       if (this.props.username === undefined) {
+        //front page
         const tartarus = contract(TartarusContract);
         tartarus.setProvider(this.props.web3.currentProvider);
         tartarus
@@ -44,35 +45,53 @@ class PostListContainer extends React.Component {
             console.log('error');
           });
       } else {
+        const user = contract(UserContract);
         const tartarus = contract(TartarusContract);
+        user.setProvider(this.props.web3.currentProvider);
         tartarus.setProvider(this.props.web3.currentProvider);
-        tartarus
-          .at(this.props.tartarusAddress)
-          .then(instance => {
-            instance
-              .PostCreated(
-                { creatorAddress: this.props.userAddress },
-                { fromBlock: 0, toBlock: 'latest' }
-              )
-              .get((error, posts) => {
-                this.setState({
-                  posts: posts,
-                  loading: false
-                });
+        this.props.web3.eth.getAccounts((error, accounts) => {
+          tartarus.at(this.props.tartarusAddress).then(instance => {
+            instance.users
+              .call(this.props.username, {
+                from: accounts[0],
+                gasPrice: 20000000000
+              })
+              .then(userAddress => {
+                tartarus
+                  .at(this.props.tartarusAddress)
+                  .then(instance => {
+                    instance
+                      .PostCreated(
+                        { creatorAddress: userAddress },
+                        { fromBlock: 0, toBlock: 'latest' }
+                      )
+                      .get((error, posts) => {
+                        this.setState({
+                          posts: posts,
+                          loading: false
+                        });
+                        console.log(posts)
+                      });
+                  })
+                  .catch(err => {
+                    console.log('error');
+                  });
               });
-          })
-          .catch(err => {
-            console.log('error');
           });
+        });
       }
     } else {
-      const forum = contract(ForumContract);
-      forum.setProvider(this.props.web3.currentProvider);
-      forum
-        .at(this.props.forumAddress)
+      //forum page
+      const tartarus = contract(TartarusContract);
+      tartarus.setProvider(this.props.web3.currentProvider);
+      tartarus
+        .at(this.props.tartarusAddress)
         .then(instance => {
           instance
-            .PostCreated({}, { fromBlock: 0, toBlock: 'latest' })
+            .PostCreated(
+              { forumAddress: this.props.forumAddress },
+              { fromBlock: 0, toBlock: 'latest' }
+            )
             .get((error, posts) => {
               this.setState({
                 posts: posts,
