@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 import { connect } from 'react-redux';
 import { updateUserSubscriptions } from '../../../../redux/actions/actions';
 import ForumContract from '../../../../contracts/Forum.json';
-import Loading from '../../../shared/LoadingIndicator/Loading';
+import LoadingBubble from '../../../shared/LoadingIndicator/Bubble';
 
 const Subscribe = styled(Button)`
   border-radius: 2px 2px 0 0;
@@ -58,7 +58,7 @@ class SubscribeButton extends Component {
 
   render() {
     if (this.state.loading) {
-      return <Loading size={10} />;
+      return <LoadingBubble />
     } else {
       return (
         <Subscribe onClick={() => this.subscribeHandler(this.props)}>

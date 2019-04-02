@@ -3,7 +3,6 @@ import { Field } from 'redux-form';
 import categories from '../../categories';
 import Form from '../shared/form/Form';
 import renderField from '../shared/form/renderField';
-import SubmitButton from '../shared/form/SubmitButton';
 import Typography from '@material-ui/core/Typography';
 import UserContract from '../../contracts/User.json';
 import classnames from 'classnames';
@@ -11,10 +10,10 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import Editor from '../shared/form/Editor';
 import styled from 'styled-components/macro';
-import { transition } from '../shared/helpers';
+import CancelButton from '../shared/form/CancelButton';
+import SubmitButton from '../shared/form/SubmitButton';
 
 const {
   fileToTypedArray,
@@ -41,41 +40,13 @@ const postTypes = [
   }
 ];
 
-const StyledQuill = styled(ReactQuill)`
-  ${transition('border', 'box-shadow')};
-
-  --border: ${props => (props.error ? props.theme.error : props.theme.accent)};
-  --shadow: ${props =>
-    props.error ? props.theme.error + '4d' : props.theme.accent + '4d'};
-
-  display: block;
-  ${props =>
-    props.error
-      ? `
-    border: 1px solid var(--border)
-    `
-      : `
-    border: 1px solid ${props.theme.border}
-  `};
-  border-radius: 3px;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
   width: 100%;
-  height: 200px;
-  background-color: ${props => props.theme.inputBackground};
-  font-size: 15px;
-  color: ${props => props.theme.normalText};
-  appearance: none;
-  outline: none;
-  resize: vertical;
-  overflow-y: scroll;
-  margin-bottom: 15px;
-  :hover,
-  :focus {
-    border: 1px solid var(--border);
-  }
-
-  :focus {
-    box-shadow: 0 0 0 2px var(--shadow);
-  }
+  height: 100%;
+  margin-top: 5px;
 `;
 
 class CreatePostForm extends React.Component {
@@ -94,22 +65,6 @@ class CreatePostForm extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
   }
-
-  renderQuill = ({ input }) => {
-    return (
-      <StyledQuill
-        {...input}
-        onChange={(newValue, delta, source) => {
-          if (source === 'user') {
-            input.onChange(newValue);
-          }
-        }}
-        onBlur={(range, source, quill) => {
-          input.onBlur(quill.getHTML());
-        }}
-      />
-    );
-  };
 
   onSubmit = () => this.handlePublish();
 
@@ -170,6 +125,10 @@ class CreatePostForm extends React.Component {
     this.setState({ isPreviewing: false });
   };
 
+  handleCancel = () => {
+    this.props.reset('post');
+  };
+
   handlePublish = async () => {
     console.log('publish');
     console.log(this.props.form);
@@ -177,8 +136,8 @@ class CreatePostForm extends React.Component {
       loading: true
     });
     let { title, type, upload, link, text } = this.props.form.values;
-    console.log(type)
-    console.log(title)
+    console.log(type);
+    console.log(title);
     if (type === 'text') {
       if (title && text) {
         let postObject = { type: type, title: title, post: text };
@@ -198,7 +157,7 @@ class CreatePostForm extends React.Component {
     }
 
     if (type === 'link') {
-      console.log("link")
+      console.log('link');
       if (title && link) {
         let postObject = { type: type, title: title, post: link };
         console.log(postObject);
@@ -292,12 +251,7 @@ class CreatePostForm extends React.Component {
           <Field name='link' label='link' type='url' component={renderField} />
         )}
         {this.props.form.values.type === 'text' && (
-          <Field
-            name='text'
-            label='text'
-            type='textarea'
-            component={this.renderQuill}
-          />
+          <Field name='text' label='text' type='textarea' component={Editor} />
         )}
         {this.props.form.values.type === 'upload' &&
           !this.state.uploadLoading &&
@@ -332,7 +286,10 @@ class CreatePostForm extends React.Component {
               component={renderField}
             />
           )}
-        <SubmitButton type='submit'>create post</SubmitButton>
+        <Wrapper>
+          <SubmitButton type='submit' />
+          <CancelButton onClick={this.handleCancel} />
+        </Wrapper>
       </Form>
     );
   }

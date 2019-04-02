@@ -2,12 +2,11 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import Form from '../shared/form/Form';
 import { transition } from '../shared/helpers';
-import CommentFormTextArea from './TextArea';
-import CommentFormSubmitButton from './SubmitButton';
-import TartarusContract from '../../contracts/Tartarus.json';
 import UserContract from '../../contracts/User.json';
-import CommentFormCommentButton from './CommentButton';
-import CancelButton from './CancelButton';
+import Editor from '../shared/form/Editor';
+import { Field } from 'redux-form';
+import CommentButton from '../shared/form/CommentButton';
+import CancelButton from '../shared/form/CancelButton';
 
 const services = require('../../services');
 
@@ -18,15 +17,6 @@ const StyledForm = styled(Form)`
   border-radius: 0 0 2px 2px;
   max-width: none;
   padding: 0;
-  @media (hover: hover) {
-    :hover {
-      border: 1px solid ${props => props.theme.accent};
-    }
-  }
-  :focus-within {
-    border: 1px solid ${props => props.theme.accent};
-    box-shadow: 0 0 0 2px ${props => props.theme.accent + '4d'};
-  }
   @media (max-width: 768px) {
     margin-top: -1px;
     border-radius: 0;
@@ -45,6 +35,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   width: 100%;
+  height: 100%;
 `;
 
 class CommentForm extends React.Component {
@@ -121,9 +112,9 @@ class CommentForm extends React.Component {
     if (this.state.commenting) {
       return (
         <StyledForm loading={this.state.loading}>
-          <CommentFormTextArea name='comment' />
+          <Field name={this.props.name} component={Editor} />
           <Wrapper>
-            <CommentFormSubmitButton onClick={this.handleSubmit} />
+            <CommentButton onClick={this.handleSubmit} />
             <CancelButton onClick={this.handleCancel} />
           </Wrapper>
         </StyledForm>
@@ -131,7 +122,7 @@ class CommentForm extends React.Component {
     } else {
       return (
         <StyledForm>
-          <CommentFormCommentButton onClick={this.handleComment} />
+          <CommentButton onClick={this.handleComment} />
         </StyledForm>
       );
     }

@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import SubmitButton from '../shared/form/SubmitButton';
+import Button from '../Button';
 
-const StyledCommentButton = styled(SubmitButton)`
+const StyledCommentButton = styled(Button)`
+  align-self: flex-end;
   margin: 4px;
   padding: 4px 12px;
 `;
 
-const CommentFormCommentButton = props => (
+const CommentButton = props => (
   <StyledCommentButton type='button' onClick={props.onClick} >comment</StyledCommentButton>
 );
 
-export default CommentFormCommentButton;
+export default CommentButton;

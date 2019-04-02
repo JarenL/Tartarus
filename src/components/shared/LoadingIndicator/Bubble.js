@@ -7,7 +7,7 @@ const LoadingWrapper = styled.div`
   flex: 1;
   width: 100%;
   height: 100%;
-  padding-top: 5%;
+  padding-top: 3%;
   flex-direction: column;
   justify-content: center;
   alignitems: center;

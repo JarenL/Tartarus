@@ -8,6 +8,7 @@ import CancelButton from './CancelButton';
 
 const Wrapper = styled.div`
   display: flex;
+  margin-right: 1.25%;
   flex-direction: row;
   justify-content: center;
   align-items: center;

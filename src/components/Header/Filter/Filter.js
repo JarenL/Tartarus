@@ -10,6 +10,7 @@ import { transition } from '../../shared/helpers';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
+  margin-right: 2%;
   justify-content: center;
   align-items: center;
 `;
@@ -17,7 +18,7 @@ const Wrapper = styled.div`
 const StyledForm = styled(Form)`
   ${transition('border', 'box-shadow')};
   border: 1px solid ${props => props.theme.border};
-  border-radius: 0 0 2px 2px;
+  border-radius: 3px;
   display: flex;
   margin-right: 5px;
   flex-direction: row;

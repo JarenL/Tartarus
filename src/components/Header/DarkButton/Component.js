@@ -5,7 +5,7 @@ import HeaderDarkButtonIcon from './Icon';
 
 const DarkButton = styled.span`
   ${headerItem};
-
+  margin-right: 1.25%;
   padding: 0 8px;
   cursor: pointer;
 

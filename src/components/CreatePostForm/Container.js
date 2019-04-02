@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { reduxForm } from 'redux-form';
+import { reduxForm, reset } from 'redux-form';
 import { change } from 'redux-form';
 
 import {
@@ -32,16 +32,16 @@ const validate = fields => {
 const mapStateToProps = state => ({
   web3: state.web3,
   tartarusAddress: state.tartarus.tartarusAddress,
-  form: state.form.createPost,
+  form: state.form.post,
   userSettings: state.user.userSettings,
   userAddress: state.user.userAddress
 });
 
-const mapDispatchToProps = { change };
+const mapDispatchToProps = { change, reset };
 
 const enhance = compose(
   reduxForm({
-    form: 'createPost',
+    form: 'post',
     initialValues: { category: categories[0], type: 'text' },
     validate
   }),

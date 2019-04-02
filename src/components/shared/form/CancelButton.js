@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import SubmitButton from '../shared/form/SubmitButton';
+import Button from '../Button';
 
-const StyledCancelButton = styled(SubmitButton)`
+const StyledCancelButton = styled(Button)`
+  align-self: flex-end;
   margin: 4px;
   padding: 4px 12px;
 `;
 
-const CommentFormCancelButton = props => (
+const CancelButton = props => (
   <StyledCancelButton type='button' onClick={props.onClick} >cancel</StyledCancelButton>
 );
 
-export default CommentFormCancelButton;
+export default CancelButton;

@@ -13,9 +13,8 @@ const Wrapper = styled.header`
   z-index: 10;
   top: 0;
   display: flex;
-  alignitems: 'center';
-  justifycontent: 'center';
-  align-items: stretch;
+  align-items: 'center';
+  justify-content: 'center';
   margin-bottom: 24px;
   box-shadow: 0 4px 12px ${props => props.theme.shadow};
   border-bottom: 1px solid ${props => props.theme.border};
@@ -32,6 +31,14 @@ const Wrapper = styled.header`
   @media (max-width: 768px) {
     padding: 0;
   }
+`;
+
+const Separator = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Header = props => (
