@@ -13,7 +13,8 @@ class PostListContainer extends React.Component {
     super(props);
     this.state = {
       posts: [],
-      loading: true
+      loading: true,
+      latest: null
     };
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -22,9 +23,25 @@ class PostListContainer extends React.Component {
     this.instantiateContract();
   };
 
-  getStartingBlock = async () => {
+  componentDidUpdate = (newProps, oldProps) => {
+    if (newProps.time !== this.props.time) {
+      this.setState({
+        loading: true
+      });
+      this.instantiateContract();
+    }
+
+    if (newProps.type !== this.props.type) {
+      this.setState({
+        loading: true
+      });
+      this.instantiateContract();
+    }
+  };
+
+  handlePostTime = async () => {
     const latest = await this.props.web3.eth.getBlock('latest');
-    switch ('day') {
+    switch (this.props.time) {
       case 'day':
         return latest.number - 1 * blocksInDay;
       case 'week':
@@ -40,6 +57,21 @@ class PostListContainer extends React.Component {
     }
   };
 
+  handlePostType = props => {
+    switch (this.props.type) {
+      case 'top':
+        return null;
+      case 'hot':
+        return null;
+      case 'new':
+        return props.reverse();
+      case 'old':
+        return props;
+      default:
+        return props;
+    }
+  };
+
   instantiateContract = () => {
     const contract = require('truffle-contract');
     if (this.props.forumAddress === undefined) {
@@ -50,12 +82,12 @@ class PostListContainer extends React.Component {
         tartarus
           .at(this.props.tartarusAddress)
           .then(instance => {
-            this.getStartingBlock().then(starting => {
+            this.handlePostTime().then(starting => {
               instance
                 .PostCreated({}, { fromBlock: starting, toBlock: 'latest' })
                 .get((error, posts) => {
                   this.setState({
-                    posts: posts.reverse(),
+                    posts: this.handlePostType(posts),
                     loading: false
                   });
                 });
@@ -80,7 +112,7 @@ class PostListContainer extends React.Component {
                 tartarus
                   .at(this.props.tartarusAddress)
                   .then(instance => {
-                    this.getStartingBlock().then(starting => {
+                    this.handlePostTime().then(starting => {
                       instance
                         .PostCreated(
                           { creatorAddress: userAddress },
@@ -91,7 +123,7 @@ class PostListContainer extends React.Component {
                         )
                         .get((error, posts) => {
                           this.setState({
-                            posts: posts.reverse(),
+                            posts: this.handlePostType(posts),
                             loading: false
                           });
                           console.log(posts);
@@ -112,17 +144,19 @@ class PostListContainer extends React.Component {
       tartarus
         .at(this.props.tartarusAddress)
         .then(instance => {
-          instance
-            .PostCreated(
-              { forumAddress: this.props.forumAddress },
-              { fromBlock: 0, toBlock: 'latest' }
-            )
-            .get((error, posts) => {
-              this.setState({
-                posts: posts.reverse(),
-                loading: false
+          this.handlePostTime().then(starting => {
+            instance
+              .PostCreated(
+                { forumAddress: this.props.forumAddress },
+                { fromBlock: starting, toBlock: 'latest' }
+              )
+              .get((error, posts) => {
+                this.setState({
+                  posts: this.handlePostType(posts),
+                  loading: false
+                });
               });
-            });
+          });
         })
         .catch(err => {
           console.log('error');
@@ -131,9 +165,10 @@ class PostListContainer extends React.Component {
   };
 
   render() {
+    console.log(this.props.time);
     if (this.state.loading) return <LoadingIndicatorSpinner />;
     if (!this.state.posts || this.state.posts.length === 0) return <Empty />;
-    return <PostList posts={this.state.posts} />;
+    return <PostList posts={this.state.posts} time={this.props.time} />;
   }
 }
 
@@ -141,7 +176,8 @@ export const mapStateToProps = state => ({
   web3: state.web3,
   tartarusAddress: state.tartarus.tartarusAddress,
   userAddress: state.user.userAddress,
-  // time: state.form.filter.values.time
+  time: state.form.filter.values.time,
+  type: state.form.filter.values.type
 });
 
 export default connect(mapStateToProps)(PostListContainer);

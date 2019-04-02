@@ -36,8 +36,45 @@ const {
 } = require('./util');
 
 const services = require('../../../services');
-
 const ipfsGateway = 'https://ipfs.infura.io/ipfs/';
+
+const renderContent = props => {
+  switch (props.type) {
+    case 'link':
+      return (
+        <LinkPreview onClick={() => window.open(props.post)}>
+          {ReactHtmlParser(props.post)}
+        </LinkPreview>
+      );
+    case 'upload':
+      return (
+        <LinkPreview
+          onClick={() => window.open(`${ipfsGateway}/${props.post}`)}
+        >
+          {ReactHtmlParser(props.post)}
+        </LinkPreview>
+      );
+    case 'text':
+      if (props.showFullPost) {
+        return <PostContentFullText post={props.post} />;
+      }
+      break;
+    default:
+      break;
+  }
+};
+
+const renderEmbed = props => {
+  if (props.type === 'link' || props.type === 'upload') {
+    if (isIPFS.multihash(props.post)) {
+      console.log('ipfs');
+      return <EmbedWidget url={props.link} />;
+    } else {
+      console.log('not ipfs');
+      return <EmbedWidget url={props.post} />;
+    }
+  }
+};
 
 class PostContent extends Component {
   constructor(props) {
@@ -52,60 +89,22 @@ class PostContent extends Component {
   }
 
   handlePreview = () => {
-    this.setState({
-      preview: !this.state.preview
-    });
-  };
-
-  renderEmbed = props => {
-    if (props.preview && props.type === 'link') {
-      if (isIPFS.multihash(props.post)) {
-        this.handleIpfsLink().then(() => {
-          console.log("ipfs")
-          console.log(this.state);
-          return <EmbedWidget url={this.state.link} />;
-        });
-      } else {
-        console.log("not ipfs")
-        return <EmbedWidget url={props.post} />;
-      }
-    }
-
-    if (props.preview && props.type === 'upload') {
-      if (isIPFS.multihash(props.post)) {
-        this.handleIpfsLink().then(() => {
-          console.log("ipfs")
-          console.log(this.state);
-          return <EmbedWidget url={this.state.link} />;
-        });
-      } else {
-        console.log("not ipfs")
-        return <EmbedWidget url={props.post} />;
-      }
-    }
-  };
-
-  renderContent = props => {
-    switch (props.type) {
-      case 'link':
-        return (
-          <LinkPreview onClick={() => window.open(props.post)}>
-            {ReactHtmlParser(props.post)}
-          </LinkPreview>
-        );
-      case 'text':
-        if (props.showFullPost) {
-          return <PostContentFullText post={props.post} />;
-        }
-        break;
-      default:
-        break;
+    if (this.state.preview) {
+      this.setState({
+        preview: false
+      });
+    } else {
+      this.handleIpfsLink();
+      this.setState({
+        preview: true
+      });
     }
   };
 
   handleIpfsLink = async () => {
-    this.setState({ link: 'loading' });
-
+    if (!isIPFS.multihash(this.props.post)) {
+      return;
+    }
     const ipfsHash = this.props.post;
     const fileType = await services.ipfs.getFileTypeFromHash(ipfsHash);
     const fileMimeType = fileType ? fileType.mime : 'unknown';
@@ -117,9 +116,6 @@ class PostContent extends Component {
         progressResponse => {
           const { progressInMbs, killStream } = progressResponse;
           this.killStream = killStream;
-
-          this.setState({ link: 'loading' });
-
           if (progressInMbs > 10) {
             killStream();
             this.setState({
@@ -232,7 +228,7 @@ class PostContent extends Component {
             post={this.props.post}
             full={false}
           />
-          {this.renderContent({
+          {renderContent({
             showFullPost: this.props.showFullPost,
             type: this.props.type,
             post: this.props.post
@@ -249,11 +245,13 @@ class PostContent extends Component {
             postAddress={this.props.postAddress}
             type={this.props.type}
           />
-          {this.renderEmbed({
-            post: this.props.post,
-            type: this.props.type,
-            preview: this.state.preview
-          })}
+          {this.state.preview &&
+            renderEmbed({
+              post: this.props.post,
+              type: this.props.type,
+              link: this.state.link,
+              handleIpfsLink: this.handleIpfsLink
+            })}
         </Wrapper>
       );
     }

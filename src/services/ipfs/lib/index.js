@@ -1,8 +1,4 @@
-const {
-  mockIpfsApi,
-  setProvider,
-  getIpfs
-} = require('./init')
+const { mockIpfsApi, setProvider, getIpfs } = require('./init');
 
 const {
   getFileTypeFromBuffer,
@@ -17,7 +13,7 @@ const {
   getBlobFromStream,
   getReadableStream,
   getMediaSourceFromStream
-} = require('./read')
+} = require('./read');
 
 const {
   uploadObject,
@@ -27,12 +23,11 @@ const {
   uploadFilePath,
   uploadIpfsBufferWrappedWithDirectory,
   uploadFilePathWrappedWithDirectory
-} = require('./write')
+} = require('./write');
 
 export {
   mockIpfsApi,
   setProvider,
-
   uploadObject,
   uploadString,
   uploadTypedArray,
@@ -40,10 +35,8 @@ export {
   uploadFilePath,
   uploadIpfsBufferWrappedWithDirectory,
   uploadFilePathWrappedWithDirectory,
-
   getFileTypeFromBuffer,
   getFileTypeFromHash,
-
   getJson,
   getString,
   getStringFromStream,
@@ -54,6 +47,5 @@ export {
   getBlobFromStream,
   getReadableStream,
   getMediaSourceFromStream,
-
   getIpfs
-}
+};

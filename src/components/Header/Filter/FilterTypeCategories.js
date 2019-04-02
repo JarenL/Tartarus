@@ -1,3 +1,3 @@
-const typeCategories = ['top', 'new', 'controversial'];
+const typeCategories = ['top', 'hot', 'new', 'old'];
 
 export default typeCategories;

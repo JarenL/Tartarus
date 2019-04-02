@@ -6,7 +6,7 @@ const LinkPreview = styled.div`
   max-width: 800px;
   padding-bottom: 1px;
   height: 1.25em;
-  font-size: 13px;
+  font-size: 10px;
   cursor: pointer;
   color: ${props => props.theme.mutedText};
 
