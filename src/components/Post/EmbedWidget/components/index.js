@@ -6,7 +6,7 @@ export { default as Vimeo } from './Vimeo';
 export { default as Youtube } from './Youtube';
 export { default as Image } from './Image';
 export { default as Video } from './Video';
-export { default as Ipfs } from './Ipfs';
+export { default as Ipfs } from './testipfs';
 export { default as Audio } from './Audio';
 export { default as Link } from './Link';
 export { default as Torrent } from './Torrent';

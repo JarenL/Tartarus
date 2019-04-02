@@ -8,6 +8,7 @@ import {
   Vimeo,
   Youtube,
   Image,
+  Ipfs,
   Link,
   Torrent,
   Audio,
@@ -38,6 +39,10 @@ const getWidgetFromUrl = (url, settings) => {
 
   if (isDownload(url)) {
     return Download;
+  }
+
+  if (isIpfs(url)) {
+    return Ipfs;
   }
 
   if (isTorrent(url)) {

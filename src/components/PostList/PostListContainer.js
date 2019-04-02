@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-// import PostList from './PostList';
 import React from 'react';
 import Empty from '../shared/Empty';
 import UserContract from '../../contracts/User.json';
@@ -21,16 +20,11 @@ class PostListContainer extends React.Component {
 
   componentDidMount = () => {
     this.instantiateContract();
-    this.props.web3.eth.getBlock('latest').then(result => {
-      console.log(result);
-      console.log(result.number);
-      console.log(this.props.time);
-    });
   };
 
   getStartingBlock = async () => {
     const latest = await this.props.web3.eth.getBlock('latest');
-    switch (this.props.time) {
+    switch ('day') {
       case 'day':
         return latest.number - 1 * blocksInDay;
       case 'week':
@@ -40,7 +34,7 @@ class PostListContainer extends React.Component {
       case 'year':
         return latest.number - 365 * blocksInDay;
       case 'all':
-        return latest.number - 0 * blocksInDay;
+        return 0;
       default:
         return null;
     }
@@ -48,7 +42,6 @@ class PostListContainer extends React.Component {
 
   instantiateContract = () => {
     const contract = require('truffle-contract');
-    console.log(this.props);
     if (this.props.forumAddress === undefined) {
       if (this.props.username === undefined) {
         //front page
@@ -148,7 +141,7 @@ export const mapStateToProps = state => ({
   web3: state.web3,
   tartarusAddress: state.tartarus.tartarusAddress,
   userAddress: state.user.userAddress,
-  time: state.form.filter.values.time
+  // time: state.form.filter.values.time
 });
 
 export default connect(mapStateToProps)(PostListContainer);

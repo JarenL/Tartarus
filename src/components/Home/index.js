@@ -10,7 +10,6 @@ import PostDetail from '../PostDetail/Container';
 import UserSidebar from '../User/UserContainer';
 import CreatePostFormContainer from '../CreatePostForm/Container';
 import UserListContainer from '../User/UserHistory';
-import UtilitySidebarContainer from '../Sidebar/Utility/Container';
 
 const Wrapper = styled.div`
   display: flex;

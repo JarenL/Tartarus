@@ -11,6 +11,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2
   },
   progress: {
+    color: '#33a0ff',
     margin: theme.spacing.unit * 2
   },
   mb: {
@@ -26,7 +27,7 @@ const Loading = props => {
 
   return (
     <div className={classes.root}>
-      <CircularProgress className={classes.progress} size={50} />
+      <CircularProgress className={classes.progress} size={40} />
       {progress && (
         <Typography className={classes.mb} alivariant='body2' component='div'>
           {progress}

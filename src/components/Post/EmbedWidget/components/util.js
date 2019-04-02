@@ -1,6 +1,6 @@
-import React from 'react'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import { withStyles } from '@material-ui/core/styles'
+import React from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   iframe: {
@@ -12,43 +12,44 @@ const styles = theme => ({
   js: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   progress: {
+    color: '#33a0ff',
     margin: theme.spacing.unit * 2
   }
-})
+});
 
-let LoadingIframe = (props) => {
-  const {classes} = props
+let LoadingIframe = props => {
+  const { classes } = props;
 
   return (
     <div className={classes.iframe}>
-      <CircularProgress className={classes.progress} size={50} />
+      <CircularProgress className={classes.progress} size={40} />
     </div>
-  )
-}
-LoadingIframe = withStyles(styles)(LoadingIframe)
+  );
+};
+LoadingIframe = withStyles(styles)(LoadingIframe);
 
-let LoadingJs = (props) => {
-  const {classes} = props
+let LoadingJs = props => {
+  const { classes } = props;
 
   return (
     <div className={classes.js}>
-      <CircularProgress className={classes.progress} size={50} />
+      <CircularProgress className={classes.progress} size={40} />
     </div>
-  )
-}
-LoadingJs = withStyles(styles)(LoadingJs)
+  );
+};
+LoadingJs = withStyles(styles)(LoadingJs);
 
 const addScript = (url, cb) => {
-  const script = document.createElement('script')
-  script.src = url
-  script.async = true
-  if (cb) { 
-    script.addEventListener('load', cb)
+  const script = document.createElement('script');
+  script.src = url;
+  script.async = true;
+  if (cb) {
+    script.addEventListener('load', cb);
   }
-  document.body.appendChild(script)
-}
+  document.body.appendChild(script);
+};
 
-export {LoadingIframe, LoadingJs, addScript}
+export { LoadingIframe, LoadingJs, addScript };

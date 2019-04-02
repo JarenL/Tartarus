@@ -104,6 +104,7 @@ class CreatePostForm extends React.Component {
     });
     const typedArray = await fileToTypedArray(file);
     const ipfsHash = await services.ipfs.uploadTypedArray(typedArray);
+    console.log(ipfsHash)
     this.setState({
       isDragging: false,
       isPreviewing: true,
@@ -206,7 +207,7 @@ class CreatePostForm extends React.Component {
               loading: false
             });
           })
-          .catch(function(e) {
+          .catch(error => {
             console.log('error');
             this.setState({
               loading: false
@@ -225,14 +226,7 @@ class CreatePostForm extends React.Component {
 
   render() {
     const { classes, address, profile } = this.props;
-    const {
-      isDragging,
-      isPreviewing,
-      comment,
-      title,
-      link,
-      uploadIpfsHash
-    } = this.state;
+    console.log(this.state)
     return (
       <Form
         loading={this.state.uploadLoading || this.state.loading}
@@ -259,8 +253,8 @@ class CreatePostForm extends React.Component {
             <Typography
               className={classnames(
                 classes.upload,
-                !isDragging && classes.uploadNotDragging,
-                isDragging && classes.uploadDragging
+                !this.state.isDragging && classes.uploadNotDragging,
+                this.state.isDragging && classes.uploadDragging
               )}
               onDragEnter={this.handleUploadDragEnter.bind(this)}
               onDragOver={this.handleUploadDragOver.bind(this)}
@@ -280,14 +274,14 @@ class CreatePostForm extends React.Component {
           this.state.uploadIpfsHash && (
             <Field
               name='upload'
-              label='Upload IPFS Hash'
+              label='IPFS Hash'
               type='upload'
               initialValue={this.state.uploadIpfsHash}
               component={renderField}
             />
           )}
         <Wrapper>
-          <SubmitButton type='submit' />
+          <SubmitButton type='submit' onClick={this.handlePublish} />
           <CancelButton onClick={this.handleCancel} />
         </Wrapper>
       </Form>

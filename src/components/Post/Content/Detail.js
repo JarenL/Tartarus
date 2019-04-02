@@ -57,7 +57,7 @@ const Wrapper = styled.div`
 
 const PostContentDetail = props => (
   <Wrapper>
-    {props.type === 'link' && (
+    {props.type !== 'text' && (
       <ActionItem>
         {!props.preview ? (
           <MdUnfoldMore size={18} onClick={props.handlePreview} />
