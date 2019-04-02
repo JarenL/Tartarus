@@ -10,6 +10,7 @@ import ForumContract from '../../contracts/Forum.json';
 import TartarusContract from '../../contracts/Tartarus.json';
 import UserContract from '../../contracts/User.json';
 import PostDetailInfoBarContainer from './InfoBar/Container';
+import PostContainer from '../Post/PostContainer';
 
 class PostDetail extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class PostDetail extends Component {
   }
 
   componentDidMount() {
-    this.instantiateContract();
+    // this.instantiateContract();
   }
 
   instantiateContract() {
@@ -59,7 +60,7 @@ class PostDetail extends Component {
                           { fromBlock: 0, toBlock: 'latest' }
                         )
                         .get((error, comments) => {
-                          console.log(comments)
+                          console.log(comments);
                           const bs58 = require('bs58');
                           const hashHex = '1220' + result[3].slice(2);
                           const hashBytes = Buffer.from(hashHex, 'hex');
@@ -100,12 +101,12 @@ class PostDetail extends Component {
   }
 
   render() {
-    if (this.state.loading) return <LoadingIndicatorSpinner />;
-    if (!this.state.exists) return <Empty />;
-    console.log(this.state);
+    // if (this.state.loading) return <LoadingIndicatorSpinner />;
+    // if (!this.state.exists) return <Empty />;
+    // console.log(this.state);
     return (
       <>
-        <PostDetailPost
+        {/* <PostDetailPost
           postAddress={this.props.postAddress}
           title={this.state.title}
           post={this.state.post}
@@ -116,13 +117,14 @@ class PostDetail extends Component {
           time={this.state.time}
           creator={this.state.creator}
           commentCount={this.state.commentCount}
-        />
+        /> */}
         {/* <PostDetailInfoBarContainer
           address={this.props.postAddress}
           // views={post.views}
           // upvotePercentage={post.upvotePercentage}
           author={this.state.creator}
         /> */}
+        <PostContainer address={this.props.postAddress} showFullPost={true} />
         <CommentFormContainer
           postAddress={this.props.postAddress}
           forumAddress={this.state.forumAddress}

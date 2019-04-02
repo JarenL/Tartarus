@@ -20,7 +20,7 @@ const Post = props => (
     <PostContent
       loading={props.loading}
       postAddress={props.address}
-      showFullPost={false}
+      showFullPost={props.showFullPost}
       type={props.type}
       id={props.address}
       title={props.title}

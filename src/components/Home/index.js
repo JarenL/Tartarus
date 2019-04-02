@@ -65,10 +65,7 @@ const Home = props => {
             exact
             path='/p/:postAddress'
             render={({ match }) => (
-              <PostDetail
-                forumAddress={match.params.forum}
-                postAddress={match.params.postAddress}
-              />
+              <PostDetail postAddress={match.params.postAddress} />
             )}
           />
         </HomeMainSection>

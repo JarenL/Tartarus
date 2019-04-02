@@ -67,7 +67,6 @@ class PostContainer extends Component {
                           const hashBytes = Buffer.from(hashHex, 'hex');
                           const ipfsHash = bs58.encode(hashBytes);
                           ipfs.catJSON(ipfsHash, (err, ipfsData) => {
-                            console.log(ipfsData)
                             if (ipfsData) {
                               this.setState({
                                 title: ipfsData.title,
@@ -144,6 +143,7 @@ class PostContainer extends Component {
         comments={this.state.comments}
         downvote={this.downvote}
         preview={this.state.preview}
+        showFullPost={this.props.showFullPost}
       />
     );
   }
