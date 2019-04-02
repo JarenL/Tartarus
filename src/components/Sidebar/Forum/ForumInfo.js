@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   alignitems: 'center';
   padding: 12px;
   color: ${props => props.theme.mutedText};
+  border-bottom: 1px solid ${props => props.theme.border};
 `;
 
 const ForumInfo = props => (

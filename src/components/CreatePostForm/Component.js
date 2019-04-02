@@ -172,11 +172,13 @@ class CreatePostForm extends React.Component {
 
   handlePublish = async () => {
     console.log('publish');
-    console.log(this.props);
+    console.log(this.props.form);
     this.setState({
       loading: true
     });
     let { title, type, upload, link, text } = this.props.form.values;
+    console.log(type)
+    console.log(title)
     if (type === 'text') {
       if (title && text) {
         let postObject = { type: type, title: title, post: text };
@@ -196,6 +198,7 @@ class CreatePostForm extends React.Component {
     }
 
     if (type === 'link') {
+      console.log("link")
       if (title && link) {
         let postObject = { type: type, title: title, post: link };
         console.log(postObject);
@@ -286,7 +289,7 @@ class CreatePostForm extends React.Component {
         />
         <Field name='title' label='title' type='text' component={renderField} />
         {this.props.form.values.type === 'link' && (
-          <Field name='url' label='url' type='url' component={renderField} />
+          <Field name='link' label='link' type='url' component={renderField} />
         )}
         {this.props.form.values.type === 'text' && (
           <Field

@@ -1,13 +1,13 @@
 import styled from 'styled-components/macro';
 import { overflow } from '../../shared/helpers';
 
-const PostContentPreview = styled.div`
+const TextPreview = styled.div`
   ${overflow};
   max-width: 800px;
   padding-bottom: 1px;
+  height: 1.25em;
   font-size: 13px;
-  line-height: 19px;
   color: ${props => props.theme.mutedText};
 `;
 
-export default PostContentPreview;
+export default TextPreview;

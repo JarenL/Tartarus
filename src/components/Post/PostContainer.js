@@ -10,6 +10,7 @@ import LoadingIndicatorBox from '../shared/LoadingIndicator/Box.js';
 import Empty from '../shared/Empty.js';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner.js';
 import Loading from '../shared/LoadingIndicator/Loading.js';
+import { createSkeletonProvider } from '@trainline/react-skeletor';
 
 class PostContainer extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class PostContainer extends Component {
       votes: null,
       comments: null,
       exists: true,
+      type: null,
       preview: false
     };
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -65,12 +67,14 @@ class PostContainer extends Component {
                           const hashBytes = Buffer.from(hashHex, 'hex');
                           const ipfsHash = bs58.encode(hashBytes);
                           ipfs.catJSON(ipfsHash, (err, ipfsData) => {
+                            console.log(ipfsData)
                             if (ipfsData) {
                               this.setState({
                                 title: ipfsData.title,
                                 creator: this.props.web3.utils.hexToAscii(
                                   userName
                                 ),
+                                type: ipfsData.type,
                                 post: ipfsData.post,
                                 forum: owner,
                                 forumName: this.props.web3.utils.hexToAscii(
@@ -121,26 +125,27 @@ class PostContainer extends Component {
   };
 
   render() {
-    if (this.state.loading) {
-      return <Loading />;
-    } else {
-      return (
-        <Post
-          address={this.props.address}
-          title={this.state.title}
-          post={this.state.post}
-          creator={this.state.creator}
-          forum={this.state.forum}
-          forumName={this.state.forumName}
-          time={this.state.time}
-          votes={this.state.votes}
-          upvote={this.upvote}
-          comments={this.state.comments}
-          downvote={this.downvote}
-          preview={this.state.preview}
-        />
-      );
-    }
+    // if (this.state.loading) {
+    //   return <Loading />;
+    // } else {
+    return (
+      <Post
+        loading={this.state.loading}
+        address={this.props.address}
+        title={this.state.title}
+        post={this.state.post}
+        type={this.state.type}
+        creator={this.state.creator}
+        forum={this.state.forum}
+        forumName={this.state.forumName}
+        time={this.state.time}
+        votes={this.state.votes}
+        upvote={this.upvote}
+        comments={this.state.comments}
+        downvote={this.downvote}
+        preview={this.state.preview}
+      />
+    );
   }
 }
 

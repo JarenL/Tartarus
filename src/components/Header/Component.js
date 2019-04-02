@@ -4,8 +4,9 @@ import HeaderLogo from './Logo';
 import HeaderDarkButtonContainer from './DarkButton/Container';
 import HeaderUsername from './Username';
 import HeaderNavLink from './NavLink';
-import SearchBar from './SearchBox';
 import { userLogout } from '../../redux/actions/actions';
+import SearchContainer from './Search/SearchContainer';
+import FilterContainer from './Filter/FilterContainer';
 
 const Wrapper = styled.header`
   position: sticky;
@@ -36,7 +37,8 @@ const Wrapper = styled.header`
 const Header = props => (
   <Wrapper>
     <HeaderLogo />
-    {/* <SearchBar /> */}
+    <FilterContainer />
+    <SearchContainer />
     <HeaderDarkButtonContainer />
     {props.user.userAddress ? (
       <>

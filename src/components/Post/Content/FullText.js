@@ -47,7 +47,7 @@ const StyledText = styled.div`
 
 const PostContentFullText = props => (
   <Wrapper>
-    <StyledText>{ReactHtmlParser(props.children)}</StyledText>
+    <StyledText>{ReactHtmlParser(props.post)}</StyledText>
   </Wrapper>
 );
 

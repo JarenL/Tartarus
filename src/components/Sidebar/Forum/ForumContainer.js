@@ -5,8 +5,8 @@ import Loading from '../../shared/LoadingIndicator/Loading.js';
 import styled from 'styled-components/macro';
 import ForumHeader from './ForumHeader';
 import ForumInfo from './ForumInfo.js';
-import { Divider } from '@material-ui/core';
 import ForumRules from './ForumRules.js';
+import LoadingBubble from '../../shared/LoadingIndicator/Bubble.js';
 
 const Wrapper = styled.div`
   display: flex;
@@ -59,7 +59,7 @@ class ForumContainer extends Component {
   }
   render() {
     if (this.state.loading) {
-      return <Loading />;
+      return <LoadingBubble />;
     } else {
       return (
         <Wrapper>
@@ -67,17 +67,14 @@ class ForumContainer extends Component {
             name={this.state.name}
             address={this.props.forumAddress}
           />
-          <Divider />
           <ForumInfo
             showInfo={this.state.showInfo}
             toggleShowInfo={this.toggleShowInfo}
           />
-          <Divider />
           <ForumRules
             showRules={this.state.showRules}
             toggleShowRules={this.toggleShowRules}
           />
-          <Divider />
         </Wrapper>
       );
     }

@@ -3,16 +3,14 @@ import styled from 'styled-components/macro';
 import { Route, Switch } from 'react-router-dom';
 import HomeMainSection from './MainSection';
 import { connect } from 'react-redux';
-
-// import CategoryMenuContainer from '../CategoryMenu/Container';
 import CategoryMenu from '../CategoryMenu/Component';
 import PostListContainer from '../PostList/PostListContainer';
-// import PostDetailContainer from '../PostDetail/Container';
 import SidebarContainer from '../Sidebar/Container';
 import PostDetail from '../PostDetail/Container';
 import UserSidebar from '../User/UserContainer';
 import CreatePostFormContainer from '../CreatePostForm/Container';
 import UserListContainer from '../User/UserHistory';
+import UtilitySidebarContainer from '../Sidebar/Utility/Container';
 
 const Wrapper = styled.div`
   display: flex;

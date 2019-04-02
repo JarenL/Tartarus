@@ -9,31 +9,27 @@ const Wrapper = styled.div`
   background-color: ${props => props.theme.foreground};
 `;
 
-const Post = ({
-  address,
-  title,
-  post,
-  creator,
-  time,
-  votes,
-  forum,
-  forumName,
-  comments
-}) => (
+const Post = props => (
   <Wrapper>
-    <PostVoteContainer address={address} votes={votes} score={votes} />
+    <PostVoteContainer
+      address={props.address}
+      votes={props.votes}
+      score={props.votes}
+      loading={props.loading}
+    />
     <PostContent
-      postAddress={address}
+      loading={props.loading}
+      postAddress={props.address}
       showFullPost={false}
-      type={'text'}
-      id={address}
-      title={title}
-      post={post}
-      time={time}
-      creator={creator}
-      forumName={forumName}
-      forumAddress={forum}
-      commentCount={comments}
+      type={props.type}
+      id={props.address}
+      title={props.title}
+      post={props.post}
+      time={props.time}
+      creator={props.creator}
+      forumName={props.forumName}
+      forumAddress={props.forum}
+      commentCount={props.comments}
     />
   </Wrapper>
 );

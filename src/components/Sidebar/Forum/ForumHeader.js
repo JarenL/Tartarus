@@ -5,6 +5,12 @@ import { MdSearch } from 'react-icons/md';
 import { overflow } from '../../shared/helpers';
 import { ifNotProp, prop } from 'styled-tools';
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid ${props => props.theme.border};
+`;
+
 const Header = styled.span`
   ${wideFont};
   display: block;
@@ -23,14 +29,14 @@ const SubHeader = styled.div`
 `;
 
 const SubHeaderText = styled.span`
-  ${wideFont};
-  ${overflow};
   display: block
   text-align: center;
+  justify-content: center;
+  alignitems: center;
   color: ${props => props.theme.accent};
 `;
 
-const SubHeaderIcon = styled.span`
+const SubHeaderIcon = styled(MdSearch)`
   vertical-align: sub;
   cursor: pointer;
   margin-right: 2px;
@@ -46,23 +52,16 @@ const SubHeaderIcon = styled.span`
   }
 `;
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 const ForumHeader = props => (
   <Wrapper>
     <Header>{props.name}</Header>
     <SubHeader>
-      <SubHeaderIcon>
-        <MdSearch
-          size={16}
-          onClick={() =>
-            window.open('https://ropsten.etherscan.io/address/' + props.address)
-          }
-        />
-      </SubHeaderIcon>
+      <SubHeaderIcon
+        size={16}
+        onClick={() =>
+          window.open('https://ropsten.etherscan.io/address/' + props.address)
+        }
+      />
       <SubHeaderText>{props.address}</SubHeaderText>
     </SubHeader>
   </Wrapper>

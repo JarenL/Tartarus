@@ -7,22 +7,15 @@ import Author from '../../shared/Author';
 
 import { ifNotProp, prop } from 'styled-tools';
 import {
-  MdFavoriteBorder,
-  MdArrowDropUp,
-  MdArrowDropDown,
-  MdMoreVert,
-  MdChatBubbleOutline,
-  MdShare,
-  MdLabelOutline,
-  MdExpandLess,
-  MdExpandMore,
+  MdUnfoldMore,
+  MdUnfoldLess,
   MdAddCircleOutline,
   MdRemoveCircleOutline,
-  MdComment
+  MdModeComment
 } from 'react-icons/md';
 
 export const ActionItem = styled.span`
-  vertical-align: sub;
+  // vertical-align: sub;
   cursor: pointer;
   // color: ${prop('color', '#000')};
   // & > svg {
@@ -41,11 +34,10 @@ export const ActionItem = styled.span`
 
 const Wrapper = styled.div`
   display: flex;
-  flexGrow: 1;
+  flexgrow: 1;
   justifycontent: 'center';
   alignitems: 'center';
   font-size: 13px;
-  margin-top: auto;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -65,22 +57,15 @@ const Wrapper = styled.div`
 
 const PostContentDetail = props => (
   <Wrapper>
-    <ActionItem>
-      {/* {!singleItem.isExpanded ? ( */}
-      {!props.preview ? (
-        <MdAddCircleOutline
-          size={18}
-          // color='#747474'
-          onClick={props.handlePreview}
-        />
-      ) : (
-        <MdRemoveCircleOutline
-          size={18}
-          // color='#747474'
-          onClick={props.handlePreview}
-        />
-      )}
-    </ActionItem>
+    {props.type === 'link' && (
+      <ActionItem>
+        {!props.preview ? (
+          <MdUnfoldMore size={18} onClick={props.handlePreview} />
+        ) : (
+          <MdUnfoldLess size={18} onClick={props.handlePreview} />
+        )}
+      </ActionItem>
+    )}
     <Link to={`/p/${props.postAddress}`}>
       {props.commentCount} comment{props.commentCount !== 1 ? 's' : null}
     </Link>
