@@ -44,6 +44,7 @@ const SubHeaderIcon = styled(MdSearch)`
   &:last-child {
     margin-right: 0;
   }
+  color: ${props => props.theme.mutedText};
   &:hover {
     color: ${props => props.theme.accent};
     & > svg {
@@ -57,7 +58,7 @@ const ForumHeader = props => (
     <Header>{props.name}</Header>
     <SubHeader>
       <SubHeaderIcon
-        size={16}
+        size={14}
         onClick={() =>
           window.open('https://ropsten.etherscan.io/address/' + props.address)
         }

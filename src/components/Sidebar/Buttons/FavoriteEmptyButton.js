@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
-import { MdKeyboardArrowUp } from 'react-icons/md';
+import { MdFavoriteBorder } from 'react-icons/md';
 
-const UpButton = styled(MdKeyboardArrowUp)`
+const FavoriteEmptyButton = styled(MdFavoriteBorder)`
   vertical-align: sub;
   cursor: pointer;
   margin-right: 2px;
@@ -17,4 +17,4 @@ const UpButton = styled(MdKeyboardArrowUp)`
   }
 `;
 
-export default UpButton;
+export default FavoriteEmptyButton;

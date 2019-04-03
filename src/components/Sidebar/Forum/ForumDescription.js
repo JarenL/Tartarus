@@ -4,6 +4,7 @@ import { wideFont } from '../../shared/helpers';
 import { overflow } from '../../shared/helpers';
 import UpButton from '../Buttons/UpButton';
 import DownButton from '../Buttons/DownButton';
+import EditButton from '../Buttons/EditButton';
 
 const Wrapper = styled.aside`
   display: flex;
@@ -36,15 +37,22 @@ const Description = styled.div`
   color: ${props => props.theme.mutedText};
 `;
 
+const ButtonWrapper = styled.div`
+  align-self: flex-end;
+`;
+
 const ForumDescription = props => (
   <Wrapper>
     <HeaderWrapper>
       {'Description'}
-      {props.showDescription ? (
-        <UpButton size={18} onClick={props.toggleShowDescription} />
-      ) : (
-        <DownButton size={18} onClick={props.toggleShowDescription} />
-      )}
+      <ButtonWrapper>
+        <EditButton size={16} />
+        {props.showDescription ? (
+          <UpButton size={18} onClick={props.toggleShowDescription} />
+        ) : (
+          <DownButton size={18} onClick={props.toggleShowDescription} />
+        )}
+      </ButtonWrapper>
     </HeaderWrapper>
     {props.showDescription ? (
       <Description> {props.description}</Description>

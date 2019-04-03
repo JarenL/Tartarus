@@ -1,9 +1,10 @@
 import styled from 'styled-components/macro';
-import { MdKeyboardArrowUp } from 'react-icons/md';
+import { MdCreate } from 'react-icons/md';
 
-const UpButton = styled(MdKeyboardArrowUp)`
+const EditButton = styled(MdCreate)`
   vertical-align: sub;
   cursor: pointer;
+  align-self: flex-end;
   margin-right: 2px;
   margin-left: 2px;
   &:last-child {
@@ -17,4 +18,4 @@ const UpButton = styled(MdKeyboardArrowUp)`
   }
 `;
 
-export default UpButton;
+export default EditButton;

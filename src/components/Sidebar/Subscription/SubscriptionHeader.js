@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import { wideFont } from '../../shared/helpers';
 import UpButton from '../Buttons/UpButton';
 import DownButton from '../Buttons/DownButton';
+import EditButton from '../Buttons/EditButton';
 
 const Header = styled.span`
   ${wideFont};
@@ -13,14 +14,23 @@ const Header = styled.span`
   color: ${props => props.theme.mutedText};
 `;
 
+const ButtonWrapper = styled.div`
+  align-self: flex-end;
+`;
+
 const SubscriptionHeader = props => (
   <Header>
     {'subscriptions'}
-    {props.showCategories ? (
-      <UpButton size={18} onClick={props.toggleShowCategories} />
-    ) : (
-      <DownButton size={18} onClick={props.toggleShowCategories} />
-    )}
+    <ButtonWrapper>
+      {props.showSubscriptions ? (
+        <EditButton size={16} onClick={props.toggleEditSubscriptions} />
+      ) : null}
+      {props.showSubscriptions ? (
+        <UpButton size={18} onClick={props.toggleShowSubscriptions} />
+      ) : (
+        <DownButton size={18} onClick={props.toggleShowSubscriptions} />
+      )}
+    </ButtonWrapper>
   </Header>
 );
 

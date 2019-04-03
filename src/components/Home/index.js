@@ -85,7 +85,6 @@ const Home = props => {
       </Wrapper>
     );
   } else {
-    console.log(props);
     return (
       <Wrapper>
         <HomeMainSection>
@@ -97,7 +96,6 @@ const Home = props => {
             render={({ match }) => (
               <PostListContainer
                 key={match.url}
-                timeKey={props.time}
                 forumAddress={match.params.forumAddress}
               />
             )}
@@ -168,8 +166,7 @@ const Home = props => {
 function mapStateToProps(state) {
   return {
     web3: state.web3,
-    userAddress: state.user.userAddress,
-    time: state.form.filter.values.time
+    userAddress: state.user.userAddress
   };
 }
 

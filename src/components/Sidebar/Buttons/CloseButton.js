@@ -1,11 +1,11 @@
 import styled from 'styled-components/macro';
-import { MdKeyboardArrowUp } from 'react-icons/md';
+import { MdClose } from 'react-icons/md';
 
-const UpButton = styled(MdKeyboardArrowUp)`
-  vertical-align: sub;
+const CloseButton = styled(MdClose)`
   cursor: pointer;
   margin-right: 2px;
   margin-left: 2px;
+  color: ${props => props.theme.normalText};
   &:last-child {
     margin-right: 0;
   }
@@ -17,4 +17,4 @@ const UpButton = styled(MdKeyboardArrowUp)`
   }
 `;
 
-export default UpButton;
+export default CloseButton;

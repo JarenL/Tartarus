@@ -20,6 +20,7 @@ contract Forum is Ownable, CloneFactory {
     uint public time;
     bytes32 public name;
     bytes32 public rules;
+    bytes32 public description;
     address public creator;
     address[] public pinnedPosts;
 
