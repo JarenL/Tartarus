@@ -27,7 +27,7 @@ const HeaderWrapper = styled.div`
   color: ${props => props.theme.mutedText};
 `;
 
-const Rules = styled.div`
+const Description = styled.div`
   ${overflow};
   max-width: 800px;
   padding-bottom: 1px;
@@ -36,18 +36,20 @@ const Rules = styled.div`
   color: ${props => props.theme.mutedText};
 `;
 
-const ForumRules = props => (
+const ForumDescription = props => (
   <Wrapper>
     <HeaderWrapper>
-      {'Rules'}
-      {props.showRules ? (
-        <UpButton size={18} onClick={props.toggleShowRules} />
+      {'Description'}
+      {props.showDescription ? (
+        <UpButton size={18} onClick={props.toggleShowDescription} />
       ) : (
-        <DownButton size={18} onClick={props.toggleShowRules} />
+        <DownButton size={18} onClick={props.toggleShowDescription} />
       )}
     </HeaderWrapper>
-    {props.showRules ? <Rules> {props.rules}</Rules> : null}
+    {props.showDescription ? (
+      <Description> {props.description}</Description>
+    ) : null}
   </Wrapper>
 );
 
-export default ForumRules;
+export default ForumDescription;

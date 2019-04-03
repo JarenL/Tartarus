@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ForumContract from '../../../contracts/Forum.json';
-import Loading from '../../shared/LoadingIndicator/Loading.js';
 import styled from 'styled-components/macro';
 import ForumHeader from './ForumHeader';
-import ForumInfo from './ForumInfo.js';
 import ForumRules from './ForumRules.js';
 import LoadingBubble from '../../shared/LoadingIndicator/Bubble.js';
+import ForumModerators from './ForumModerators.js';
+import ForumDescription from './ForumDescription.js';
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,8 +19,9 @@ class ForumContainer extends Component {
     this.state = {
       name: null,
       loading: true,
-      showInfo: false,
-      showRules: false
+      showDescription: false,
+      showRules: false,
+      showModerators: false
     };
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -29,12 +30,16 @@ class ForumContainer extends Component {
     this.instantiateContract();
   }
 
-  toggleShowInfo = () => {
-    this.setState({ showInfo: !this.state.showInfo });
+  toggleShowDescription = () => {
+    this.setState({ showDescription: !this.state.showDescription });
   };
 
   toggleShowRules = () => {
     this.setState({ showRules: !this.state.showRules });
+  };
+
+  toggleShowModerators = () => {
+    this.setState({ showModerators: !this.state.showModerators });
   };
 
   instantiateContract() {
@@ -67,13 +72,19 @@ class ForumContainer extends Component {
             name={this.state.name}
             address={this.props.forumAddress}
           />
-          <ForumInfo
-            showInfo={this.state.showInfo}
-            toggleShowInfo={this.toggleShowInfo}
+          <ForumModerators
+            showModerators={this.state.showModerators}
+            toggleShowModerators={this.toggleShowModerators}
+          />
+          <ForumDescription
+            showDescription={this.state.showDescription}
+            toggleShowDescription={this.toggleShowDescription}
+            description={'blah blah blah'}
           />
           <ForumRules
             showRules={this.state.showRules}
             toggleShowRules={this.toggleShowRules}
+            rules={'blah blah blah'}
           />
         </Wrapper>
       );

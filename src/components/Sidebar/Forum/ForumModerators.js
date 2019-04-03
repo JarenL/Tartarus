@@ -16,15 +16,15 @@ const Wrapper = styled.div`
   border-bottom: 1px solid ${props => props.theme.border};
 `;
 
-const ForumInfo = props => (
+const ForumModerators = props => (
   <Wrapper>
-    {'Description'}
-    {props.showInfo ? (
-      <UpButton size={18} onClick={props.toggleShowInfo} />
+    {'Moderators'}
+    {props.showModerators ? (
+      <UpButton size={18} onClick={props.toggleShowModerators} />
     ) : (
-      <DownButton size={18} onClick={props.toggleShowInfo} />
+      <DownButton size={18} onClick={props.toggleShowModerators} />
     )}
   </Wrapper>
 );
 
-export default ForumInfo;
+export default ForumModerators;
