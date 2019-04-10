@@ -21,7 +21,8 @@ class ForumContainer extends Component {
       loading: true,
       showDescription: false,
       showRules: false,
-      showModerators: false
+      showModerators: false,
+      moderator: true
     };
     this.instantiateContract = this.instantiateContract.bind(this);
   }

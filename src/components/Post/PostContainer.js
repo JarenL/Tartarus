@@ -6,11 +6,6 @@ import UserContract from '../../contracts/User.json';
 import TartarusContract from '../../contracts/Tartarus.json';
 import Post from './Post';
 import ipfs from '../../services/ipfs/ipfs';
-import LoadingIndicatorBox from '../shared/LoadingIndicator/Box.js';
-import Empty from '../shared/Empty.js';
-import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner.js';
-import Loading from '../shared/LoadingIndicator/Loading.js';
-import { createSkeletonProvider } from '@trainline/react-skeletor';
 
 class PostContainer extends Component {
   constructor(props) {

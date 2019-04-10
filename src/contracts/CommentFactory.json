@@ -1,0 +1,551 @@
+{
+  "contractName": "CommentFactory",
+  "abi": [
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.2+commit.1df8f40c\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/jarenlynch/Ethereum/Tartarus/contracts/CommentFactory.sol\":\"CommentFactory\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/jarenlynch/Ethereum/Tartarus/contracts/CloneFactory.sol\":{\"keccak256\":\"0x4bb55d2c6ce86e908a9c31af29f13fedb1d30eb754ba6a4ac10e60e72b3d02ca\",\"urls\":[\"bzzr://534e68a3a9bc9bdfd120b19a1a739a16aec3dcf6981e9279131156f73456f4aa\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Comment.sol\":{\"keccak256\":\"0x6e520dc9efc8de6be07e9d3d5bfb239c35a2bd8752204ea9b1475c72ee4c40fb\",\"urls\":[\"bzzr://7620b4da592ee35e3bd5ba357eba24406b97533d2484dec9d87944a8c27ec409\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/CommentFactory.sol\":{\"keccak256\":\"0x87a6f02dcbd6f5f20d670e30025aaaa96000235564beed298d19a90359461ecc\",\"urls\":[\"bzzr://ccadb34713db96e91d2c84f348c76dcc1e039e4f609d6ef0856b33e3f4a051ea\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Ownable.sol\":{\"keccak256\":\"0x68458c1e0dd4507f061d874cf5865bb09395d91530df056656aded8f1d73a107\",\"urls\":[\"bzzr://99c6b316cbddb1f0c17f7e6f133bd3342480ccacb8996da8e29ba3a656cc67df\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b5060166056565b604051809103906000f0801580156031573d6000803e3d6000fd5b5060008054600160a060020a031916600160a060020a03929092169190911790556066565b6040516104bf806100a983390190565b6035806100746000396000f3fe6080604052600080fdfea165627a7a723058207f4df179e6952638a76e830410e7367f88344af99a625e6d1631d9beacd1c38a0029608060405260008054600160a060020a0319163317905561049a806100256000396000f3fe608060405234801561001057600080fd5b506004361061009a576000357c010000000000000000000000000000000000000000000000000000000090048063715018a611610078578063715018a61461014f5780638da5cb5b14610157578063a6e28bdd1461017b578063f2fde38b146101835761009a565b806309b205181461009f578063116125d0146100d95780636133f98514610119575b600080fd5b6100a76101a9565b60408051948552600160a060020a03938416602086015291909216838201526060830191909152519081900360800190f35b610117600480360360808110156100ef57600080fd5b5080351515906020810135151590600160a060020a03604082013581169160600135166101c8565b005b6101176004803603606081101561012f57600080fd5b50600160a060020a03813581169160208101359091169060400135610279565b610117610344565b61015f6103b0565b60408051600160a060020a039092168252519081900360200190f35b61015f6103bf565b6101176004803603602081101561019957600080fd5b5035600160a060020a03166103ce565b600154600254600354600454600160a060020a03928316929091169084565b600054600160a060020a031633146101df57600080fd5b83806101e85750825b806102005750600254600160a060020a038381169116145b151561026d57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601d60248201527f5573657220646f6573206e6f742068617665207065726d697373696f6e000000604482015290519081900360640190fd5b80600160a060020a0316ff5b600054600160a060020a0316156102f157604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152600860248201527f4e69636520747279000000000000000000000000000000000000000000000000604482015290519081900360640190fd5b6000805473ffffffffffffffffffffffffffffffffffffffff19908116331790915560019190915560028054600160a060020a039384169083161790556003805493909216921691909117905542600455565b600054600160a060020a0316331461035b57600080fd5b60008054604051600160a060020a03909116917ff8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c6482091a26000805473ffffffffffffffffffffffffffffffffffffffff19169055565b600054600160a060020a031681565b600254600160a060020a031690565b600054600160a060020a031633146103e557600080fd5b6103ee816103f1565b50565b600160a060020a038116151561040657600080fd5b60008054604051600160a060020a03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a039290921691909117905556fea165627a7a72305820c543d5fd2fa547fa6ba6de64288b1467230416775817c5e2c7ce6dcd275cdab90029",
+  "deployedBytecode": "0x6080604052600080fdfea165627a7a723058207f4df179e6952638a76e830410e7367f88344af99a625e6d1631d9beacd1c38a0029",
+  "sourceMap": "79:150:2:-;;;152:75;8:9:-1;5:2;;;30:1;27;20:12;5:2;152:75:2;206:13;;:::i;:::-;;;;;;;;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;-1:-1;183:12:2;:37;;-1:-1:-1;;;;;;183:37:2;-1:-1:-1;;;;;183:37:2;;;;;;;;;;79:150;;;;;;;;;;;;:::o;:::-;;;;;;;",
+  "deployedSourceMap": "79:150:2:-;;;;;",
+  "source": "pragma solidity ^0.5.2;\n\nimport \"./Comment.sol\";\nimport \"./CloneFactory.sol\";\n\ncontract CommentFactory is CloneFactory {\n    address cloneComment;\n\n    constructor() public {\n        cloneComment = address(new Comment());\n    }\n}",
+  "sourcePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/CommentFactory.sol",
+  "ast": {
+    "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/CommentFactory.sol",
+    "exportedSymbols": {
+      "CommentFactory": [
+        159
+      ]
+    },
+    "id": 160,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 140,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:2"
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/Comment.sol",
+        "file": "./Comment.sol",
+        "id": 141,
+        "nodeType": "ImportDirective",
+        "scope": 160,
+        "sourceUnit": 139,
+        "src": "25:23:2",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/CloneFactory.sol",
+        "file": "./CloneFactory.sol",
+        "id": 142,
+        "nodeType": "ImportDirective",
+        "scope": 160,
+        "sourceUnit": 35,
+        "src": "49:28:2",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 143,
+              "name": "CloneFactory",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 34,
+              "src": "106:12:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_CloneFactory_$34",
+                "typeString": "contract CloneFactory"
+              }
+            },
+            "id": 144,
+            "nodeType": "InheritanceSpecifier",
+            "src": "106:12:2"
+          }
+        ],
+        "contractDependencies": [
+          34,
+          138
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 159,
+        "linearizedBaseContracts": [
+          159,
+          34
+        ],
+        "name": "CommentFactory",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 146,
+            "name": "cloneComment",
+            "nodeType": "VariableDeclaration",
+            "scope": 159,
+            "src": "125:20:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 145,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "125:7:2",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 157,
+              "nodeType": "Block",
+              "src": "173:54:2",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 155,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 149,
+                      "name": "cloneComment",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 146,
+                      "src": "183:12:2",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "arguments": [],
+                          "expression": {
+                            "argumentTypes": [],
+                            "id": 152,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "nodeType": "NewExpression",
+                            "src": "206:11:2",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_Comment_$138_$",
+                              "typeString": "function () returns (contract Comment)"
+                            },
+                            "typeName": {
+                              "contractScope": null,
+                              "id": 151,
+                              "name": "Comment",
+                              "nodeType": "UserDefinedTypeName",
+                              "referencedDeclaration": 138,
+                              "src": "210:7:2",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_Comment_$138",
+                                "typeString": "contract Comment"
+                              }
+                            }
+                          },
+                          "id": 153,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "functionCall",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "206:13:2",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_Comment_$138",
+                            "typeString": "contract Comment"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_contract$_Comment_$138",
+                            "typeString": "contract Comment"
+                          }
+                        ],
+                        "id": 150,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "nodeType": "ElementaryTypeNameExpression",
+                        "src": "198:7:2",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_address_$",
+                          "typeString": "type(address)"
+                        },
+                        "typeName": "address"
+                      },
+                      "id": 154,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "typeConversion",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "198:22:2",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "183:37:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 156,
+                  "nodeType": "ExpressionStatement",
+                  "src": "183:37:2"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 158,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 147,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "163:2:2"
+            },
+            "returnParameters": {
+              "id": 148,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "173:0:2"
+            },
+            "scope": 159,
+            "src": "152:75:2",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 160,
+        "src": "79:150:2"
+      }
+    ],
+    "src": "0:229:2"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/CommentFactory.sol",
+    "exportedSymbols": {
+      "CommentFactory": [
+        159
+      ]
+    },
+    "id": 160,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 140,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:2"
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/Comment.sol",
+        "file": "./Comment.sol",
+        "id": 141,
+        "nodeType": "ImportDirective",
+        "scope": 160,
+        "sourceUnit": 139,
+        "src": "25:23:2",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/CloneFactory.sol",
+        "file": "./CloneFactory.sol",
+        "id": 142,
+        "nodeType": "ImportDirective",
+        "scope": 160,
+        "sourceUnit": 35,
+        "src": "49:28:2",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 143,
+              "name": "CloneFactory",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 34,
+              "src": "106:12:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_CloneFactory_$34",
+                "typeString": "contract CloneFactory"
+              }
+            },
+            "id": 144,
+            "nodeType": "InheritanceSpecifier",
+            "src": "106:12:2"
+          }
+        ],
+        "contractDependencies": [
+          34,
+          138
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 159,
+        "linearizedBaseContracts": [
+          159,
+          34
+        ],
+        "name": "CommentFactory",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 146,
+            "name": "cloneComment",
+            "nodeType": "VariableDeclaration",
+            "scope": 159,
+            "src": "125:20:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 145,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "125:7:2",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 157,
+              "nodeType": "Block",
+              "src": "173:54:2",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 155,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 149,
+                      "name": "cloneComment",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 146,
+                      "src": "183:12:2",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "arguments": [],
+                          "expression": {
+                            "argumentTypes": [],
+                            "id": 152,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "nodeType": "NewExpression",
+                            "src": "206:11:2",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_Comment_$138_$",
+                              "typeString": "function () returns (contract Comment)"
+                            },
+                            "typeName": {
+                              "contractScope": null,
+                              "id": 151,
+                              "name": "Comment",
+                              "nodeType": "UserDefinedTypeName",
+                              "referencedDeclaration": 138,
+                              "src": "210:7:2",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_Comment_$138",
+                                "typeString": "contract Comment"
+                              }
+                            }
+                          },
+                          "id": 153,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "functionCall",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "206:13:2",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_Comment_$138",
+                            "typeString": "contract Comment"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_contract$_Comment_$138",
+                            "typeString": "contract Comment"
+                          }
+                        ],
+                        "id": 150,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "nodeType": "ElementaryTypeNameExpression",
+                        "src": "198:7:2",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_address_$",
+                          "typeString": "type(address)"
+                        },
+                        "typeName": "address"
+                      },
+                      "id": 154,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "typeConversion",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "198:22:2",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "183:37:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 156,
+                  "nodeType": "ExpressionStatement",
+                  "src": "183:37:2"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 158,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 147,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "163:2:2"
+            },
+            "returnParameters": {
+              "id": 148,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "173:0:2"
+            },
+            "scope": 159,
+            "src": "152:75:2",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 160,
+        "src": "79:150:2"
+      }
+    ],
+    "src": "0:229:2"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.2+commit.1df8f40c.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.6",
+  "updatedAt": "2019-04-10T08:06:45.674Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

@@ -3,7 +3,6 @@ import styled from 'styled-components/macro';
 import { wideFont } from '../../shared/helpers';
 import { MdSearch } from 'react-icons/md';
 import { overflow } from '../../shared/helpers';
-import { ifNotProp, prop } from 'styled-tools';
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,40 +10,51 @@ const Wrapper = styled.div`
   border-bottom: 1px solid ${props => props.theme.border};
 `;
 
-const Header = styled.span`
-  ${wideFont};
-  display: block;
+const Header = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 12px;
-  text-align: center;
+  color: ${props => props.theme.mutedText};
+`;
+
+const HeaderText = styled.div`
+  ${wideFont};
+  ${overflow};
+  display: block;
+  align-items: center;
+  justify-content: center;
   color: ${props => props.theme.mutedText};
 `;
 
 const SubHeader = styled.div`
-  ${wideFont};
-  ${overflow};
-  max-width: 225px;
-  display: block
-  text-align: center;
-  color: ${props => props.theme.accent};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  color: ${props => props.theme.mutedText};
 `;
 
-const SubHeaderText = styled.span`
-  display: block
-  text-align: center;
+const SubHeaderText = styled.div`
+  ${wideFont};
+  ${overflow};
+  display: block;
+  max-width: 200px;
+  align-items: center;
   justify-content: center;
-  alignitems: center;
-  color: ${props => props.theme.accent};
+  color: ${props => props.theme.mutedText};
 `;
 
 const SubHeaderIcon = styled(MdSearch)`
   vertical-align: sub;
   cursor: pointer;
+  align-self: flex-start;
   margin-right: 2px;
   margin-left: 2px;
   &:last-child {
     margin-right: 0;
   }
-  color: ${props => props.theme.mutedText};
+  color: ${props => props.theme.accent};
   &:hover {
     color: ${props => props.theme.accent};
     & > svg {
@@ -55,10 +65,12 @@ const SubHeaderIcon = styled(MdSearch)`
 
 const ForumHeader = props => (
   <Wrapper>
-    <Header>{props.name}</Header>
+    <Header>
+      <HeaderText>{props.name}</HeaderText>
+    </Header>
     <SubHeader>
       <SubHeaderIcon
-        size={14}
+        size={15}
         onClick={() =>
           window.open('https://ropsten.etherscan.io/address/' + props.address)
         }

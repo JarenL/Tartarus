@@ -104,7 +104,7 @@ class CreatePostForm extends React.Component {
     });
     const typedArray = await fileToTypedArray(file);
     const ipfsHash = await services.ipfs.uploadTypedArray(typedArray);
-    console.log(ipfsHash)
+    console.log(ipfsHash);
     this.setState({
       isDragging: false,
       isPreviewing: true,
@@ -175,8 +175,13 @@ class CreatePostForm extends React.Component {
     }
 
     if (type === 'upload') {
-      if (title && upload) {
-        let postObject = { type: type, title: title, post: upload };
+      console.log('upload');
+      if (title && this.state.uploadIpfsHash) {
+        let postObject = {
+          type: type,
+          title: title,
+          post: this.state.uploadIpfsHash
+        };
         console.log(postObject);
         const ipfsHash = await services.ipfs.uploadObject(postObject);
         const bs58 = require('bs58');
@@ -226,7 +231,6 @@ class CreatePostForm extends React.Component {
 
   render() {
     const { classes, address, profile } = this.props;
-    console.log(this.state)
     return (
       <Form
         loading={this.state.uploadLoading || this.state.loading}

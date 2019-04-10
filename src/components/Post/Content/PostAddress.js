@@ -14,7 +14,7 @@ const SubHeaderText = styled.span`
   ${wideFont};
   ${overflow};
   font-size: 10px;
-  color: ${props => props.theme.accent};
+  color: ${props => props.theme.mutedText};
 `;
 
 const SubHeaderIcon = styled.span`
@@ -37,7 +37,7 @@ const PostAddress = props => (
   <Wrapper>
     <SubHeaderIcon>
       <MdSearch
-        size={12}
+        size={14}
         onClick={() =>
           window.open('https://ropsten.etherscan.io/address/' + props.postAddress)
         }

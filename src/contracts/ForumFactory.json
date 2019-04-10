@@ -1,0 +1,551 @@
+{
+  "contractName": "ForumFactory",
+  "abi": [
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.2+commit.1df8f40c\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/jarenlynch/Ethereum/Tartarus/contracts/ForumFactory.sol\":\"ForumFactory\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/jarenlynch/Ethereum/Tartarus/contracts/CloneFactory.sol\":{\"keccak256\":\"0x4bb55d2c6ce86e908a9c31af29f13fedb1d30eb754ba6a4ac10e60e72b3d02ca\",\"urls\":[\"bzzr://534e68a3a9bc9bdfd120b19a1a739a16aec3dcf6981e9279131156f73456f4aa\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Comment.sol\":{\"keccak256\":\"0x6e520dc9efc8de6be07e9d3d5bfb239c35a2bd8752204ea9b1475c72ee4c40fb\",\"urls\":[\"bzzr://7620b4da592ee35e3bd5ba357eba24406b97533d2484dec9d87944a8c27ec409\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Forum.sol\":{\"keccak256\":\"0xc996df1896a6d348b4ea2e27ee8aafa84c9a76b64b3b26485a2de420a47c5127\",\"urls\":[\"bzzr://32aa78d6656d7c25e1c112bc2628a06830d7aee0d1ae5599cc57639deba74159\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/ForumFactory.sol\":{\"keccak256\":\"0x879975841dcc1b26c48c38acdcad71dd55671502bbbfe471bb42bcf2daad382b\",\"urls\":[\"bzzr://ffe14131896b76886a7a941e654717fb5adb870f433d7c0161ffe1cb93cf65cc\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Ownable.sol\":{\"keccak256\":\"0x68458c1e0dd4507f061d874cf5865bb09395d91530df056656aded8f1d73a107\",\"urls\":[\"bzzr://99c6b316cbddb1f0c17f7e6f133bd3342480ccacb8996da8e29ba3a656cc67df\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Post.sol\":{\"keccak256\":\"0x4b2f8c245c9889670ff78099567357c387ef0c6bf09773d0738b7b86dbc3870c\",\"urls\":[\"bzzr://f2ac1d2eba646f1b597421af8de40195c6bedca81730b89a2c514afd0a96fc3e\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Tartarus.sol\":{\"keccak256\":\"0xf43c09677d1e0f44b2538b8dcdd16dceeb33830fcac07cb6aa96b72618bc9b3e\",\"urls\":[\"bzzr://b13d478c7f627b3027108c6cdf12918976643e80bf374371cfe7184828a21c4d\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/User.sol\":{\"keccak256\":\"0x6f048045851e647bc7d7c5be452ce584960b435c6dc45e10e628c2733093bb78\",\"urls\":[\"bzzr://8f64f1f4925def132527f084173effd80748e8f9b7240bdb7dfa9bfa6e700f1d\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b5060166056565b604051809103906000f0801580156031573d6000803e3d6000fd5b5060008054600160a060020a031916600160a060020a03929092169190911790556066565b604051611a54806100a983390190565b6035806100746000396000f3fe6080604052600080fdfea165627a7a72305820aae9ebf2fe26d1a5e9359d5f80a33105e2541588c668be158fd247c202cdc7810029608060405260008054600160a060020a03191633179055611a2f806100256000396000f3fe608060405234801561001057600080fd5b50600436106101775760003560e060020a900480636c3993e7116100e2578063c965d3111161009b578063f28d4bce11610075578063f28d4bce146104be578063f2fde38b146104f2578063fa477a4914610518578063ff22370c1461055e57610177565b8063c965d3111461042e578063d8705f2514610464578063e3c0d8b91461049257610177565b80636c3993e714610374578063715018a6146103ba5780637284e416146103c25780638da5cb5b146103ca578063adcddc58146103d2578063b10d6b461461040057610177565b8063243d148811610134578063243d148814610270578063289b4a551461029c5780632ae434f3146102ca578063404628c61461030057806352f6747a146103405780636910e3341461034857610177565b806302d05d3f1461017c57806306fdde03146101a0578063123f0a48146101ba57806316ada547146101d75780631c732557146101df5780631f31752014610242575b600080fd5b61018461058c565b60408051600160a060020a039092168252519081900360200190f35b6101a861059b565b60408051918252519081900360200190f35b610184600480360360208110156101d057600080fd5b50356105a1565b6101a86105c9565b61024060048036036101008110156101f657600080fd5b50600160a060020a03813581169160208101359091169060408101351515906060810135151590608081013515159060a081013515159060c081013515159060e0013515156105cf565b005b6102406004803603604081101561025857600080fd5b50600160a060020a0381358116916020013516610759565b6102406004803603604081101561028657600080fd5b5080359060200135600160a060020a03166107ff565b610240600480360360408110156102b257600080fd5b50600160a060020a0381358116916020013516610881565b610240600480360360608110156102e057600080fd5b508035151590600160a060020a03602082013581169160400135166109ce565b6102406004803603608081101561031657600080fd5b508035151590600160a060020a036020820135811691604081013582169160609091013516610a4e565b6101a8610b97565b6102406004803603604081101561035e57600080fd5b5080359060200135600160a060020a0316610b9d565b610184600480360360a081101561038a57600080fd5b50600160a060020a0381358116916020810135821691604082013581169160608101359160809091013516610c42565b610240610dde565b6101a8610e4a565b610184610e50565b610240600480360360408110156103e857600080fd5b50600160a060020a0381358116916020013516610e5f565b6102406004803603604081101561041657600080fd5b50600160a060020a0381358116916020013516610f6c565b6102406004803603606081101561044457600080fd5b50600160a060020a03813581169160208101359160409091013516611077565b6102406004803603604081101561047a57600080fd5b50600160a060020a03813581169160200135166112b9565b610240600480360360408110156104a857600080fd5b5080359060200135600160a060020a03166113ea565b610184600480360360608110156104d457600080fd5b50803590600160a060020a036020820135811691604001351661146d565b6102406004803603602081101561050857600080fd5b5035600160a060020a0316611598565b610240600480360360a081101561052e57600080fd5b508035151590600160a060020a0360208201358116916040810135821691606082013581169160800135166115bb565b6102406004803603604081101561057457600080fd5b50600160a060020a03813581169160200135166116ee565b600854600160a060020a031681565b60055481565b60098054829081106105af57fe5b600091825260209091200154600160a060020a0316905081565b60045481565b600054600160a060020a031633146105e657600080fd5b600160a060020a0387166000908152600160205260409020546301000000900460ff16151561064d576040805160e560020a62461bcd02815260206004820152601d60248201526000805160206119e4833981519152604482015290519081900360640190fd5b61065561191d565b9515158652931515602080870191825293151560408088019182529315156060880190815292151560a0880190815295151560c08801908152600160a060020a03999099166000908152600190955292909320855181549451935192516080909701519551985160ff199095169015151761ff001916610100931515939093029290921762ff0000191662010000911515919091021763ff00000019166301000000941515949094029390931764ff000000001916640100000000921515929092029190911765ff0000000000191665010000000000941515949094029390931766ff00000000000019166601000000000000931515939093029290921790915550565b600054600160a060020a0316331461077057600080fd5b600160a060020a0381166000908152600160205260409020546301000000900460ff1615156107d7576040805160e560020a62461bcd02815260206004820152601d60248201526000805160206119e4833981519152604482015290519081900360640190fd5b50600160a060020a03166000908152600160205260409020805466ffffffffffffff19169055565b600054600160a060020a0316331461081657600080fd5b600160a060020a038116600090815260016020526040902054610100900460ff16151561087b576040805160e560020a62461bcd02815260206004820152601d60248201526000805160206119e4833981519152604482015290519081900360640190fd5b50600655565b600054600160a060020a0316331461089857600080fd5b600160a060020a03821660009081526003602052604090205460ff1615156108f8576040805160e560020a62461bcd02815260206004820152601360248201526000805160206119c4833981519152604482015290519081900360640190fd5b600160a060020a03811660009081526002602052604090205460ff1615610957576040805160e560020a62461bcd02815260206004820152601e60248201526000805160206119a4833981519152604482015290519081900360640190fd5b81600160a060020a03166389179bdb826040518263ffffffff1660e060020a0281526004018082600160a060020a0316600160a060020a03168152602001915050600060405180830381600087803b1580156109b257600080fd5b505af11580156109c6573d6000803e3d6000fd5b505050505050565b600054600160a060020a031633146109e557600080fd5b82806109fe5750600854600160a060020a038381169116145b1515610a42576040805160e560020a62461bcd02815260206004820152601d60248201526000805160206119e4833981519152604482015290519081900360640190fd5b80600160a060020a0316ff5b600054600160a060020a03163314610a6557600080fd5b600160a060020a03821660009081526003602052604090205460ff161515610ac5576040805160e560020a62461bcd02815260206004820152601360248201526000805160206119c4833981519152604482015290519081900360640190fd5b600160a060020a038381166000818152600160205260408082205481517f58cd149700000000000000000000000000000000000000000000000000000000815289151560048201526501000000000090910460ff16151560248201526044810193909352848416606484015251928516926358cd149792608480820193929182900301818387803b158015610b5957600080fd5b505af1158015610b6d573d6000803e3d6000fd5b505050600160a060020a039092166000908152600360205260409020805460ff1916905550505050565b60065481565b600054600160a060020a031615610bfe576040805160e560020a62461bcd02815260206004820152600860248201527f4e69636520747279000000000000000000000000000000000000000000000000604482015290519081900360640190fd5b600080543373ffffffffffffffffffffffffffffffffffffffff19918216179091556005929092554260045560088054909216600160a060020a0391909116179055565b60008054600160a060020a03163314610c5a57600080fd5b600160a060020a03861660009081526003602052604090205460ff161515610ccc576040805160e560020a62461bcd02815260206004820152601460248201527f506f737420646f6573206e6f742065786973742e000000000000000000000000604482015290519081900360640190fd5b600160a060020a03841660009081526002602052604090205460ff1615610d2b576040805160e560020a62461bcd02815260206004820152601e60248201526000805160206119a4833981519152604482015290519081900360640190fd5b604080517f399cd856000000000000000000000000000000000000000000000000000000008152600160a060020a0387811660048301528681166024830152604482018690528481166064830152915160009289169163399cd85691608480830192602092919082900301818787803b158015610da757600080fd5b505af1158015610dbb573d6000803e3d6000fd5b505050506040513d6020811015610dd157600080fd5b5051979650505050505050565b600054600160a060020a03163314610df557600080fd5b60008054604051600160a060020a03909116917ff8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c6482091a26000805473ffffffffffffffffffffffffffffffffffffffff19169055565b60075481565b600054600160a060020a031681565b600054600160a060020a03163314610e7657600080fd5b600160a060020a03821660009081526002602052604090205460ff1615610ee7576040805160e560020a62461bcd02815260206004820152601360248201527f5573657220616c72656164792062616e6e656400000000000000000000000000604482015290519081900360640190fd5b600160a060020a03811660009081526001602052604090205460ff161515610f47576040805160e560020a62461bcd02815260206004820152601d60248201526000805160206119e4833981519152604482015290519081900360640190fd5b50600160a060020a03166000908152600260205260409020805460ff19166001179055565b600054600160a060020a03163314610f8357600080fd5b600160a060020a03821660009081526002602052604090205460ff161515610ff5576040805160e560020a62461bcd02815260206004820152600f60248201527f55736572206e6f742062616e6e65640000000000000000000000000000000000604482015290519081900360640190fd5b600160a060020a03811660009081526001602052604090205460ff161515611055576040805160e560020a62461bcd02815260206004820152601d60248201526000805160206119e4833981519152604482015290519081900360640190fd5b50600160a060020a03166000908152600260205260409020805460ff19169055565b600054600160a060020a0316331461108e57600080fd5b600160a060020a03831660009081526003602052604090205460ff1615156110ee576040805160e560020a62461bcd02815260206004820152601360248201526000805160206119c4833981519152604482015290519081900360640190fd5b600160a060020a038116600090815260016020526040902054640100000000900460ff161515611156576040805160e560020a62461bcd02815260206004820152601d60248201526000805160206119e4833981519152604482015290519081900360640190fd5b60095482106111af576040805160e560020a62461bcd02815260206004820152600d60248201527f496e76616c696420696e64657800000000000000000000000000000000000000604482015290519081900360640190fd5b82600160a060020a03166009838154811015156111c857fe5b600091825260209091200154600160a060020a031614611232576040805160e560020a62461bcd02815260206004820152601560248201527f50696e6e656420706f7374206e6f7420666f756e640000000000000000000000604482015290519081900360640190fd5b60098054600019810190811061124457fe5b60009182526020909120015460098054600160a060020a03909216918490811061126a57fe5b6000918252602090912001805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a039290921691909117905560098054906112b3906000198301611959565b50505050565b600054600160a060020a031633146112d057600080fd5b600160a060020a03821660009081526003602052604090205460ff161515611330576040805160e560020a62461bcd02815260206004820152601360248201526000805160206119c4833981519152604482015290519081900360640190fd5b600160a060020a03811660009081526002602052604090205460ff161561138f576040805160e560020a62461bcd02815260206004820152601e60248201526000805160206119a4833981519152604482015290519081900360640190fd5b81600160a060020a0316630839b596826040518263ffffffff1660e060020a0281526004018082600160a060020a0316600160a060020a03168152602001915050600060405180830381600087803b1580156109b257600080fd5b600054600160a060020a0316331461140157600080fd5b600160a060020a03811660009081526001602052604090205462010000900460ff161515611467576040805160e560020a62461bcd02815260206004820152601d60248201526000805160206119e4833981519152604482015290519081900360640190fd5b50600755565b60008054600160a060020a0316331461148557600080fd5b600160a060020a03831660009081526002602052604090205460ff16156114e4576040805160e560020a62461bcd02815260206004820152601e60248201526000805160206119a4833981519152604482015290519081900360640190fd5b60006114ef8361182d565b905080600160a060020a0316636910e33486866040518363ffffffff1660e060020a0281526004018083815260200182600160a060020a0316600160a060020a0316815260200192505050600060405180830381600087803b15801561155457600080fd5b505af1158015611568573d6000803e3d6000fd5b505050600160a060020a0382166000908152600360205260409020805460ff191660011790555090509392505050565b600054600160a060020a031633146115af57600080fd5b6115b8816118a0565b50565b600054600160a060020a031633146115d257600080fd5b600160a060020a03831660009081526003602052604090205460ff161515611632576040805160e560020a62461bcd02815260206004820152601360248201526000805160206119c4833981519152604482015290519081900360640190fd5b600160a060020a038481166000818152600160205260408082205481517f8a6955f40000000000000000000000000000000000000000000000000000000081528a15156004820152660100000000000090910460ff16151560248201526044810193909352858416606484015284841660848401525192861692638a6955f49260a480820193929182900301818387803b1580156116cf57600080fd5b505af11580156116e3573d6000803e3d6000fd5b505050505050505050565b600054600160a060020a0316331461170557600080fd5b600160a060020a03821660009081526003602052604090205460ff161515611765576040805160e560020a62461bcd02815260206004820152601360248201526000805160206119c4833981519152604482015290519081900360640190fd5b600160a060020a038116600090815260016020526040902054640100000000900460ff1615156117cd576040805160e560020a62461bcd02815260206004820152601d60248201526000805160206119e4833981519152604482015290519081900360640190fd5b50600980546001810182556000919091527f6e1540171b6c0c960b71a7020d9f60077f6af931a8bbf590da0223dacf75c7af01805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0392909216919091179055565b6040517f3d602d80600a3d3981f3363d3d373d3d3d363d7300000000000000000000000081526c010000000000000000000000008202601482018190527f5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000602883015260009160378184f0949350505050565b600160a060020a03811615156118b557600080fd5b60008054604051600160a060020a03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0392909216919091179055565b6040805160e081018252600080825260208201819052918101829052606081018290526080810182905260a0810182905260c081019190915290565b81548183558181111561197d5760008381526020902061197d918101908301611982565b505050565b6119a091905b8082111561199c5760008155600101611988565b5090565b9056fe557365722069732062616e6e65642066726f6d207468697320666f72756d0000506f737420646f6573206e6f74206578697374000000000000000000000000005573657220646f6573206e6f742068617665207065726d697373696f6e000000a165627a7a72305820b4ee24c47b5da58c582361af29f99532002294a7ba4e7b5ec23fb287622f9db10029",
+  "deployedBytecode": "0x6080604052600080fdfea165627a7a72305820aae9ebf2fe26d1a5e9359d5f80a33105e2541588c668be158fd247c202cdc7810029",
+  "sourceMap": "77:142:4:-;;;146:71;8:9:-1;5:2;;;30:1;27;20:12;5:2;146:71:4;198:11;;:::i;:::-;;;;;;;;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;-1:-1;177:10:4;:33;;-1:-1:-1;;;;;;177:33:4;-1:-1:-1;;;;;177:33:4;;;;;;;;;;77:142;;;;;;;;;;;;:::o;:::-;;;;;;;",
+  "deployedSourceMap": "77:142:4:-;;;;;",
+  "source": "pragma solidity ^0.5.2;\n\nimport \"./Forum.sol\";\nimport \"./CloneFactory.sol\";\n\ncontract ForumFactory is CloneFactory {\n    address cloneForum;\n\n    constructor() public {\n        cloneForum = address(new Forum());\n    }\n}",
+  "sourcePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/ForumFactory.sol",
+  "ast": {
+    "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/ForumFactory.sol",
+    "exportedSymbols": {
+      "ForumFactory": [
+        824
+      ]
+    },
+    "id": 825,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 805,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:4"
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/Forum.sol",
+        "file": "./Forum.sol",
+        "id": 806,
+        "nodeType": "ImportDirective",
+        "scope": 825,
+        "sourceUnit": 804,
+        "src": "25:21:4",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/CloneFactory.sol",
+        "file": "./CloneFactory.sol",
+        "id": 807,
+        "nodeType": "ImportDirective",
+        "scope": 825,
+        "sourceUnit": 35,
+        "src": "47:28:4",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 808,
+              "name": "CloneFactory",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 34,
+              "src": "102:12:4",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_CloneFactory_$34",
+                "typeString": "contract CloneFactory"
+              }
+            },
+            "id": 809,
+            "nodeType": "InheritanceSpecifier",
+            "src": "102:12:4"
+          }
+        ],
+        "contractDependencies": [
+          34,
+          803
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 824,
+        "linearizedBaseContracts": [
+          824,
+          34
+        ],
+        "name": "ForumFactory",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 811,
+            "name": "cloneForum",
+            "nodeType": "VariableDeclaration",
+            "scope": 824,
+            "src": "121:18:4",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 810,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "121:7:4",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 822,
+              "nodeType": "Block",
+              "src": "167:50:4",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 820,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 814,
+                      "name": "cloneForum",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 811,
+                      "src": "177:10:4",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "arguments": [],
+                          "expression": {
+                            "argumentTypes": [],
+                            "id": 817,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "nodeType": "NewExpression",
+                            "src": "198:9:4",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_Forum_$803_$",
+                              "typeString": "function () returns (contract Forum)"
+                            },
+                            "typeName": {
+                              "contractScope": null,
+                              "id": 816,
+                              "name": "Forum",
+                              "nodeType": "UserDefinedTypeName",
+                              "referencedDeclaration": 803,
+                              "src": "202:5:4",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_Forum_$803",
+                                "typeString": "contract Forum"
+                              }
+                            }
+                          },
+                          "id": 818,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "functionCall",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "198:11:4",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_Forum_$803",
+                            "typeString": "contract Forum"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_contract$_Forum_$803",
+                            "typeString": "contract Forum"
+                          }
+                        ],
+                        "id": 815,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "nodeType": "ElementaryTypeNameExpression",
+                        "src": "190:7:4",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_address_$",
+                          "typeString": "type(address)"
+                        },
+                        "typeName": "address"
+                      },
+                      "id": 819,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "typeConversion",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "190:20:4",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "177:33:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 821,
+                  "nodeType": "ExpressionStatement",
+                  "src": "177:33:4"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 823,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 812,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "157:2:4"
+            },
+            "returnParameters": {
+              "id": 813,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "167:0:4"
+            },
+            "scope": 824,
+            "src": "146:71:4",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 825,
+        "src": "77:142:4"
+      }
+    ],
+    "src": "0:219:4"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/ForumFactory.sol",
+    "exportedSymbols": {
+      "ForumFactory": [
+        824
+      ]
+    },
+    "id": 825,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 805,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:4"
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/Forum.sol",
+        "file": "./Forum.sol",
+        "id": 806,
+        "nodeType": "ImportDirective",
+        "scope": 825,
+        "sourceUnit": 804,
+        "src": "25:21:4",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/CloneFactory.sol",
+        "file": "./CloneFactory.sol",
+        "id": 807,
+        "nodeType": "ImportDirective",
+        "scope": 825,
+        "sourceUnit": 35,
+        "src": "47:28:4",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 808,
+              "name": "CloneFactory",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 34,
+              "src": "102:12:4",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_CloneFactory_$34",
+                "typeString": "contract CloneFactory"
+              }
+            },
+            "id": 809,
+            "nodeType": "InheritanceSpecifier",
+            "src": "102:12:4"
+          }
+        ],
+        "contractDependencies": [
+          34,
+          803
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 824,
+        "linearizedBaseContracts": [
+          824,
+          34
+        ],
+        "name": "ForumFactory",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 811,
+            "name": "cloneForum",
+            "nodeType": "VariableDeclaration",
+            "scope": 824,
+            "src": "121:18:4",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 810,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "121:7:4",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 822,
+              "nodeType": "Block",
+              "src": "167:50:4",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 820,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 814,
+                      "name": "cloneForum",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 811,
+                      "src": "177:10:4",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "arguments": [],
+                          "expression": {
+                            "argumentTypes": [],
+                            "id": 817,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "nodeType": "NewExpression",
+                            "src": "198:9:4",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_Forum_$803_$",
+                              "typeString": "function () returns (contract Forum)"
+                            },
+                            "typeName": {
+                              "contractScope": null,
+                              "id": 816,
+                              "name": "Forum",
+                              "nodeType": "UserDefinedTypeName",
+                              "referencedDeclaration": 803,
+                              "src": "202:5:4",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_Forum_$803",
+                                "typeString": "contract Forum"
+                              }
+                            }
+                          },
+                          "id": 818,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "functionCall",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "198:11:4",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_Forum_$803",
+                            "typeString": "contract Forum"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_contract$_Forum_$803",
+                            "typeString": "contract Forum"
+                          }
+                        ],
+                        "id": 815,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "nodeType": "ElementaryTypeNameExpression",
+                        "src": "190:7:4",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_address_$",
+                          "typeString": "type(address)"
+                        },
+                        "typeName": "address"
+                      },
+                      "id": 819,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "typeConversion",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "190:20:4",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "177:33:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 821,
+                  "nodeType": "ExpressionStatement",
+                  "src": "177:33:4"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 823,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 812,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "157:2:4"
+            },
+            "returnParameters": {
+              "id": 813,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "167:0:4"
+            },
+            "scope": 824,
+            "src": "146:71:4",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 825,
+        "src": "77:142:4"
+      }
+    ],
+    "src": "0:219:4"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.2+commit.1df8f40c.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.6",
+  "updatedAt": "2019-04-10T08:06:45.677Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

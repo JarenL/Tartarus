@@ -23,7 +23,7 @@ const HeaderWrapper = styled.div`
   ${overflow};
   display: flex;
   justify-content: space-between;
-  alignitems: 'center';
+  align-items: center;
   padding: 12px;
   color: ${props => props.theme.mutedText};
 `;

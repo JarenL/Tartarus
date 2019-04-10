@@ -165,7 +165,6 @@ class PostListContainer extends React.Component {
   };
 
   render() {
-    console.log(this.props.time);
     if (this.state.loading) return <LoadingIndicatorSpinner />;
     if (!this.state.posts || this.state.posts.length === 0) return <Empty />;
     return <PostList posts={this.state.posts} time={this.props.time} />;

@@ -41,12 +41,24 @@ const ipfsGateway = 'https://ipfs.infura.io/ipfs/';
 const renderContent = props => {
   switch (props.type) {
     case 'link':
-      return (
-        <LinkPreview onClick={() => window.open(props.post)}>
-          {ReactHtmlParser(props.post)}
-        </LinkPreview>
-      );
+      if (isIPFS.multihash(props.post)) {
+        return (
+          <LinkPreview
+            onClick={() => window.open(`${ipfsGateway}/${props.post}`)}
+          >
+            {ReactHtmlParser(props.post)}
+          </LinkPreview>
+        );
+      } else {
+        return (
+          <LinkPreview onClick={() => window.open(props.post)}>
+            {ReactHtmlParser(props.post)}
+          </LinkPreview>
+        );
+      }
+
     case 'upload':
+      console.log(`${ipfsGateway}/${props.post}`);
       return (
         <LinkPreview
           onClick={() => window.open(`${ipfsGateway}/${props.post}`)}

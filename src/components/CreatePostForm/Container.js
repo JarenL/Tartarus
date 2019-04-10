@@ -42,7 +42,7 @@ const mapDispatchToProps = { change, reset };
 const enhance = compose(
   reduxForm({
     form: 'post',
-    initialValues: { category: categories[0], type: 'text' },
+    initialValues: { type: 'text' },
     validate
   }),
   connect(

@@ -67,7 +67,7 @@ class Filter extends Component {
   render() {
     return (
       <Wrapper>
-        <StyledForm>
+        <StyledForm initialValues={{ type: 'top', time: 'day' }}>
           <Field name='type' type='select' component={renderField}>
             {this.mapTypeCategories()}
           </Field>

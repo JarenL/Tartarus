@@ -11,7 +11,11 @@ const mapStateToProps = state => ({
 });
 
 const enhance = compose(
-  reduxForm({ form: 'filter', destroyOnUnmount: false }),
+  reduxForm({
+    form: 'filter',
+    initialValues: { time: 'all', type: 'new' },
+    destroyOnUnmount: false
+  }),
   connect(
     mapStateToProps,
     mapDispatchToProps
