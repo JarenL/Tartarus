@@ -28,6 +28,7 @@ class LoginForm extends React.Component {
   }
 
   onSubmit = () => {
+    console.log("login")
     this.redirectIfLoggedIn();
     this.setState({
       loading: true
@@ -43,7 +44,11 @@ class LoginForm extends React.Component {
             gasPrice: 20000000000
           })
           .then(address => {
-            if (address === '0x0000000000000000000000000000000000000000') {
+            console.log(address)
+            if (address === '0x') {
+              this.setState({
+                loading: false
+              });
             } else {
               console.log(address);
               this.props.dispatch(
@@ -66,7 +71,7 @@ class LoginForm extends React.Component {
     return (
       <Form
         loading={this.state.loading}
-        onSubmit={this.props.handleSubmit(this.onSubmit)}
+        // onSubmit={this.props.handleSubmit(this.onSubmit)}
       >
         <Field
           name='username'
@@ -82,7 +87,7 @@ class LoginForm extends React.Component {
           component={renderField}
           validate={passwordValidator}
         /> */}
-        <SubmitButton type='submit'>log in</SubmitButton>
+        <SubmitButton onClick={this.onSubmit}>log in</SubmitButton>
       </Form>
     );
   }

@@ -67,6 +67,13 @@ const Home = props => {
               <PostDetail postAddress={match.params.postAddress} />
             )}
           />
+          <Route
+            exact
+            path='/search'
+            render={({ match }) => (
+              <PostDetail postAddress={match.params.postAddress} />
+            )}
+          />
         </HomeMainSection>
         <Route
           exact

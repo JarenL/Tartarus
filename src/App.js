@@ -12,8 +12,10 @@ import LoginFormContainer from './components/LoginForm/Container';
 import SignupFormContainer from './components/SignupForm/Container';
 import CreateForumFormContainer from './components/CreateForumForm/Container';
 import SearchContainer from './components/Search/SearchContainer';
-import { initializeWeb3 } from './redux/actions/actions';
+import { initializeWeb3, setTartarusAddress } from './redux/actions/actions';
 import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner';
+
+const tartarusAddress = '0xE18ef3ea4f437eF12661457a418a8E0aBd5F5AB9';
 
 class App extends Component {
   constructor(props) {
@@ -27,6 +29,7 @@ class App extends Component {
     getWeb3
       .then(results => {
         this.props.dispatch(initializeWeb3(results.web3));
+        this.props.dispatch(setTartarusAddress(tartarusAddress));
         this.props.web3.eth.getAccounts((error, accounts) => {
           this.setState({
             loading: false

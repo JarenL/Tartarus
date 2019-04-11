@@ -5,28 +5,53 @@
       "inputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "constructor"
+      "type": "constructor",
+      "signature": "constructor"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_post",
+          "type": "bytes32"
+        },
+        {
+          "name": "_postCreator",
+          "type": "address"
+        }
+      ],
+      "name": "createPost",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x9dc0070c"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.2+commit.1df8f40c\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/jarenlynch/Ethereum/Tartarus/contracts/PostFactory.sol\":\"PostFactory\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/jarenlynch/Ethereum/Tartarus/contracts/CloneFactory.sol\":{\"keccak256\":\"0x4bb55d2c6ce86e908a9c31af29f13fedb1d30eb754ba6a4ac10e60e72b3d02ca\",\"urls\":[\"bzzr://534e68a3a9bc9bdfd120b19a1a739a16aec3dcf6981e9279131156f73456f4aa\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Comment.sol\":{\"keccak256\":\"0x6e520dc9efc8de6be07e9d3d5bfb239c35a2bd8752204ea9b1475c72ee4c40fb\",\"urls\":[\"bzzr://7620b4da592ee35e3bd5ba357eba24406b97533d2484dec9d87944a8c27ec409\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Forum.sol\":{\"keccak256\":\"0xc996df1896a6d348b4ea2e27ee8aafa84c9a76b64b3b26485a2de420a47c5127\",\"urls\":[\"bzzr://32aa78d6656d7c25e1c112bc2628a06830d7aee0d1ae5599cc57639deba74159\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Ownable.sol\":{\"keccak256\":\"0x68458c1e0dd4507f061d874cf5865bb09395d91530df056656aded8f1d73a107\",\"urls\":[\"bzzr://99c6b316cbddb1f0c17f7e6f133bd3342480ccacb8996da8e29ba3a656cc67df\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Post.sol\":{\"keccak256\":\"0x4b2f8c245c9889670ff78099567357c387ef0c6bf09773d0738b7b86dbc3870c\",\"urls\":[\"bzzr://f2ac1d2eba646f1b597421af8de40195c6bedca81730b89a2c514afd0a96fc3e\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/PostFactory.sol\":{\"keccak256\":\"0x103bf1582be1d9e2e852d4c3cf329a50fe2248209af5757a88aa832d275e6d03\",\"urls\":[\"bzzr://28063895b673378b1e5f1e026469e16b70664c1cc97fb0b4f4e20b03935b8c88\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Tartarus.sol\":{\"keccak256\":\"0xf43c09677d1e0f44b2538b8dcdd16dceeb33830fcac07cb6aa96b72618bc9b3e\",\"urls\":[\"bzzr://b13d478c7f627b3027108c6cdf12918976643e80bf374371cfe7184828a21c4d\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/User.sol\":{\"keccak256\":\"0x6f048045851e647bc7d7c5be452ce584960b435c6dc45e10e628c2733093bb78\",\"urls\":[\"bzzr://8f64f1f4925def132527f084173effd80748e8f9b7240bdb7dfa9bfa6e700f1d\"]}},\"version\":1}",
-  "bytecode": "0x6080604052348015600f57600080fd5b5060166056565b604051809103906000f0801580156031573d6000803e3d6000fd5b5060008054600160a060020a031916600160a060020a03929092169190911790556066565b6040516109f1806100a983390190565b6035806100746000396000f3fe6080604052600080fdfea165627a7a723058206ee345130da472dd34e497bdb8521896ec34d7e78e5bb9549a0bf30f22e43d440029608060405260008054600160a060020a031916331790556109cc806100256000396000f3fe608060405234801561001057600080fd5b50600436106100c6576000357c01000000000000000000000000000000000000000000000000000000009004806389179bdb1161008e57806389179bdb146101bd5780638a6955f4146101e35780638bd178e91461022b5780638da5cb5b1461026e578063f2fde38b14610276578063f5b5709b1461029c576100c6565b80630839b596146100cb578063399cd856146100f357806358cd14971461014b5780636910e33414610189578063715018a6146101b5575b600080fd5b6100f1600480360360208110156100e157600080fd5b5035600160a060020a03166102a4565b005b61012f6004803603608081101561010957600080fd5b50600160a060020a03813581169160208101358216916040820135916060013516610368565b60408051600160a060020a039092168252519081900360200190f35b6100f16004803603608081101561016157600080fd5b5080351515906020810135151590600160a060020a03604082013581169160600135166104a8565b6100f16004803603604081101561019f57600080fd5b5080359060200135600160a060020a0316610542565b6100f16105e7565b6100f1600480360360208110156101d357600080fd5b5035600160a060020a0316610653565b6100f1600480360360a08110156101f957600080fd5b5080351515906020810135151590600160a060020a036040820135811691606081013582169160809091013516610722565b610233610846565b6040805161ffff9687168152949095166020850152838501929092526060830152600160a060020a0316608082015290519081900360a00190f35b61012f61086f565b6100f16004803603602081101561028c57600080fd5b5035600160a060020a031661087e565b61012f6108a1565b600054600160a060020a031633146102bb57600080fd5b600160a060020a03811660009081526006602052604090205460ff161561032c576040805160e560020a62461bcd02815260206004820152600d60248201527f416c726561647920766f74656400000000000000000000000000000000000000604482015290519081900360640190fd5b600160a060020a03166000908152600660205260409020805460ff19166001908117909155805461ffff80821683011661ffff19909116179055565b60008054600160a060020a0316331461038057600080fd5b600160a060020a0385163014806103af5750600160a060020a03851660009081526005602052604090205460ff165b1515610405576040805160e560020a62461bcd02815260206004820152601e60248201527f496e76616c696420636f6d6d656e742074617267657420616464726573730000604482015290519081900360640190fd5b6000610410836108b0565b604080517f6133f985000000000000000000000000000000000000000000000000000000008152600160a060020a038981166004830152888116602483015260448201889052915192935090831691636133f9859160648082019260009290919082900301818387803b15801561048657600080fd5b505af115801561049a573d6000803e3d6000fd5b509298975050505050505050565b600054600160a060020a031633146104bf57600080fd5b83806104c85750825b806104e05750600454600160a060020a038381169116145b1515610536576040805160e560020a62461bcd02815260206004820152601d60248201527f5573657220646f6573206e6f742068617665207065726d697373696f6e000000604482015290519081900360640190fd5b80600160a060020a0316ff5b600054600160a060020a0316156105a3576040805160e560020a62461bcd02815260206004820152600860248201527f4e69636520747279000000000000000000000000000000000000000000000000604482015290519081900360640190fd5b600080543373ffffffffffffffffffffffffffffffffffffffff199182161790915560039290925560048054909216600160a060020a039190911617905542600255565b600054600160a060020a031633146105fe57600080fd5b60008054604051600160a060020a03909116917ff8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c6482091a26000805473ffffffffffffffffffffffffffffffffffffffff19169055565b600054600160a060020a0316331461066a57600080fd5b600160a060020a03811660009081526006602052604090205460ff16156106db576040805160e560020a62461bcd02815260206004820152600d60248201527f416c726561647920766f74656400000000000000000000000000000000000000604482015290519081900360640190fd5b600160a060020a03166000908152600660205260409020805460ff19166001908117909155805461ffff62010000808304821684019091160263ffff000019909116179055565b600054600160a060020a0316331461073957600080fd5b600160a060020a03821660009081526005602052604090205460ff1615156107ab576040805160e560020a62461bcd02815260206004820152601160248201527f436f6d6d656e74206e6f7420666f756e64000000000000000000000000000000604482015290519081900360640190fd5b604080517f116125d000000000000000000000000000000000000000000000000000000000815286151560048201528515156024820152600160a060020a038581166044830152838116606483015291519184169163116125d09160848082019260009290919082900301818387803b15801561082757600080fd5b505af115801561083b573d6000803e3d6000fd5b505050505050505050565b60015460025460035460045461ffff8085169462010000900416929190600160a060020a031685565b600054600160a060020a031681565b600054600160a060020a0316331461089557600080fd5b61089e81610923565b50565b600454600160a060020a031690565b6040517f3d602d80600a3d3981f3363d3d373d3d3d363d7300000000000000000000000081526c010000000000000000000000008202601482018190527f5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000602883015260009160378184f0949350505050565b600160a060020a038116151561093857600080fd5b60008054604051600160a060020a03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a039290921691909117905556fea165627a7a72305820e368f83ebcfee14dd7565323391eeca898c2874cf4022be5b1a9411d3c7f16e30029",
-  "deployedBytecode": "0x6080604052600080fdfea165627a7a723058206ee345130da472dd34e497bdb8521896ec34d7e78e5bb9549a0bf30f22e43d440029",
-  "sourceMap": "76:138:8:-;;;143:69;8:9:-1;5:2;;;30:1;27;20:12;5:2;143:69:8;194:10;;:::i;:::-;;;;;;;;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;-1:-1;174:9:8;:31;;-1:-1:-1;;;;;;174:31:8;-1:-1:-1;;;;;174:31:8;;;;;;;;;;76:138;;;;;;;;;;;;:::o;:::-;;;;;;;",
-  "deployedSourceMap": "76:138:8:-;;;;;",
-  "source": "pragma solidity ^0.5.2;\n\nimport \"./Post.sol\";\nimport \"./CloneFactory.sol\";\n\ncontract PostFactory is CloneFactory {\n    address clonePost;\n\n    constructor() public {\n        clonePost = address(new Post());\n    }\n}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.2+commit.1df8f40c\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"_post\",\"type\":\"bytes32\"},{\"name\":\"_postCreator\",\"type\":\"address\"}],\"name\":\"createPost\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/jarenlynch/Ethereum/Tartarus/contracts/PostFactory.sol\":\"PostFactory\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/jarenlynch/Ethereum/Tartarus/contracts/CloneFactory.sol\":{\"keccak256\":\"0x4bb55d2c6ce86e908a9c31af29f13fedb1d30eb754ba6a4ac10e60e72b3d02ca\",\"urls\":[\"bzzr://534e68a3a9bc9bdfd120b19a1a739a16aec3dcf6981e9279131156f73456f4aa\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Comment.sol\":{\"keccak256\":\"0x4b94bae4d40abd0566b69206234e4beb06c653809315920e8d54f4eb7c2626dc\",\"urls\":[\"bzzr://e9342c3cb819d6f66aeae0bde1bad40bf017b050206101ae1e5e28f6941fdbd4\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/CommentFactory.sol\":{\"keccak256\":\"0xaff7a70ae79103910261cc9352dc455a17c1bc5852d3c1724d27bfbc269e22fe\",\"urls\":[\"bzzr://ee151dee366347bf413f91bd4d859c2fa8426a0e804af921c09d8de6af047939\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Forum.sol\":{\"keccak256\":\"0xf8091f438082af12ecf83546c5c01ffa5e7fb5f8a16260b92507e54067273846\",\"urls\":[\"bzzr://fe3bc58ed8b4d6e9f8730d5bb4d100b4a0cd8628e6706bd803cafb98f9110a92\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Ownable.sol\":{\"keccak256\":\"0x68458c1e0dd4507f061d874cf5865bb09395d91530df056656aded8f1d73a107\",\"urls\":[\"bzzr://99c6b316cbddb1f0c17f7e6f133bd3342480ccacb8996da8e29ba3a656cc67df\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/Post.sol\":{\"keccak256\":\"0xe1a4f16b8a773984338b0da590a893a35ad9dbf37b67b5e4d4333f182ffef0ee\",\"urls\":[\"bzzr://0c7a4da3374fcf4cfb029f3ed83d765c6d23c4ef23fe68dc68158305d05843d2\"]},\"/Users/jarenlynch/Ethereum/Tartarus/contracts/PostFactory.sol\":{\"keccak256\":\"0x6a7ffcde96597a98e13ecddb614340a33e308555e5d3ed8b76fb3e121c4df7bb\",\"urls\":[\"bzzr://b4f4ac27ca406eb19658f15ea40373a4ae0fd83a23d8bb747ae8e747af54efcc\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061001961005b565b604051809103906000f080158015610035573d6000803e3d6000fd5b5060008054600160a060020a031916600160a060020a039290921691909117905561006b565b6040516109908061028d83390190565b6102138061007a6000396000f3fe608060405234801561001057600080fd5b5060043610610047577c010000000000000000000000000000000000000000000000000000000060003504639dc0070c811461004c575b600080fd5b6100856004803603604081101561006257600080fd5b508035906020013573ffffffffffffffffffffffffffffffffffffffff166100ae565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b6000805481906100d39073ffffffffffffffffffffffffffffffffffffffff16610174565b604080517fd26b3e6e0000000000000000000000000000000000000000000000000000000081523360048201526024810187905273ffffffffffffffffffffffffffffffffffffffff868116604483015291519293509083169163d26b3e6e9160648082019260009290919082900301818387803b15801561015457600080fd5b505af1158015610168573d6000803e3d6000fd5b50929695505050505050565b6040517f3d602d80600a3d3981f3363d3d373d3d3d363d7300000000000000000000000081526c010000000000000000000000008202601482018190527f5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000602883015260009160378184f094935050505056fea165627a7a723058203d03a40649b8ae82b40d003b6c448e4de1d92734488d507649d2a00ac94914c30029608060405260008054600160a060020a0319163317905561096b806100256000396000f3fe608060405234801561001057600080fd5b50600436106100c6576000357c0100000000000000000000000000000000000000000000000000000000900480638a6955f41161008e5780638a6955f4146101b75780638bd178e9146101ff5780638da5cb5b14610242578063d26b3e6e1461024a578063f2fde38b14610280578063f5b5709b146102a6576100c6565b80630839b596146100cb578063399cd856146100f357806358cd14971461014b578063715018a61461018957806389179bdb14610191575b600080fd5b6100f1600480360360208110156100e157600080fd5b5035600160a060020a03166102ae565b005b61012f6004803603608081101561010957600080fd5b50600160a060020a03813581169160208101358216916040820135916060013516610372565b60408051600160a060020a039092168252519081900360200190f35b6100f16004803603608081101561016157600080fd5b5080351515906020810135151590600160a060020a03604082013581169160600135166104b9565b6100f1610553565b6100f1600480360360208110156101a757600080fd5b5035600160a060020a03166105bf565b6100f1600480360360a08110156101cd57600080fd5b5080351515906020810135151590600160a060020a03604082013581169160608101358216916080909101351661068e565b6102076107b2565b6040805161ffff9687168152949095166020850152838501929092526060830152600160a060020a0316608082015290519081900360a00190f35b61012f6107db565b6100f16004803603606081101561026057600080fd5b50600160a060020a038135811691602081013591604090910135166107ea565b6100f16004803603602081101561029657600080fd5b5035600160a060020a0316610890565b61012f6108b3565b600054600160a060020a031633146102c557600080fd5b600160a060020a03811660009081526006602052604090205460ff1615610336576040805160e560020a62461bcd02815260206004820152600d60248201527f416c726561647920766f74656400000000000000000000000000000000000000604482015290519081900360640190fd5b600160a060020a03166000908152600660205260409020805460ff19166001908117909155805461ffff80821683011661ffff19909116179055565b60008054600160a060020a0316331461038a57600080fd5b600160a060020a0385163014806103b95750600160a060020a03851660009081526005602052604090205460ff165b151561040f576040805160e560020a62461bcd02815260206004820152601e60248201527f496e76616c696420636f6d6d656e742074617267657420616464726573730000604482015290519081900360640190fd5b604080517f5dfb6df8000000000000000000000000000000000000000000000000000000008152600160a060020a0387811660048301528681166024830152604482018690529151600092851691635dfb6df891606480830192602092919082900301818787803b15801561048357600080fd5b505af1158015610497573d6000803e3d6000fd5b505050506040513d60208110156104ad57600080fd5b50519695505050505050565b600054600160a060020a031633146104d057600080fd5b83806104d95750825b806104f15750600454600160a060020a038381169116145b1515610547576040805160e560020a62461bcd02815260206004820152601d60248201527f5573657220646f6573206e6f742068617665207065726d697373696f6e000000604482015290519081900360640190fd5b80600160a060020a0316ff5b600054600160a060020a0316331461056a57600080fd5b60008054604051600160a060020a03909116917ff8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c6482091a26000805473ffffffffffffffffffffffffffffffffffffffff19169055565b600054600160a060020a031633146105d657600080fd5b600160a060020a03811660009081526006602052604090205460ff1615610647576040805160e560020a62461bcd02815260206004820152600d60248201527f416c726561647920766f74656400000000000000000000000000000000000000604482015290519081900360640190fd5b600160a060020a03166000908152600660205260409020805460ff19166001908117909155805461ffff62010000808304821684019091160263ffff000019909116179055565b600054600160a060020a031633146106a557600080fd5b600160a060020a03821660009081526005602052604090205460ff161515610717576040805160e560020a62461bcd02815260206004820152601160248201527f436f6d6d656e74206e6f7420666f756e64000000000000000000000000000000604482015290519081900360640190fd5b604080517f116125d000000000000000000000000000000000000000000000000000000000815286151560048201528515156024820152600160a060020a038581166044830152838116606483015291519184169163116125d09160848082019260009290919082900301818387803b15801561079357600080fd5b505af11580156107a7573d6000803e3d6000fd5b505050505050505050565b60015460025460035460045461ffff8085169462010000900416929190600160a060020a031685565b600054600160a060020a031681565b600054600160a060020a03161561084b576040805160e560020a62461bcd02815260206004820152600860248201527f4e69636520747279000000000000000000000000000000000000000000000000604482015290519081900360640190fd5b60008054600160a060020a0394851673ffffffffffffffffffffffffffffffffffffffff19918216179091556003929092556004805491909316911617905542600255565b600054600160a060020a031633146108a757600080fd5b6108b0816108c2565b50565b600454600160a060020a031690565b600160a060020a03811615156108d757600080fd5b60008054604051600160a060020a03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a039290921691909117905556fea165627a7a72305820418384e6d90cc91b6870aa671af5058c7f1fa050731199b949e56cef13ca10d10029",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b5060043610610047577c010000000000000000000000000000000000000000000000000000000060003504639dc0070c811461004c575b600080fd5b6100856004803603604081101561006257600080fd5b508035906020013573ffffffffffffffffffffffffffffffffffffffff166100ae565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b6000805481906100d39073ffffffffffffffffffffffffffffffffffffffff16610174565b604080517fd26b3e6e0000000000000000000000000000000000000000000000000000000081523360048201526024810187905273ffffffffffffffffffffffffffffffffffffffff868116604483015291519293509083169163d26b3e6e9160648082019260009290919082900301818387803b15801561015457600080fd5b505af1158015610168573d6000803e3d6000fd5b50929695505050505050565b6040517f3d602d80600a3d3981f3363d3d373d3d3d363d7300000000000000000000000081526c010000000000000000000000008202601482018190527f5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000602883015260009160378184f094935050505056fea165627a7a723058203d03a40649b8ae82b40d003b6c448e4de1d92734488d507649d2a00ac94914c30029",
+  "sourceMap": "76:368:8:-;;;143:69;8:9:-1;5:2;;;30:1;27;20:12;5:2;143:69:8;194:10;;:::i;:::-;;;;;;;;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;-1:-1;174:9:8;:31;;-1:-1:-1;;;;;;174:31:8;-1:-1:-1;;;;;174:31:8;;;;;;;;;;76:368;;;;;;;;;;;;:::o;:::-;;;;;;;",
+  "deployedSourceMap": "76:368:8:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;76:368:8;;;;;;;;;;;;;;;;;;;218:224;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;218:224:8;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;292:7;338:9;;292:7;;326:22;;338:9;;326:11;:22::i;:::-;358:55;;;;;;381:10;358:55;;;;;;;;;;:22;:55;;;;;;;;;310:38;;-1:-1:-1;358:22:8;;;;;;:55;;;;;-1:-1:-1;;358:55:8;;;;;;;;-1:-1:-1;358:22:8;:55;;;5:2:-1;;;;30:1;27;20:12;5:2;358:55:8;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;-1:-1;430:5:8;;218:224;-1:-1:-1;;;;;;218:224:8:o;1214:441:0:-;1370:4;1364:11;1396:66;1382:81;;1313:15;;;1488:4;1477:16;;1470:37;;;1539:66;1532:4;1521:16;;1514:92;1269:14;;1640:4;1364:11;1269:14;1623:22;1613:32;1343:308;-1:-1:-1;;;;1343:308:0:o",
+  "source": "pragma solidity ^0.5.2;\n\nimport \"./Post.sol\";\nimport \"./CloneFactory.sol\";\n\ncontract PostFactory is CloneFactory {\n    address clonePost;\n\n    constructor() public {\n        clonePost = address(new Post());\n    }\n\n    function createPost(bytes32 _post, address _postCreator) external returns(address){\n        address clone = createClone(clonePost);\n        Post(clone).initialize(msg.sender, _post, _postCreator);\n        return clone;\n    }\n}",
   "sourcePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/PostFactory.sol",
   "ast": {
     "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/PostFactory.sol",
     "exportedSymbols": {
       "PostFactory": [
-        1242
+        1324
       ]
     },
-    "id": 1243,
+    "id": 1325,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1223,
+        "id": 1277,
         "literals": [
           "solidity",
           "^",
@@ -39,10 +64,10 @@
       {
         "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/Post.sol",
         "file": "./Post.sol",
-        "id": 1224,
+        "id": 1278,
         "nodeType": "ImportDirective",
-        "scope": 1243,
-        "sourceUnit": 1222,
+        "scope": 1325,
+        "sourceUnit": 1276,
         "src": "25:20:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -50,9 +75,9 @@
       {
         "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/CloneFactory.sol",
         "file": "./CloneFactory.sol",
-        "id": 1225,
+        "id": 1279,
         "nodeType": "ImportDirective",
-        "scope": 1243,
+        "scope": 1325,
         "sourceUnit": 35,
         "src": "46:28:8",
         "symbolAliases": [],
@@ -64,7 +89,7 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1226,
+              "id": 1280,
               "name": "CloneFactory",
               "nodeType": "UserDefinedTypeName",
               "referencedDeclaration": 34,
@@ -74,21 +99,21 @@
                 "typeString": "contract CloneFactory"
               }
             },
-            "id": 1227,
+            "id": 1281,
             "nodeType": "InheritanceSpecifier",
             "src": "100:12:8"
           }
         ],
         "contractDependencies": [
           34,
-          1221
+          1275
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 1242,
+        "id": 1324,
         "linearizedBaseContracts": [
-          1242,
+          1324,
           34
         ],
         "name": "PostFactory",
@@ -96,10 +121,10 @@
         "nodes": [
           {
             "constant": false,
-            "id": 1229,
+            "id": 1283,
             "name": "clonePost",
             "nodeType": "VariableDeclaration",
-            "scope": 1242,
+            "scope": 1324,
             "src": "119:17:8",
             "stateVariable": true,
             "storageLocation": "default",
@@ -108,7 +133,7 @@
               "typeString": "address"
             },
             "typeName": {
-              "id": 1228,
+              "id": 1282,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "119:7:8",
@@ -123,25 +148,25 @@
           },
           {
             "body": {
-              "id": 1240,
+              "id": 1294,
               "nodeType": "Block",
               "src": "164:48:8",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1238,
+                    "id": 1292,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 1232,
+                      "id": 1286,
                       "name": "clonePost",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1229,
+                      "referencedDeclaration": 1283,
                       "src": "174:9:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -158,7 +183,7 @@
                           "arguments": [],
                           "expression": {
                             "argumentTypes": [],
-                            "id": 1235,
+                            "id": 1289,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -166,23 +191,23 @@
                             "nodeType": "NewExpression",
                             "src": "194:8:8",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_Post_$1221_$",
+                              "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_Post_$1275_$",
                               "typeString": "function () returns (contract Post)"
                             },
                             "typeName": {
                               "contractScope": null,
-                              "id": 1234,
+                              "id": 1288,
                               "name": "Post",
                               "nodeType": "UserDefinedTypeName",
-                              "referencedDeclaration": 1221,
+                              "referencedDeclaration": 1275,
                               "src": "198:4:8",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_Post_$1221",
+                                "typeIdentifier": "t_contract$_Post_$1275",
                                 "typeString": "contract Post"
                               }
                             }
                           },
-                          "id": 1236,
+                          "id": 1290,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -192,7 +217,7 @@
                           "nodeType": "FunctionCall",
                           "src": "194:10:8",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_Post_$1221",
+                            "typeIdentifier": "t_contract$_Post_$1275",
                             "typeString": "contract Post"
                           }
                         }
@@ -200,11 +225,11 @@
                       "expression": {
                         "argumentTypes": [
                           {
-                            "typeIdentifier": "t_contract$_Post_$1221",
+                            "typeIdentifier": "t_contract$_Post_$1275",
                             "typeString": "contract Post"
                           }
                         ],
-                        "id": 1233,
+                        "id": 1287,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -217,7 +242,7 @@
                         },
                         "typeName": "address"
                       },
-                      "id": 1237,
+                      "id": 1291,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -237,56 +262,432 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 1239,
+                  "id": 1293,
                   "nodeType": "ExpressionStatement",
                   "src": "174:31:8"
                 }
               ]
             },
             "documentation": null,
-            "id": 1241,
+            "id": 1295,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1230,
+              "id": 1284,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "154:2:8"
             },
             "returnParameters": {
-              "id": 1231,
+              "id": 1285,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "164:0:8"
             },
-            "scope": 1242,
+            "scope": 1324,
             "src": "143:69:8",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1322,
+              "nodeType": "Block",
+              "src": "300:142:8",
+              "statements": [
+                {
+                  "assignments": [
+                    1305
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1305,
+                      "name": "clone",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1322,
+                      "src": "310:13:8",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 1304,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "310:7:8",
+                        "stateMutability": "nonpayable",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1309,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1307,
+                        "name": "clonePost",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1283,
+                        "src": "338:9:8",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 1306,
+                      "name": "createClone",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 16,
+                      "src": "326:11:8",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$_t_address_$",
+                        "typeString": "function (address) returns (address)"
+                      }
+                    },
+                    "id": 1308,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "326:22:8",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "310:38:8"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 1314,
+                          "name": "msg",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 3830,
+                          "src": "381:3:8",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_message",
+                            "typeString": "msg"
+                          }
+                        },
+                        "id": 1315,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "sender",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "381:10:8",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1316,
+                        "name": "_post",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1297,
+                        "src": "393:5:8",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1317,
+                        "name": "_postCreator",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1299,
+                        "src": "400:12:8",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        },
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "id": 1311,
+                            "name": "clone",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1305,
+                            "src": "363:5:8",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          ],
+                          "id": 1310,
+                          "name": "Post",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1275,
+                          "src": "358:4:8",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_Post_$1275_$",
+                            "typeString": "type(contract Post)"
+                          }
+                        },
+                        "id": 1312,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "358:11:8",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_Post_$1275",
+                          "typeString": "contract Post"
+                        }
+                      },
+                      "id": 1313,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "initialize",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1096,
+                      "src": "358:22:8",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_bytes32_$_t_address_$returns$__$",
+                        "typeString": "function (address,bytes32,address) external"
+                      }
+                    },
+                    "id": 1318,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "358:55:8",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1319,
+                  "nodeType": "ExpressionStatement",
+                  "src": "358:55:8"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1320,
+                    "name": "clone",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1305,
+                    "src": "430:5:8",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "functionReturnParameters": 1303,
+                  "id": 1321,
+                  "nodeType": "Return",
+                  "src": "423:12:8"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1323,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createPost",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1300,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1297,
+                  "name": "_post",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1323,
+                  "src": "238:13:8",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 1296,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "238:7:8",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1299,
+                  "name": "_postCreator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1323,
+                  "src": "253:20:8",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1298,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "253:7:8",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "237:37:8"
+            },
+            "returnParameters": {
+              "id": 1303,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1302,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1323,
+                  "src": "292:7:8",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1301,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "292:7:8",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "291:9:8"
+            },
+            "scope": 1324,
+            "src": "218:224:8",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
           }
         ],
-        "scope": 1243,
-        "src": "76:138:8"
+        "scope": 1325,
+        "src": "76:368:8"
       }
     ],
-    "src": "0:214:8"
+    "src": "0:444:8"
   },
   "legacyAST": {
     "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/PostFactory.sol",
     "exportedSymbols": {
       "PostFactory": [
-        1242
+        1324
       ]
     },
-    "id": 1243,
+    "id": 1325,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1223,
+        "id": 1277,
         "literals": [
           "solidity",
           "^",
@@ -299,10 +700,10 @@
       {
         "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/Post.sol",
         "file": "./Post.sol",
-        "id": 1224,
+        "id": 1278,
         "nodeType": "ImportDirective",
-        "scope": 1243,
-        "sourceUnit": 1222,
+        "scope": 1325,
+        "sourceUnit": 1276,
         "src": "25:20:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -310,9 +711,9 @@
       {
         "absolutePath": "/Users/jarenlynch/Ethereum/Tartarus/contracts/CloneFactory.sol",
         "file": "./CloneFactory.sol",
-        "id": 1225,
+        "id": 1279,
         "nodeType": "ImportDirective",
-        "scope": 1243,
+        "scope": 1325,
         "sourceUnit": 35,
         "src": "46:28:8",
         "symbolAliases": [],
@@ -324,7 +725,7 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1226,
+              "id": 1280,
               "name": "CloneFactory",
               "nodeType": "UserDefinedTypeName",
               "referencedDeclaration": 34,
@@ -334,21 +735,21 @@
                 "typeString": "contract CloneFactory"
               }
             },
-            "id": 1227,
+            "id": 1281,
             "nodeType": "InheritanceSpecifier",
             "src": "100:12:8"
           }
         ],
         "contractDependencies": [
           34,
-          1221
+          1275
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 1242,
+        "id": 1324,
         "linearizedBaseContracts": [
-          1242,
+          1324,
           34
         ],
         "name": "PostFactory",
@@ -356,10 +757,10 @@
         "nodes": [
           {
             "constant": false,
-            "id": 1229,
+            "id": 1283,
             "name": "clonePost",
             "nodeType": "VariableDeclaration",
-            "scope": 1242,
+            "scope": 1324,
             "src": "119:17:8",
             "stateVariable": true,
             "storageLocation": "default",
@@ -368,7 +769,7 @@
               "typeString": "address"
             },
             "typeName": {
-              "id": 1228,
+              "id": 1282,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "119:7:8",
@@ -383,25 +784,25 @@
           },
           {
             "body": {
-              "id": 1240,
+              "id": 1294,
               "nodeType": "Block",
               "src": "164:48:8",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1238,
+                    "id": 1292,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 1232,
+                      "id": 1286,
                       "name": "clonePost",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1229,
+                      "referencedDeclaration": 1283,
                       "src": "174:9:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -418,7 +819,7 @@
                           "arguments": [],
                           "expression": {
                             "argumentTypes": [],
-                            "id": 1235,
+                            "id": 1289,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -426,23 +827,23 @@
                             "nodeType": "NewExpression",
                             "src": "194:8:8",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_Post_$1221_$",
+                              "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_Post_$1275_$",
                               "typeString": "function () returns (contract Post)"
                             },
                             "typeName": {
                               "contractScope": null,
-                              "id": 1234,
+                              "id": 1288,
                               "name": "Post",
                               "nodeType": "UserDefinedTypeName",
-                              "referencedDeclaration": 1221,
+                              "referencedDeclaration": 1275,
                               "src": "198:4:8",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_Post_$1221",
+                                "typeIdentifier": "t_contract$_Post_$1275",
                                 "typeString": "contract Post"
                               }
                             }
                           },
-                          "id": 1236,
+                          "id": 1290,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -452,7 +853,7 @@
                           "nodeType": "FunctionCall",
                           "src": "194:10:8",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_Post_$1221",
+                            "typeIdentifier": "t_contract$_Post_$1275",
                             "typeString": "contract Post"
                           }
                         }
@@ -460,11 +861,11 @@
                       "expression": {
                         "argumentTypes": [
                           {
-                            "typeIdentifier": "t_contract$_Post_$1221",
+                            "typeIdentifier": "t_contract$_Post_$1275",
                             "typeString": "contract Post"
                           }
                         ],
-                        "id": 1233,
+                        "id": 1287,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -477,7 +878,7 @@
                         },
                         "typeName": "address"
                       },
-                      "id": 1237,
+                      "id": 1291,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -497,51 +898,434 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 1239,
+                  "id": 1293,
                   "nodeType": "ExpressionStatement",
                   "src": "174:31:8"
                 }
               ]
             },
             "documentation": null,
-            "id": 1241,
+            "id": 1295,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1230,
+              "id": 1284,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "154:2:8"
             },
             "returnParameters": {
-              "id": 1231,
+              "id": 1285,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "164:0:8"
             },
-            "scope": 1242,
+            "scope": 1324,
             "src": "143:69:8",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1322,
+              "nodeType": "Block",
+              "src": "300:142:8",
+              "statements": [
+                {
+                  "assignments": [
+                    1305
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1305,
+                      "name": "clone",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1322,
+                      "src": "310:13:8",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 1304,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "310:7:8",
+                        "stateMutability": "nonpayable",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1309,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1307,
+                        "name": "clonePost",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1283,
+                        "src": "338:9:8",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 1306,
+                      "name": "createClone",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 16,
+                      "src": "326:11:8",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$_t_address_$",
+                        "typeString": "function (address) returns (address)"
+                      }
+                    },
+                    "id": 1308,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "326:22:8",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "310:38:8"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 1314,
+                          "name": "msg",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 3830,
+                          "src": "381:3:8",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_message",
+                            "typeString": "msg"
+                          }
+                        },
+                        "id": 1315,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "sender",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "381:10:8",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1316,
+                        "name": "_post",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1297,
+                        "src": "393:5:8",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1317,
+                        "name": "_postCreator",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1299,
+                        "src": "400:12:8",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        },
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "id": 1311,
+                            "name": "clone",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1305,
+                            "src": "363:5:8",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          ],
+                          "id": 1310,
+                          "name": "Post",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1275,
+                          "src": "358:4:8",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_Post_$1275_$",
+                            "typeString": "type(contract Post)"
+                          }
+                        },
+                        "id": 1312,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "358:11:8",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_Post_$1275",
+                          "typeString": "contract Post"
+                        }
+                      },
+                      "id": 1313,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "initialize",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1096,
+                      "src": "358:22:8",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_bytes32_$_t_address_$returns$__$",
+                        "typeString": "function (address,bytes32,address) external"
+                      }
+                    },
+                    "id": 1318,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "358:55:8",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1319,
+                  "nodeType": "ExpressionStatement",
+                  "src": "358:55:8"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1320,
+                    "name": "clone",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1305,
+                    "src": "430:5:8",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "functionReturnParameters": 1303,
+                  "id": 1321,
+                  "nodeType": "Return",
+                  "src": "423:12:8"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1323,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createPost",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1300,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1297,
+                  "name": "_post",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1323,
+                  "src": "238:13:8",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 1296,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "238:7:8",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1299,
+                  "name": "_postCreator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1323,
+                  "src": "253:20:8",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1298,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "253:7:8",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "237:37:8"
+            },
+            "returnParameters": {
+              "id": 1303,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1302,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1323,
+                  "src": "292:7:8",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1301,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "292:7:8",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "291:9:8"
+            },
+            "scope": 1324,
+            "src": "218:224:8",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
           }
         ],
-        "scope": 1243,
-        "src": "76:138:8"
+        "scope": 1325,
+        "src": "76:368:8"
       }
     ],
-    "src": "0:214:8"
+    "src": "0:444:8"
   },
   "compiler": {
     "name": "solc",
     "version": "0.5.2+commit.1df8f40c.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "3": {
+      "events": {},
+      "links": {},
+      "address": "0x68057fB15cA352eC5887E84Add69Da486101ec57",
+      "transactionHash": "0xf8e8632c4752bce194233621ac5613aedf8da7b69c523bd1b74620e6bb8b17d4"
+    }
+  },
   "schemaVersion": "3.0.6",
-  "updatedAt": "2019-04-10T08:06:45.675Z",
+  "updatedAt": "2019-04-11T00:14:02.402Z",
   "devdoc": {
     "methods": {}
   },

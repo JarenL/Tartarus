@@ -24,21 +24,24 @@ class SignupForm extends React.Component {
   // };
 
   createUser = () => {
-    console.log(this.props);
     console.log(this.props.form.signup.values.username);
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
-      let test = this.props.form.signup.values.username;
-      let testToAscii = this.props.web3.utils.asciiToHex(test);
-      console.log(testToAscii);
-      console.log(this.props.web3.utils.hexToAscii(testToAscii));
+      console.log(
+        this.props.web3.utils.fromAscii(this.props.form.signup.values.username)
+      );
       tartarus.at(this.props.tartarusAddress).then(instance => {
-        instance.createUser(testToAscii, {
-          from: accounts[0],
-          gasPrice: 20000000000
-        });
+        instance.createUser(
+          this.props.web3.utils.fromAscii(
+            this.props.form.signup.values.username
+          ),
+          {
+            from: accounts[0],
+            gasPrice: 20000000000
+          }
+        );
       });
     });
   };
@@ -47,7 +50,7 @@ class SignupForm extends React.Component {
     return (
       <Form
         loading={this.props.loading}
-        onSubmit={this.props.handleSubmit(this.createUser)}
+        // onSubmit={this.props.handleSubmit(this.createUser)}
       >
         <Field
           name='username'
@@ -69,7 +72,7 @@ class SignupForm extends React.Component {
           type='password'
           component={renderField}
         /> */}
-        <SubmitButton type='submit'>sign up</SubmitButton>
+        <SubmitButton onClick={this.createUser}>sign up</SubmitButton>
       </Form>
     );
   }
