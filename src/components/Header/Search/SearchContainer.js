@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm, reset } from 'redux-form';
 import SearchBox from './Component';
+import { withRouter } from 'react-router-dom';
 
 const mapDispatchToProps = { reset };
 
@@ -20,4 +21,4 @@ const enhance = compose(
 
 const SearchContainer = enhance(SearchBox);
 
-export default SearchContainer;
+export default withRouter(SearchContainer);

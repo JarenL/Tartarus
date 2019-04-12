@@ -13,8 +13,10 @@ import {
   MdRemoveCircleOutline,
   MdModeComment
 } from 'react-icons/md';
+import DeleteButton from '../../Sidebar/Buttons/DeleteButton';
+import ReportButton from '../../Sidebar/Buttons/ReportButton';
 
-export const ActionItem = styled.span`
+export const ButtonWrapper = styled.span`
   // vertical-align: sub;
   cursor: pointer;
   // color: ${prop('color', '#000')};
@@ -58,13 +60,13 @@ const Wrapper = styled.div`
 const PostContentDetail = props => (
   <Wrapper>
     {props.type !== 'text' && (
-      <ActionItem>
+      <ButtonWrapper>
         {!props.preview ? (
           <MdUnfoldMore size={18} onClick={props.handlePreview} />
         ) : (
           <MdUnfoldLess size={18} onClick={props.handlePreview} />
         )}
-      </ActionItem>
+      </ButtonWrapper>
     )}
     <Link to={`/p/${props.postAddress}`}>
       {props.commentCount} comment{props.commentCount !== 1 ? 's' : null}
@@ -73,6 +75,14 @@ const PostContentDetail = props => (
     <span>by</span>
     <Author username={props.creator} />
     <span>{moment(props.time).fromNow()}</span>
+    {props.canDelete ? (
+      <ButtonWrapper>
+        <DeleteButton size={14} />
+      </ButtonWrapper>
+    ) : null}
+    <ButtonWrapper>
+      <ReportButton size={14} />
+    </ButtonWrapper>
   </Wrapper>
 );
 

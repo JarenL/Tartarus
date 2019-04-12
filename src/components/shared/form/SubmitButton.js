@@ -9,7 +9,7 @@ const StyledSubmitButton = styled(Button)`
 `;
 
 const SubmitButton = props => (
-  <StyledSubmitButton type='button' onClick={props.onClick} >submit</StyledSubmitButton>
+  <StyledSubmitButton type='submit' onClick={props.onClick} >submit</StyledSubmitButton>
 );
 
 export default SubmitButton;

@@ -44,7 +44,7 @@ const Separator = styled.div`
 const Header = props => (
   <Wrapper>
     <HeaderLogo />
-    <FilterContainer />
+    <FilterContainer match={props.match}/>
     <SearchContainer />
     <HeaderDarkButtonContainer />
     {props.user.userAddress ? (

@@ -11,11 +11,10 @@ import Home from './components/Home';
 import LoginFormContainer from './components/LoginForm/Container';
 import SignupFormContainer from './components/SignupForm/Container';
 import CreateForumFormContainer from './components/CreateForumForm/Container';
-import SearchContainer from './components/Search/SearchContainer';
 import { initializeWeb3, setTartarusAddress } from './redux/actions/actions';
 import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner';
 
-const tartarusAddress = '0xE18ef3ea4f437eF12661457a418a8E0aBd5F5AB9';
+const tartarusAddress = '0x93974a6971113BD154E908b97b2752E78971d763';
 
 class App extends Component {
   constructor(props) {
@@ -50,12 +49,13 @@ class App extends Component {
           <HashRouter>
             <>
               <GlobalStyle />
-              <Route component={HeaderContainer} />
+              <Route
+                render={({ match }) => <HeaderContainer match={match} />}
+              />
               {/* <Route component={ErrorNotificationContainer} /> */}
               <Switch>
                 <Route path='/login' component={LoginFormContainer} />
                 <Route path='/signup' component={SignupFormContainer} />
-                <Route path='/search' component={SearchContainer} />
                 <Route
                   path='/createforum'
                   component={CreateForumFormContainer}

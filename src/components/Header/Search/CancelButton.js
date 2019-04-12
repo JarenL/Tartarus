@@ -35,7 +35,7 @@ const Clear = styled(MdClose)`
 
 const CancelButton = props => (
   <Wrapper>
-    <Clear size={25} onClick={props.handleCancel} />
+    <Clear size={25} onClick={props.handleClose} />
   </Wrapper>
 );
 

@@ -30,6 +30,7 @@ const Post = props => (
       forumName={props.forumName}
       forumAddress={props.forum}
       commentCount={props.comments}
+      canDelete={props.canDelete}
     />
   </Wrapper>
 );

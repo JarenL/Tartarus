@@ -5,6 +5,7 @@ import styled from 'styled-components/macro';
 import SearchTextArea from './SearchTextArea';
 import SearchButton from './SearchButton';
 import CancelButton from './CancelButton';
+import { Redirect } from 'react-router';
 
 const Wrapper = styled.div`
   display: flex;
@@ -61,10 +62,15 @@ class SearchBox extends Component {
 
   handleSubmit = () => {
     console.log('hello');
-    console.log(this.props.form.search.values.search);
+    if (this.props.form.search.values) {
+      this.props.history.push(
+        `/search/${this.props.form.search.values.search}`
+      );
+    }
+    this.handleClose();
   };
 
-  handleCancel = () => {
+  handleClose = () => {
     this.setState({ showSearch: false });
     this.props.reset('search');
   };
@@ -78,7 +84,7 @@ class SearchBox extends Component {
           </StyledForm>
         )}
         {this.state.showSearch ? (
-          <CancelButton handleCancel={this.handleCancel} />
+          <CancelButton handleClose={this.handleClose} />
         ) : (
           <SearchButton handleShowSearch={this.handleShowSearch} />
         )}

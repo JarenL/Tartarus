@@ -1,11 +1,10 @@
-import { connect } from 'react-redux';
 import React from 'react';
 import Empty from '../shared/Empty';
 import TartarusContract from '../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 import ForumList from '../Forum/ForumList';
 
-class ResultList extends React.Component {
+class SearchResults extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,4 +47,4 @@ class ResultList extends React.Component {
   }
 }
 
-export default ResultList;
+export default SearchResults;

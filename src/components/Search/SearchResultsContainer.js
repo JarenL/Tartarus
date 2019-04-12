@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import ResultList from './ResultList';
+import SearchResults from './SearchResults';
 
 const mapStateToProps = state => ({
   web3: state.web3,
@@ -15,6 +15,6 @@ const enhance = compose(
   )
 );
 
-const SearchContainer = enhance(ResultList);
+const SearchResultsContainer = enhance(SearchResults);
 
-export default SearchContainer;
+export default SearchResultsContainer;

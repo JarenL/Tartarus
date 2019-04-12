@@ -138,20 +138,20 @@
                 {
                   "externalReferences": [
                     {
-                      "result": {
-                        "declaration": 6,
-                        "isOffset": false,
-                        "isSlot": false,
-                        "src": "1613:6:0",
-                        "valueSize": 1
-                      }
-                    },
-                    {
                       "targetBytes": {
                         "declaration": 9,
                         "isOffset": false,
                         "isSlot": false,
                         "src": "1495:11:0",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "result": {
+                        "declaration": 6,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1613:6:0",
                         "valueSize": 1
                       }
                     }
@@ -340,15 +340,6 @@
                 {
                   "externalReferences": [
                     {
-                      "result": {
-                        "declaration": 23,
-                        "isOffset": false,
-                        "isSlot": false,
-                        "src": "2148:6:0",
-                        "valueSize": 1
-                      }
-                    },
-                    {
                       "query": {
                         "declaration": 20,
                         "isOffset": false,
@@ -363,6 +354,15 @@
                         "isOffset": false,
                         "isSlot": false,
                         "src": "1952:11:0",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "result": {
+                        "declaration": 23,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "2148:6:0",
                         "valueSize": 1
                       }
                     }
@@ -618,20 +618,20 @@
                 {
                   "externalReferences": [
                     {
-                      "result": {
-                        "declaration": 6,
-                        "isOffset": false,
-                        "isSlot": false,
-                        "src": "1613:6:0",
-                        "valueSize": 1
-                      }
-                    },
-                    {
                       "targetBytes": {
                         "declaration": 9,
                         "isOffset": false,
                         "isSlot": false,
                         "src": "1495:11:0",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "result": {
+                        "declaration": 6,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1613:6:0",
                         "valueSize": 1
                       }
                     }
@@ -820,15 +820,6 @@
                 {
                   "externalReferences": [
                     {
-                      "result": {
-                        "declaration": 23,
-                        "isOffset": false,
-                        "isSlot": false,
-                        "src": "2148:6:0",
-                        "valueSize": 1
-                      }
-                    },
-                    {
                       "query": {
                         "declaration": 20,
                         "isOffset": false,
@@ -843,6 +834,15 @@
                         "isOffset": false,
                         "isSlot": false,
                         "src": "1952:11:0",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "result": {
+                        "declaration": 23,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "2148:6:0",
                         "valueSize": 1
                       }
                     }
@@ -974,7 +974,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.6",
-  "updatedAt": "2019-04-10T23:55:49.066Z",
+  "updatedAt": "2019-04-11T23:32:48.857Z",
   "devdoc": {
     "methods": {}
   },

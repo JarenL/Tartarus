@@ -256,6 +256,7 @@ class PostContent extends Component {
             forumAddress={this.props.forumAddress}
             postAddress={this.props.postAddress}
             type={this.props.type}
+            canDelete={this.props.canDelete}
           />
           {this.state.preview &&
             renderEmbed({

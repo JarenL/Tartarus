@@ -10,6 +10,7 @@ import PostDetail from '../PostDetail/Container';
 import UserSidebar from '../User/UserContainer';
 import CreatePostFormContainer from '../CreatePostForm/Container';
 import UserListContainer from '../User/UserHistory';
+import SearchResultsContainer from '../Search/SearchResultsContainer';
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,6 +35,13 @@ const Home = props => {
         <HomeMainSection>
           <Route component={CategoryMenu} />
           <Route exact path='/' component={PostListContainer} />
+          <Route
+            exact
+            path='/search/:search'
+            render={({ match }) => (
+              <SearchResultsContainer search={match.params.search} />
+            )}
+          />
           <Route
             exact
             path='/f/:forumAddress'
@@ -67,13 +75,6 @@ const Home = props => {
               <PostDetail postAddress={match.params.postAddress} />
             )}
           />
-          <Route
-            exact
-            path='/search'
-            render={({ match }) => (
-              <PostDetail postAddress={match.params.postAddress} />
-            )}
-          />
         </HomeMainSection>
         <Route
           exact
@@ -97,6 +98,13 @@ const Home = props => {
         <HomeMainSection>
           <Route component={CategoryMenu} />
           <Route exact path='/' component={PostListContainer} />
+          <Route
+            exact
+            path='/search/:search'
+            render={({ match }) => (
+              <SearchResultsContainer search={match.params.search} />
+            )}
+          />
           <Route
             exact
             path='/f/:forumAddress'

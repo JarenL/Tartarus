@@ -5,6 +5,7 @@ import Form from '../shared/form/Form';
 import renderField from '../shared/form/renderField';
 import Typography from '@material-ui/core/Typography';
 import UserContract from '../../contracts/User.json';
+import ForumContract from '../../contracts/Forum.json';
 import classnames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
@@ -199,25 +200,31 @@ class CreatePostForm extends React.Component {
   submitPostTransaction = ipfsHash => {
     const contract = require('truffle-contract');
     const user = contract(UserContract);
+    const forum = contract(ForumContract);
     user.setProvider(this.props.web3.currentProvider);
+    forum.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
-      user.at(this.props.userAddress).then(instance => {
-        instance
-          .createPost(this.props.forumAddress, ipfsHash, {
-            from: accounts[0],
-            gasPrice: 20000000000
-          })
-          .then(result => {
-            this.setState({
-              loading: false
-            });
-          })
-          .catch(error => {
-            console.log('error');
-            this.setState({
-              loading: false
-            });
+      user.at(this.props.userAddress).then(userInstance => {
+        forum.at(this.props.forumAddress).then(forumInstance => {
+          forumInstance.name.call().then(forumName => {
+            userInstance
+              .createPost(forumName, ipfsHash, {
+                from: accounts[0],
+                gasPrice: 20000000000
+              })
+              .then(result => {
+                this.setState({
+                  loading: false
+                });
+              })
+              .catch(error => {
+                console.log('error');
+                this.setState({
+                  loading: false
+                });
+              });
           });
+        });
       });
     });
   };
@@ -285,7 +292,7 @@ class CreatePostForm extends React.Component {
             />
           )}
         <Wrapper>
-          <SubmitButton type='submit' onClick={this.handlePublish} />
+          <SubmitButton />
           <CancelButton onClick={this.handleCancel} />
         </Wrapper>
       </Form>

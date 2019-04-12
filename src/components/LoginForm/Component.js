@@ -28,7 +28,6 @@ class LoginForm extends React.Component {
   }
 
   onSubmit = () => {
-    console.log("login")
     this.redirectIfLoggedIn();
     this.setState({
       loading: true
@@ -44,13 +43,14 @@ class LoginForm extends React.Component {
             gasPrice: 20000000000
           })
           .then(address => {
-            console.log(address)
-            if (address === '0x') {
+            if (
+              address === '0x' ||
+              address === '0x0000000000000000000000000000000000000000'
+            ) {
               this.setState({
                 loading: false
               });
             } else {
-              console.log(address);
               this.props.dispatch(
                 userLogin({
                   username: this.props.form.login.values.username,
@@ -64,14 +64,14 @@ class LoginForm extends React.Component {
           });
       });
     });
-    // this.redirectIfLoggedIn();
+    this.redirectIfLoggedIn();
   };
 
   render() {
     return (
       <Form
         loading={this.state.loading}
-        // onSubmit={this.props.handleSubmit(this.onSubmit)}
+        onSubmit={this.props.handleSubmit(this.onSubmit)}
       >
         <Field
           name='username'
@@ -87,7 +87,7 @@ class LoginForm extends React.Component {
           component={renderField}
           validate={passwordValidator}
         /> */}
-        <SubmitButton onClick={this.onSubmit}>log in</SubmitButton>
+        <SubmitButton>log in</SubmitButton>
       </Form>
     );
   }

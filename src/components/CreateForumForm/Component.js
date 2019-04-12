@@ -46,7 +46,7 @@ class CreateForumForm extends React.Component {
     return (
       <Form
         loading={this.state.loading}
-        // onSubmit={this.props.handleSubmit(this.createForum)}
+        onSubmit={this.props.handleSubmit(this.createForum)}
         wide
       >
         <Field
@@ -61,7 +61,7 @@ class CreateForumForm extends React.Component {
           type='textarea'
           component={renderField}
         />
-        <SubmitButton onClick={this.createForum}>create forum</SubmitButton>
+        <SubmitButton>create forum</SubmitButton>
       </Form>
     );
   }

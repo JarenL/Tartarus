@@ -22,7 +22,9 @@ class PostContainer extends Component {
       comments: null,
       exists: true,
       type: null,
-      preview: false
+      preview: false,
+      canDelete: false,
+      canReport: false
     };
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -43,7 +45,8 @@ class PostContainer extends Component {
     forum.setProvider(this.props.web3.currentProvider);
     post.at(this.props.address).then(postInstance => {
       postInstance.postInfo.call().then(result => {
-        user.at(result[4]).then(userInstance => {
+        console.log(result)
+        user.at(result[1]).then(userInstance => {
           userInstance.username.call().then(userName => {
             postInstance.owner.call().then(owner => {
               forum.at(owner).then(forumInstance => {
@@ -58,7 +61,7 @@ class PostContainer extends Component {
                         )
                         .get((error, comments) => {
                           const bs58 = require('bs58');
-                          const hashHex = '1220' + result[3].slice(2);
+                          const hashHex = '1220' + result[0].slice(2);
                           const hashBytes = Buffer.from(hashHex, 'hex');
                           const ipfsHash = bs58.encode(hashBytes);
                           ipfs.catJSON(ipfsHash, (err, ipfsData) => {
@@ -74,10 +77,11 @@ class PostContainer extends Component {
                                 forumName: this.props.web3.utils.hexToAscii(
                                   forumName
                                 ),
-                                time: result[2].c[0] * 1000,
-                                votes: result[0].c[0] + result[1].c[0],
+                                time: result[3].c[0] * 1000,
+                                votes: result[2].c[0],
                                 comments: comments.length,
-                                loading: false
+                                loading: false,
+                                canDelete: this.props.user.userAddress === result[1]
                               });
                             } else {
                               this.setState({
@@ -139,6 +143,7 @@ class PostContainer extends Component {
         downvote={this.downvote}
         preview={this.state.preview}
         showFullPost={this.props.showFullPost}
+        canDelete={this.state.canDelete}
       />
     );
   }
@@ -148,6 +153,7 @@ function mapStateToProps(state) {
   return {
     web3: state.web3,
     accounts: state.accounts,
+    user: state.user,
     tartarusAddress: state.tartarus.tartarusAddress
   };
 }

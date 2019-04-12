@@ -48,8 +48,6 @@ const StyledForm = styled(Form)`
 `;
 
 class Filter extends Component {
-  // onSubmit = post => this.props.attemptCreatePost(post);
-
   mapTimeCategories = () =>
     timeCategories.map((category, index) => (
       <option key={index} value={category}>
