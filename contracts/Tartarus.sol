@@ -25,7 +25,6 @@ contract Tartarus is Ownable {
     struct Admin {
         bool ban;
         bool setCost;
-        bool setCreateUserCost;
         bool editAdmin;
         bool deleteComment;
         bool deletePost;
@@ -74,16 +73,17 @@ contract Tartarus is Ownable {
     uint public transactionCost = 0;
     uint public createUserCost = 0;
 
-    address public userFactory;
-    address public commentFactory;
-    address public postFactory;
-    address public forumFactory;
-
-    constructor(address _userFactory, address _commentFactory, address _postFactory, address _forumFactory) public {
-        userFactory = _userFactory;
-        commentFactory = _commentFactory;
-        postFactory = _postFactory;
-        forumFactory = _forumFactory;
+    constructor(bytes32 _user) public {
+        owner = msg.sender;
+        createUser(_user);
+        Admin memory newAdmin;
+        newAdmin.ban = true;
+        newAdmin.setCost = true;
+        newAdmin.editAdmin = true;
+        newAdmin.deleteComment = true;
+        newAdmin.deletePost = true;
+        newAdmin.deleteForum = true;
+        admins[_user] = newAdmin;
     }
 
     modifier userVerified(bytes32 _user){
@@ -114,7 +114,7 @@ contract Tartarus is Ownable {
 
     modifier forumExists(bytes32 _forum) {
         require(
-            forums[_forum].creator.length != 0, 
+            forums[_forum].creator != 0, 
             "Forum does not exist"
         );
         _;
@@ -122,7 +122,7 @@ contract Tartarus is Ownable {
 
     modifier postExists(bytes32 _postId) {
         require(
-            posts[_postId].creator.length != 0, 
+            posts[_postId].creator != 0, 
             "Post does not exist"
         );
         _;
@@ -130,22 +130,25 @@ contract Tartarus is Ownable {
 
     modifier commentExists(bytes32 _commentId) {
         require(
-            comments[_commentId].creator.length != 0, 
+            comments[_commentId].creator != 0, 
             "Comment does not exist"
         );
         _;
     }
 
-    function createUser(bytes32 _username) external payable {
+    function createUser(bytes32 _username) public payable {
         require(
             msg.value >= createUserCost, 
             "Insufficient Eth Sent"
         );
+        // require(
+        //     validateName(_username), 
+        //     "Invalid username"
+        // );
         require(
             users[_username].creator == address(0), 
             "Username already exist"
         );
-        // require(validateUsername(_username), "Invalid username");
         User memory newUser;
         newUser.username = _username;
         newUser.creator = msg.sender;
@@ -153,14 +156,33 @@ contract Tartarus is Ownable {
         users[_username] = newUser;
     }
 
+    // function validateName(bytes32 _name) public pure returns (bool){
+    //     bytes memory name = abi.encodePacked(_name);
+    //     if(name.length > 20 || name.length < 3) {
+    //         return false;
+    //     }
+    //     for(uint i; i < name.length; i++){
+    //         bytes1 char = name[i];
+    //         if(
+    //             !(char >= 0x30 && char <= 0x39) && //9-0
+    //             !(char >= 0x41 && char <= 0x5A) && //A-Z
+    //             !(char >= 0x61 && char <= 0x7A) //a-z
+    //             // !(char == 0x2E) //.
+    //         ) {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
+
     function createForum(bytes32 _user, bytes32 _forum, bytes32 _rules, bytes32 _description) 
-    external userVerified(_user) {
+    public userVerified(_user) {
         require(
             !banned[_user],
             "User banned"
         );
         require(
-            forums[_forum].creator.length == 0,
+            forums[_forum].creator == 0,
             "Forum already exists"
         );
         Forum memory newForum;
@@ -174,7 +196,7 @@ contract Tartarus is Ownable {
     }   
 
     function deleteForum(bytes32 _user, bytes32 _forum) 
-    external userVerified(_user) forumExists(_forum){
+    public userVerified(_user) forumExists(_forum){
         require(
             admins[_user].deleteForum ||
             forums[_forum].creator == _user,
@@ -184,7 +206,7 @@ contract Tartarus is Ownable {
     }   
 
     function createPost(bytes32 _user, bytes32 _forum, bytes32 _post) 
-    external userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) {
+    public userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) {
         bytes32 postId = keccak256(abi.encodePacked(now, _post, _forum));
         Post memory newPost;
         newPost.post = _post;
@@ -195,7 +217,7 @@ contract Tartarus is Ownable {
     }
 
     function deletePost(bytes32 _user, bytes32 _forum, bytes32 _postId) 
-    external userVerified(_user) forumExists(_forum) postExists(_postId) {
+    public userVerified(_user) forumExists(_forum) postExists(_postId) {
         require(
             admins[_user].deletePost ||
             forums[_forum].moderators[_user].deletePost ||
@@ -206,7 +228,7 @@ contract Tartarus is Ownable {
     }
 
     function pinPost(bytes32 _user, bytes32 _forum, bytes32 _postId) 
-    external userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_postId) {
+    public userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_postId) {
         require(
             forums[_forum].moderators[_user].editPinned,
             "User does not have permission"
@@ -215,7 +237,7 @@ contract Tartarus is Ownable {
     }
 
     function unpinPost(bytes32 _user, bytes32 _forum, bytes32 _postId, uint _postIndex) 
-    external userVerified(_user) forumExists(_forum) postExists(_postId) {
+    public userVerified(_user) forumExists(_forum) postExists(_postId) {
         require(
             forums[_forum].moderators[_user].editPinned,
             "User does not have permission"
@@ -225,20 +247,20 @@ contract Tartarus is Ownable {
     }
 
     function upvote(bytes32 _forum, bytes32 _user, bytes32 _postId) 
-    external userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_postId) {
+    public userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_postId) {
         posts[_postId].votes += 1;
     }
 
     function downvote(bytes32 _forum, bytes32 _user, bytes32 _postId) 
-    external userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_postId) {
+    public userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_postId) {
         posts[_postId].votes -= 1;
     }
 
     function createComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _comment, bytes32 _targetId) 
-    external userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_postId) {
+    public userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_postId) {
         require(
-            posts[_postId].creator.length != 0 || 
-            comments[_targetId].creator.length != 0, 
+            posts[_targetId].creator != 0 || 
+            comments[_targetId].creator != 0, 
             "Target does not exist"
         );
         bytes32 commentId = keccak256(abi.encodePacked(now, _comment, _postId));
@@ -251,7 +273,7 @@ contract Tartarus is Ownable {
     }
 
     function deleteComment(bytes32 _user, bytes32 _forum, bytes32 _commentId) 
-    external userVerified(_user) forumExists(_forum) commentExists(_commentId) {
+    public userVerified(_user) forumExists(_forum) commentExists(_commentId) {
         require(
             admins[_user].deleteComment ||
             forums[_forum].moderators[_user].deletePost ||
@@ -269,7 +291,7 @@ contract Tartarus is Ownable {
         bool _editInfo, 
         bool _editModerators, 
         bool _deletePost) 
-        external userVerified(_user) userExists(_targetUser) forumExists(_forum) userUnbanned(_targetUser, _forum) {
+        public userVerified(_user) userExists(_targetUser) forumExists(_forum) userUnbanned(_targetUser, _forum) {
         require(
             forums[_forum].moderators[_user].editModerator,
             "User does not have permission"
@@ -283,7 +305,7 @@ contract Tartarus is Ownable {
     }
 
     function removeModerator(bytes32 _user, bytes32 _targetUser, bytes32 _forum) 
-    external userVerified(_user) userExists(_targetUser) forumExists(_forum) {
+    public userVerified(_user) userExists(_targetUser) forumExists(_forum) {
         require(
             forums[_forum].moderators[_user].editModerator,
             "User does not have permission"
@@ -292,7 +314,7 @@ contract Tartarus is Ownable {
     }
 
     function setForumRules(bytes32 _user, bytes32 _forum, bytes32 _rules) 
-    external userVerified(_user) forumExists(_forum) {
+    public userVerified(_user) forumExists(_forum) {
         require(
             forums[_forum].moderators[_user].editInfo,
             "User does not have permission"
@@ -301,7 +323,7 @@ contract Tartarus is Ownable {
     }
     
     function setForumDescription(bytes32 _user, bytes32 _forum, bytes32 _description) 
-    external userVerified(_user) forumExists(_forum) {
+    public userVerified(_user) forumExists(_forum) {
         require(
             forums[_forum].moderators[_user].editInfo,
             "User does not have permission"
@@ -310,7 +332,7 @@ contract Tartarus is Ownable {
     }
 
     function banUserForum(bytes32 _user, bytes32 _targetUser, bytes32 _forum) 
-    external userVerified(_user) userExists(_targetUser) forumExists(_forum) {
+    public userVerified(_user) userExists(_targetUser) forumExists(_forum) {
         require(
             !forums[_forum].banned[_targetUser], 
             "Target user already banned"
@@ -323,7 +345,7 @@ contract Tartarus is Ownable {
     }
 
     function unbanUserForum(bytes32 _user, bytes32 _targetUser, bytes32 _forum) 
-    external userVerified(_user) userExists(_targetUser) forumExists(_forum) {
+    public userVerified(_user) userExists(_targetUser) forumExists(_forum) {
         require(
             forums[_forum].banned[_targetUser], 
             "Target user not banned"
@@ -336,7 +358,7 @@ contract Tartarus is Ownable {
     }
 
     function reportUser(bytes32 _user, bytes32 _targetUser, bytes32 _reason) 
-    external userVerified(_user) userExists(_targetUser) {
+    public userVerified(_user) userExists(_targetUser) {
         require(
             !banned[_user], 
             "User banned"
@@ -345,7 +367,7 @@ contract Tartarus is Ownable {
     }
 
     function reportForum(bytes32 _user, bytes32 _forum, bytes32 _reason) 
-    external userVerified(_user) forumExists(_forum) {
+    public userVerified(_user) forumExists(_forum) {
         require(
             !banned[_user], 
             "User banned"
@@ -354,7 +376,7 @@ contract Tartarus is Ownable {
     }
 
     function reportPost(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _reason) 
-    external userVerified(_user) forumExists(_forum) postExists(_postId) {
+    public userVerified(_user) forumExists(_forum) postExists(_postId) {
         require(
             !banned[_user], 
             "User banned"
@@ -363,7 +385,7 @@ contract Tartarus is Ownable {
     }
 
     function reportComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _commentId, bytes32 _reason) 
-    external userVerified(_user) forumExists(_forum) commentExists(_commentId) {
+    public userVerified(_user) forumExists(_forum) commentExists(_commentId) {
         require(
             !banned[_user], 
             "User banned"
@@ -381,7 +403,7 @@ contract Tartarus is Ownable {
         bool _deleteComment,
         bool _deleteForum
         ) 
-        external userVerified(_user) userExists(_targetUser) {
+        public userVerified(_user) userExists(_targetUser) {
         require(
             admins[_user].editAdmin, "User does not have permission"
         );
@@ -397,7 +419,7 @@ contract Tartarus is Ownable {
     }  
 
     function removeAdmin(bytes32 _user, bytes32 _targetUser) 
-        external userVerified(_user) userExists(_targetUser) {
+        public userVerified(_user) userExists(_targetUser) {
         require(
             admins[_user].editAdmin, "User does not have permission"
         );
@@ -406,7 +428,7 @@ contract Tartarus is Ownable {
     }
 
     function banUserTartarus(bytes32 _user, bytes32 _targetUser) 
-        external view userVerified(_user) userExists(_targetUser) {
+        public userVerified(_user) userExists(_targetUser) {
         require(
             admins[_user].ban, "User does not have permission"
         );
@@ -414,11 +436,11 @@ contract Tartarus is Ownable {
             !banned[_targetUser], 
             "User is already banned"
         );
-        banned[_targetUser] == true;
+        banned[_targetUser] = true;
     }
 
     function unbanUserTartarus(bytes32 _user, bytes32 _targetUser)
-        external view userVerified(_user) userExists(_targetUser) {
+        public userVerified(_user) userExists(_targetUser) {
         require(
             admins[_user].ban, "User does not have permission"
         );
@@ -426,11 +448,11 @@ contract Tartarus is Ownable {
             banned[_targetUser], 
             "User is not banned"
         );
-        banned[_targetUser] == false;
+        banned[_targetUser] = false;
     }
 
     function setCreateUserCost(bytes32 _user, uint _newCost) 
-        external userVerified(_user) {
+        public userVerified(_user) {
         require(
             admins[_user].setCost, 
             "User does not have permission"
@@ -439,7 +461,7 @@ contract Tartarus is Ownable {
     }
 
     function setTransactionCost(bytes32 _user, uint _newCost) 
-        external userVerified(_user) {
+        public userVerified(_user) {
         require(
             admins[_user].setCost, 
             "User does not have permission"

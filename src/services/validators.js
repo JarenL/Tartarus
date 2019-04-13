@@ -39,6 +39,10 @@ export const titleValidator = value =>
   required(value) || checkMaxLength(value, 100);
 export const forumNameValidator = value =>
   required(value) || checkMaxLength(value, 32);
+export const forumDescriptionValidator = value =>
+  required(value) || checkMinLength(value, 1);
+export const forumRulesValidator = value =>
+  required(value) || checkMinLength(value, 1);
 export const textPostValidator = value =>
   required(value) || checkMinLength(value, 4);
 export const urlValidator = value => required(value) || validUrl(value);

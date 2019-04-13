@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import CreatePostButton from './Buttons/CreatePostButton';
-import SubscribeContainer from './Buttons/Subscribe/SubscribeContainer';
+import SubscribeContainer from './Subscribe/SubscribeContainer';
 import CreateForumButton from './Buttons/CreateForumButton';
 import ForumContainer from './Forum/ForumContainer';
 import SubscriptionContainer from './Subscription/SubscriptionContainer';
@@ -23,15 +23,15 @@ const Wrapper = styled.aside`
 `;
 
 const Sidebar = props => {
-  if (props.user.userAddress === null || props.user.userAddress === undefined) {
+  if (props.username === null) {
     return null;
   } else {
-    if (props.params.forumAddress !== undefined) {
+    if (props.params.forumName !== undefined) {
       return (
         <Wrapper>
-          <SubscribeContainer forumAddress={props.params.forumAddress} />
-          <CreatePostButton forumAddress={props.params.forumAddress} />
-          <ForumContainer forumAddress={props.params.forumAddress} />
+          <SubscribeContainer forumName={props.params.forumName} />
+          <CreatePostButton forumName={props.params.forumName} />
+          <ForumContainer forumName={props.params.forumName} />
           <SubscriptionContainer />
         </Wrapper>
       );

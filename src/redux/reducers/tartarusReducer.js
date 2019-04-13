@@ -1,7 +1,7 @@
 import { TARTARUS_ADDRESS } from '../actions/actions';
 
 const initialState = {
-  tartarusAddress: '0x93974a6971113BD154E908b97b2752E78971d763'
+  tartarusAddress: '0x9Dc80E78EBD48C1af8141C757534E880BfB3B9Ed'
 };
 
 const tartarusReducer = (state = initialState, action) => {

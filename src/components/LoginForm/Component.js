@@ -24,7 +24,7 @@ class LoginForm extends React.Component {
   }
 
   redirectIfLoggedIn() {
-    if (this.props.user.userAddress) this.props.history.push('/');
+    if (this.props.user.username) this.props.history.push('/');
   }
 
   onSubmit = () => {
@@ -42,25 +42,21 @@ class LoginForm extends React.Component {
             from: accounts[0],
             gasPrice: 20000000000
           })
-          .then(address => {
+          .then(user => {
+            console.log(user);
             if (
-              address === '0x' ||
-              address === '0x0000000000000000000000000000000000000000'
+              user[1] !== '0x' ||
+              user[1] !== '0x0000000000000000000000000000000000000000'
             ) {
-              this.setState({
-                loading: false
-              });
-            } else {
               this.props.dispatch(
                 userLogin({
-                  username: this.props.form.login.values.username,
-                  userAddress: address
+                  username: this.props.form.login.values.username
                 })
               );
-              this.setState({
-                loading: false
-              });
             }
+            this.setState({
+              loading: false
+            });
           });
       });
     });

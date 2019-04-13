@@ -5,7 +5,7 @@ class SubscriptionList extends Component {
   render() {
     const forums = [
       'all',
-      ...this.props.userSettings[this.props.userAddress].subscriptions
+      ...this.props.userSettings[this.props.username].subscriptions
     ];
     const subscriptions = forums.map((forum, index) => {
       if (forum === 'all') {
@@ -15,7 +15,6 @@ class SubscriptionList extends Component {
           <SubscriptionItem
             key={index}
             name={forum.name}
-            address={forum.address}
             editSubscriptions={this.props.editSubscriptions}
             handleRemoveSubscription={this.props.handleRemoveSubscription}
           />

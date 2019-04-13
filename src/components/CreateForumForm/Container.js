@@ -3,32 +3,28 @@ import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import CreateForumForm from './Component';
 import {
-  titleValidator,
-  urlValidator,
   forumNameValidator,
-  textPostValidator,
-  typeValidator
+  forumDescriptionValidator,
+  forumRulesValidator
 } from '../../services/validators';
 
 const validate = fields => {
   const errors = {};
-  const title = fields.title ? fields.title : '';
-  const url = fields.url ? fields.url : '';
-  const type = fields.type ? fields.type : '';
-  const text = fields.text ? fields.text : '';
+  const forumName = fields.forumName ? fields.forumName : '';
+  const forumDescription = fields.forumDescription ? fields.forumDescription : '';
+  const forumRules = fields.forumRules ? fields.forumRules : '';
 
-  errors.title = titleValidator(title);
-  if (type === 'link') errors.url = urlValidator(url);
-  if (type === 'text') errors.text = textPostValidator(text);
-  errors.type = typeValidator(type);
-
+  errors.forumName = forumNameValidator(forumName);
+  errors.forumDescription = forumDescriptionValidator(forumDescription);
+  errors.forumRules = forumRulesValidator(forumRules);
   return errors;
 };
 
 const mapStateToProps = state => ({
   web3: state.web3,
   form: state.form,
-  userAddress: state.user.userAddress
+  username: state.user.username,
+  tartarusAddress: state.tartarus.tartarusAddress
 });
 
 const enhance = compose(

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 const mapStateToProps = state => ({
-  user: state.user
+  username: state.user.username
 });
 
 const enhance = compose(connect(mapStateToProps));

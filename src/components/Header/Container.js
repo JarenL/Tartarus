@@ -7,7 +7,8 @@ import { userLogout } from '../../redux/actions/actions';
 const mapDispatchToProps = { userLogout };
 
 const mapStateToProps = state => ({
-  user: state.user
+  username: state.user.username,
+  web3: state.web3
 });
 
 const enhance = compose(

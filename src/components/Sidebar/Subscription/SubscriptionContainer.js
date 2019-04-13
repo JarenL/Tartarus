@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/macro';
-import { Divider } from '@material-ui/core';
 import SubscriptionHeader from './SubscriptionHeader.js';
 import SubscriptionList from './SubscriptionList.js';
 import { updateUserSubscriptions } from '../../../redux/actions/actions';
@@ -30,19 +29,17 @@ class SubscriptionContainer extends Component {
   };
 
   handleRemoveSubscription = props => {
-    console.log("remove")
-    console.log(props);
+    console.log('remove');
     let newSubscriptionsArray = this.props.userSettings[
-      this.props.userAddress
+      this.props.username
     ].subscriptions.slice();
     for (var i = 0; i < newSubscriptionsArray.length; i++) {
       if (newSubscriptionsArray[i].address === props) {
-        console.log(true)
         newSubscriptionsArray.splice(i, 1);
       }
     }
     let payload = {
-      user: this.props.userAddress,
+      username: this.props.username,
       subscriptions: newSubscriptionsArray
     };
     this.props.dispatch(updateUserSubscriptions(payload));
@@ -58,7 +55,7 @@ class SubscriptionContainer extends Component {
         />
         {this.state.showSubscriptions && (
           <SubscriptionList
-            userAddress={this.props.userAddress}
+            username={this.props.username}
             userSettings={this.props.userSettings}
             editSubscriptions={this.state.editSubscriptions}
             handleRemoveSubscription={this.handleRemoveSubscription}
@@ -72,7 +69,7 @@ class SubscriptionContainer extends Component {
 function mapStateToProps(state) {
   return {
     userSettings: state.user.userSettings,
-    userAddress: state.user.userAddress
+    username: state.user.username
   };
 }
 

@@ -44,14 +44,13 @@ const Separator = styled.div`
 const Header = props => (
   <Wrapper>
     <HeaderLogo />
-    <FilterContainer match={props.match}/>
+    <FilterContainer match={props.match} />
     <SearchContainer />
     <HeaderDarkButtonContainer />
-    {props.user.userAddress ? (
+    {console.log(props.username)}
+    {props.username ? (
       <>
-        {/* <HeaderUsername username={user.username} /> */}
-        <HeaderUsername user={props.user} />
-
+        <HeaderUsername username={props.username} />
         <HeaderNavLink as='span' onClick={() => props.dispatch(userLogout())}>
           log out
         </HeaderNavLink>

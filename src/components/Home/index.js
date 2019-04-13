@@ -28,7 +28,7 @@ const Wrapper = styled.div`
 `;
 
 const Home = props => {
-  if (props.userAddress === null) {
+  if (props.username === null) {
     console.log(props);
     return (
       <Wrapper>
@@ -181,7 +181,7 @@ const Home = props => {
 function mapStateToProps(state) {
   return {
     web3: state.web3,
-    userAddress: state.user.userAddress
+    username: state.user.username
   };
 }
 

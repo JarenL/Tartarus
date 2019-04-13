@@ -11,11 +11,10 @@ import storage from 'redux-persist/lib/storage';
 const userPersistConfig = {
   key: 'accounts',
   storage: storage,
-  whitelist: ['userSettings', 'userAddress', 'username']
+  whitelist: ['userSettings', 'username']
 };
 
 const initialState = {
-  userAddress: null,
   username: null,
   userSettings: []
 };
@@ -31,25 +30,22 @@ const accountsReducer = (state = initialState, action) => {
     case 'web3/CHANGE_ACCOUNT':
       return {
         ...state,
-        userAddress: null,
         username: null
       };
     case 'web3/LOGOUT':
       return {
         ...state,
-        userAddress: null,
         username: null
       };
     case USER_LOGIN:
-      if (state.userSettings[state.userAddress] === undefined) {
+      if (state.userSettings[state.username] === undefined) {
         let currentTime = Date.now();
         return {
           ...state,
-          userAddress: action.payload.userAddress,
           username: action.payload.username,
           userSettings: {
             ...state.userSettings,
-            [action.payload.userAddress]: {
+            [action.payload.username]: {
               subscriptions: [],
               test1: [],
               test2: [],
@@ -61,11 +57,10 @@ const accountsReducer = (state = initialState, action) => {
         let currentTime = Date.now();
         return {
           ...state,
-          userAddress: action.payload.userAddress,
           username: action.payload.username,
           userSettings: {
             ...state.userSettings,
-            [action.payload.userAddress]: {
+            [action.payload.username]: {
               ...state.userSettings,
               lastVisited: currentTime
             }
@@ -75,7 +70,6 @@ const accountsReducer = (state = initialState, action) => {
     case USER_LOGOUT:
       return {
         ...state,
-        userAddress: null,
         username: null
       };
 
@@ -84,7 +78,7 @@ const accountsReducer = (state = initialState, action) => {
         ...state,
         userSettings: {
           ...state.userSettings,
-          [action.payload.user]: {
+          [action.payload.username]: {
             ...state.userSettings,
             subscriptions: action.payload.subscriptions
           }
