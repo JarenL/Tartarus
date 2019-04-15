@@ -11,7 +11,7 @@ const PostButton = styled(Button)`
 `;
 
 const CreatePostButton = props => (
-  <PostButton as={Link} to={`/f/${props.forumAddress}/createpost`}>
+  <PostButton as={Link} to={`/f/${props.forumName}/createpost`}>
     create post
   </PostButton>
 );

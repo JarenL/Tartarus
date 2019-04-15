@@ -30,6 +30,7 @@ class SubscriptionContainer extends Component {
 
   handleRemoveSubscription = props => {
     console.log('remove');
+    console.log(props);
     let newSubscriptionsArray = this.props.userSettings[
       this.props.username
     ].subscriptions.slice();

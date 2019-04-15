@@ -14,7 +14,7 @@ import CreateForumFormContainer from './components/CreateForumForm/Container';
 import { initializeWeb3, setTartarusAddress } from './redux/actions/actions';
 import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner';
 
-const tartarusAddress = '0x9Dc80E78EBD48C1af8141C757534E880BfB3B9Ed';
+const tartarusAddress = '0x835cc6cf17477eb875b2cfb2238d4e7f235b5927';
 
 class App extends Component {
   constructor(props) {
@@ -49,9 +49,7 @@ class App extends Component {
           <HashRouter>
             <>
               <GlobalStyle />
-              <Route
-                render={({ match }) => <HeaderContainer match={match} />}
-              />
+              <Route component={HeaderContainer} />
               {/* <Route component={ErrorNotificationContainer} /> */}
               <Switch>
                 <Route path='/login' component={LoginFormContainer} />

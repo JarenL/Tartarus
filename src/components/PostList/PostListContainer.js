@@ -74,7 +74,7 @@ class PostListContainer extends React.Component {
 
   instantiateContract = () => {
     const contract = require('truffle-contract');
-    if (this.props.forumAddress === undefined) {
+    if (this.props.forumName === undefined) {
       if (this.props.username === undefined) {
         //front page
         const tartarus = contract(TartarusContract);
@@ -97,45 +97,36 @@ class PostListContainer extends React.Component {
             console.log('error');
           });
       } else {
-        const user = contract(UserContract);
         const tartarus = contract(TartarusContract);
-        user.setProvider(this.props.web3.currentProvider);
         tartarus.setProvider(this.props.web3.currentProvider);
-        this.props.web3.eth.getAccounts((error, accounts) => {
-          tartarus.at(this.props.tartarusAddress).then(instance => {
-            instance.users
-              .call(this.props.username, {
-                from: accounts[0],
-                gasPrice: 20000000000
-              })
-              .then(userAddress => {
-                tartarus
-                  .at(this.props.tartarusAddress)
-                  .then(instance => {
-                    this.handlePostTime().then(starting => {
-                      instance
-                        .PostCreated(
-                          { creatorAddress: userAddress },
-                          {
-                            fromBlock: starting,
-                            toBlock: 'latest'
-                          }
-                        )
-                        .get((error, posts) => {
-                          this.setState({
-                            posts: this.handlePostType(posts),
-                            loading: false
-                          });
-                          console.log(posts);
-                        });
-                    });
-                  })
-                  .catch(err => {
-                    console.log('error');
+        tartarus
+          .at(this.props.tartarusAddress)
+          .then(instance => {
+            this.handlePostTime().then(starting => {
+              instance
+                .PostCreated(
+                  {
+                    creator: this.props.web3.utils.fromAscii(
+                      this.props.username
+                    )
+                  },
+                  {
+                    fromBlock: starting,
+                    toBlock: 'latest'
+                  }
+                )
+                .get((error, posts) => {
+                  this.setState({
+                    posts: this.handlePostType(posts),
+                    loading: false
                   });
-              });
+                  console.log(posts);
+                });
+            });
+          })
+          .catch(err => {
+            console.log('error');
           });
-        });
       }
     } else {
       //forum page
@@ -147,7 +138,9 @@ class PostListContainer extends React.Component {
           this.handlePostTime().then(starting => {
             instance
               .PostCreated(
-                { forumAddress: this.props.forumAddress },
+                {
+                  forum: this.props.web3.utils.fromAscii(this.props.forumName)
+                },
                 { fromBlock: starting, toBlock: 'latest' }
               )
               .get((error, posts) => {
@@ -174,7 +167,7 @@ class PostListContainer extends React.Component {
 export const mapStateToProps = state => ({
   web3: state.web3,
   tartarusAddress: state.tartarus.tartarusAddress,
-  userAddress: state.user.userAddress,
+  username: state.user.username,
   time: state.form.filter.values.time,
   type: state.form.filter.values.type
 });

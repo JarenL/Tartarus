@@ -37,11 +37,11 @@ const Wrapper = styled.div`
 //   }
 // };
 
-const PostContentTitle = props => (
+const ForumContentTitle = props => (
   // <Wrapper full={props.full}>{renderTitle(props)}</Wrapper>
   <Wrapper full={props.full}>
-    <Link to={`/f/${props.address}`}>{props.name}</Link>
+    <Link to={`/f/${props.name}`}>{props.name}</Link>
   </Wrapper>
 );
 
-export default PostContentTitle;
+export default ForumContentTitle;

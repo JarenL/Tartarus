@@ -35,7 +35,6 @@ const ForumContent = props => (
     <ForumContentTitle
       // url={url}
       // title={props.title}
-      address={props.address}
       name={props.name}
       // type={type}
       // full={showFullPost}

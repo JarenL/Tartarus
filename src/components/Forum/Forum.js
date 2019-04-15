@@ -21,7 +21,6 @@ const Forum = ({
 }) => (
   <Wrapper>
     <ForumContent
-      address={address}
       name={name}
       // showFullPost={full}
       // id={address}

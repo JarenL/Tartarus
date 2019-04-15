@@ -5,6 +5,7 @@ import { overflow } from '../../shared/helpers';
 import UpButton from '../Buttons/UpButton';
 import DownButton from '../Buttons/DownButton';
 import EditButton from '../Buttons/EditButton';
+import ReactHtmlParser from 'react-html-parser';
 
 const Wrapper = styled.aside`
   display: flex;
@@ -29,11 +30,12 @@ const HeaderWrapper = styled.div`
 `;
 
 const Description = styled.div`
-  ${overflow};
-  max-width: 800px;
-  padding-bottom: 1px;
-  height: 1.25em;
-  font-size: 13px;
+  overflow-wrap: break-word;
+  border-left: none;
+  padding: 8px;
+  font-size: 12px;
+  list-style-position: inside;
+  background-color: ${props => props.theme.inputBackground};
   color: ${props => props.theme.mutedText};
 `;
 
@@ -55,7 +57,7 @@ const ForumDescription = props => (
       </ButtonWrapper>
     </HeaderWrapper>
     {props.showDescription ? (
-      <Description> {props.description}</Description>
+      <Description> {ReactHtmlParser(props.description)} </Description>
     ) : null}
   </Wrapper>
 );

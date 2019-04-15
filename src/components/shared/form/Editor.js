@@ -12,6 +12,14 @@ const StyledQuill = styled(ReactQuill)`
     props.error ? props.theme.error + '4d' : props.theme.accent + '4d'};
 
   display: block;
+  ${props =>
+    props.error
+      ? `
+    border: 1px solid var(--border)
+    `
+      : `
+    border: 1px solid ${props.theme.border}
+  `};
   border-radius: 3px;
   width: 100%;
   height: 150px;

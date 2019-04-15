@@ -30,8 +30,18 @@ class SubscribeContainer extends Component {
             from: accounts[0],
             gasPrice: 20000000000
           })
-          .then(result => {
-            console.log(result);
+          .then(forum => {
+            if (forum[0] === '0x0') {
+              this.setState({
+                loading: false,
+                forumExists: false
+              });
+            } else {
+              this.setState({
+                loading: false,
+                forumExists: true
+              });
+            }
           });
       });
     });
@@ -45,7 +55,7 @@ class SubscribeContainer extends Component {
       forumName: this.props.forumName
     });
     let payload = {
-      user: this.props.username,
+      username: this.props.username,
       subscriptions: newSubscriptionsArray
     };
     this.props.dispatch(updateUserSubscriptions(payload));
@@ -56,7 +66,7 @@ class SubscribeContainer extends Component {
       this.props.username
     ].subscriptions.slice();
     for (var i = 0; i < newSubscriptionsArray.length; i++) {
-      if (newSubscriptionsArray[i].address === this.props.forumName) {
+      if (newSubscriptionsArray[i].forumName === this.props.forumName) {
         newSubscriptionsArray.splice(i, 1);
       }
     }
@@ -75,7 +85,7 @@ class SubscribeContainer extends Component {
         var index = this.props.userSettings[
           this.props.username
         ].subscriptions.findIndex(
-          forum => forum.foruName === this.props.forumName
+          forum => forum.forumName === this.props.forumName
         );
         if (index === -1) {
           return <SubscribeButton subscribeHandler={this.subscribeHandler} />;
@@ -93,7 +103,7 @@ class SubscribeContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    web3: this.state.web3,
+    web3: state.web3,
     tartarusAddress: state.tartarus.tartarusAddress,
     userSettings: state.user.userSettings,
     username: state.user.username

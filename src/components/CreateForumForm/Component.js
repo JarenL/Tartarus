@@ -69,7 +69,6 @@ class CreateForumForm extends React.Component {
   };
 
   createForum = props => {
-    console.log(props);
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
@@ -78,25 +77,33 @@ class CreateForumForm extends React.Component {
       tartarus.setProvider(this.props.web3.currentProvider);
       this.props.web3.eth.getAccounts((error, accounts) => {
         tartarus.at(this.props.tartarusAddress).then(instance => {
-          instance
-            .createForum(
-              this.props.username,
-              this.props.form.createForum.values.forumName,
-              props.description,
-              props.rules,
-              { from: accounts[0], gasPrice: 20000000000 }
-            )
-            .then(result => {
-              this.setState({
-                loading: false
+          instance.createUserCost.call().then(createForumCost => {
+            instance
+              .createForum(
+                this.props.web3.utils.fromAscii(this.props.username),
+                this.props.form.createForum.values.forumName,
+                props.description,
+                props.rules,
+                {
+                  from: accounts[0],
+                  gasPrice: 20000000000,
+                  value: createForumCost
+                }
+              )
+              .then(result => {
+                this.setState({
+                  loading: false
+                });
+                this.props.reset('createForum');
+                this.props.history.goBack();
+              })
+              .catch(error => {
+                console.log('error');
+                this.setState({
+                  loading: false
+                });
               });
-            })
-            .catch(error => {
-              console.log('error');
-              this.setState({
-                loading: false
-              });
-            });
+          });
         });
       });
     }
@@ -114,18 +121,21 @@ class CreateForumForm extends React.Component {
           label='forum name'
           type='text'
           component={renderField}
+          validate={this.props.forumNameValidator}
         />
         <Field
           name='forumDescription'
           label='forum description'
-          type='textarea'
+          type='editor'
           component={renderField}
+          validate={this.props.forumDescriptionValidator}
         />
         <Field
           name='forumRules'
           label='forum rules'
-          type='textarea'
+          type='editor'
           component={renderField}
+          validate={this.props.forumRulesValidator}
         />
         <Wrapper>
           <SubmitButton />

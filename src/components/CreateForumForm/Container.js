@@ -8,18 +8,6 @@ import {
   forumRulesValidator
 } from '../../services/validators';
 
-const validate = fields => {
-  const errors = {};
-  const forumName = fields.forumName ? fields.forumName : '';
-  const forumDescription = fields.forumDescription ? fields.forumDescription : '';
-  const forumRules = fields.forumRules ? fields.forumRules : '';
-
-  errors.forumName = forumNameValidator(forumName);
-  errors.forumDescription = forumDescriptionValidator(forumDescription);
-  errors.forumRules = forumRulesValidator(forumRules);
-  return errors;
-};
-
 const mapStateToProps = state => ({
   web3: state.web3,
   form: state.form,
@@ -30,7 +18,9 @@ const mapStateToProps = state => ({
 const enhance = compose(
   reduxForm({
     form: 'createForum',
-    validate
+    forumNameValidator,
+    forumDescriptionValidator,
+    forumRulesValidator
   }),
   connect(mapStateToProps)
 );

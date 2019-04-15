@@ -6,6 +6,17 @@ import { usernameValidator } from '../../services/validators';
 import SubmitButton from '../shared/form/SubmitButton';
 import TartarusContract from '../../contracts/Tartarus.json';
 import { userLogin } from '../../redux/actions/actions';
+import styled from 'styled-components/macro';
+import CancelButton from '../shared/form/CancelButton';
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100%;
+  margin-top: 5px;
+`;
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -27,6 +38,11 @@ class LoginForm extends React.Component {
     if (this.props.user.username) this.props.history.push('/');
   }
 
+  handleCancel = () => {
+    this.props.reset('login');
+    this.props.history.goBack();
+  };
+
   onSubmit = () => {
     this.redirectIfLoggedIn();
     this.setState({
@@ -37,17 +53,22 @@ class LoginForm extends React.Component {
     tartarus.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
+        console.log(
+          this.props.web3.utils.fromAscii(this.props.form.login.values.username)
+        );
         instance.users
-          .call(this.props.form.login.values.username, {
-            from: accounts[0],
-            gasPrice: 20000000000
-          })
+          .call(
+            this.props.web3.utils.fromAscii(
+              this.props.form.login.values.username
+            ),
+            {
+              from: accounts[0],
+              gasPrice: 20000000000
+            }
+          )
           .then(user => {
             console.log(user);
-            if (
-              user[1] !== '0x' ||
-              user[1] !== '0x0000000000000000000000000000000000000000'
-            ) {
+            if (user[1] !== '0x0000000000000000000000000000000000000000') {
               this.props.dispatch(
                 userLogin({
                   username: this.props.form.login.values.username
@@ -76,14 +97,10 @@ class LoginForm extends React.Component {
           component={renderField}
           validate={usernameValidator}
         />
-        {/* <Field
-          name='password'
-          label='password'
-          type='password'
-          component={renderField}
-          validate={passwordValidator}
-        /> */}
-        <SubmitButton>log in</SubmitButton>
+        <Wrapper>
+          <SubmitButton />
+          <CancelButton onClick={this.handleCancel} />
+        </Wrapper>
       </Form>
     );
   }

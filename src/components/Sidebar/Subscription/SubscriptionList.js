@@ -9,12 +9,12 @@ class SubscriptionList extends Component {
     ];
     const subscriptions = forums.map((forum, index) => {
       if (forum === 'all') {
-        return <SubscriptionItem key={index} name={'all'} />;
+        return <SubscriptionItem key={index} forumName={'all'} />;
       } else {
         return (
           <SubscriptionItem
             key={index}
-            name={forum.name}
+            forumName={forum.forumName}
             editSubscriptions={this.props.editSubscriptions}
             handleRemoveSubscription={this.props.handleRemoveSubscription}
           />

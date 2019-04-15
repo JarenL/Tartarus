@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm, reset } from 'redux-form';
 import { change } from 'redux-form';
+import CreatePostForm from './Component';
 
 import {
   titleValidator,
@@ -9,10 +10,6 @@ import {
   textPostValidator,
   typeValidator
 } from '../../services/validators';
-// import { attemptCreatePost } from '../../actions/posts';
-import categories from '../../categories';
-// import withAuth from '../../util/withAuth';
-import CreatePostForm from './Component';
 
 const validate = fields => {
   const errors = {};
@@ -33,8 +30,7 @@ const mapStateToProps = state => ({
   web3: state.web3,
   tartarusAddress: state.tartarus.tartarusAddress,
   form: state.form.post,
-  userSettings: state.user.userSettings,
-  userAddress: state.user.userAddress
+  username: state.user.username
 });
 
 const mapDispatchToProps = { change, reset };

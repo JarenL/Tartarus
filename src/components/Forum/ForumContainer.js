@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ForumContract from '../../contracts/Forum.json';
+import TartarusContract from '../../contracts/Tartarus.json';
 import Forum from './Forum';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner.js';
 
@@ -20,18 +20,19 @@ class ForumContainer extends Component {
 
   instantiateContract() {
     const contract = require('truffle-contract');
-    const forum = contract(ForumContract);
-    forum.setProvider(this.props.web3.currentProvider);
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
-      forum.at(this.props.address).then(instance => {
-        instance.name
-          .call({
+      tartarus.at(this.props.tartarusAddress).then(instance => {
+        instance.forums
+          .call(this.props.forumName, {
             from: accounts[0],
             gasPrice: 20000000000
           })
-          .then(result => {
+          .then(forum => {
+            console.log(forum);
             this.setState({
-              name: this.props.web3.utils.hexToAscii(result),
+              name: this.props.web3.utils.hexToAscii(forum[0]),
               loading: false
             });
           });
@@ -42,14 +43,15 @@ class ForumContainer extends Component {
     if (this.state.loading) {
       return <LoadingIndicatorSpinner />;
     } else {
-      return <Forum name={this.state.name} address={this.props.address} />;
+      return <Forum name={this.state.name} />;
     }
   }
 }
 
 function mapStateToProps(state) {
   return {
-    web3: state.web3
+    web3: state.web3,
+    tartarusAddress: state.tartarus.tartarusAddress
   };
 }
 

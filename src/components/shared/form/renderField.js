@@ -7,6 +7,8 @@ import Input from './Input';
 import RadioGroup from './RadioGroup';
 import styled from 'styled-components/macro';
 import { transition } from '../helpers';
+import Editor from './Editor';
+import EditButton from '../../Sidebar/Buttons/EditButton';
 
 const SelectInputWrapper = styled.div`
   position: relative;
@@ -126,8 +128,18 @@ const VariableField = field => {
         </InputWrapper>
       );
 
+    case 'editor':
+      return (
+        <InputWrapper>
+          <Label>{field.label}</Label>
+          {field.meta.touched && field.meta.error && (
+            <Error>{field.meta.error}</Error>
+          )}
+          <Editor input={field.input} />
+        </InputWrapper>
+      );
+
     case 'upload':
-      console.log(field.initialValue)
       return (
         <InputWrapper>
           <Label>{field.label}</Label>

@@ -33,18 +33,10 @@ const Wrapper = styled.header`
   }
 `;
 
-const Separator = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 const Header = props => (
   <Wrapper>
     <HeaderLogo />
-    <FilterContainer match={props.match} />
+    <FilterContainer />
     <SearchContainer />
     <HeaderDarkButtonContainer />
     {console.log(props.username)}

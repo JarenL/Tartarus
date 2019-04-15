@@ -44,7 +44,7 @@ const Home = props => {
           />
           <Route
             exact
-            path='/f/:forumAddress'
+            path='/f/:forumName'
             render={({ match }) => (
               <PostListContainer forumAddress={match.params.forumAddress} />
             )}
@@ -70,7 +70,7 @@ const Home = props => {
           /> */}
           <Route
             exact
-            path='/p/:postAddress'
+            path='/p/:postId'
             render={({ match }) => (
               <PostDetail postAddress={match.params.postAddress} />
             )}
@@ -107,17 +107,19 @@ const Home = props => {
           />
           <Route
             exact
-            path='/f/:forumAddress'
-            render={({ match }) => (
-              <PostListContainer
-                key={match.url}
-                forumAddress={match.params.forumAddress}
-              />
-            )}
+            path='/f/:forumName'
+            render={({ match }) => {
+              return (
+                <PostListContainer
+                  key={match.url}
+                  forumName={match.params.forumName}
+                />
+              );
+            }}
           />
           <Route
             exact
-            path='/p/:postAddress'
+            path='/p/:postId'
             render={({ match }) => (
               <PostDetail
                 forumAddress={match.params.forum}
@@ -127,7 +129,7 @@ const Home = props => {
           />
           <Route
             exact
-            path='/f/:forumAddress/createpost'
+            path='/f/:forumName/createpost'
             render={({ match }) => (
               <CreatePostFormContainer
                 forumAddress={match.params.forumAddress}
@@ -163,7 +165,7 @@ const Home = props => {
           />
           <Route
             exact
-            path='/f/:forumAddress'
+            path='/f/:forumName'
             render={({ match }) => (
               <SidebarContainer key={match.url} {...match} />
             )}

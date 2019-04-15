@@ -4,14 +4,12 @@ import categories from '../../categories';
 import Form from '../shared/form/Form';
 import renderField from '../shared/form/renderField';
 import Typography from '@material-ui/core/Typography';
-import UserContract from '../../contracts/User.json';
-import ForumContract from '../../contracts/Forum.json';
+import TartarusContract from '../../contracts/Tartarus.json';
 import classnames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import Editor from '../shared/form/Editor';
 import styled from 'styled-components/macro';
 import CancelButton from '../shared/form/CancelButton';
 import SubmitButton from '../shared/form/SubmitButton';
@@ -67,7 +65,9 @@ class CreatePostForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  onSubmit = () => this.handlePublish();
+  componentDidMount = () => {
+    console.log(this.props);
+  };
 
   handleUploadDragEnter = e => {
     e.preventDefault();
@@ -129,101 +129,106 @@ class CreatePostForm extends React.Component {
 
   handleCancel = () => {
     this.props.reset('post');
+    this.props.history.goBack();
   };
 
-  handlePublish = async () => {
+  handleSubmit = async () => {
     console.log('publish');
     console.log(this.props.form);
     this.setState({
       loading: true
     });
-    let { title, type, upload, link, text } = this.props.form.values;
-    console.log(type);
-    console.log(title);
-    if (type === 'text') {
-      if (title && text) {
-        let postObject = { type: type, title: title, post: text };
-        console.log(postObject);
-        const ipfsHash = await services.ipfs.uploadObject(postObject);
-        const bs58 = require('bs58');
-        const base58 =
-          '0x' +
-          bs58
-            .decode(ipfsHash)
-            .slice(2)
-            .toString('hex');
-        console.log(ipfsHash);
-        console.log(base58);
-        this.submitPostTransaction(base58);
-      }
-    }
-
-    if (type === 'link') {
-      console.log('link');
-      if (title && link) {
-        let postObject = { type: type, title: title, post: link };
-        console.log(postObject);
-        const ipfsHash = await services.ipfs.uploadObject(postObject);
-        const bs58 = require('bs58');
-        const base58 =
-          '0x' +
-          bs58
-            .decode(ipfsHash)
-            .slice(2)
-            .toString('hex');
-        this.submitPostTransaction(base58);
-      }
-    }
-
-    if (type === 'upload') {
-      console.log('upload');
-      if (title && this.state.uploadIpfsHash) {
+    const titleObject = { title: this.props.form.values.title };
+    const titleIpfsHash = await services.ipfs.uploadObject(titleObject);
+    const bs58 = require('bs58');
+    const titleBytes32 =
+      '0x' +
+      bs58
+        .decode(titleIpfsHash)
+        .slice(2)
+        .toString('hex');
+    if (
+      this.props.form.values.type === 'text' ||
+      this.props.form.values.type === 'link'
+    ) {
+      if (this.props.form.values.title && this.props.form.values.post) {
         let postObject = {
-          type: type,
-          title: title,
-          post: this.state.uploadIpfsHash
+          type: this.props.form.values.type,
+          post: this.props.form.values.post
         };
         console.log(postObject);
-        const ipfsHash = await services.ipfs.uploadObject(postObject);
+        const postIpfsHash = await services.ipfs.uploadObject(postObject);
         const bs58 = require('bs58');
-        const base58 =
+        const postBytes32 =
           '0x' +
           bs58
-            .decode(ipfsHash)
+            .decode(postIpfsHash)
             .slice(2)
             .toString('hex');
-        this.submitPostTransaction(base58);
+        this.submitPostTransaction({ titleBytes32, postBytes32 });
+      } else {
+        this.setState({
+          loading: false
+        });
+      }
+    } else {
+      console.log('upload');
+      if (this.props.form.values.title && this.state.uploadIpfsHash) {
+        let postObject = {
+          type: this.props.form.values.type,
+          post: this.state.uploadIpfsHash
+        };
+        const postIpfsHash = await services.ipfs.uploadObject(postObject);
+        const bs58 = require('bs58');
+        const postBytes32 =
+          '0x' +
+          bs58
+            .decode(postIpfsHash)
+            .slice(2)
+            .toString('hex');
+        this.submitPostTransaction({ titleBytes32, postBytes32 });
+      } else {
+        this.setState({
+          loading: false
+        });
       }
     }
   };
 
-  submitPostTransaction = ipfsHash => {
+  submitPostTransaction = props => {
+    console.log(props);
     const contract = require('truffle-contract');
-    const user = contract(UserContract);
-    const forum = contract(ForumContract);
-    user.setProvider(this.props.web3.currentProvider);
-    forum.setProvider(this.props.web3.currentProvider);
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
-      user.at(this.props.userAddress).then(userInstance => {
-        forum.at(this.props.forumAddress).then(forumInstance => {
-          forumInstance.name.call().then(forumName => {
-            userInstance
-              .createPost(forumName, ipfsHash, {
+      tartarus.at(this.props.tartarusAddress).then(instance => {
+        instance.createPostCost.call().then(createPostCost => {
+          instance
+            .createPost(
+              this.props.web3.utils.fromAscii(this.props.username),
+              this.props.web3.utils.fromAscii(this.props.username),
+              this.props.form.createForum.values.forumName,
+              props.description,
+              props.rules,
+              {
                 from: accounts[0],
-                gasPrice: 20000000000
-              })
-              .then(result => {
-                this.setState({
-                  loading: false
-                });
-              })
-              .catch(error => {
-                console.log('error');
-                this.setState({
-                  loading: false
-                });
+                gasPrice: 20000000000,
+                value: createPostCost
+              }
+            )
+            .then(result => {
+              this.setState({
+                loading: false
               });
-          });
+              this.props.reset('createForum');
+              this.props.history.goBack();
+            })
+            .catch(error => {
+              console.log('error');
+              this.setState({
+                loading: false
+              });
+            });
         });
       });
     });
@@ -237,11 +242,11 @@ class CreatePostForm extends React.Component {
     ));
 
   render() {
-    const { classes, address, profile } = this.props;
+    const { classes } = this.props;
     return (
       <Form
         loading={this.state.uploadLoading || this.state.loading}
-        onSubmit={this.props.handleSubmit(this.handlePublish)}
+        onSubmit={this.props.handleSubmit(this.handleSubmit)}
         wide
       >
         <Field
@@ -253,10 +258,15 @@ class CreatePostForm extends React.Component {
         />
         <Field name='title' label='title' type='text' component={renderField} />
         {this.props.form.values.type === 'link' && (
-          <Field name='link' label='link' type='url' component={renderField} />
+          <Field name='post' label='post' type='url' component={renderField} />
         )}
         {this.props.form.values.type === 'text' && (
-          <Field name='text' label='text' type='textarea' component={Editor} />
+          <Field
+            name='post'
+            label='post'
+            type='editor'
+            component={renderField}
+          />
         )}
         {this.props.form.values.type === 'upload' &&
           !this.state.uploadLoading &&
@@ -284,7 +294,7 @@ class CreatePostForm extends React.Component {
           !this.state.uploadLoading &&
           this.state.uploadIpfsHash && (
             <Field
-              name='upload'
+              name='post'
               label='IPFS Hash'
               type='upload'
               initialValue={this.state.uploadIpfsHash}

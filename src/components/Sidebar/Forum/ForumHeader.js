@@ -68,7 +68,7 @@ const ForumHeader = props => (
     <Header>
       <HeaderText>{props.name}</HeaderText>
     </Header>
-    <SubHeader>
+    {/* <SubHeader>
       <SubHeaderIcon
         size={15}
         onClick={() =>
@@ -76,7 +76,7 @@ const ForumHeader = props => (
         }
       />
       <SubHeaderText>{props.address}</SubHeaderText>
-    </SubHeader>
+    </SubHeader> */}
   </Wrapper>
 );
 

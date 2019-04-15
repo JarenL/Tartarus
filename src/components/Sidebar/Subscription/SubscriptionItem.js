@@ -29,22 +29,22 @@ const Item = styled(NavLink)`
 `;
 
 const ButtonWrapper = styled.div`
-  padding-top: 14px;
-  padding-bottom: 14px;
-  padding-left: 7px;
-  padding-right: 7px;
+  padding-top: 13.5px;
+  padding-bottom: 13.5px;
+  padding-left: 6px;
+  padding-right: 6px;
   display: flex;
   height: 100%;
   background-color: ${props => props.theme.accent};
 `;
 
 const SubscriptionItem = props => {
-  const isAll = props.name === 'all';
+  const isAll = props.forumName === 'all';
   console.log(props);
   return (
     <Wrapper>
-      <Item exact={isAll} to={isAll ? '/' : `/f/${props.address}`}>
-        {props.name}
+      <Item exact={isAll} to={isAll ? '/' : `/f/${props.forumName}`}>
+        {props.forumName}
       </Item>
       {props.editSubscriptions && (
         <ButtonWrapper>

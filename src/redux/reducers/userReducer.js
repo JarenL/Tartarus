@@ -49,6 +49,7 @@ const accountsReducer = (state = initialState, action) => {
               subscriptions: [],
               test1: [],
               test2: [],
+              saved: [],
               lastVisited: currentTime
             }
           }
