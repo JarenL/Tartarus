@@ -22,9 +22,11 @@ class SearchResults extends React.Component {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
+    console.log(this.props)
     tartarus
       .at(this.props.tartarusAddress)
       .then(instance => {
+        console.log(instance)
         instance
           .ForumCreated({}, { fromBlock: 0, toBlock: 'latest' })
           .get((error, forums) => {

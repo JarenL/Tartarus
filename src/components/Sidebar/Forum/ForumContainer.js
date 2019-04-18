@@ -60,15 +60,35 @@ class ForumContainer extends Component {
           })
           .then(forum => {
             const bs58 = require('bs58');
-            const descriptionHex = '1220' + forum[1].slice(2);
+            const descriptionHex = '1220' + forum[2].slice(2);
             const descriptionBytes = Buffer.from(descriptionHex, 'hex');
             const descriptionHash = bs58.encode(descriptionBytes);
 
-            const rulesHex = '1220' + forum[2].slice(2);
+            const rulesHex = '1220' + forum[1].slice(2);
             const rulesBytes = Buffer.from(rulesHex, 'hex');
             const rulesHash = bs58.encode(rulesBytes);
             ipfs.catJSON(descriptionHash, (err, description) => {
+              console.log(description);
+              if (description) {
+                this.setState({
+                  description: description.description
+                });
+              } else {
+                this.setState({
+                  description: 'None'
+                });
+              }
               ipfs.catJSON(rulesHash, (err, rules) => {
+                console.log(rules);
+                if (rules) {
+                  this.setState({
+                    rules: rules.rules
+                  });
+                } else {
+                  this.setState({
+                    rules: 'None'
+                  });
+                }
                 instance
                   .ModeratorCreated(
                     {
@@ -79,12 +99,12 @@ class ForumContainer extends Component {
                     { fromBlock: 0, toBlock: 'latest' }
                   )
                   .get((error, moderators) => {
+                    console.log(forum);
                     this.setState({
                       loading: false,
-                      description: description.description,
-                      rules: rules.rules,
+                      // description: description.description,
+                      // rules: rules.rules,
                       creator: forum[3],
-                      time: forum[4].c[0] * 1000,
                       moderators: moderators
                     });
                   });
@@ -98,6 +118,7 @@ class ForumContainer extends Component {
     if (this.state.loading) {
       return <LoadingBubble />;
     } else {
+      console.log(this.state);
       return (
         <Wrapper>
           <ForumHeader name={this.props.forumName} />

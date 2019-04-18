@@ -29,7 +29,7 @@ const validate = fields => {
 const mapStateToProps = state => ({
   web3: state.web3,
   tartarusAddress: state.tartarus.tartarusAddress,
-  form: state.form.post,
+  form: state.form.createPost,
   username: state.user.username
 });
 
@@ -37,7 +37,7 @@ const mapDispatchToProps = { change, reset };
 
 const enhance = compose(
   reduxForm({
-    form: 'post',
+    form: 'createPost',
     initialValues: { type: 'text' },
     validate
   }),

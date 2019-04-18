@@ -23,6 +23,7 @@ const Wrapper = styled.aside`
 `;
 
 const Sidebar = props => {
+  console.log(props)
   if (props.username === null) {
     return null;
   } else {

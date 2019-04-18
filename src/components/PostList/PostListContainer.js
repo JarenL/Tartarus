@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import Empty from '../shared/Empty';
-import UserContract from '../../contracts/User.json';
 import TartarusContract from '../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
-import PostList from './InfinitePostList';
+import PostList from './PostList';
 
 const blocksInDay = 5760;
 
@@ -75,8 +74,9 @@ class PostListContainer extends React.Component {
   instantiateContract = () => {
     const contract = require('truffle-contract');
     if (this.props.forumName === undefined) {
-      if (this.props.username === undefined) {
+      if (this.props.username !== undefined) {
         //front page
+        console.log("front")
         const tartarus = contract(TartarusContract);
         tartarus.setProvider(this.props.web3.currentProvider);
         tartarus
@@ -90,6 +90,7 @@ class PostListContainer extends React.Component {
                     posts: this.handlePostType(posts),
                     loading: false
                   });
+                  console.log(posts);
                 });
             });
           })
@@ -97,6 +98,7 @@ class PostListContainer extends React.Component {
             console.log('error');
           });
       } else {
+        console.log("user")
         const tartarus = contract(TartarusContract);
         tartarus.setProvider(this.props.web3.currentProvider);
         tartarus
@@ -160,7 +162,7 @@ class PostListContainer extends React.Component {
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
     if (!this.state.posts || this.state.posts.length === 0) return <Empty />;
-    return <PostList posts={this.state.posts} time={this.props.time} />;
+    return <PostList posts={this.state.posts} />;
   }
 }
 

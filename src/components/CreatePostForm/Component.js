@@ -128,7 +128,7 @@ class CreatePostForm extends React.Component {
   };
 
   handleCancel = () => {
-    this.props.reset('post');
+    this.props.reset('createPost');
     this.props.history.goBack();
   };
 
@@ -138,25 +138,16 @@ class CreatePostForm extends React.Component {
     this.setState({
       loading: true
     });
-    const titleObject = { title: this.props.form.values.title };
-    const titleIpfsHash = await services.ipfs.uploadObject(titleObject);
-    const bs58 = require('bs58');
-    const titleBytes32 =
-      '0x' +
-      bs58
-        .decode(titleIpfsHash)
-        .slice(2)
-        .toString('hex');
     if (
       this.props.form.values.type === 'text' ||
       this.props.form.values.type === 'link'
     ) {
       if (this.props.form.values.title && this.props.form.values.post) {
-        let postObject = {
-          type: this.props.form.values.type,
-          post: this.props.form.values.post
+        const postObject = {
+          title: this.props.form.values.title,
+          post: this.props.form.values.post,
+          type: this.props.form.values.type
         };
-        console.log(postObject);
         const postIpfsHash = await services.ipfs.uploadObject(postObject);
         const bs58 = require('bs58');
         const postBytes32 =
@@ -165,7 +156,7 @@ class CreatePostForm extends React.Component {
             .decode(postIpfsHash)
             .slice(2)
             .toString('hex');
-        this.submitPostTransaction({ titleBytes32, postBytes32 });
+        this.submitPostTransaction(postBytes32);
       } else {
         this.setState({
           loading: false
@@ -175,6 +166,7 @@ class CreatePostForm extends React.Component {
       console.log('upload');
       if (this.props.form.values.title && this.state.uploadIpfsHash) {
         let postObject = {
+          title: this.props.form.values.title,
           type: this.props.form.values.type,
           post: this.state.uploadIpfsHash
         };
@@ -186,7 +178,7 @@ class CreatePostForm extends React.Component {
             .decode(postIpfsHash)
             .slice(2)
             .toString('hex');
-        this.submitPostTransaction({ titleBytes32, postBytes32 });
+        this.submitPostTransaction({ postBytes32 });
       } else {
         this.setState({
           loading: false
@@ -203,13 +195,11 @@ class CreatePostForm extends React.Component {
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
         instance.createPostCost.call().then(createPostCost => {
-          instance
-            .createPost(
+          instance.createPost
+            .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),
-              this.props.web3.utils.fromAscii(this.props.username),
-              this.props.form.createForum.values.forumName,
-              props.description,
-              props.rules,
+              this.props.web3.utils.fromAscii(this.props.forumName),
+              props,
               {
                 from: accounts[0],
                 gasPrice: 20000000000,
@@ -217,11 +207,12 @@ class CreatePostForm extends React.Component {
               }
             )
             .then(result => {
+              console.log(result);
               this.setState({
                 loading: false
               });
-              this.props.reset('createForum');
-              this.props.history.goBack();
+              this.props.reset('createPost');
+              // this.props.history.goBack();
             })
             .catch(error => {
               console.log('error');

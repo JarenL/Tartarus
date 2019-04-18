@@ -131,9 +131,7 @@ const Home = props => {
             exact
             path='/f/:forumName/createpost'
             render={({ match }) => (
-              <CreatePostFormContainer
-                forumAddress={match.params.forumAddress}
-              />
+              <CreatePostFormContainer forumName={match.params.forumName} />
             )}
           />
           <Route

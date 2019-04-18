@@ -3,34 +3,34 @@ pragma solidity ^0.5.2;
 import "./Ownable.sol";
 
 contract Tartarus is Ownable {
-    event AdminCreated (bytes32 user, bytes32 targetUser);
-    event AdminRemoved (bytes32 user, bytes32 targetUser);
-    event ModeratorCreated (bytes32 indexed forum, bytes32 user, bytes32 targetUser);
-    event ModeratorRemoved (bytes32 indexed forum, bytes32 user, bytes32 targetUser);
-    event UserCreated (bytes32 user);
-    event UserBanned (bytes32 user);
-    event UserForumBanned (bytes32 indexed forum, bytes32 user);
-    event ForumCreated (bytes32 forum);  
-    event ForumDeleted (bytes32 forum);
-    event ForumRulesEdited (bytes32 indexed forum, bytes32 oldRules, bytes32 newRules);
-    event ForumDescriptionEdited (bytes32 indexed forum, bytes32 oldDescription, bytes32 newDescription);
-    event PostCreated (bytes32 indexed forum, bytes32 indexed creator, bytes32 postId);
-    event PostDeleted (bytes32 indexed forum, bytes32 postId);
-    event PostPinned (bytes32 indexed forum, bytes32 postId);
-    event PostUnpinned (bytes32 indexed forum, bytes32 postId);
-    event CommentCreated (bytes32 indexed postId, bytes32 indexed creator, bytes32 indexed targetId, bytes32 commentId);
-    event CommentDeleted (bytes32 indexed forumId, bytes32 postId, bytes32 commentId);
-    event ReportUser (bytes32 user, bytes32 reason);
-    event ReportForum (bytes32 forum, bytes32 reason);
-    event ReportPost (bytes32 indexed _forum, bytes32 _postId, bytes32 reason);
-    event ReportComment (bytes32 indexed _forum, bytes32 _postId, bytes32 _commentId, bytes32 reason);
+    event AdminCreated (bytes32 user, bytes32 targetUser, uint time);
+    event AdminRemoved (bytes32 user, bytes32 targetUser, uint time);
+    event ModeratorCreated (bytes32 indexed forum, bytes32 user, bytes32 targetUser, uint time);
+    event ModeratorRemoved (bytes32 indexed forum, bytes32 user, bytes32 targetUser, uint time);
+    event UserCreated (bytes32 user, uint time);
+    event UserBanned (bytes32 user, uint time);
+    event UserForumBanned (bytes32 indexed forum, bytes32 user, uint time);
+    event ForumCreated (bytes32 forum, uint time);  
+    event ForumDeleted (bytes32 forum, uint time);
+    event ForumRulesEdited (bytes32 indexed forum, bytes32 oldRules, bytes32 newRules, uint time);
+    event ForumDescriptionEdited (bytes32 indexed forum, bytes32 oldDescription, bytes32 newDescription, uint time);
+    event PostCreated (bytes32 indexed forum, bytes32 indexed creator, bytes32 postId, uint time);
+    event PostDeleted (bytes32 indexed forum, bytes32 postId, uint time);
+    event PostPinned (bytes32 indexed forum, bytes32 postId, uint time);
+    event PostUnpinned (bytes32 indexed forum, bytes32 postId, uint time);
+    event CommentCreated (bytes32 indexed postId, bytes32 indexed creator, bytes32 indexed targetId, bytes32 commentId, uint time);
+    event CommentDeleted (bytes32 indexed forumId, bytes32 postId, bytes32 commentId, uint time);
+    event ReportUser (bytes32 user, bytes32 reason, uint time);
+    event ReportForum (bytes32 forum, bytes32 reason, uint time);
+    event ReportPost (bytes32 indexed _forum, bytes32 _postId, bytes32 reason, uint time);
+    event ReportComment (bytes32 indexed _forum, bytes32 _postId, bytes32 _commentId, bytes32 reason, uint time);
 
     mapping (bytes32 => Admin) public admins;
     mapping (bytes32 => bool) public banned;
     mapping (bytes32 => User) public users;
     mapping (bytes32 => Forum) public forums;
-    mapping (bytes32 => Post) public posts;
-    mapping (bytes32 => Comment) public comments;
+    // mapping (bytes32 => Post) public posts;
+    // mapping (bytes32 => Comment) public comments;
     uint public createUserCost = 0.03 ether;
     uint public createForumCost = 0.03 ether;
     uint public createPostCost = 0.0003 ether;
@@ -57,7 +57,6 @@ contract Tartarus is Ownable {
     struct User {
         bytes32 username;
         address creator;
-        uint time;
     }
     
     struct Forum {
@@ -65,25 +64,23 @@ contract Tartarus is Ownable {
         bytes32 rules;
         bytes32 description;
         bytes32 creator;
-        uint time;
         bytes32[] pinnedPosts;
         mapping(bytes32 => Moderator) moderators;
         mapping(bytes32 =>  bool) banned;
+        mapping(bytes32 => Post) posts;
+        mapping(bytes32 => Comment) comments;
     }
 
     struct Post {
-        bytes32 title;
         bytes32 post;
         bytes32 creator;
-        int32 votes;
-        uint time;
+        uint16 votes;
+        uint16 comments;
     }
 
     struct Comment {
         bytes32 comment;
         bytes32 creator;
-        bytes32 target;
-        uint time;
     }
 
     constructor(string memory _username) public {
@@ -96,7 +93,6 @@ contract Tartarus is Ownable {
         User memory newUser;
         newUser.username = usernameBytes;
         newUser.creator = msg.sender;
-        newUser.time = now;
         users[usernameBytes] = newUser;
         
         Admin memory newAdmin;
@@ -108,8 +104,8 @@ contract Tartarus is Ownable {
         newAdmin.deleteForum = true;
         admins[usernameBytes] = newAdmin;
         
-        emit UserCreated(usernameBytes);
-        emit AdminCreated(usernameBytes, usernameBytes);
+        emit UserCreated(usernameBytes, now);
+        emit AdminCreated(usernameBytes, usernameBytes, now);
     }
     
     modifier requiresFee(uint fee) {
@@ -154,17 +150,17 @@ contract Tartarus is Ownable {
         _;
     }
 
-    modifier postExists(bytes32 _postId) {
+    modifier postExists(bytes32 _forum, bytes32 _postId) {
         require(
-            posts[_postId].creator != 0, 
+            forums[_forum].posts[_postId].creator != 0, 
             "Post does not exist"
         );
         _;
     }
 
-    modifier commentExists(bytes32 _commentId) {
+    modifier commentExists(bytes32 _forum, bytes32 _commentId) {
         require(
-            comments[_commentId].creator != 0, 
+            forums[_forum].comments[_commentId].creator != 0, 
             "Comment does not exist"
         );
         _;
@@ -218,9 +214,8 @@ contract Tartarus is Ownable {
         User memory newUser;
         newUser.username = usernameBytes;
         newUser.creator = msg.sender;
-        newUser.time = now;
         users[usernameBytes] = newUser;
-        emit UserCreated(usernameBytes);
+        emit UserCreated(usernameBytes, now);
     }
 
     function createForum(bytes32 _user, string memory _forum, bytes32 _rules, bytes32 _description) 
@@ -243,7 +238,6 @@ contract Tartarus is Ownable {
         newForum.rules = _rules;
         newForum.description = _description;
         newForum.creator = _user;
-        newForum.time = now;
         newForum.pinnedPosts = new bytes32[](3);
         forums[forumBytes] = newForum;
         
@@ -254,8 +248,8 @@ contract Tartarus is Ownable {
         newModerator.editPost = true;
         forums[forumBytes].moderators[_user] = newModerator;
         
-        emit ForumCreated(forumBytes);
-        emit ModeratorCreated(forumBytes, _user, _user);
+        emit ForumCreated(forumBytes, now);
+        emit ModeratorCreated(forumBytes, _user, _user, now);
     }   
 
     function deleteForum(bytes32 _user, bytes32 _forum) 
@@ -266,41 +260,48 @@ contract Tartarus is Ownable {
             "User does not have permission"
         );
         delete forums[_forum];
-        emit ForumDeleted(_forum);
+        emit ForumDeleted(_forum, now);
     }   
-
-    function createPost(bytes32 _user, bytes32 _forum, bytes32 _title, bytes32 _post) 
+    
+    function createPost(bytes32 _user, bytes32 _forum, bytes32 _post) 
     public payable userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) requiresFee(createPostCost) {
         bytes32 postId = generateId();
         Post memory newPost;
-        newPost.title = _title;
         newPost.post = _post;
         newPost.creator = _user;
-        newPost.time = now;
-        posts[postId] = newPost;
-        emit PostCreated(_forum, _user, postId);
+        newPost.votes = 0;
+        newPost.comments = 0;
+        forums[_forum].posts[postId] = newPost;
+        emit PostCreated(_forum, _user, postId, now);
     }
 
     function deletePost(bytes32 _user, bytes32 _forum, bytes32 _postId) 
-    public userVerified(_user) forumExists(_forum) postExists(_postId) {
+    public userVerified(_user) forumExists(_forum) postExists(_forum, _postId) {
         require(
             admins[_user].deletePost ||
             forums[_forum].moderators[_user].editPost ||
-            posts[_postId].creator == _user,
+            forums[_forum].posts[_postId].creator == _user,
             "User does not have permission"
         );
-        delete posts[_postId];
-        emit PostDeleted(_forum, _postId);
+        delete forums[_forum].posts[_postId];
+        emit PostDeleted(_forum, _postId, now);
+    }
+    
+    function getPost(bytes32 _forum, bytes32 _postId) public view returns (bytes32 post, bytes32 creator, uint16 votes, uint16 comments) {
+        post = forums[_forum].posts[_postId].post;
+        creator = forums[_forum].posts[_postId].creator;
+        votes = forums[_forum].posts[_postId].votes;
+        comments = forums[_forum].posts[_postId].comments;
     }
 
     function pinPost(bytes32 _user, bytes32 _forum, bytes32 _postId, uint _postIndex) 
-    public userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_postId) {
+    public userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_forum, _postId) {
         require(
             forums[_forum].moderators[_user].editPost,
             "User does not have permission"
         );
         forums[_forum].pinnedPosts[_postIndex] = _postId;
-        emit PostPinned(_forum, _postId);
+        emit PostPinned(_forum, _postId, now);
     }
 
     function unpinPost(bytes32 _user, bytes32 _forum, uint _postIndex) 
@@ -309,47 +310,57 @@ contract Tartarus is Ownable {
             forums[_forum].moderators[_user].editPost,
             "User does not have permission"
         );
-        emit PostUnpinned(_forum, forums[_forum].pinnedPosts[_postIndex]);
+        emit PostUnpinned(_forum, forums[_forum].pinnedPosts[_postIndex], now);
         delete forums[_forum].pinnedPosts[_postIndex];    
+    }
+    
+    function getPinnedPosts(bytes32 _forum) public view returns (bytes32 post1, bytes32 post2, bytes32 post3) {
+        post1 = forums[_forum].pinnedPosts[0];
+        post2 = forums[_forum].pinnedPosts[1];
+        post3 = forums[_forum].pinnedPosts[2];
     }
 
     function upvote(bytes32 _forum, bytes32 _user, bytes32 _postId) 
-    public payable userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_postId) requiresFee(voteCost) {
-        posts[_postId].votes += 1;
+    public payable userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_forum, _postId) requiresFee(voteCost) {
+        forums[_forum].posts[_postId].votes += 1;
     }
 
     function downvote(bytes32 _forum, bytes32 _user, bytes32 _postId) 
-    public payable userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_postId) requiresFee(voteCost) {
-        posts[_postId].votes -= 1;
+    public payable userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_forum, _postId) requiresFee(voteCost) {
+        forums[_forum].posts[_postId].votes -= 1;
     }
 
     function createComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _comment, bytes32 _targetId) 
-    public payable userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_postId) requiresFee(createCommentCost) {
+    public payable userVerified(_user) forumExists(_forum) userUnbanned(_user, _forum) postExists(_forum, _postId) requiresFee(createCommentCost) {
         require(
-            posts[_targetId].creator != 0 || 
-            comments[_targetId].creator != 0, 
+            forums[_forum].posts[_targetId].creator != 0 || 
+            forums[_forum].comments[_targetId].creator != 0, 
             "Target does not exist"
         );
         bytes32 commentId = generateId();
         Comment memory newComment;
         newComment.comment = _comment;
         newComment.creator = _user;
-        newComment.target = _targetId;
-        newComment.time = now;
-        comments[commentId] = newComment;
-        emit CommentCreated(_postId, _user, _targetId, commentId);
+        forums[_forum].comments[commentId] = newComment;
+        forums[_forum].posts[_postId].comments += 1;
+        emit CommentCreated(_postId, _user, _targetId, commentId, now);
     }
 
     function deleteComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _commentId) 
-    public userVerified(_user) forumExists(_forum) commentExists(_commentId) {
+    public userVerified(_user) forumExists(_forum) commentExists(_forum, _commentId) {
         require(
             admins[_user].deleteComment ||
             forums[_forum].moderators[_user].editPost ||
-            comments[_commentId].creator == _user,
+            forums[_forum].comments[_commentId].creator == _user,
             "User does not have permission"
         );
-        delete comments[_commentId];
-        emit CommentDeleted(_forum, _postId, _commentId);
+        delete forums[_forum].comments[_commentId];
+        emit CommentDeleted(_forum, _postId, _commentId, now);
+    }
+    
+    function getComment(bytes32 _forum, bytes32 _commentId) public view returns (bytes32 comment, bytes32 creator) {
+        comment = forums[_forum].comments[_commentId].comment;
+        creator = forums[_forum].comments[_commentId].creator;
     }
 
     function createModerator(
@@ -371,7 +382,7 @@ contract Tartarus is Ownable {
         newModerator.editModerator = _editModerators;
         newModerator.editPost = _editPost;
         forums[_forum].moderators[_user] = newModerator;
-        emit ModeratorCreated(_forum, _user, _targetUser);
+        emit ModeratorCreated(_forum, _user, _targetUser, now);
     }
 
     function removeModerator(bytes32 _user, bytes32 _targetUser, bytes32 _forum) 
@@ -381,7 +392,14 @@ contract Tartarus is Ownable {
             "User does not have permission"
         );
         delete forums[_forum].moderators[_targetUser];
-        emit ModeratorRemoved(_forum, _user, _targetUser);
+        emit ModeratorRemoved(_forum, _user, _targetUser, now);
+    }
+        
+    function getModerator(bytes32 _forum, bytes32 _user) public view returns (bool ban, bool editInfo, bool editModerator, bool editPost) {
+        ban = forums[_forum].moderators[_user].ban;
+        editInfo = forums[_forum].moderators[_user].editInfo;
+        editModerator = forums[_forum].moderators[_user].editModerator;
+        editPost = forums[_forum].moderators[_user].editPost;
     }
 
     function setForumRules(bytes32 _user, bytes32 _forum, bytes32 _rules) 
@@ -390,7 +408,7 @@ contract Tartarus is Ownable {
             forums[_forum].moderators[_user].editInfo,
             "User does not have permission"
         );
-        emit ForumRulesEdited(_forum, forums[_forum].rules, _rules);
+        emit ForumRulesEdited(_forum, forums[_forum].rules, _rules, now);
         forums[_forum].rules = _rules;
     }
     
@@ -400,7 +418,7 @@ contract Tartarus is Ownable {
             forums[_forum].moderators[_user].editInfo,
             "User does not have permission"
         );
-        emit ForumDescriptionEdited(_forum, forums[_forum].description, _description);
+        emit ForumDescriptionEdited(_forum, forums[_forum].description, _description, now);
         forums[_forum].description = _description;
     }
 
@@ -415,7 +433,7 @@ contract Tartarus is Ownable {
             "User does not have permission"
         );
         forums[_forum].banned[_targetUser] = true;
-        emit UserForumBanned(_forum, _user);
+        emit UserForumBanned(_forum, _user, now);
     }
 
     function unbanUserForum(bytes32 _user, bytes32 _targetUser, bytes32 _forum) 
@@ -437,7 +455,7 @@ contract Tartarus is Ownable {
             !banned[_user], 
             "User banned"
         );
-        emit ReportUser(_user, _reason);
+        emit ReportUser(_user, _reason, now);
     }
 
     function reportForum(bytes32 _user, bytes32 _forum, bytes32 _reason) 
@@ -446,25 +464,25 @@ contract Tartarus is Ownable {
             !banned[_user], 
             "User banned"
         );
-        emit ReportForum(_forum, _reason);
+        emit ReportForum(_forum, _reason, now);
     }
 
     function reportPost(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _reason) 
-    public userVerified(_user) forumExists(_forum) postExists(_postId) {
+    public userVerified(_user) forumExists(_forum) postExists(_forum, _postId) {
         require(
             !banned[_user], 
             "User banned"
         );
-        emit ReportPost(_forum, _postId, _reason);
+        emit ReportPost(_forum, _postId, _reason, now);
     }
 
     function reportComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _commentId, bytes32 _reason) 
-    public userVerified(_user) forumExists(_forum) commentExists(_commentId) {
+    public userVerified(_user) forumExists(_forum) commentExists(_forum, _commentId) {
         require(
             !banned[_user], 
             "User banned"
         );
-        emit ReportComment(_forum, _postId, _commentId, _reason);
+        emit ReportComment(_forum, _postId, _commentId, _reason, now);
     }
 
     function createAdmin(
@@ -490,7 +508,7 @@ contract Tartarus is Ownable {
         newAdmin.deletePost = _deletePost;
         newAdmin.deleteForum = _deleteForum;
         admins[_targetUser] = newAdmin;
-        emit AdminCreated(_user, _targetUser);
+        emit AdminCreated(_user, _targetUser, now);
     }  
 
     function removeAdmin(bytes32 _user, bytes32 _targetUser) 
@@ -499,7 +517,7 @@ contract Tartarus is Ownable {
             admins[_user].editAdmin, "User does not have permission"
         );
         delete admins[_targetUser];
-        emit AdminRemoved(_user, _targetUser);
+        emit AdminRemoved(_user, _targetUser, now);
     }
 
     function banUserTartarus(bytes32 _user, bytes32 _targetUser) 
@@ -512,7 +530,7 @@ contract Tartarus is Ownable {
             "User is already banned"
         );
         banned[_targetUser] = true;
-        emit UserBanned(_user);
+        emit UserBanned(_user, now);
     }
 
     function unbanUserTartarus(bytes32 _user, bytes32 _targetUser)

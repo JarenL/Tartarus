@@ -82,8 +82,8 @@ class CreateForumForm extends React.Component {
               .createForum(
                 this.props.web3.utils.fromAscii(this.props.username),
                 this.props.form.createForum.values.forumName,
-                props.description,
                 props.rules,
+                props.description,
                 {
                   from: accounts[0],
                   gasPrice: 20000000000,
