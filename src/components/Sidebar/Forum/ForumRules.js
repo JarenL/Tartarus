@@ -4,7 +4,6 @@ import { wideFont } from '../../shared/helpers';
 import { overflow } from '../../shared/helpers';
 import UpButton from '../Buttons/UpButton';
 import DownButton from '../Buttons/DownButton';
-import EditButton from '../Buttons/EditButton';
 import ReactHtmlParser from 'react-html-parser';
 
 const Wrapper = styled.aside`
@@ -48,7 +47,6 @@ const ForumRules = props => (
     <HeaderWrapper>
       {'Rules'}
       <ButtonWrapper>
-        <EditButton size={16} />
         {props.showRules ? (
           <UpButton size={18} onClick={props.toggleShowRules} />
         ) : (

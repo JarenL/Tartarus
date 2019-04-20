@@ -5,7 +5,7 @@ const CloseButton = styled(MdClose)`
   cursor: pointer;
   margin-right: 2px;
   margin-left: 2px;
-  color: ${props => props.theme.normalText};
+  color: #ffffff;
   &:last-child {
     margin-right: 0;
   }

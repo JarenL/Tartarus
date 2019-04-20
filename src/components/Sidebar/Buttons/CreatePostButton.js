@@ -10,10 +10,20 @@ const PostButton = styled(Button)`
   text-align: center;
 `;
 
-const CreatePostButton = props => (
-  <PostButton as={Link} to={`/f/${props.forumName}/createpost`}>
-    create post
-  </PostButton>
-);
+const CreatePostButton = props => {
+  if (props.username) {
+    return (
+      <PostButton as={Link} to={`/f/${props.forumName}/createpost`}>
+        create post
+      </PostButton>
+    );
+  } else {
+    return (
+      <PostButton as={Link} to={`/login`}>
+        create post
+      </PostButton>
+    );
+  }
+};
 
 export default CreatePostButton;

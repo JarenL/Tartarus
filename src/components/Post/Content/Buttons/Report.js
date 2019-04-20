@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
-import { MdAttachMoney } from 'react-icons/md';
+import { MdFlag } from 'react-icons/md';
 
-const Tip = styled(MdAttachMoney)`
+const Report = styled(MdFlag)`
   vertical-align: sub;
   cursor: pointer;
   margin-right: 2px;
@@ -17,4 +17,4 @@ const Tip = styled(MdAttachMoney)`
   }
 `;
 
-export default Tip;
+export default Report;

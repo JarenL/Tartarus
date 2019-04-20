@@ -133,93 +133,25 @@ class PostContainer extends Component {
   };
 
   handleDelete = () => {
-    this.checkLogin();
-    const contract = require('truffle-contract');
-    const tartarus = contract(TartarusContract);
-    tartarus.setProvider(this.props.web3.currentProvider);
-    this.props.web3.eth.getAccounts((error, accounts) => {
-      tartarus.at(this.props.tartarusAddress).then(instance => {
-        instance.deletePost
-          .sendTransaction(
-            this.props.web3.utils.fromAscii(this.props.username),
-            this.props.post.forum,
-            this.props.post.postId,
-            { from: accounts[0], gasPrice: 20000000000 }
-          )
-          .then(result => {
-            this.setState({
-              loading: false
-            });
-            this.props.reset('createForum');
-            this.props.history.goBack();
-          })
-          .catch(error => {
-            console.log('error');
-            this.setState({
-              loading: false
-            });
-          });
-      });
-    });
-  };
-
-  handleUpvote = () => {
-    this.checkLogin();
-    this.setState({
-      voteLoading: true
-    });
-    const contract = require('truffle-contract');
-    const tartarus = contract(TartarusContract);
-    tartarus.setProvider(this.props.web3.currentProvider);
-    this.props.web3.eth.getAccounts((error, accounts) => {
-      tartarus.at(this.props.tartarusAddress).then(instance => {
-        instance.voteCost.call().then(voteCost => {
-          instance.upvote
+    console.log('unsave');
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      const contract = require('truffle-contract');
+      const tartarus = contract(TartarusContract);
+      tartarus.setProvider(this.props.web3.currentProvider);
+      this.props.web3.eth.getAccounts((error, accounts) => {
+        tartarus.at(this.props.tartarusAddress).then(instance => {
+          instance.deletePost
             .sendTransaction(
-              this.props.post.forum,
               this.props.web3.utils.fromAscii(this.props.username),
+              this.props.post.forum,
               this.props.post.postId,
-              { from: accounts[0], gasPrice: 20000000000, value: voteCost }
+              { from: accounts[0], gasPrice: 20000000000 }
             )
             .then(result => {
               this.setState({
-                voteLoading: false
-              });
-              this.props.reset('createForum');
-              this.props.history.goBack();
-            })
-            .catch(error => {
-              console.log('error');
-              this.setState({
-                voteLoading: false
-              });
-            });
-        });
-      });
-    });
-  };
-
-  handleDownvote = () => {
-    this.checkLogin();
-    this.setState({
-      voteLoading: true
-    });
-    const contract = require('truffle-contract');
-    const tartarus = contract(TartarusContract);
-    tartarus.setProvider(this.props.web3.currentProvider);
-    this.props.web3.eth.getAccounts((error, accounts) => {
-      tartarus.at(this.props.tartarusAddress).then(instance => {
-        instance.voteCost.call().then(voteCost => {
-          instance.downvote
-            .sendTransaction(
-              this.props.post.forum,
-              this.props.web3.utils.fromAscii(this.props.username),
-              this.props.post.postId,
-              { from: accounts[0], gasPrice: 20000000000, value: voteCost }
-            )
-            .then(result => {
-              this.setState({
-                voteLoading: false
+                loading: false
               });
               this.props.reset('createForum');
               this.props.history.goBack();
@@ -232,7 +164,87 @@ class PostContainer extends Component {
             });
         });
       });
-    });
+    }
+  };
+
+  handleUpvote = () => {
+    console.log('unsave');
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      this.setState({
+        voteLoading: true
+      });
+      const contract = require('truffle-contract');
+      const tartarus = contract(TartarusContract);
+      tartarus.setProvider(this.props.web3.currentProvider);
+      this.props.web3.eth.getAccounts((error, accounts) => {
+        tartarus.at(this.props.tartarusAddress).then(instance => {
+          instance.voteCost.call().then(voteCost => {
+            instance.upvote
+              .sendTransaction(
+                this.props.post.forum,
+                this.props.web3.utils.fromAscii(this.props.username),
+                this.props.post.postId,
+                { from: accounts[0], gasPrice: 20000000000, value: voteCost }
+              )
+              .then(result => {
+                this.setState({
+                  voteLoading: false
+                });
+                this.props.reset('createForum');
+                this.props.history.goBack();
+              })
+              .catch(error => {
+                console.log('error');
+                this.setState({
+                  voteLoading: false
+                });
+              });
+          });
+        });
+      });
+    }
+  };
+
+  handleDownvote = () => {
+    console.log('unsave');
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      this.setState({
+        voteLoading: true
+      });
+      const contract = require('truffle-contract');
+      const tartarus = contract(TartarusContract);
+      tartarus.setProvider(this.props.web3.currentProvider);
+      this.props.web3.eth.getAccounts((error, accounts) => {
+        tartarus.at(this.props.tartarusAddress).then(instance => {
+          instance.voteCost.call().then(voteCost => {
+            instance.downvote
+              .sendTransaction(
+                this.props.post.forum,
+                this.props.web3.utils.fromAscii(this.props.username),
+                this.props.post.postId,
+                { from: accounts[0], gasPrice: 20000000000, value: voteCost }
+              )
+              .then(result => {
+                this.setState({
+                  voteLoading: false
+                });
+                this.props.reset('createForum');
+                this.props.history.goBack();
+              })
+              .catch(error => {
+                console.log('error');
+                this.setState({
+                  loading: false
+                });
+              });
+          });
+        });
+      });
+    }
   };
 
   render() {

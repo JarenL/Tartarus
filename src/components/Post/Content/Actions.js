@@ -1,19 +1,17 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { link } from '../../shared/helpers';
-import Author from '../../shared/Author';
 
 import { ifNotProp, prop } from 'styled-tools';
-import DeleteButton from '../../Sidebar/Buttons/DeleteButton';
-import ReportButton from '../../Sidebar/Buttons/ReportButton';
-import Comment from './Icons/Comment';
-import More from './Icons/More';
-import Less from './Icons/Less';
-import Save from './Icons/Save';
-import Unsave from './Icons/Unsave';
-import Tip from './Icons/Tip';
+import Delete from './Buttons/Delete';
+import Report from './Buttons/Report';
+import Comment from './Buttons/Comment';
+import More from './Buttons/More';
+import Less from './Buttons/Less';
+import Save from './Buttons/Save';
+import Unsave from './Buttons/Unsave';
+import Tip from './Buttons/Tip';
 
 const Wrapper = styled.div`
   display: flex;
@@ -82,17 +80,17 @@ const PostActions = props => (
       </ButtonWrapper>
     )}
     <ButtonWrapper>
-      <i class="fab fa-ethereum"></i>
+      <Tip />
       {'Tip'}
       </ButtonWrapper>
     {props.canDelete ? (
       <ButtonWrapper onClick={props.handleDelete}>
-        <DeleteButton size={16} />
+        <Delete size={16} />
         {'Delete'}
       </ButtonWrapper>
     ) : null}
     <ButtonWrapper>
-      <ReportButton size={16} />
+      <Report size={16} />
       {'Report'}
     </ButtonWrapper>
   </Wrapper>

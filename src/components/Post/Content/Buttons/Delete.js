@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
-import { MdFlag } from 'react-icons/md';
+import { MdDelete } from 'react-icons/md';
 
-const ReportButton = styled(MdFlag)`
+const Delete = styled(MdDelete)`
   vertical-align: sub;
   cursor: pointer;
   margin-right: 2px;
@@ -17,4 +17,4 @@ const ReportButton = styled(MdFlag)`
   }
 `;
 
-export default ReportButton;
+export default Delete;

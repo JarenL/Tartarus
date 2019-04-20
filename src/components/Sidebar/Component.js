@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import CreatePostButton from './Buttons/CreatePostButton';
-import SubscribeContainer from './Subscribe/SubscribeContainer';
 import CreateForumButton from './Buttons/CreateForumButton';
-import ForumContainer from './Forum/ForumContainer';
+import ForumSidebarContainer from './Forum/Container';
 import SubscriptionContainer from './Subscription/SubscriptionContainer';
+import UserSidebarContainer from './User/Container';
 
 const Wrapper = styled.aside`
   position: sticky;
@@ -24,29 +23,23 @@ const Wrapper = styled.aside`
 
 const Sidebar = props => {
   console.log(props);
-  // if (props.username === null) {
-  //   return null;
-  // } else {
-  if (props.params.forumName !== undefined) {
+  //create frontpage, user, forum, post sidebar component
+
+  if (props.forumName !== undefined) {
     return (
       <Wrapper>
-        <SubscribeContainer forumName={props.params.forumName} />
-        <CreatePostButton forumName={props.params.forumName} />
-        <ForumContainer forumName={props.params.forumName} />
+        <ForumSidebarContainer forumName={props.forumName} />
         <SubscriptionContainer />
       </Wrapper>
     );
-  } else {
-    if (props.username === null) {
-      return null;
-    } else {
-      return (
-        <Wrapper>
-          <CreateForumButton />
-          <SubscriptionContainer />
-        </Wrapper>
-      );
-    }
+  }
+  if (props.username !== undefined) {
+    return (
+      <Wrapper>
+        <UserSidebarContainer username={props.username} />
+        <SubscriptionContainer />
+      </Wrapper>
+    );
   }
 };
 

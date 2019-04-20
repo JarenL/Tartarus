@@ -7,7 +7,7 @@ import CategoryMenu from '../CategoryMenu/Component';
 import PostListContainer from '../PostList/PostListContainer';
 import SidebarContainer from '../Sidebar/Container';
 import PostDetail from '../PostDetail/Container';
-import UserSidebar from '../Sidebar/User/UserContainer';
+import UserSidebar from '../Sidebar/User/Component';
 import CreatePostFormContainer from '../CreatePostForm/Container';
 import SearchResultsContainer from '../Search/SearchResultsContainer';
 
@@ -104,12 +104,17 @@ const Home = props => {
           exact
           path='/f/:forumName'
           render={({ match }) => (
-            <SidebarContainer key={match.url} {...match} />
+            <SidebarContainer
+              key={match.url}
+              forumName={match.params.forumName}
+            />
           )}
         />
         <Route
           path='/u/:username'
-          render={({ match }) => <UserSidebar {...match} />}
+          render={({ match }) => (
+            <SidebarContainer username={match.params.username} />
+          )}
         />
       </Switch>
     </Wrapper>

@@ -4,7 +4,6 @@ import { wideFont } from '../../shared/helpers';
 import { overflow } from '../../shared/helpers';
 import UpButton from '../Buttons/UpButton';
 import DownButton from '../Buttons/DownButton';
-import EditButton from '../Buttons/EditButton';
 import { Link } from 'react-router-dom';
 
 const Wrapper = styled.aside`
@@ -64,7 +63,6 @@ const ForumModerators = props => (
     <HeaderWrapper>
       {'Moderators'}
       <ButtonWrapper>
-        <EditButton size={14} />
         {props.showModerators ? (
           <UpButton size={18} onClick={props.toggleShowModerators} />
         ) : (
@@ -74,16 +72,20 @@ const ForumModerators = props => (
     </HeaderWrapper>
     {props.showModerators ? (
       <Moderators>
-        <ul>
-          {props.moderators.map(function(moderator) {
-            return (
-              <Moderator
-                moderator={moderator.args.targetUser}
-                web3={props.web3}
-              />
-            );
-          })}
-        </ul>
+        {props.moderators !== null ? (
+          <ul>
+            {props.moderators.map(function(moderator) {
+              return (
+                <Moderator
+                  moderator={moderator.args.targetUser}
+                  web3={props.web3}
+                />
+              );
+            })}
+          </ul>
+        ) : (
+          'None'
+        )}
       </Moderators>
     ) : null}
   </Wrapper>

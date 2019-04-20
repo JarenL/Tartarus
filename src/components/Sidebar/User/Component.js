@@ -1,31 +1,19 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components/macro';
 import UserList from './UserList';
 import UserMessageButton from './UserMessageButton';
 import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import UserHeader from './UserHeader';
+import authCategories from './AuthCategories';
+import categories from './Categories';
 
-const Wrapper = styled.aside`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex-basis: 240px;
-  margin-left: 24px;
-  border: 1px solid ${props => props.theme.border};
-  border-radius: 2px;
-  background-color: ${props => props.theme.foreground};
-
-  @media (max-width: 768px) {
-    display: none;
-  }
 `;
 
-const authCategories = ['posts', 'comments', 'messages', 'saved'];
-
-const categories = ['posts', 'comments'];
-
-class UserContainer extends Component {
+class UserSidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,9 +38,7 @@ class UserContainer extends Component {
         instance
           .PostCreated(
             {
-              creator: this.props.web3.utils.fromAscii(
-                this.props.params.username
-              )
+              creator: this.props.web3.utils.fromAscii(this.props.username)
             },
             {
               fromBlock: 0,
@@ -71,17 +57,18 @@ class UserContainer extends Component {
   }
 
   render() {
+    console.log(this.props);
     if (this.state.loading) {
       return <LoadingIndicatorSpinner />;
     } else {
-      if (this.props.username !== this.props.params.username) {
+      if (this.props.currentUser !== this.props.username) {
         return (
           <Wrapper>
             <UserMessageButton />
-            <UserHeader username={this.props.params.username} />
+            <UserHeader username={this.props.username} />
             <UserList
               path={this.props.url}
-              username={this.props.params.username}
+              username={this.props.username}
               categories={categories}
             />
           </Wrapper>
@@ -89,10 +76,10 @@ class UserContainer extends Component {
       } else {
         return (
           <Wrapper>
-            <UserHeader username={this.props.params.username} />
+            <UserHeader username={this.props.username} />
             <UserList
               path={this.props.url}
-              username={this.props.params.username}
+              username={this.props.username}
               categories={authCategories}
             />
           </Wrapper>
@@ -102,12 +89,4 @@ class UserContainer extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    web3: state.web3,
-    username: state.user.username,
-    tartarusAddress: state.tartarus.tartarusAddress
-  };
-}
-
-export default connect(mapStateToProps)(UserContainer);
+export default UserSidebar;
