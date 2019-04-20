@@ -3,11 +3,9 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/macro';
 import UserList from './UserList';
 import UserMessageButton from './UserMessageButton';
-import UserContract from '../../contracts/User.json';
-import TartarusContract from '../../contracts/Tartarus.json';
-import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
+import TartarusContract from '../../../contracts/Tartarus.json';
+import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import UserHeader from './UserHeader';
-import { Divider } from '@material-ui/core';
 
 const Wrapper = styled.aside`
   display: flex;
@@ -23,12 +21,17 @@ const Wrapper = styled.aside`
   }
 `;
 
+const authCategories = ['posts', 'comments', 'messages', 'saved'];
+
+const categories = ['posts', 'comments'];
+
 class UserContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userAddress: null,
-      loading: true
+      loading: true,
+      posts: [],
+      comments: []
     };
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -40,23 +43,28 @@ class UserContainer extends Component {
   instantiateContract() {
     console.log(this.props);
     const contract = require('truffle-contract');
-    const user = contract(UserContract);
     const tartarus = contract(TartarusContract);
-    user.setProvider(this.props.web3.currentProvider);
     tartarus.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
-        instance.users
-          .call(this.props.user.username, {
-            from: accounts[0],
-            gasPrice: 20000000000
-          })
-          .then(userAddress => {
-            console.log(userAddress);
+        instance
+          .PostCreated(
+            {
+              creator: this.props.web3.utils.fromAscii(
+                this.props.params.username
+              )
+            },
+            {
+              fromBlock: 0,
+              toBlock: 'latest'
+            }
+          )
+          .get((error, posts) => {
             this.setState({
-              userAddress: userAddress,
+              posts: posts,
               loading: false
             });
+            console.log(posts);
           });
       });
     });
@@ -66,33 +74,26 @@ class UserContainer extends Component {
     if (this.state.loading) {
       return <LoadingIndicatorSpinner />;
     } else {
-      if (this.props.user.userAddress !== this.state.userAddress) {
+      if (this.props.username !== this.props.params.username) {
         return (
           <Wrapper>
             <UserMessageButton />
-            <UserHeader
-              userAddress={this.state.userAddress}
-              username={this.props.params.username}
-            />
+            <UserHeader username={this.props.params.username} />
             <UserList
               path={this.props.url}
-              userAddress={this.state.userAddress}
               username={this.props.params.username}
+              categories={categories}
             />
           </Wrapper>
         );
       } else {
         return (
           <Wrapper>
-            <UserHeader
-              userAddress={this.state.userAddress}
-              username={this.props.params.username}
-            />
-            <Divider />
+            <UserHeader username={this.props.params.username} />
             <UserList
               path={this.props.url}
-              userAddress={this.state.userAddress}
               username={this.props.params.username}
+              categories={authCategories}
             />
           </Wrapper>
         );
@@ -104,7 +105,7 @@ class UserContainer extends Component {
 function mapStateToProps(state) {
   return {
     web3: state.web3,
-    user: state.user,
+    username: state.user.username,
     tartarusAddress: state.tartarus.tartarusAddress
   };
 }

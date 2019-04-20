@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import NavLink from '../shared/NavLink';
+import NavLink from '../../shared/NavLink';
 import { withRouter } from 'react-router';
 
 const Item = styled(NavLink)`

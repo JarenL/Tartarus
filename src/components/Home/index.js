@@ -7,9 +7,8 @@ import CategoryMenu from '../CategoryMenu/Component';
 import PostListContainer from '../PostList/PostListContainer';
 import SidebarContainer from '../Sidebar/Container';
 import PostDetail from '../PostDetail/Container';
-import UserSidebar from '../User/UserContainer';
+import UserSidebar from '../Sidebar/User/UserContainer';
 import CreatePostFormContainer from '../CreatePostForm/Container';
-import UserListContainer from '../User/UserHistory';
 import SearchResultsContainer from '../Search/SearchResultsContainer';
 
 const Wrapper = styled.div`
@@ -28,154 +27,93 @@ const Wrapper = styled.div`
 `;
 
 const Home = props => {
-  if (props.username === null) {
-    console.log(props);
-    return (
-      <Wrapper>
-        <HomeMainSection>
-          <Route component={CategoryMenu} />
-          <Route exact path='/' component={PostListContainer} />
-          <Route
-            exact
-            path='/search/:search'
-            render={({ match }) => (
-              <SearchResultsContainer search={match.params.search} />
-            )}
-          />
-          <Route
-            exact
-            path='/f/:forumName'
-            render={({ match }) => (
-              <PostListContainer forumAddress={match.params.forumAddress} />
-            )}
-          />
-          <Route
-            exact
-            path='/u/:username'
-            render={({ match }) => (
-              <PostListContainer username={match.params.username} />
-            )}
-          />
-          {/* <Route
-            path='/u/:username/posts'
-            render={({ match }) => (
-              <PostListContainer username={match.params.username} />
-            )}
-          />
-          <Route
-            path='/u/:username/comments'
-            render={({ match }) => (
-              <PostListContainer username={match.params.username} />
-            )}
-          /> */}
-          <Route
-            exact
-            path='/p/:postId'
-            render={({ match }) => (
-              <PostDetail postAddress={match.params.postAddress} />
-            )}
-          />
-        </HomeMainSection>
+  return (
+    <Wrapper>
+      <HomeMainSection>
+        <Route component={CategoryMenu} />
+        <Route exact path='/' component={PostListContainer} />
+        <Route
+          exact
+          path='/search/:search'
+          render={({ match }) => (
+            <SearchResultsContainer search={match.params.search} />
+          )}
+        />
+        <Route
+          exact
+          path='/f/:forumName'
+          render={({ match }) => {
+            return (
+              <PostListContainer
+                key={match.url}
+                forumName={match.params.forumName}
+              />
+            );
+          }}
+        />
+        <Route
+          exact
+          path='/p/:postId'
+          render={({ match }) => (
+            <PostDetail
+              forumName={match.params.forumName}
+              postId={match.params.postId}
+            />
+          )}
+        />
+        <Route
+          exact
+          path='/f/:forumName/createpost'
+          render={({ match }) => (
+            <CreatePostFormContainer forumName={match.params.forumName} />
+          )}
+        />
         <Route
           exact
           path='/u/:username'
-          render={({ match }) => <UserSidebar {...match} />}
+          render={({ match }) => (
+            <PostListContainer username={match.params.username} />
+          )}
         />
         <Route
           path='/u/:username/posts'
-          render={({ match }) => <UserSidebar {...match} />}
+          render={({ match }) => (
+            <PostListContainer username={match.params.username} />
+          )}
+        />
+        <Route
+          path='/u/:username/comments'
+          render={({ match }) => (
+            <PostListContainer username={match.params.username} />
+          )}
+        />
+        <Route
+          path='/u/:username/saved'
+          render={({ match }) => (
+            <PostListContainer username={match.params.username} />
+          )}
+        />
+      </HomeMainSection>
+      <Switch>
+        <Route
+          exact
+          path='/'
+          render={({ match }) => <SidebarContainer {...match} />}
         />
         <Route
           exact
-          path='/u/:username/comments'
+          path='/f/:forumName'
+          render={({ match }) => (
+            <SidebarContainer key={match.url} {...match} />
+          )}
+        />
+        <Route
+          path='/u/:username'
           render={({ match }) => <UserSidebar {...match} />}
         />
-      </Wrapper>
-    );
-  } else {
-    return (
-      <Wrapper>
-        <HomeMainSection>
-          <Route component={CategoryMenu} />
-          <Route exact path='/' component={PostListContainer} />
-          <Route
-            exact
-            path='/search/:search'
-            render={({ match }) => (
-              <SearchResultsContainer search={match.params.search} />
-            )}
-          />
-          <Route
-            exact
-            path='/f/:forumName'
-            render={({ match }) => {
-              return (
-                <PostListContainer
-                  key={match.url}
-                  forumName={match.params.forumName}
-                />
-              );
-            }}
-          />
-          <Route
-            exact
-            path='/p/:postId'
-            render={({ match }) => (
-              <PostDetail
-                forumAddress={match.params.forum}
-                postAddress={match.params.postAddress}
-              />
-            )}
-          />
-          <Route
-            exact
-            path='/f/:forumName/createpost'
-            render={({ match }) => (
-              <CreatePostFormContainer forumName={match.params.forumName} />
-            )}
-          />
-          <Route
-            exact
-            path='/u/:username'
-            render={({ match }) => (
-              <UserListContainer username={match.params.username} />
-            )}
-          />
-          <Route
-            path='/u/:username/posts'
-            render={({ match }) => (
-              <PostListContainer username={match.params.username} />
-            )}
-          />
-          <Route
-            path='/u/:username/comments'
-            render={({ match }) => (
-              <PostListContainer username={match.params.username} />
-            )}
-          />
-        </HomeMainSection>
-
-        <Switch>
-          <Route
-            exact
-            path='/'
-            render={({ match }) => <SidebarContainer {...match} />}
-          />
-          <Route
-            exact
-            path='/f/:forumName'
-            render={({ match }) => (
-              <SidebarContainer key={match.url} {...match} />
-            )}
-          />
-          <Route
-            path='/u/:username'
-            render={({ match }) => <UserSidebar {...match} />}
-          />
-        </Switch>
-      </Wrapper>
-    );
-  }
+      </Switch>
+    </Wrapper>
+  );
 };
 
 function mapStateToProps(state) {

@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   border-left: none;
   padding: 8px;
   background-color: ${props => props.theme.inputBackground};
-  color: ${props => props.theme.normalText};
+  color: ${props => props.theme.mutedText};
 `;
 
 const PostContentFullText = props => (

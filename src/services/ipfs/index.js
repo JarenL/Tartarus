@@ -23,13 +23,12 @@ const {
   getReadableStream,
 
   getIpfs
-} = require('./lib')
+} = require('./lib');
 
-const webWorkers = require('./webWorkers')
+const webWorkers = require('./webWorkers');
 
 export {
   setProvider,
-
   uploadObject,
   uploadString,
   uploadTypedArray,
@@ -37,10 +36,8 @@ export {
   uploadFilePath,
   uploadIpfsBufferWrappedWithDirectory,
   uploadFilePathWrappedWithDirectory,
-
   getFileTypeFromBuffer,
   getFileTypeFromHash,
-
   getJson,
   getString,
   getStringFromStream,
@@ -51,8 +48,6 @@ export {
   getBlobFromStream,
   getMediaSourceFromStream,
   getReadableStream,
-
   getIpfs,
-
   webWorkers
-}
+};

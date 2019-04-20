@@ -134,7 +134,6 @@ class CreatePostForm extends React.Component {
 
   handleSubmit = async () => {
     console.log('publish');
-    console.log(this.props.form);
     this.setState({
       loading: true
     });

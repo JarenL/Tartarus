@@ -5,6 +5,7 @@ import UnsubscribeButton from './UnsubscribeButton';
 import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingBubble from '../../shared/LoadingIndicator/Bubble';
 import { updateUserSubscriptions } from '../../../redux/actions/actions';
+import { withRouter } from 'react-router-dom';
 
 class SubscribeContainer extends Component {
   constructor(props) {
@@ -48,17 +49,22 @@ class SubscribeContainer extends Component {
   };
 
   subscribeHandler = () => {
-    let newSubscriptionsArray = this.props.userSettings[
-      this.props.username
-    ].subscriptions.slice();
-    newSubscriptionsArray.push({
-      forumName: this.props.forumName
-    });
-    let payload = {
-      username: this.props.username,
-      subscriptions: newSubscriptionsArray
-    };
-    this.props.dispatch(updateUserSubscriptions(payload));
+    console.log('save');
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      let newSubscriptionsArray = this.props.userSettings[
+        this.props.username
+      ].subscriptions.slice();
+      newSubscriptionsArray.push({
+        forumName: this.props.forumName
+      });
+      let payload = {
+        username: this.props.username,
+        subscriptions: newSubscriptionsArray
+      };
+      this.props.dispatch(updateUserSubscriptions(payload));
+    }
   };
 
   unsubscribeHandler = () => {
@@ -81,7 +87,7 @@ class SubscribeContainer extends Component {
     if (this.state.loading) {
       return <LoadingBubble />;
     } else {
-      if (this.state.forumExists) {
+      if (this.state.forumExists && this.props.username !== null) {
         var index = this.props.userSettings[
           this.props.username
         ].subscriptions.findIndex(
@@ -95,7 +101,7 @@ class SubscribeContainer extends Component {
           );
         }
       } else {
-        return null;
+        return <SubscribeButton subscribeHandler={this.subscribeHandler} />;
       }
     }
   }
@@ -110,4 +116,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(SubscribeContainer);
+export default withRouter(connect(mapStateToProps)(SubscribeContainer));

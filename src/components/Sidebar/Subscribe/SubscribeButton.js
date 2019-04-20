@@ -12,7 +12,7 @@ const Subscribe = styled(Button)`
 class SubscribeButton extends Component {
   render() {
     return (
-      <Subscribe onClick={this.props.subscribeHandler}>Subscrbe</Subscribe>
+      <Subscribe onClick={this.props.subscribeHandler}>Subscribe</Subscribe>
     );
   }
 }

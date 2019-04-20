@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components/macro';
 import PostContentTitle from './Title';
 import PostContentFullText from './FullText';
-import PostContentDetail from './Detail';
+import PostActions from './Actions';
+import PostDetails from './Details';
 import EmbedWidget from '../EmbedWidget';
-import PostAddress from './PostAddress';
 import LoadingBubble from '../../shared/LoadingIndicator/Bubble';
 import ReactHtmlParser, {
   processNodes,
@@ -12,6 +12,7 @@ import ReactHtmlParser, {
   htmlparser2
 } from 'react-html-parser';
 import LinkPreview from './LinkPreview';
+import TextPreview from './TextPreview';
 
 const isIPFS = require('is-ipfs');
 
@@ -22,8 +23,9 @@ const Wrapper = styled.div`
   border-left: 1px solid ${props => props.theme.border};
   padding: 8px;
   min-width: 0;
-  justify-content: center;
-  alignitems: center;
+  // min-width: 0;
+  // justify-content: center;
+  // alignitems: center;
 `;
 
 const {
@@ -53,12 +55,12 @@ const renderContent = props => {
         return (
           <LinkPreview onClick={() => window.open(props.post)}>
             {ReactHtmlParser(props.post)}
+            {console.log(props.post.length)}
           </LinkPreview>
         );
       }
 
     case 'upload':
-      console.log(`${ipfsGateway}/${props.post}`);
       return (
         <LinkPreview
           onClick={() => window.open(`${ipfsGateway}/${props.post}`)}
@@ -67,10 +69,12 @@ const renderContent = props => {
         </LinkPreview>
       );
     case 'text':
-      if (props.showFullPost) {
+      console.log(props.showFullPost)
+      if (props.showFullPost || props.preview) {
         return <PostContentFullText post={props.post} />;
+      } else {
+        return <TextPreview>{ReactHtmlParser(props.post)}</TextPreview>;
       }
-      break;
     default:
       break;
   }
@@ -187,8 +191,8 @@ class PostContent extends Component {
   download = async ({ ipfsHash, fileExtension }) => {
     const { isDownloading } = this.state;
     const { post } = this.props;
-    const username = post.username || post.address;
-    const postId = post.id;
+    const username = post.username;
+    const postId = post.postId;
 
     if (!isDownloading) {
       this.setState({ isDownloading: true });
@@ -234,29 +238,38 @@ class PostContent extends Component {
           <PostContentTitle
             // url={url}
             title={this.props.title}
-            postAddress={this.props.postAddress}
-            forumAddress={this.props.forumAddress}
+            postId={this.props.postId}
+            forumName={this.props.forumName}
             type={this.props.type}
             post={this.props.post}
             full={false}
           />
           {renderContent({
+            preview: this.state.preview,
             showFullPost: this.props.showFullPost,
             type: this.props.type,
             post: this.props.post
           })}
-          <PostAddress postAddress={this.props.postAddress} />
-          <PostContentDetail
+          {/* <PostAddress postAddress={this.props.postAddress} /> */}
+          <PostDetails
+            time={this.props.time}
+            creator={this.props.creator}
+            forumName={this.props.forumName}
+          />
+          <PostActions
             preview={this.state.preview}
             handlePreview={this.handlePreview}
             commentCount={this.props.commentCount}
             time={this.props.time}
             creator={this.props.creator}
             forumName={this.props.forumName}
-            forumAddress={this.props.forumAddress}
-            postAddress={this.props.postAddress}
+            postId={this.props.postId}
             type={this.props.type}
             canDelete={this.props.canDelete}
+            saved={this.props.saved}
+            handleSave={this.props.handleSave}
+            handleUnsave={this.props.handleUnsave}
+            handleDelete={this.props.handleDelete}
           />
           {this.state.preview &&
             renderEmbed({

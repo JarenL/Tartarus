@@ -1,29 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PostContract from '../../contracts/Post.json';
 import TartarusContract from '../../contracts/Tartarus.json';
 import Post from './Post';
-import ipfs from '../../services/ipfs/ipfs';
 import Empty from '../shared/Empty.js';
+import { updateUserSaved } from '../../redux/actions/actions';
+import { withRouter } from 'react-router-dom';
+
+const services = require('../../services');
 
 class PostContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       title: null,
+      type: null,
       post: null,
       creator: null,
-      forum: null,
-      forumName: null,
       time: null,
       loading: true,
+      voteLoading: false,
       votes: null,
       comments: null,
       exists: true,
-      type: null,
-      preview: false,
+      saved: false,
+      canReport: false,
       canDelete: false,
-      canReport: false
+      toggleTip: false,
+      toggleReport: false
     };
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -35,98 +38,229 @@ class PostContainer extends Component {
   instantiateContract() {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
-    const username = this.props.web3.utils.toAscii(this.props.post.creator);
-    const forumName = this.props.web3.utils.toAscii(this.props.post.forum);
     tartarus.setProvider(this.props.web3.currentProvider);
     tartarus.at(this.props.tartarusAddress).then(instance => {
-      instance.forums.call(this.props.post.forum).then(forum => {
-      instance.posts.call(this.props.post.postId).then(post => {
-        console.log(post);
-        const bs58 = require('bs58');
-        const titleHex = '1220' + post[0].slice(2);
-        const titleBytes32 = Buffer.from(titleHex, 'hex');
-        const titleIpfsHash = bs58.encode(titleBytes32);
-
-        const postHex = '1220' + post[1].slice(2);
-        const postBytes32 = Buffer.from(postHex, 'hex');
-        const postIpfsHash = bs58.encode(postBytes32);
-        console.log(titleIpfsHash);
-        console.log(postIpfsHash);
-        // ipfs.stat(titleIpfsHash, (err, result) => {
-        //   console.log(err, result);
-        // });
-        ipfs.catJSON(titleIpfsHash, (err, titleData) => {
-          ipfs.catJSON(postIpfsHash, (err, postData) => {
-            // if (err) {
-            //   console.log(err);
-            //   throw err;
-            // }
-            console.log(titleData);
-            console.log(postData);
+      instance
+        .getPost(this.props.post.forum, this.props.post.postId)
+        .then(async post => {
+          console.log(post);
+          if (
+            post[0] ===
+            '0x0000000000000000000000000000000000000000000000000000000000000000'
+          ) {
             this.setState({
-              title: titleData.title,
-              creator: username,
+              exists: false
+            });
+          } else {
+            const bs58 = require('bs58');
+            const postHex = '1220' + post[0].slice(2);
+            const postBytes32 = Buffer.from(postHex, 'hex');
+            const postIpfsHash = bs58.encode(postBytes32);
+
+            const postData = await services.ipfs.getJson(postIpfsHash);
+            if (this.props.username !== null) {
+              this.checkSaved();
+            }
+            this.setState({
+              title: postData.title,
               type: postData.type,
               post: postData.post,
-              forumName: forumName,
-              time: post[4].c[0] * 1000,
-              votes: post[3].c[0],
-              comments: post[6],
+              votes: post[2].c[0],
+              comments: post[3].c[0],
               loading: false,
               canDelete:
-                this.props.web3.utils.fromAscii(this.props.username) === post[2]
+                this.props.username === this.props.web3.utils.toUtf8(post[1])
             });
-          });
+          }
         });
-      });
     });
   }
 
-  upvote = () => {
+  checkSaved = () => {
+    const index = this.props.userSettings[
+      this.props.username
+    ].saved.posts.findIndex(post => post.postId === this.props.post.postId);
+    if (index === -1) {
+      this.setState({
+        saved: false
+      });
+    } else {
+      this.setState({
+        saved: true
+      });
+    }
+  };
+
+  handleSave = props => {
+    console.log('save');
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      let newSavedPostsArray = this.props.userSettings[this.props.username]
+        .saved;
+      newSavedPostsArray.posts.push({
+        postId: props
+      });
+      let payload = {
+        username: this.props.username,
+        saved: newSavedPostsArray
+      };
+      this.props.dispatch(updateUserSaved(payload));
+      this.checkSaved();
+    }
+  };
+
+  handleUnsave = props => {
+    console.log('unsave');
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      let newSaved = this.props.userSettings[this.props.username].saved;
+      let newSavedPostsArray = newSaved.posts.slice();
+      for (var i = 0; i < newSavedPostsArray.length; i++) {
+        if (newSavedPostsArray[i].postId === props) {
+          newSavedPostsArray.splice(i, 1);
+        }
+      }
+      newSaved.posts = newSavedPostsArray;
+      let payload = {
+        username: this.props.username,
+        saved: newSaved
+      };
+      this.props.dispatch(updateUserSaved(payload));
+      this.checkSaved();
+    }
+  };
+
+  handleDelete = () => {
+    this.checkLogin();
     const contract = require('truffle-contract');
-    const post = contract(PostContract);
-    post.setProvider(this.props.web3.currentProvider);
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
-      post.at(this.props.address).then(instance => {
-        instance.upvote({ from: accounts[0], gasPrice: 20000000000 });
+      tartarus.at(this.props.tartarusAddress).then(instance => {
+        instance.deletePost
+          .sendTransaction(
+            this.props.web3.utils.fromAscii(this.props.username),
+            this.props.post.forum,
+            this.props.post.postId,
+            { from: accounts[0], gasPrice: 20000000000 }
+          )
+          .then(result => {
+            this.setState({
+              loading: false
+            });
+            this.props.reset('createForum');
+            this.props.history.goBack();
+          })
+          .catch(error => {
+            console.log('error');
+            this.setState({
+              loading: false
+            });
+          });
       });
     });
   };
 
-  downvote = () => {
+  handleUpvote = () => {
+    this.checkLogin();
+    this.setState({
+      voteLoading: true
+    });
     const contract = require('truffle-contract');
-    const post = contract(PostContract);
-    post.setProvider(this.props.web3.currentProvider);
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
-      post.at(this.props.address).then(instance => {
-        instance.downvote({ from: accounts[0], gasPrice: 20000000000 });
+      tartarus.at(this.props.tartarusAddress).then(instance => {
+        instance.voteCost.call().then(voteCost => {
+          instance.upvote
+            .sendTransaction(
+              this.props.post.forum,
+              this.props.web3.utils.fromAscii(this.props.username),
+              this.props.post.postId,
+              { from: accounts[0], gasPrice: 20000000000, value: voteCost }
+            )
+            .then(result => {
+              this.setState({
+                voteLoading: false
+              });
+              this.props.reset('createForum');
+              this.props.history.goBack();
+            })
+            .catch(error => {
+              console.log('error');
+              this.setState({
+                voteLoading: false
+              });
+            });
+        });
+      });
+    });
+  };
+
+  handleDownvote = () => {
+    this.checkLogin();
+    this.setState({
+      voteLoading: true
+    });
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    this.props.web3.eth.getAccounts((error, accounts) => {
+      tartarus.at(this.props.tartarusAddress).then(instance => {
+        instance.voteCost.call().then(voteCost => {
+          instance.downvote
+            .sendTransaction(
+              this.props.post.forum,
+              this.props.web3.utils.fromAscii(this.props.username),
+              this.props.post.postId,
+              { from: accounts[0], gasPrice: 20000000000, value: voteCost }
+            )
+            .then(result => {
+              this.setState({
+                voteLoading: false
+              });
+              this.props.reset('createForum');
+              this.props.history.goBack();
+            })
+            .catch(error => {
+              console.log('error');
+              this.setState({
+                loading: false
+              });
+            });
+        });
       });
     });
   };
 
   render() {
     if (!this.state.exists) {
-      return <Empty />;
+      // return <Empty />;
+      return null;
     } else {
-      console.log(this.state);
       return (
         <Post
           loading={this.state.loading}
-          address={this.props.address}
           title={this.state.title}
           post={this.state.post}
           type={this.state.type}
-          creator={this.state.creator}
-          forum={this.state.forum}
-          forumName={this.state.forumName}
-          time={this.state.time}
+          postId={this.props.post.postId}
+          creator={this.props.web3.utils.toAscii(this.props.post.creator)}
+          forumName={this.props.web3.utils.toAscii(this.props.post.forum)}
+          time={this.props.post.time.c[0] * 1000}
           votes={this.state.votes}
-          upvote={this.upvote}
+          voteLoading={this.state.voteLoading}
           comments={this.state.comments}
-          downvote={this.downvote}
-          preview={this.state.preview}
-          showFullPost={this.props.showFullPost}
           canDelete={this.state.canDelete}
+          saved={this.state.saved}
+          handleSave={this.handleSave}
+          handleUnsave={this.handleUnsave}
+          handleUpvote={this.handleUpvote}
+          handleDownvote={this.handleDownvote}
+          handleDelete={this.handleDelete}
+          showFullPost={false}
         />
       );
     }
@@ -137,8 +271,9 @@ function mapStateToProps(state) {
   return {
     web3: state.web3,
     username: state.user.username,
+    userSettings: state.user.userSettings,
     tartarusAddress: state.tartarus.tartarusAddress
   };
 }
 
-export default connect(mapStateToProps)(PostContainer);
+export default withRouter(connect(mapStateToProps)(PostContainer));

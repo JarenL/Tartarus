@@ -3,11 +3,10 @@ import { overflow } from '../../shared/helpers';
 
 const LinkPreview = styled.div`
   ${overflow};
-  max-width: 800px;
-  padding-bottom: 1px;
-  height: 1.25em;
-  font-size: 10px;
   cursor: pointer;
+  max-width: 800px;
+  font-size: 13px;
+  line-height: 19px;
   color: ${props => props.theme.mutedText};
 
   &:hover {

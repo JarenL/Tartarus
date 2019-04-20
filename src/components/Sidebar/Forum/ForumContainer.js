@@ -9,6 +9,8 @@ import ForumModerators from './ForumModerators.js';
 import ForumDescription from './ForumDescription.js';
 import ipfs from '../../../services/ipfs/ipfs';
 
+const services = require('../../../services');
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -47,9 +49,10 @@ class ForumContainer extends Component {
     this.setState({ showModerators: !this.state.showModerators });
   };
 
-  instantiateContract() {
+  instantiateContract = () => {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
+    const bs58 = require('bs58');
     tartarus.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
@@ -58,62 +61,57 @@ class ForumContainer extends Component {
             from: accounts[0],
             gasPrice: 20000000000
           })
-          .then(forum => {
-            const bs58 = require('bs58');
+          .then(async forum => {
+            const rulesHex = '1220' + forum[1].slice(2);
+            const rulesBytes = Buffer.from(rulesHex, 'hex');
+            const rulesHash = bs58.encode(rulesBytes);
+
             const descriptionHex = '1220' + forum[2].slice(2);
             const descriptionBytes = Buffer.from(descriptionHex, 'hex');
             const descriptionHash = bs58.encode(descriptionBytes);
 
-            const rulesHex = '1220' + forum[1].slice(2);
-            const rulesBytes = Buffer.from(rulesHex, 'hex');
-            const rulesHash = bs58.encode(rulesBytes);
-            ipfs.catJSON(descriptionHash, (err, description) => {
-              console.log(description);
-              if (description) {
-                this.setState({
-                  description: description.description
-                });
-              } else {
-                this.setState({
-                  description: 'None'
-                });
-              }
-              ipfs.catJSON(rulesHash, (err, rules) => {
-                console.log(rules);
-                if (rules) {
-                  this.setState({
-                    rules: rules.rules
-                  });
-                } else {
-                  this.setState({
-                    rules: 'None'
-                  });
-                }
-                instance
-                  .ModeratorCreated(
-                    {
-                      forum: this.props.web3.utils.fromAscii(
-                        this.props.forumName
-                      )
-                    },
-                    { fromBlock: 0, toBlock: 'latest' }
-                  )
-                  .get((error, moderators) => {
-                    console.log(forum);
-                    this.setState({
-                      loading: false,
-                      // description: description.description,
-                      // rules: rules.rules,
-                      creator: forum[3],
-                      moderators: moderators
-                    });
-                  });
+            const description = await services.ipfs.getJson(descriptionHash);
+            const rules = await services.ipfs.getJson(rulesHash);
+            if (description) {
+              this.setState({
+                description: description.description
               });
-            });
+            } else {
+              this.setState({
+                description: 'None'
+              });
+            }
+
+            if (rules) {
+              this.setState({
+                rules: rules.rules
+              });
+            } else {
+              this.setState({
+                rules: 'None'
+              });
+            }
+            instance
+              .ModeratorCreated(
+                {
+                  forum: this.props.web3.utils.fromAscii(this.props.forumName)
+                },
+                { fromBlock: 0, toBlock: 'latest' }
+              )
+              .get((error, moderators) => {
+                console.log(forum);
+                this.setState({
+                  loading: false,
+                  // description: description.description,
+                  // rules: rules.rules,
+                  creator: forum[3],
+                  moderators: moderators
+                });
+              });
           });
       });
     });
-  }
+  };
   render() {
     if (this.state.loading) {
       return <LoadingBubble />;

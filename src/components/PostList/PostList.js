@@ -11,9 +11,7 @@ class PostList extends Component {
   }
 
   renderItem(index, key) {
-    return (
-      <PostListItem key={key} post={this.props.posts[index].args} />
-    );
+    return <PostListItem key={key} post={this.props.posts[index].args} />;
   }
 
   render() {

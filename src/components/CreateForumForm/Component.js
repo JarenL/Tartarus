@@ -6,7 +6,6 @@ import SubmitButton from '../shared/form/SubmitButton';
 import CancelButton from '../shared/form/CancelButton';
 import styled from 'styled-components/macro';
 import TartarusContract from '../../contracts/Tartarus.json';
-
 const services = require('../../services');
 
 const Wrapper = styled.div`
@@ -42,6 +41,7 @@ class CreateForumForm extends React.Component {
     const forumRulesIpfsHash = await services.ipfs.uploadObject(
       forumRulesObject
     );
+
     const bs58 = require('bs58');
     const forumDescriptionBytes32 =
       '0x' +
@@ -55,8 +55,6 @@ class CreateForumForm extends React.Component {
         .decode(forumRulesIpfsHash)
         .slice(2)
         .toString('hex');
-    console.log(forumDescriptionBytes32);
-    console.log(forumRulesBytes32);
     this.createForum({
       description: forumDescriptionBytes32,
       rules: forumRulesBytes32
@@ -78,8 +76,8 @@ class CreateForumForm extends React.Component {
       this.props.web3.eth.getAccounts((error, accounts) => {
         tartarus.at(this.props.tartarusAddress).then(instance => {
           instance.createUserCost.call().then(createForumCost => {
-            instance
-              .createForum(
+            instance.createForum
+              .sendTransaction(
                 this.props.web3.utils.fromAscii(this.props.username),
                 this.props.form.createForum.values.forumName,
                 props.rules,

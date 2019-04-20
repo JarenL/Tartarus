@@ -1,5 +1,6 @@
 import {
   UPDATE_USER_SUBSCRIPTIONS,
+  UPDATE_USER_SAVED,
   INITIALIZE_USER_SETTINGS,
   USER_LOGIN,
   USER_LOGOUT
@@ -30,16 +31,29 @@ const accountsReducer = (state = initialState, action) => {
     case 'web3/CHANGE_ACCOUNT':
       return {
         ...state,
-        username: null
+        username: action.payload.username,
+        userSettings: {
+          ...state.userSettings,
+          [action.payload.username]: {
+            ...state.userSettings[action.payload.username],
+            lastVisited: Date.now()
+          }
+        }
       };
     case 'web3/LOGOUT':
       return {
         ...state,
-        username: null
+        username: action.payload.username,
+        userSettings: {
+          ...state.userSettings,
+          [action.payload.username]: {
+            ...state.userSettings[action.payload.username],
+            lastVisited: Date.now()
+          }
+        }
       };
     case USER_LOGIN:
-      if (state.userSettings[state.username] === undefined) {
-        let currentTime = Date.now();
+      if (state.userSettings[action.payload.username] === undefined) {
         return {
           ...state,
           username: action.payload.username,
@@ -47,23 +61,23 @@ const accountsReducer = (state = initialState, action) => {
             ...state.userSettings,
             [action.payload.username]: {
               subscriptions: [],
-              test1: [],
-              test2: [],
-              saved: [],
-              lastVisited: currentTime
+              saved: {
+                posts: [],
+                comments: []
+              },
+              lastVisited: Date.now()
             }
           }
         };
       } else {
-        let currentTime = Date.now();
         return {
           ...state,
           username: action.payload.username,
           userSettings: {
             ...state.userSettings,
             [action.payload.username]: {
-              ...state.userSettings,
-              lastVisited: currentTime
+              ...state.userSettings[action.payload.username],
+              lastVisited: Date.now()
             }
           }
         };
@@ -80,8 +94,19 @@ const accountsReducer = (state = initialState, action) => {
         userSettings: {
           ...state.userSettings,
           [action.payload.username]: {
-            ...state.userSettings,
+            ...state.userSettings[action.payload.username],
             subscriptions: action.payload.subscriptions
+          }
+        }
+      };
+    case UPDATE_USER_SAVED:
+      return {
+        ...state,
+        userSettings: {
+          ...state.userSettings,
+          [action.payload.username]: {
+            ...state.userSettings[action.payload.username],
+            saved: action.payload.saved
           }
         }
       };

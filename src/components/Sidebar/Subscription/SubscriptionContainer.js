@@ -47,23 +47,27 @@ class SubscriptionContainer extends Component {
   };
 
   render() {
-    return (
-      <Wrapper>
-        <SubscriptionHeader
-          showSubscriptions={this.state.showSubscriptions}
-          toggleShowSubscriptions={this.toggleShowSubscriptions}
-          toggleEditSubscriptions={this.toggleEditSubscriptions}
-        />
-        {this.state.showSubscriptions && (
-          <SubscriptionList
-            username={this.props.username}
-            userSettings={this.props.userSettings}
-            editSubscriptions={this.state.editSubscriptions}
-            handleRemoveSubscription={this.handleRemoveSubscription}
+    if (this.props.username !== null) {
+      return (
+        <Wrapper>
+          <SubscriptionHeader
+            showSubscriptions={this.state.showSubscriptions}
+            toggleShowSubscriptions={this.toggleShowSubscriptions}
+            toggleEditSubscriptions={this.toggleEditSubscriptions}
           />
-        )}
-      </Wrapper>
-    );
+          {this.state.showSubscriptions && (
+            <SubscriptionList
+              username={this.props.username}
+              userSettings={this.props.userSettings}
+              editSubscriptions={this.state.editSubscriptions}
+              handleRemoveSubscription={this.handleRemoveSubscription}
+            />
+          )}
+        </Wrapper>
+      );
+    } else {
+      return null;
+    }
   }
 }
 

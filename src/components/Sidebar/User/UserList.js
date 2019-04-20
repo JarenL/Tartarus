@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import UserSidebarItem from './UserItem';
-import categories from './UserCategories';
-import { wideFont } from '../shared/helpers';
-import { overflow } from '../shared/helpers';
+import { wideFont } from '../../shared/helpers';
+import { overflow } from '../../shared/helpers';
 
 const List = styled.nav`
   display: flex;
@@ -22,6 +21,7 @@ const Header = styled.span`
   alignitems: center;
   padding: 12px;
   color: ${props => props.theme.mutedText};
+  border-bottom: 1px solid ${props => props.theme.border};
 `;
 
 const mapCategories = categories =>
@@ -32,7 +32,7 @@ const mapCategories = categories =>
 const UserList = props => (
   <Wrapper>
     <Header>{'history'}</Header>
-    <List>{mapCategories(['all', ...categories])}</List>
+    <List>{mapCategories(['all', ...props.categories])}</List>
   </Wrapper>
 );
 

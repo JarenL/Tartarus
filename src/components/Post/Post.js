@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import PostVoteContainer from './Vote/Component';
+import PostVote from './Vote/Component';
 import PostContent from './Content';
 
 const Wrapper = styled.div`
@@ -11,26 +11,28 @@ const Wrapper = styled.div`
 
 const Post = props => (
   <Wrapper>
-    <PostVoteContainer
-      address={props.address}
+    <PostVote
       votes={props.votes}
-      score={props.votes}
-      loading={props.loading}
+      loading={props.voteLoading}
+      handleUpvote={props.handleUpvote}
+      handleDownvote={props.handleDownvote}
     />
     <PostContent
       loading={props.loading}
-      postAddress={props.address}
       showFullPost={props.showFullPost}
       type={props.type}
-      id={props.address}
+      postId={props.postId}
       title={props.title}
       post={props.post}
       time={props.time}
       creator={props.creator}
       forumName={props.forumName}
-      forumAddress={props.forum}
       commentCount={props.comments}
       canDelete={props.canDelete}
+      saved={props.saved}
+      handleSave={props.handleSave}
+      handleUnsave={props.handleUnsave}
+      handleDelete={props.handleDelete}
     />
   </Wrapper>
 );

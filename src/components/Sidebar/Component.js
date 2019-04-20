@@ -23,19 +23,22 @@ const Wrapper = styled.aside`
 `;
 
 const Sidebar = props => {
-  console.log(props)
-  if (props.username === null) {
-    return null;
+  console.log(props);
+  // if (props.username === null) {
+  //   return null;
+  // } else {
+  if (props.params.forumName !== undefined) {
+    return (
+      <Wrapper>
+        <SubscribeContainer forumName={props.params.forumName} />
+        <CreatePostButton forumName={props.params.forumName} />
+        <ForumContainer forumName={props.params.forumName} />
+        <SubscriptionContainer />
+      </Wrapper>
+    );
   } else {
-    if (props.params.forumName !== undefined) {
-      return (
-        <Wrapper>
-          <SubscribeContainer forumName={props.params.forumName} />
-          <CreatePostButton forumName={props.params.forumName} />
-          <ForumContainer forumName={props.params.forumName} />
-          <SubscriptionContainer />
-        </Wrapper>
-      );
+    if (props.username === null) {
+      return null;
     } else {
       return (
         <Wrapper>

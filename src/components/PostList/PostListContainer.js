@@ -74,7 +74,7 @@ class PostListContainer extends React.Component {
   instantiateContract = () => {
     const contract = require('truffle-contract');
     if (this.props.forumName === undefined) {
-      if (this.props.username !== undefined) {
+      if (this.props.username === undefined) {
         //front page
         console.log("front")
         const tartarus = contract(TartarusContract);
@@ -169,7 +169,6 @@ class PostListContainer extends React.Component {
 export const mapStateToProps = state => ({
   web3: state.web3,
   tartarusAddress: state.tartarus.tartarusAddress,
-  username: state.user.username,
   time: state.form.filter.values.time,
   type: state.form.filter.values.type
 });

@@ -8,9 +8,9 @@ const Wrapper = styled.div`
 
   * {
     ${overflow};
-
     display: block;
     font-size: 15px;
+    padding-bottom: 1px;
     line-height: 21px;
     font-weight: 500;
     text-decoration: none;
@@ -40,7 +40,7 @@ const renderTitle = props => {
 const PostContentTitle = props => (
   // <Wrapper full={props.full}>{renderTitle(props)}</Wrapper>
   <Wrapper full={props.full}>
-    <Link to={`/p/${props.postAddress}`}>{props.title}</Link>
+    <Link to={`/p/${props.postId}`}>{props.title}</Link>
   </Wrapper>
 );
 

@@ -6,11 +6,16 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: theme.spacing.unit * 2
   },
   progress: {
-    margin: theme.spacing.unit / 2,
-    colorPrimary: '#1890ff'
+    color: '#33a0ff',
+    margin: theme.spacing.unit * 2
+  },
+  mb: {
+    fontSize: 10,
+    fontWeight: 500
   }
 });
 
@@ -18,7 +23,7 @@ const Loading = props => {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <CircularProgress className={classes.progress} />
+      <CircularProgress className={classes.progress} size={props.size} />
     </div>
   );
 };
