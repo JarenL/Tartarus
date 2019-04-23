@@ -14,7 +14,7 @@ contract Tartarus is Ownable {
     event ForumDeleted (bytes32 forum, uint time);
     event ForumRulesEdited (bytes32 indexed forum, bytes32 oldRules, bytes32 newRules, uint time);
     event ForumDescriptionEdited (bytes32 indexed forum, bytes32 oldDescription, bytes32 newDescription, uint time);
-    event PostCreated (bytes32 indexed forum, bytes32 indexed creator, bytes32 postId, uint time);
+    event PostCreated (bytes32 indexed forum, bytes32 indexed creator, bytes32 indexed postId, uint time);
     event PostDeleted (bytes32 indexed forum, bytes32 postId, uint time);
     event PostPinned (bytes32 indexed forum, bytes32 postId, uint time);
     event PostUnpinned (bytes32 indexed forum, bytes32 postId, uint time);
@@ -29,8 +29,6 @@ contract Tartarus is Ownable {
     mapping (bytes32 => bool) public banned;
     mapping (bytes32 => User) public users;
     mapping (bytes32 => Forum) public forums;
-    // mapping (bytes32 => Post) public posts;
-    // mapping (bytes32 => Comment) public comments;
     uint public createUserCost = 0.03 ether;
     uint public createForumCost = 0.03 ether;
     uint public createPostCost = 0.0003 ether;

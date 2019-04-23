@@ -14,7 +14,7 @@ import CreateForumFormContainer from './components/CreateForumForm/Container';
 import { initializeWeb3, setTartarusAddress } from './redux/actions/actions';
 import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner';
 
-const tartarusAddress = '0x7f854b3c12c6bafef3c2a3253eaa9c20f8a78ab8';
+const tartarusAddress = '0xa7a894918cdb06ecb64b6becd79011601eeedc7c';
 
 class App extends Component {
   constructor(props) {

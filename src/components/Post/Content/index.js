@@ -69,8 +69,7 @@ const renderContent = props => {
         </LinkPreview>
       );
     case 'text':
-      console.log(props.showFullPost)
-      if (props.showFullPost || props.preview) {
+      if (props.preview) {
         return <PostContentFullText post={props.post} />;
       } else {
         return <TextPreview>{ReactHtmlParser(props.post)}</TextPreview>;
@@ -96,7 +95,7 @@ class PostContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      preview: false,
+      preview: this.props.showFullPost,
       link: null,
       content: null,
       isDownloading: false,

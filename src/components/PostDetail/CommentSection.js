@@ -2,12 +2,12 @@ import React from 'react';
 import Empty from '../shared/Empty';
 import CommentList from '../CommentList';
 
-const PostDetailCommentSection = ({ comments }) => (
+const PostDetailCommentSection = props => (
   <>
-    {!comments || comments.length === 0 ? (
+    {!props.comments || props.comments.length === 0 ? (
       <Empty comments />
     ) : (
-      <CommentList comments={comments} />
+      <CommentList forumName={props.forumName} comments={props.comments} />
     )}
   </>
 );

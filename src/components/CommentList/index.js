@@ -7,17 +7,17 @@ const List = styled.ul`
   list-style: none;
 `;
 
-const mapComments = comments =>
-  comments.map((comment, index) => (
-    <CommentListItem key={index} commentAddress={comment.args.commentAddress} />
+const mapComments = props =>
+  props.comments.map((comment, index) => (
+    <CommentListItem key={index} forumName={props.forumName} comment={comment.args} />
   ));
 
 // const sortComments = comments =>
 //   comments.sort((a, b) => new Date(b.created) - new Date(a.created));
 
-const CommentList = ({ comments }) => (
+const CommentList = props => (
   // comments && <List>{mapComments(sortComments(comments))}</List>;
-  <List>{mapComments(comments)}</List>
+  <List>{mapComments(props)}</List>
 );
 
 export default CommentList;

@@ -252,6 +252,7 @@ class PostContainer extends Component {
       // return <Empty />;
       return null;
     } else {
+      console.log(this.props.post)
       return (
         <Post
           loading={this.state.loading}
@@ -272,7 +273,7 @@ class PostContainer extends Component {
           handleUpvote={this.handleUpvote}
           handleDownvote={this.handleDownvote}
           handleDelete={this.handleDelete}
-          showFullPost={false}
+          showFullPost={this.props.showFullPost}
         />
       );
     }

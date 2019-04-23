@@ -3,6 +3,8 @@ import { overflow } from '../../shared/helpers';
 
 const TextPreview = styled.div`
   display: flex;
+  white-space: nowrap;
+  overflow: hidden;
 
   * {
     ${overflow};

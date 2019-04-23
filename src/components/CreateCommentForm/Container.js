@@ -7,12 +7,12 @@ import { withRouter } from 'react-router';
 const mapStateToProps = state => ({
   web3: state.web3,
   form: state.form,
-  userAddress: state.user.userAddress
-  // currentUserAddress: state.accounts.currentUserAddress
+  username: state.user.username,
+  tartarusAddress: state.tartarus.tartarusAddress
 });
 
 const enhance = compose(
-  reduxForm({ form: 'comment' }),
+  reduxForm({ form: 'createComment' }),
   connect(mapStateToProps)
 );
 

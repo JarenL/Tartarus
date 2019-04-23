@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import Form from '../shared/form/Form';
 import { transition } from '../shared/helpers';
-import UserContract from '../../contracts/User.json';
+import TartarusContract from '../../contracts/Tartarus.json';
 import Editor from '../shared/form/Editor';
 import { Field } from 'redux-form';
+import SubmitButton from '../shared/form/SubmitButton';
 import CommentButton from '../shared/form/CommentButton';
 import CancelButton from '../shared/form/CancelButton';
 
@@ -42,7 +43,8 @@ class CommentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
+      commenting: false
     };
   }
 
@@ -53,6 +55,7 @@ class CommentForm extends React.Component {
   };
 
   handleCancel = () => {
+    this.props.reset('createComment');
     this.setState({
       commenting: false
     });
@@ -60,12 +63,15 @@ class CommentForm extends React.Component {
 
   handleSubmit = async () => {
     console.log(this.props);
-    if (this.props.userAddress === null) {
+    if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
-      if (this.props.form.comment.values !== undefined) {
+      if (this.props.form.createComment.values !== undefined) {
         this.setState({ loading: true });
-        let commentObject = { comment: this.props.form.comment.values };
+        let commentObject = {
+          comment: this.props.form.createComment.values.comment
+        };
+        console.log(commentObject);
         const ipfsHash = await services.ipfs.uploadObject(commentObject);
         const bs58 = require('bs58');
         const base58 =
@@ -81,29 +87,36 @@ class CommentForm extends React.Component {
 
   submitCommentTransaction = ipfsHash => {
     const contract = require('truffle-contract');
-    const user = contract(UserContract);
-    user.setProvider(this.props.web3.currentProvider);
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
-      user.at(this.props.userAddress).then(instance => {
-        instance
-          .createComment(
-            this.props.forumAddress,
-            this.props.postAddress,
-            this.props.postAddress,
-            ipfsHash,
-            { from: accounts[0], gasPrice: 20000000000 }
-          )
-          .then(result => {
-            this.setState({
-              loading: false
+      tartarus.at(this.props.tartarusAddress).then(instance => {
+        instance.createCommentCost.call().then(createCommentCost => {
+          instance.createComment
+            .sendTransaction(
+              this.props.web3.utils.fromAscii(this.props.username),
+              this.props.web3.utils.fromAscii(this.props.forumName),
+              this.props.postId,
+              ipfsHash,
+              this.props.postId,
+              {
+                from: accounts[0],
+                gasPrice: 20000000000,
+                value: createCommentCost
+              }
+            )
+            .then(result => {
+              this.setState({
+                loading: false
+              });
+            })
+            .catch(function(e) {
+              console.log('error');
+              this.setState({
+                loading: false
+              });
             });
-          })
-          .catch(function(e) {
-            console.log('error');
-            this.setState({
-              loading: false
-            });
-          });
+        });
       });
     });
   };
@@ -111,10 +124,13 @@ class CommentForm extends React.Component {
   render() {
     if (this.state.commenting) {
       return (
-        <StyledForm loading={this.state.loading}>
-          <Field name={this.props.name} component={Editor} />
+        <StyledForm
+          onSubmit={this.props.handleSubmit(this.handleSubmit)}
+          loading={this.state.loading}
+        >
+          <Field name='comment' component={Editor} />
           <Wrapper>
-            <CommentButton onClick={this.handleSubmit} />
+            <SubmitButton />
             <CancelButton onClick={this.handleCancel} />
           </Wrapper>
         </StyledForm>

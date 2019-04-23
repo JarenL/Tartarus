@@ -30,7 +30,6 @@ class ForumSidebar extends Component {
       showModerators: false,
       description: 'None',
       rules: 'None',
-      creator: null,
       time: null,
       moderator: true,
       moderators: null,
@@ -104,9 +103,6 @@ class ForumSidebar extends Component {
                   console.log(forum);
                   this.setState({
                     loading: false,
-                    // description: description.description,
-                    // rules: rules.rules,
-                    creator: forum[3],
                     moderators: moderators
                   });
                 });

@@ -6,6 +6,7 @@ import styled from 'styled-components/macro';
 import timeCategories from './FilterTimeCategories';
 import typeCategories from './FilterTypeCategories';
 import { transition } from '../../shared/helpers';
+import { format } from 'util';
 
 const Wrapper = styled.div`
   display: flex;
@@ -65,16 +66,23 @@ class Filter extends Component {
   render() {
     return (
       <Wrapper>
-        <StyledForm initialValues={{ type: 'top', time: 'day' }}>
+        <StyledForm>
           <Field name='type' type='select' component={renderField}>
             {this.mapTypeCategories()}
           </Field>
         </StyledForm>
-        <StyledForm>
-          <Field name='time' label={null} type='select' component={renderField}>
-            {this.mapTimeCategories()}
-          </Field>
-        </StyledForm>
+        {this.props.form.filter.values.type === 'top' ? (
+          <StyledForm>
+            <Field
+              name='time'
+              label={null}
+              type='select'
+              component={renderField}
+            >
+              {this.mapTimeCategories()}
+            </Field>
+          </StyledForm>
+        ) : null}
       </Wrapper>
     );
   }

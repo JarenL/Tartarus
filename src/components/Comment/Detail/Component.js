@@ -17,13 +17,8 @@ class CommentDetail extends React.Component {
   render() {
     return (
       <Wrapper>
-        <Author username={this.props.username} />
+        <Author username={this.props.creator} />
         <CommentDetailTimestamp created={this.props.time} />
-        {/* {this.props.token &&
-          (this.props.user.id === this.props.author.id ||
-            this.props.user.admin) && ( */}
-        <DeleteButton />
-        {/* )} */}
       </Wrapper>
     );
   }

@@ -62,10 +62,10 @@ const PostActions = props => (
         <Less size={16} onClick={props.handlePreview} />
       )}
     </ButtonWrapper>
-    <Link to={`/p/${props.postId}`}>
+    <Link to={`/f/${props.forumName}/p/${props.postId}`}>
       <ButtonWrapper>
-        <Comment size={16} /> 
-        {" "}{props.commentCount} comment{props.commentCount !== 1 ? 's' : null}
+        <Comment size={16} /> {props.commentCount} comment
+        {props.commentCount !== 1 ? 's' : null}
       </ButtonWrapper>
     </Link>
     {!props.saved ? (
@@ -82,7 +82,7 @@ const PostActions = props => (
     <ButtonWrapper>
       <Tip />
       {'Tip'}
-      </ButtonWrapper>
+    </ButtonWrapper>
     {props.canDelete ? (
       <ButtonWrapper onClick={props.handleDelete}>
         <Delete size={16} />

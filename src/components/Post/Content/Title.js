@@ -40,7 +40,7 @@ const renderTitle = props => {
 const PostContentTitle = props => (
   // <Wrapper full={props.full}>{renderTitle(props)}</Wrapper>
   <Wrapper full={props.full}>
-    <Link to={`/p/${props.postId}`}>{props.title}</Link>
+    <Link to={`/f/${props.forumName}/p/${props.postId}`}>{props.title}</Link>
   </Wrapper>
 );
 

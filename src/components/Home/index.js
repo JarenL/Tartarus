@@ -2,12 +2,10 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { Route, Switch } from 'react-router-dom';
 import HomeMainSection from './MainSection';
-import { connect } from 'react-redux';
 import CategoryMenu from '../CategoryMenu/Component';
 import PostListContainer from '../PostList/PostListContainer';
-import SidebarContainer from '../Sidebar/Container';
+import SidebarContainer from '../Sidebar/Component';
 import PostDetail from '../PostDetail/Container';
-import UserSidebar from '../Sidebar/User/Component';
 import CreatePostFormContainer from '../CreatePostForm/Container';
 import SearchResultsContainer from '../Search/SearchResultsContainer';
 
@@ -53,7 +51,7 @@ const Home = props => {
         />
         <Route
           exact
-          path='/p/:postId'
+          path='/f/:forumName/p/:postId'
           render={({ match }) => (
             <PostDetail
               forumName={match.params.forumName}
@@ -98,7 +96,7 @@ const Home = props => {
         <Route
           exact
           path='/'
-          render={({ match }) => <SidebarContainer {...match} />}
+          render={({ match }) => <SidebarContainer page={'front'} />}
         />
         <Route
           exact
@@ -107,13 +105,25 @@ const Home = props => {
             <SidebarContainer
               key={match.url}
               forumName={match.params.forumName}
+              page={'forum'}
+            />
+          )}
+        />
+        <Route
+          path='/f/:forumName/p/:postId'
+          render={({ match }) => (
+            <SidebarContainer
+              key={match.url}
+              forumName={match.params.forumName}
+              postId={match.params.postId}
+              page={'post'}
             />
           )}
         />
         <Route
           path='/u/:username'
           render={({ match }) => (
-            <SidebarContainer username={match.params.username} />
+            <SidebarContainer username={match.params.username} page={'user'} />
           )}
         />
       </Switch>
@@ -121,11 +131,4 @@ const Home = props => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    web3: state.web3,
-    username: state.user.username
-  };
-}
-
-export default connect(mapStateToProps)(Home);
+export default Home;
