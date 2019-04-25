@@ -121,10 +121,65 @@ const Home = props => {
           )}
         />
         <Route
+          exact
           path='/u/:username'
-          render={({ match }) => (
-            <SidebarContainer username={match.params.username} page={'user'} />
-          )}
+          render={({ match }) => {
+            return (
+              <SidebarContainer
+                key={match.url}
+                username={match.params.username}
+                page={'user'}
+              />
+            );
+          }}
+        />
+        <Route
+          path='/u/:username/posts'
+          render={({ match }) => {
+            return (
+              <SidebarContainer
+                key={match.url}
+                username={match.params.username}
+                page={'user'}
+              />
+            );
+          }}
+        />
+        <Route
+          path='/u/:username/comments'
+          render={({ match }) => {
+            return (
+              <SidebarContainer
+                key={match.url}
+                username={match.params.username}
+                page={'user'}
+              />
+            );
+          }}
+        />
+        <Route
+          path='/u/:username/saved'
+          render={({ match }) => {
+            return (
+              <SidebarContainer
+                key={match.url}
+                username={match.params.username}
+                page={'user'}
+              />
+            );
+          }}
+        />
+        <Route
+          path='/u/:username/messages'
+          render={({ match }) => {
+            return (
+              <SidebarContainer
+                key={match.url}
+                username={match.params.username}
+                page={'user'}
+              />
+            );
+          }}
         />
       </Switch>
     </Wrapper>

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { Link } from 'react-router-dom';
 import Button from '../../shared/Button';
 
 const ForumButton = styled(Button)`
@@ -11,7 +10,7 @@ const ForumButton = styled(Button)`
 `;
 
 const CreateForumButton = props => (
-  <ForumButton onClick={props.createForumHandler}>create forum</ForumButton>
+  <ForumButton onClick={props.createForumHandler}>create circle</ForumButton>
 );
 
 export default CreateForumButton;

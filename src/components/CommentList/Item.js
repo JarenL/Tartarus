@@ -4,6 +4,7 @@ import Comment from '../Comment/Container';
 
 const Item = styled.li`
   margin-bottom: 8px;
+  list-style-type: none;
 `;
 
 const CommentListItem = props => (

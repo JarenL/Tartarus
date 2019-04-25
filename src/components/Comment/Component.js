@@ -6,6 +6,7 @@ import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 import CommentDetail from './Detail/Component';
 import { updateUserSaved } from '../../redux/actions/actions';
 import CommentActions from './Actions/CommentActions';
+import CommentReplyFormContainer from '../CreateCommentReplyForm/Container';
 
 const Wrapper = styled.div`
   border: 1px solid ${props => props.theme.border};
@@ -44,13 +45,14 @@ class Comment extends Component {
   }
 
   instantiateContract() {
+    console.log(this.props);
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
     tartarus.at(this.props.tartarusAddress).then(instance => {
       instance
         .getComment(this.props.forumName, this.props.comment.commentId)
-        .then(async comment => {
+        .then(comment => {
           if (
             comment[0] ===
             '0x0000000000000000000000000000000000000000000000000000000000000000'
@@ -60,22 +62,39 @@ class Comment extends Component {
               exists: false
             });
           } else {
-            const bs58 = require('bs58');
-            const commentHex = '1220' + comment[0].slice(2);
-            const commentBytes32 = Buffer.from(commentHex, 'hex');
-            const commentIpfsHash = bs58.encode(commentBytes32);
+            instance
+              .CommentCreated(
+                {
+                  targetId: this.props.comment.commentId
+                },
+                {
+                  fromBlock: 0,
+                  toBlock: 'latest'
+                }
+              )
+              .get(async (error, comments) => {
+                console.log(comments);
+                const bs58 = require('bs58');
+                const commentHex = '1220' + comment[0].slice(2);
+                const commentBytes32 = Buffer.from(commentHex, 'hex');
+                const commentIpfsHash = bs58.encode(commentBytes32);
 
-            const commentData = await services.ipfs.getJson(commentIpfsHash);
-            if (this.props.username !== null) {
-              this.checkSaved();
-            }
-            this.setState({
-              comment: commentData.comment,
-              loading: false,
-              time: this.props.comment.time.c[0] * 1000,
-              canDelete:
-                this.props.username === this.props.web3.utils.toUtf8(comment[1])
-            });
+                const commentData = await services.ipfs.getJson(
+                  commentIpfsHash
+                );
+                if (this.props.username !== null) {
+                  this.checkSaved();
+                }
+                this.setState({
+                  comment: commentData.comment,
+                  comments: comments.length,
+                  loading: false,
+                  time: this.props.comment.time.c[0] * 1000,
+                  canDelete:
+                    this.props.username ===
+                    this.props.web3.utils.toUtf8(comment[1])
+                });
+              });
           }
         });
     });
@@ -176,33 +195,41 @@ class Comment extends Component {
   };
 
   render() {
-    if (this.state.loading) {
-      return <LoadingIndicatorSpinner />;
-    } else {
-      if (this.state.exists) {
-        return (
-          <Wrapper>
-            <CommentDetail
-              creator={this.props.web3.utils.toAscii(
-                this.props.comment.creator
-              )}
-              time={this.state.time}
-              saved={this.state.saved}
-            />
-            <CommentContent comment={this.state.comment} />
-            <CommentActions
+    if (this.state.exists) {
+      return (
+        <Wrapper>
+          <CommentDetail
+            creator={this.props.web3.utils.toAscii(this.props.comment.creator)}
+            time={this.state.time}
+            saved={this.state.saved}
+          />
+          <CommentContent
+            loading={this.state.loading}
+            comment={this.state.comment}
+          />
+          <CommentActions
+            commentId={this.props.comment.commentId}
+            comments={this.state.comments}
+            handleReply={this.props.handleReply}
+            handleSave={this.handleSave}
+            handleUnsave={this.handleUnsave}
+            saved={this.state.saved}
+            canDelete={this.state.canDelete}
+            handleDelete={this.handleDelete}
+          />
+          {this.props.currentComment === this.props.comment.commentId ? (
+            <CommentReplyFormContainer
+              handleReply={this.props.handleReply}
+              postId={this.props.comment.postId}
               commentId={this.props.comment.commentId}
-              handleSave={this.handleSave}
-              handleUnsave={this.handleUnsave}
-              saved={this.state.saved}
-              canDelete={this.state.canDelete}
-              handleDelete={this.handleDelete}
+              forumName={this.props.forumName}
+              targetId={this.props.commentId}
             />
-          </Wrapper>
-        );
-      } else {
-        return null;
-      }
+          ) : null}
+        </Wrapper>
+      );
+    } else {
+      return null;
     }
   }
 }

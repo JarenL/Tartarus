@@ -43,7 +43,6 @@ class PostContainer extends Component {
       instance
         .getPost(this.props.post.forum, this.props.post.postId)
         .then(async post => {
-          console.log(post);
           if (
             post[0] ===
             '0x0000000000000000000000000000000000000000000000000000000000000000'
@@ -252,7 +251,6 @@ class PostContainer extends Component {
       // return <Empty />;
       return null;
     } else {
-      console.log(this.props.post)
       return (
         <Post
           loading={this.state.loading}

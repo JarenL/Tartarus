@@ -34,6 +34,7 @@ contract Tartarus is Ownable {
     uint public createPostCost = 0.0003 ether;
     uint public createCommentCost = 0.0001 ether;
     uint public voteCost = 0.0001 ether;
+    // crea tepost transaction should pay for tranfer to wallet immediately
     uint public nonce = 0;
     
     struct Admin {

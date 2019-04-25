@@ -12,6 +12,7 @@ const Header = styled.span`
   alignitems: 'center';
   padding: 12px;
   color: ${props => props.theme.mutedText};
+  border-bottom: 1px solid ${props => props.theme.border};
 `;
 
 const ButtonWrapper = styled.div`
@@ -20,17 +21,19 @@ const ButtonWrapper = styled.div`
 
 const SubscriptionHeader = props => (
   <Header>
-    {'subscriptions'}
-    <ButtonWrapper>
-      {props.showSubscriptions ? (
-        <EditButton size={16} onClick={props.toggleEditSubscriptions} />
-      ) : null}
-      {props.showSubscriptions ? (
-        <UpButton size={18} onClick={props.toggleShowSubscriptions} />
-      ) : (
-        <DownButton size={18} onClick={props.toggleShowSubscriptions} />
-      )}
-    </ButtonWrapper>
+    {'circles'}
+    {props.forumLength !== 1 ? (
+      <ButtonWrapper>
+        {props.showSubscriptions ? (
+          <EditButton size={16} onClick={props.toggleEditSubscriptions} />
+        ) : null}
+        {props.showSubscriptions ? (
+          <UpButton size={18} onClick={props.toggleShowSubscriptions} />
+        ) : (
+          <DownButton size={18} onClick={props.toggleShowSubscriptions} />
+        )}
+      </ButtonWrapper>
+    ) : null}
   </Header>
 );
 

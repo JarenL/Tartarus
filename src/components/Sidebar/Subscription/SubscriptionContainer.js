@@ -8,6 +8,9 @@ import { updateUserSubscriptions } from '../../../redux/actions/actions';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  border: 1px solid ${props => props.theme.border};
+  background-color: ${props => props.theme.foreground};
+  margin-top: 24px;
 `;
 
 class SubscriptionContainer extends Component {
@@ -48,9 +51,15 @@ class SubscriptionContainer extends Component {
 
   render() {
     if (this.props.username !== null) {
+      const forums = [
+        'all',
+        ...this.props.userSettings[this.props.username].subscriptions
+      ];
+      console.log(forums.length)
       return (
         <Wrapper>
           <SubscriptionHeader
+            forumsLength={forums.length}
             showSubscriptions={this.state.showSubscriptions}
             toggleShowSubscriptions={this.toggleShowSubscriptions}
             toggleEditSubscriptions={this.toggleEditSubscriptions}
@@ -58,7 +67,7 @@ class SubscriptionContainer extends Component {
           {this.state.showSubscriptions && (
             <SubscriptionList
               username={this.props.username}
-              userSettings={this.props.userSettings}
+              forums={forums}
               editSubscriptions={this.state.editSubscriptions}
               handleRemoveSubscription={this.handleRemoveSubscription}
             />

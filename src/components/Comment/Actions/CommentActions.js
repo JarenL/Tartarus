@@ -9,9 +9,13 @@ import Comment from './Comment';
 
 const Wrapper = styled.div`
   display: flex;
-  border-bottom: 1px solid ${props => props.theme.border};
-  padding: 8px;
+  justify-content: space-between;
+  padding: 4px;
   font-size: 13px;
+`;
+
+const ActionWrapper = styled.div`
+  display: flex;
 `;
 
 const ButtonWrapper = styled.span`
@@ -34,35 +38,40 @@ const ButtonWrapper = styled.span`
 
 const CommentActions = props => (
   <Wrapper>
-    <ButtonWrapper>
-      <Comment size={16} /> {5} comment
-      {5 !== 1 ? 's' : null}
-    </ButtonWrapper>
-    {!props.saved ? (
-      <ButtonWrapper onClick={() => props.handleSave(props.commentId)}>
-        <Save size={16} />
-        {'Save'}
+    <ActionWrapper>
+      <ButtonWrapper onClick={() => props.handleReply(props.commentId)}>
+        <Comment size={16} />
+        {' Reply'}
       </ButtonWrapper>
-    ) : (
-      <ButtonWrapper onClick={() => props.handleUnsave(props.commentId)}>
-        <Unsave size={16} />
-        {'Unsave'}
+      {!props.saved ? (
+        <ButtonWrapper onClick={() => props.handleSave(props.commentId)}>
+          <Save size={16} />
+          {'Save'}
+        </ButtonWrapper>
+      ) : (
+        <ButtonWrapper onClick={() => props.handleUnsave(props.commentId)}>
+          <Unsave size={16} />
+          {'Unsave'}
+        </ButtonWrapper>
+      )}
+      <ButtonWrapper>
+        <Tip />
+        {'Tip'}
       </ButtonWrapper>
-    )}
-    <ButtonWrapper>
-      <Tip />
-      {'Tip'}
-    </ButtonWrapper>
-    {props.canDelete ? (
-      <ButtonWrapper onClick={props.handleDelete}>
-        <Delete size={16} />
-        {'Delete'}
+    </ActionWrapper>
+
+    <ActionWrapper>
+      {props.canDelete ? (
+        <ButtonWrapper onClick={props.handleDelete}>
+          <Delete size={16} />
+          {'Delete'}
+        </ButtonWrapper>
+      ) : null}
+      <ButtonWrapper>
+        <Report size={16} />
+        {'Report'}
       </ButtonWrapper>
-    ) : null}
-    <ButtonWrapper>
-      <Report size={16} />
-      {'Report'}
-    </ButtonWrapper>
+    </ActionWrapper>
   </Wrapper>
 );
 

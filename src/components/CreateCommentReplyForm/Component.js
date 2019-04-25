@@ -6,12 +6,16 @@ import TartarusContract from '../../contracts/Tartarus.json';
 import Editor from '../shared/form/Editor';
 import { Field } from 'redux-form';
 import SubmitButton from '../shared/form/SubmitButton';
+import CommentButton from '../shared/form/CommentButton';
 import CancelButton from '../shared/form/CancelButton';
 
 const services = require('../../services');
 
 const StyledForm = styled(Form)`
+  ${transition('border', 'box-shadow')};
   margin-top: -1px;
+  border: 1px solid ${props => props.theme.border};
+  border-radius: 0 0 2px 2px;
   max-width: none;
   padding: 0;
   @media (max-width: 768px) {
@@ -39,8 +43,7 @@ class CommentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
-      commenting: false
+      loading: false
     };
   }
 
@@ -52,7 +55,7 @@ class CommentForm extends React.Component {
       if (this.props.form.createComment.values !== undefined) {
         this.setState({ loading: true });
         let commentObject = {
-          comment: this.props.form.createComment.values.comment
+          comment: this.props.form.createCommentReply.values.comment
         };
         console.log(commentObject);
         const ipfsHash = await services.ipfs.uploadObject(commentObject);
@@ -66,6 +69,11 @@ class CommentForm extends React.Component {
         this.submitCommentTransaction(base58);
       }
     }
+  };
+
+  handleCancel = () => {
+    this.props.reset('createCommentReply');
+    this.props.handleReply();
   };
 
   submitCommentTransaction = ipfsHash => {
@@ -113,6 +121,7 @@ class CommentForm extends React.Component {
         <Field name='comment' component={Editor} />
         <Wrapper>
           <SubmitButton />
+          <CancelButton onClick={this.handleCancel} />
         </Wrapper>
       </StyledForm>
     );

@@ -41,7 +41,8 @@
     "timeago-react": "^2.0.1",
     "truffle-contract": "^3.0.6",
     "truffle-hdwallet-provider": "^1.0.6",
-    "web3": "^1.0.0-beta.36"
+    "web3": "^1.0.0-beta.36",
+    "web3-shh": "^1.0.0-beta.52"
   },
   "scripts": {
     "start": "react-scripts start",

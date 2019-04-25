@@ -72,7 +72,6 @@ class PostListContainer extends React.Component {
   };
 
   instantiateContract = () => {
-    //todo assign post trending value
     const contract = require('truffle-contract');
     if (this.props.forumName === undefined) {
       if (this.props.username === undefined) {

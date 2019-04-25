@@ -5,7 +5,6 @@ import PostDetailPost from './Post';
 import CommentFormContainer from '../CreateCommentForm/Container';
 import PostDetailCommentSection from './CommentSection';
 import TartarusContract from '../../contracts/Tartarus.json';
-import PostDetailInfoBarContainer from './InfoBar/Container';
 import PostContainer from '../Post/PostContainer';
 
 class PostDetail extends Component {
@@ -14,7 +13,8 @@ class PostDetail extends Component {
     this.state = {
       loading: true,
       post: null,
-      exists: true
+      exists: true,
+      showCommentForm: false
     };
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -73,6 +73,12 @@ class PostDetail extends Component {
     });
   }
 
+  handleReply = props => {
+    this.setState({
+      currentComment: props
+    });
+  };
+
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
     if (!this.state.exists) return <Empty />;
@@ -82,6 +88,7 @@ class PostDetail extends Component {
         <CommentFormContainer
           postId={this.props.postId}
           forumName={this.props.forumName}
+          targetId={this.props.postId}
         />
         <PostDetailCommentSection
           forumName={this.props.forumName}

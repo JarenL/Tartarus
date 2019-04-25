@@ -3,13 +3,6 @@ import PostListItem from './PostListItem';
 import ReactList from 'react-list';
 
 class PostList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentPosts: []
-    };
-  }
-
   renderItem(index, key) {
     return <PostListItem key={key} post={this.props.posts[index].args} />;
   }

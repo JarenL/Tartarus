@@ -6,16 +6,12 @@ import UpButton from '../Buttons/UpButton';
 import DownButton from '../Buttons/DownButton';
 import ReactHtmlParser from 'react-html-parser';
 
-const Wrapper = styled.aside`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
-  border-bottom: 1px solid ${props => props.theme.border};
-
-  @media (max-width: 768px) {
-    display: none;
-  }
+  border: 1px solid ${props => props.theme.border};
+  background-color: ${props => props.theme.foreground};
+  margin-top: 24px;
 `;
 
 const HeaderWrapper = styled.div`
@@ -23,7 +19,7 @@ const HeaderWrapper = styled.div`
   ${overflow};
   display: flex;
   justify-content: space-between;
-  alignitems: 'center';
+  align-items: center;
   padding: 12px;
   color: ${props => props.theme.mutedText};
 `;

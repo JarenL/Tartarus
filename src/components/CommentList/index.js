@@ -1,23 +1,49 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React, { Component } from 'react';
+import ReactList from 'react-list';
 import CommentListItem from './Item';
 
-const List = styled.ul`
-  margin-top: 16px;
-  list-style: none;
-`;
+class CommentList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentPosts: [],
+      currentComment: null
+    };
+  }
 
-const mapComments = props =>
-  props.comments.map((comment, index) => (
-    <CommentListItem key={index} forumName={props.forumName} comment={comment.args} />
-  ));
+  handleReply = props => {
+    if (props === this.state.currentComment) {
+      this.setState({
+        currentComment: null
+      });
+    } else {
+      this.setState({
+        currentComment: props
+      });
+    }
+  };
 
-// const sortComments = comments =>
-//   comments.sort((a, b) => new Date(b.created) - new Date(a.created));
+  renderItem(index, key) {
+    return (
+      <CommentListItem
+        key={key}
+        forumName={this.props.forumName}
+        comment={this.props.comments[index].args}
+        currentComment={this.state.currentComment}
+        handleReply={this.handleReply}
+      />
+    );
+  }
 
-const CommentList = props => (
-  // comments && <List>{mapComments(sortComments(comments))}</List>;
-  <List>{mapComments(props)}</List>
-);
+  render() {
+    return (
+      <ReactList
+        itemRenderer={this.renderItem.bind(this)}
+        length={this.props.comments.length}
+        type='simple'
+      />
+    );
+  }
+}
 
 export default CommentList;

@@ -6,16 +6,12 @@ import UpButton from '../Buttons/UpButton';
 import DownButton from '../Buttons/DownButton';
 import { Link } from 'react-router-dom';
 
-const Wrapper = styled.aside`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
-  border-bottom: 1px solid ${props => props.theme.border};
-
-  @media (max-width: 768px) {
-    display: none;
-  }
+  border: 1px solid ${props => props.theme.border};
+  background-color: ${props => props.theme.foreground};
+  margin-top: 24px;
 `;
 
 const HeaderWrapper = styled.div`
@@ -40,11 +36,11 @@ const Moderators = styled.div`
 
 const ModeratorLink = styled(Link)`
   text-decoration: none;
-  color: ${props => props.theme.mutedText};
+  color: ${props => props.theme.accent};
   &:hover {
-    color: ${props => props.theme.accent};
+    color: ${props => props.theme.normalText};
     & > svg {
-      color: ${props => props.theme.accent} !important;
+      color: ${props => props.theme.normalText} !important;
     }
   }
 `;

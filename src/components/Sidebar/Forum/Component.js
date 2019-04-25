@@ -18,6 +18,8 @@ const services = require('../../../services');
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  // border: 1px solid ${props => props.theme.border};
+  // background-color: ${props => props.theme.foreground};
 `;
 
 class ForumSidebar extends Component {
@@ -25,9 +27,9 @@ class ForumSidebar extends Component {
     super(props);
     this.state = {
       loading: true,
-      showDescription: false,
-      showRules: false,
-      showModerators: false,
+      showDescription: true,
+      showRules: true,
+      showModerators: true,
       description: 'None',
       rules: 'None',
       time: null,
@@ -201,6 +203,7 @@ class ForumSidebar extends Component {
           <ForumDescription
             showDescription={this.state.showDescription}
             toggleShowDescription={this.toggleShowDescription}
+            forumName={this.props.forumName}
             description={this.state.description}
           />
           <ForumRules

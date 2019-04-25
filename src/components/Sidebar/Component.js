@@ -5,17 +5,18 @@ import ForumSidebarContainer from './Forum/Container';
 import SubscriptionContainer from './Subscription/SubscriptionContainer';
 import UserSidebarContainer from './User/Container';
 import FrontSidebarContainer from './Front/Container';
+import TrendingContainer from './Trending/TrendingContainer';
+import AboutContainer from './About/AboutContainer';
 
 const Wrapper = styled.aside`
   position: sticky;
   top: 60px;
   display: flex;
   flex-direction: column;
-  flex-basis: 240px;
+  flex-basis: 280px;
   margin-left: 24px;
-  border: 1px solid ${props => props.theme.border};
+  // border: 1px solid ${props => props.theme.border};
   border-radius: 2px;
-  background-color: ${props => props.theme.foreground};
 
   @media (max-width: 768px) {
     display: none;
@@ -35,8 +36,12 @@ const Sidebar = props => {
         </Wrapper>
       );
     case 'post':
-      // code block
-      return null;
+      return (
+        <Wrapper>
+          <ForumSidebarContainer forumName={props.forumName} />
+          <SubscriptionContainer />
+        </Wrapper>
+      );
     case 'user':
       return (
         <Wrapper>
@@ -49,6 +54,8 @@ const Sidebar = props => {
         <Wrapper>
           <FrontSidebarContainer />
           <SubscriptionContainer />
+          <TrendingContainer />
+          <AboutContainer />
         </Wrapper>
       );
   }
