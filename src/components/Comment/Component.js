@@ -2,16 +2,14 @@ import React, { Component } from 'react';
 import styled from 'styled-components/macro';
 import CommentContent from './Content';
 import TartarusContract from '../../contracts/Tartarus.json';
-import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 import CommentDetail from './Detail/Component';
 import { updateUserSaved } from '../../redux/actions/actions';
 import CommentActions from './Actions/CommentActions';
 import CommentReplyFormContainer from '../CreateCommentReplyForm/Container';
 
 const Wrapper = styled.div`
-  border: 1px solid ${props => props.theme.border};
   border-radius: 2px;
-  background-color: ${props => props.theme.foreground};
+  background-color: ${props => props.theme.inputBackground};
 
   @media (max-width: 768px) {
     border-left: none;
@@ -45,7 +43,6 @@ class Comment extends Component {
   }
 
   instantiateContract() {
-    console.log(this.props);
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
@@ -73,7 +70,6 @@ class Comment extends Component {
                 }
               )
               .get(async (error, comments) => {
-                console.log(comments);
                 const bs58 = require('bs58');
                 const commentHex = '1220' + comment[0].slice(2);
                 const commentBytes32 = Buffer.from(commentHex, 'hex');
@@ -158,6 +154,10 @@ class Comment extends Component {
     }
   };
 
+  handleReport = () => {
+
+  }
+
   handleDelete = () => {
     console.log('unsave');
     if (this.props.username === null) {
@@ -202,6 +202,8 @@ class Comment extends Component {
             creator={this.props.web3.utils.toAscii(this.props.comment.creator)}
             time={this.state.time}
             saved={this.state.saved}
+            targetId={this.props.comment.targetId}
+            postId={this.props.comment.postId}
           />
           <CommentContent
             loading={this.state.loading}
@@ -209,6 +211,8 @@ class Comment extends Component {
           />
           <CommentActions
             commentId={this.props.comment.commentId}
+            forumName={this.props.forumName}
+            postId={this.props.comment.postId}
             comments={this.state.comments}
             handleReply={this.props.handleReply}
             handleSave={this.handleSave}
@@ -223,7 +227,7 @@ class Comment extends Component {
               postId={this.props.comment.postId}
               commentId={this.props.comment.commentId}
               forumName={this.props.forumName}
-              targetId={this.props.commentId}
+              targetId={this.props.comment.commentId}
             />
           ) : null}
         </Wrapper>

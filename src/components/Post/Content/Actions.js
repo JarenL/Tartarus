@@ -16,8 +16,8 @@ import Tip from './Buttons/Tip';
 const Wrapper = styled.div`
   display: flex;
   flexgrow: 1;
-  justifycontent: 'center';
-  alignitems: 'center';
+  justify-content: space-between;
+  align-items: center;
   font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -39,7 +39,8 @@ const ButtonWrapper = styled.span`
   cursor: pointer;
   color: ${props => props.theme.mutedText};
   & > svg {
-    margin-right: 5px;
+    margin-right: 3px;
+    margin-left: 5px;
   }
   &:last-child {
     margin-right: 0;
@@ -52,47 +53,65 @@ const ButtonWrapper = styled.span`
   }
 `;
 
+const ActionWrapper = styled.div`
+  display: flex;
+`;
+
 const PostActions = props => (
   <Wrapper>
-    {console.log(props.canDelete)}
-    <ButtonWrapper>
-      {!props.preview ? (
-        <More size={16} onClick={props.handlePreview} />
-      ) : (
-        <Less size={16} onClick={props.handlePreview} />
-      )}
-    </ButtonWrapper>
-    <Link to={`/f/${props.forumName}/p/${props.postId}`}>
+    <ActionWrapper>
       <ButtonWrapper>
-        <Comment size={16} /> {props.commentCount} comment
-        {props.commentCount !== 1 ? 's' : null}
+        {!props.preview ? (
+          <More size={16} onClick={props.handlePreview} />
+        ) : (
+          <Less size={16} onClick={props.handlePreview} />
+        )}
       </ButtonWrapper>
-    </Link>
-    {!props.saved ? (
-      <ButtonWrapper onClick={() => props.handleSave(props.postId)}>
-        <Save size={16} />
-        {'Save'}
-      </ButtonWrapper>
-    ) : (
-      <ButtonWrapper onClick={() => props.handleUnsave(props.postId)}>
-        <Unsave size={16} />
-        {'Unsave'}
-      </ButtonWrapper>
-    )}
-    <ButtonWrapper>
-      <Tip />
-      {'Tip'}
-    </ButtonWrapper>
-    {props.canDelete ? (
-      <ButtonWrapper onClick={props.handleDelete}>
-        <Delete size={16} />
-        {'Delete'}
-      </ButtonWrapper>
-    ) : null}
-    <ButtonWrapper>
-      <Report size={16} />
-      {'Report'}
-    </ButtonWrapper>
+      <Link
+        to={`/f/${props.forumName}/p/${props.postId}`}
+        style={{ textDecoration: 'none' }}
+      >
+        <ButtonWrapper>
+          <Comment size={16} /> {props.commentCount} comment
+          {props.commentCount !== 1 ? 's' : null}
+        </ButtonWrapper>
+      </Link>
+      {!props.saved ? (
+        <ButtonWrapper onClick={() => props.handleSave(props.postId)}>
+          <Save size={16} />
+          {'Save'}
+        </ButtonWrapper>
+      ) : (
+        <ButtonWrapper onClick={() => props.handleUnsave(props.postId)}>
+          <Unsave size={16} />
+          {'Unsave'}
+        </ButtonWrapper>
+      )}
+      <Link to={`/u/${props.creator}/tip`} style={{ textDecoration: 'none' }}>
+        <ButtonWrapper>
+          <Tip />
+          {'Tip'}
+        </ButtonWrapper>
+      </Link>
+    </ActionWrapper>
+
+    <ActionWrapper>
+      {props.canDelete ? (
+        <ButtonWrapper onClick={props.handleDelete}>
+          <Delete size={16} />
+          {'Delete'}
+        </ButtonWrapper>
+      ) : null}
+      <Link
+        to={`/f/${props.forumName}/p/${props.postId}/report`}
+        style={{ textDecoration: 'none' }}
+      >
+        <ButtonWrapper>
+          <Report size={16} />
+          {'Report'}
+        </ButtonWrapper>
+      </Link>
+    </ActionWrapper>
   </Wrapper>
 );
 

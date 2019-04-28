@@ -6,11 +6,14 @@ import Tip from './Tip';
 import Delete from './Delete';
 import Report from './Report';
 import Comment from './Comment';
+import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 4px;
+  // padding: 4px;
+  padding-right: 2px;
+  padding-bottom: 2px;
   font-size: 13px;
 `;
 
@@ -54,10 +57,12 @@ const CommentActions = props => (
           {'Unsave'}
         </ButtonWrapper>
       )}
-      <ButtonWrapper>
-        <Tip />
-        {'Tip'}
-      </ButtonWrapper>
+      <Link to={`/u/${props.creator}/tip`} style={{ textDecoration: 'none' }}>
+        <ButtonWrapper>
+          <Tip />
+          {'Tip'}
+        </ButtonWrapper>
+      </Link>
     </ActionWrapper>
 
     <ActionWrapper>
@@ -67,10 +72,17 @@ const CommentActions = props => (
           {'Delete'}
         </ButtonWrapper>
       ) : null}
-      <ButtonWrapper>
-        <Report size={16} />
-        {'Report'}
-      </ButtonWrapper>
+      <Link
+        to={`/f/${props.forumName}/p/${props.postId}/c/${
+          props.commentId
+        }/report`}
+        style={{ textDecoration: 'none' }}
+      >
+        <ButtonWrapper>
+          <Report size={16} />
+          {'Report'}
+        </ButtonWrapper>
+      </Link>
     </ActionWrapper>
   </Wrapper>
 );

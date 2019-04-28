@@ -9,10 +9,9 @@ import ReactHtmlParser, {
 const Wrapper = styled.div`
   margin: 8px -8px;
   overflow-wrap: break-word;
-  border: 1px solid ${props => props.theme.border};
   border-left: none;
   padding: 8px;
-  background-color: ${props => props.theme.inputBackground};
+  // background-color: ${props => props.theme.inputBackground};
   color: ${props => props.theme.mutedText};
 `;
 

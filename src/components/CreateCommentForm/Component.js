@@ -1,12 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import Form from '../shared/form/Form';
-import { transition } from '../shared/helpers';
 import TartarusContract from '../../contracts/Tartarus.json';
 import Editor from '../shared/form/Editor';
 import { Field } from 'redux-form';
 import SubmitButton from '../shared/form/SubmitButton';
-import CancelButton from '../shared/form/CancelButton';
 
 const services = require('../../services');
 
@@ -14,6 +12,7 @@ const StyledForm = styled(Form)`
   margin-top: -1px;
   max-width: none;
   padding: 0;
+  border-bottom: none;
   @media (max-width: 768px) {
     margin-top: -1px;
     border-radius: 0;
@@ -33,6 +32,7 @@ const Wrapper = styled.div`
   justify-content: flex-end;
   width: 100%;
   height: 100%;
+  background-color: ${props => props.theme.pageBackground};
 `;
 
 class CommentForm extends React.Component {
@@ -75,6 +75,7 @@ class CommentForm extends React.Component {
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
         instance.createCommentCost.call().then(createCommentCost => {
+          console.log(this.props)
           instance.createComment
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),

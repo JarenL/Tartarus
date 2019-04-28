@@ -81,11 +81,6 @@ class Filter extends Component {
             {this.mapTypeCategories()}
           </Field>
         </StyledForm>
-        <StyledForm>
-          <Field name='time' label={null} type='select' component={renderField}>
-            {this.mapTimeCategories()}
-          </Field>
-        </StyledForm>
         {/* {this.props.form.filter.values.type === 'top' ? (
           <StyledForm>
             <Field
@@ -98,6 +93,11 @@ class Filter extends Component {
             </Field>
           </StyledForm>
         ) : null} */}
+        <StyledForm>
+          <Field name='time' label={null} type='select' component={renderField}>
+            {this.mapTimeCategories()}
+          </Field>
+        </StyledForm>
       </Wrapper>
     );
   }

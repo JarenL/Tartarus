@@ -36,10 +36,12 @@ const Wrapper = styled.header`
 const Header = props => (
   <Wrapper>
     <HeaderLogo />
-    <FilterContainer />
+    {props.type === undefined || props.type === 'f' ? (
+      <FilterContainer />
+    ) : null}
     <SearchContainer />
     <HeaderDarkButtonContainer />
-    {console.log(props.username)}
+    {console.log(props)}
     {props.username ? (
       <>
         <HeaderUsername username={props.username} />

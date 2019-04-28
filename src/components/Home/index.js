@@ -8,6 +8,8 @@ import SidebarContainer from '../Sidebar/Component';
 import PostDetail from '../PostDetail/Container';
 import CreatePostFormContainer from '../CreatePostForm/Container';
 import SearchResultsContainer from '../Search/SearchResultsContainer';
+import ReportPostContainer from '../Report/Post/ReportPostContainer';
+import ReportCommentContainer from '../Report/Comment/ReportCommentContainer';
 
 const Wrapper = styled.div`
   display: flex;
@@ -59,6 +61,30 @@ const Home = props => {
             />
           )}
         />
+
+        <Route
+          exact
+          path='/f/:forumName/p/:postId/report'
+          render={({ match }) => (
+            <ReportPostContainer
+              forumName={match.params.forumName}
+              postId={match.params.postId}
+            />
+          )}
+        />
+
+        <Route
+          exact
+          path='/f/:forumName/p/:postId/c/:commentId/report'
+          render={({ match }) => (
+            <ReportCommentContainer
+              forumName={match.params.forumName}
+              postId={match.params.postId}
+              commentId={match.params.commentId}
+            />
+          )}
+        />
+
         <Route
           exact
           path='/f/:forumName/createpost'

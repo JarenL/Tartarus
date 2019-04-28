@@ -12,9 +12,9 @@ import CancelButton from '../shared/form/CancelButton';
 const services = require('../../services');
 
 const StyledForm = styled(Form)`
-  ${transition('border', 'box-shadow')};
+  // ${transition('border', 'box-shadow')};
   margin-top: -1px;
-  border: 1px solid ${props => props.theme.border};
+  // border: 1px solid ${props => props.theme.border};
   border-radius: 0 0 2px 2px;
   max-width: none;
   padding: 0;
@@ -35,8 +35,9 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  border: none;
+  background-color: ${props => props.theme.pageBackground};
   width: 100%;
-  height: 100%;
 `;
 
 class CommentForm extends React.Component {
@@ -52,7 +53,7 @@ class CommentForm extends React.Component {
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
-      if (this.props.form.createComment.values !== undefined) {
+      if (this.props.form.createCommentReply.values !== undefined) {
         this.setState({ loading: true });
         let commentObject = {
           comment: this.props.form.createCommentReply.values.comment

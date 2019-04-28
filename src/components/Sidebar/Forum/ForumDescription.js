@@ -22,6 +22,7 @@ const HeaderWrapper = styled.div`
   align-items: center;
   padding: 12px;
   color: ${props => props.theme.mutedText};
+  border-bottom: 1px solid ${props => props.theme.border};
 `;
 
 const Description = styled.div`

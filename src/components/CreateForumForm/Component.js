@@ -14,7 +14,6 @@ const Wrapper = styled.div`
   justify-content: flex-end;
   width: 100%;
   height: 100%;
-  margin-top: 5px;
 `;
 
 class CreateForumForm extends React.Component {

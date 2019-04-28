@@ -71,6 +71,10 @@ class PostListContainer extends React.Component {
     }
   };
 
+  handleTop = props => {
+    console.log('top');
+  };
+
   instantiateContract = () => {
     const contract = require('truffle-contract');
     if (this.props.forumName === undefined) {

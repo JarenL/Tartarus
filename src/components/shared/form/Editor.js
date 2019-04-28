@@ -13,14 +13,16 @@ const StyledQuill = styled(ReactQuill)`
   color: ${props => props.theme.mutedText};
 
   .ql-editor {
-    height: 140px;
+    height: 110px;
     resize: vertical;
     overflow-y: scroll;
   }
 
   .ql-toolbar {
     display: block;
-    background: ${props => props.theme.toolbar};
+    padding: 2px;
+    background: ${props => props.theme.pageBackground};
+    color: ${props => props.theme.accent};
   }
 
   .quill-editor .ql-toolbar {
@@ -53,11 +55,16 @@ const Editor = ({ input }) => {
 
 Editor.modules = {
   toolbar: [
-    [{ header: '1' }, { header: '2' }],
-    [{ size: [] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    // [{ header: '1' }],
+    // ['bold', 'italic', 'underline', 'strike', 'code', 'subscript', 'blockquote'],
+    // [{ list: 'ordered' }, { list: 'bullet' }],
+    // ['link'],
+    // ['clean']
+    ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+    ['blockquote', 'code-block', 'link'],
+    [{ header: 1 }], // custom button values
     [{ list: 'ordered' }, { list: 'bullet' }],
-    ['link'],
+    [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
     ['clean']
   ],
   clipboard: {
@@ -73,6 +80,8 @@ Editor.formats = [
   'italic',
   'underline',
   'strike',
+  'code',
+  'script',
   'blockquote',
   'list',
   'bullet',

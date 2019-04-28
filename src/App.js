@@ -29,10 +29,8 @@ class App extends Component {
       .then(results => {
         this.props.dispatch(initializeWeb3(results.web3));
         this.props.dispatch(setTartarusAddress(tartarusAddress));
-        this.props.web3.eth.getAccounts((error, accounts) => {
-          this.setState({
-            loading: false
-          });
+        this.setState({
+          loading: false
         });
       })
       .catch(() => {

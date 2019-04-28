@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 import Empty from '../shared/Empty';
-import PostDetailPost from './Post';
 import CommentFormContainer from '../CreateCommentForm/Container';
 import PostDetailCommentSection from './CommentSection';
 import TartarusContract from '../../contracts/Tartarus.json';
-import PostContainer from '../Post/PostContainer';
+import PostContainer from '../Post/Post';
 
 class PostDetail extends Component {
   constructor(props) {

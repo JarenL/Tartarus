@@ -24,6 +24,7 @@ class CommentList extends Component {
   };
 
   renderItem(index, key) {
+    console.log(this.props.comments);
     return (
       <CommentListItem
         key={key}
