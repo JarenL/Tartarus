@@ -80,7 +80,7 @@ class PostListContainer extends React.Component {
     if (this.props.forumName === undefined) {
       if (this.props.username === undefined) {
         //front page
-        console.log("front")
+        console.log('front');
         const tartarus = contract(TartarusContract);
         tartarus.setProvider(this.props.web3.currentProvider);
         tartarus
@@ -102,7 +102,7 @@ class PostListContainer extends React.Component {
             console.log('error');
           });
       } else {
-        console.log("user")
+        console.log('user');
         const tartarus = contract(TartarusContract);
         tartarus.setProvider(this.props.web3.currentProvider);
         tartarus
@@ -138,6 +138,15 @@ class PostListContainer extends React.Component {
       //forum page
       const tartarus = contract(TartarusContract);
       tartarus.setProvider(this.props.web3.currentProvider);
+      tartarus
+        .getModerator()
+        .call(
+          this.props.web3.utils.fromAscii(this.props.forumName),
+          this.props.web3.utils.fromAscii(this.props.username)
+        )
+        .then(moderator => {
+          console.log(moderator)
+        });
       tartarus
         .at(this.props.tartarusAddress)
         .then(instance => {
