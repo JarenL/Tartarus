@@ -9,20 +9,22 @@ contract Tartarus is Ownable {
     event AdminRemoved (bytes32 user, bytes32 targetUser, uint time);
     event AdminBan (bytes32 user, bytes32 targetUser, uint time);
     event AdminUnban (bytes32 user, bytes32 targetUser, uint time);
+    event AdminPaid (bytes32 user, bytes32 targetUser, uint amount, uint time);
     event AdminsPaid (bytes32 user, uint amount, uint time);
     event ModeratorCreated (bytes32 indexed forum, bytes32 user, bytes32 targetUser, bool[] permissions, uint wage, uint time);
     event ModeratorUpdated (bytes32 indexed forum, bytes32 userm, bytes32 targetUser, bool[] permissions, uint wage, uint time);
     event ModeratorRemoved (bytes32 indexed forum, bytes32 user, bytes32 targetUser, uint time);
+    event ModeratorBan (bytes32 user, bytes32 indexed forum, bytes32 targetUser, uint time);
+    event ModeratorUnban (bytes32 user, bytes32 indexed forum, bytes32 targetUser, uint time);
+    event ModeratorPaid (bytes32 indexed forum, bytes32 user, uint amount, uint time);
     event ModeratorsPaid (bytes32 indexed forum, bytes32 user, uint amount, uint time);
-    event ModeratorBan (bytes32 indexed forum, bytes32 indexed user, uint time);
-    event ModeratorUnban (bytes32 indexed forum, bytes32 indexed user, uint time);
     event UserCreated (bytes32 indexed user, uint time);
-    event UserEdited(bytes32 indexed user, bytes32 oldInfo, bytes32 newInfo, uint time);
+    event UserUpdated(bytes32 indexed user, bytes32 newInfo, uint time);
     event UserPaid(bytes32 indexed user, uint amount, uint time);
-    event ForumCreated (bytes32 indexed forum, uint time);
+    event ForumCreated (bytes32 indexed user, bytes32 indexed forum, uint time);
     event ForumLocked (bytes32 indexed user, bytes32 indexed forum, uint time);
     event ForumUnlocked (bytes32 indexed user, bytes32 indexed forum, uint time);
-    event ForumEdited (bytes32 indexed forum, bytes32 oldInfo, bytes32 newInfo, uint time);
+    event ForumUpdated (bytes32 user, bytes32 indexed forum, bytes32 newInfo, uint time);
     event ForumTransferred (bytes32 indexed forum, bytes32 user, bytes32 targetUser, uint time);
     event PostCreated (bytes32 indexed forum, bytes32 indexed creator, bytes32 indexed postId, uint time);
     event PostDeleted (bytes32 indexed forum, bytes32 user, bytes32 postId, uint time);
@@ -32,11 +34,11 @@ contract Tartarus is Ownable {
     event PostUnpinned (bytes32 indexed forum, bytes32 user, bytes32 postId, uint time);
     event CommentCreated (bytes32 indexed postId, bytes32 indexed creator, bytes32 indexed targetId, bytes32 commentId, uint time);
     event CommentDeleted (bytes32 indexed forumId, bytes32 user, bytes32 postId, bytes32 commentId, uint time);
-    event ReportUser (bytes32 user, bytes32 reason, uint time);
+    event ReportUser (bytes32 targetUser, bytes32 reason, uint time);
     event ReportForum (bytes32 forum, bytes32 reason, uint time);
     event ReportPost (bytes32 indexed _forum, bytes32 _postId, bytes32 reason, uint time);
     event ReportComment (bytes32 indexed _forum, bytes32 _postId, bytes32 _commentId, bytes32 reason, uint time);
-    event UpdateFee (bytes32 user, string feeType, uint oldFee, uint newFee);
+    event UpdateFee (bytes32 user, string indexed feeType, uint newFee);
 
     mapping (bytes32 => Admin) public admins;
     mapping (bytes32 => bool) public banned;
@@ -149,7 +151,7 @@ contract Tartarus is Ownable {
         _userVerified(_user);
         _;
     }
-    
+
     function _userVerified(bytes32 _user) internal view {
         require(
             users[_user].creator != address(0) &&
@@ -222,8 +224,7 @@ contract Tartarus is Ownable {
     }
 
     function validateName(string memory _name) internal pure returns (bool){
-        string memory nameLower = _name;
-        bytes memory b = bytes(nameLower);
+        bytes memory b = bytes(_name);
         if(b.length > 21 || b.length < 3) {
             return false;
         }
@@ -231,9 +232,9 @@ contract Tartarus is Ownable {
             bytes1 char = b[i];
             if(
                 !(char >= 0x30 && char <= 0x39) && //9-0
-                !(char >= 0x41 && char <= 0x5A) && //A-Z
                 !(char >= 0x61 && char <= 0x7A) && //a-z
-                !(char == 0x5F) //_
+                !(char == 0x5F) && //_
+                !(char == 0x2D) //-
             ) {
                 return false;
             }
@@ -274,8 +275,9 @@ contract Tartarus is Ownable {
         emit UserCreated(usernameBytes, now);
     }
 
-    function updateUserInfo(bytes32 _user, bytes32 _userInfo) public onlyUserVerified(_user) {
+    function updateUser(bytes32 _user, bytes32 _userInfo) public onlyUserVerified(_user) {
         users[_user].userInfo = _userInfo;
+        emit UserUpdated(_user, _userInfo, now);
     }
 
     function userWithDraw(bytes32 _user, address payable _withdrawAddress) external onlyUserVerified(_user) {
@@ -304,7 +306,7 @@ contract Tartarus is Ownable {
         newForum.pinnedPosts = new bytes32[](3);
         forums[forumBytes] = newForum;
         
-        emit ForumCreated(forumBytes, now);
+        emit ForumCreated(_user, forumBytes, now);
     }
 
     function lockForum(bytes32 _user, bytes32 _forum)
@@ -349,7 +351,7 @@ contract Tartarus is Ownable {
         emit ForumTransferred(_forum, _user, _targetUser, now);
     }
 
-    function updateForumInfo(bytes32 _user, bytes32 _forum, bytes32 _forumInfo)
+    function updateForum(bytes32 _user, bytes32 _forum, bytes32 _forumInfo)
         public onlyUserVerified(_user) onlyForumExists(_forum) {
         require(
             forums[_forum].moderators[_user].permissions[2] ||
@@ -358,9 +360,8 @@ contract Tartarus is Ownable {
             isFullAdmin(_user),
             "User does not have permission"
         );
-        bytes32 oldInfo = forums[_forum].forumInfo;
         forums[_forum].forumInfo = _forumInfo;
-        emit ForumEdited(_forum, oldInfo, _forumInfo, now);
+        emit ForumUpdated(_user, _forum, _forumInfo, now);
     }
     
     function createPost(bytes32 _user, bytes32 _forum, bytes32 _post)
@@ -482,7 +483,7 @@ contract Tartarus is Ownable {
             !banned[_user],
             "User banned"
         );
-        emit ReportUser(_user, _reason, now);
+        emit ReportUser(_targetUser, _reason, now);
     }
 
     function reportForum(bytes32 _user, bytes32 _forum, bytes32 _reason)
@@ -631,7 +632,7 @@ contract Tartarus is Ownable {
             "User does not have permission"
         );
         forums[_forum].banned[_targetUser] = true;
-        emit ModeratorBan(_forum, _user, now);
+        emit ModeratorBan(_user, _forum, _targetUser, now);
     }
 
     function moderatorUnban(bytes32 _user, bytes32 _targetUser, bytes32 _forum)
@@ -646,7 +647,7 @@ contract Tartarus is Ownable {
             "User does not have permission"
         );
         forums[_forum].banned[_targetUser] = false;
-        emit ModeratorUnban(_forum, _user, now);
+        emit ModeratorUnban(_user, _forum, _targetUser, now);
     }
 
     function isAdmin(bytes32 _user) internal view returns(bool) {
@@ -759,15 +760,15 @@ contract Tartarus is Ownable {
             isFullAdmin(_user),
             "User does not have permission"
         );
-        uint currentAdminBalance = adminBalance; // 100
-        uint ownerWage = currentAdminBalance * (100 - adminWages) / 100; // 50
-        uint currentAdminWages = currentAdminBalance - ownerWage; // 50
+        uint currentAdminBalance = adminBalance;
+        uint ownerWage = currentAdminBalance * (100 - adminWages) / 100;
+        uint currentAdminWages = currentAdminBalance - ownerWage;
         uint remainderAdminWages = (100 - totalAdminWages) / adminList.length;
 
         for (uint i = 0; i < adminList.length; i++) {
             uint currentAdminWage = (currentAdminWages * admins[adminList[i]].wage / 100) + remainderAdminWages;
             users[adminList[i]].balance += currentAdminWage;
-            emit UserPaid(adminList[i], currentAdminWage, now);
+            emit AdminPaid(_user, adminList[i], currentAdminWage, now);
         }
 
         users[ownerAccount].balance += ownerWage;
@@ -793,12 +794,12 @@ contract Tartarus is Ownable {
             uint currentModeratorWage =
                 (totalModeratorWages * forums[_forum].moderators[forums[_forum].moderatorList[i]].wage / 100) + remainderModeratorWages;
             users[forums[_forum].moderatorList[i]].balance += currentModeratorWage;
-            // emit UserPaid(users[moderatorList[i]], currentModeratorWage, now);
+            emit ModeratorPaid(_user, forums[_forum].moderatorList[i], currentModeratorWage, now);
         }
 
         users[forums[_forum].owner].balance += ownerWage;
         forums[_forum].balance = 0;
-        // emit ModeratorsPaid(_forum, currentForumBalance, now);
+        emit ModeratorsPaid(_user, _forum, currentForumBalance, now);
     }
 
     function payoutPost(bytes32 _forum, uint _value) internal {
@@ -836,6 +837,7 @@ contract Tartarus is Ownable {
             "User does not have permission"
         );
         createUserCost = _newCost;
+        emit UpdateFee(_user, "user", createUserCost);
     }
     
     function setCreateForumCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) {
@@ -844,6 +846,7 @@ contract Tartarus is Ownable {
             "User does not have permission"
         );
         createForumCost = _newCost;
+        emit UpdateFee(_user, "forum", createForumCost);
     }
     
     function setCreatePostCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) {
@@ -852,6 +855,7 @@ contract Tartarus is Ownable {
             "User does not have permission"
         );
         createPostCost = _newCost;
+        emit UpdateFee(_user, "post", createPostCost);
     }
     
     function setCreateCommentCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) {
@@ -860,6 +864,7 @@ contract Tartarus is Ownable {
             "User does not have permission"
         );
         createCommentCost = _newCost;
+        emit UpdateFee(_user, "comment", createCommentCost);
     }
     
     function setVoteCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) {
@@ -868,5 +873,6 @@ contract Tartarus is Ownable {
             "User does not have permission"
         );
         voteCost = _newCost;
+        emit UpdateFee(_user, "vote", voteCost);
     }
 }
