@@ -7,6 +7,7 @@ export const TARTARUS_ADDRESS = 'TARTARUS_ADDRESS';
 export const UPDATE_FORUM_SUBSCRIPTIONS = 'UPDATE_FORUM_SUBSCRIPTIONS';
 export const UPDATE_USER_SUBSCRIPTIONS = 'UPDATE_USER_SUBSCRIPTIONS';
 export const UPDATE_USER_SAVED = 'UPDATE_USER_SAVED';
+export const UPDATE_USER_PERMISSIONS = 'UPDATE_USER_PERMISSIOSN';
 export const INITIALIZE_USER_SETTINGS = 'INITIALIZE_USER_SETTINGS';
 export const TOGGLE_DARK_THEME = 'TOGGLE_DARK_THEME';
 export const USER_LOGOUT = 'USER_LOGOUT';
@@ -68,4 +69,11 @@ export function updateUserSaved(userSaved) {
     type: UPDATE_USER_SAVED,
     payload: userSaved
   };
+}
+
+export function updateUserPermissions(userPermissions) {
+  return {
+    type: UPDATE_USER_PERMISSIONS,
+    payload: userPermissions
+  }
 }

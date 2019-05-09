@@ -5,7 +5,7 @@ import renderField from '../shared/form/renderField';
 import { usernameValidator } from '../../services/validators';
 import SubmitButton from '../shared/form/SubmitButton';
 import TartarusContract from '../../contracts/Tartarus.json';
-import { userLogin } from '../../redux/actions/actions';
+import { userLogin, updateUserPermissions } from '../../redux/actions/actions';
 import styled from 'styled-components/macro';
 import CancelButton from '../shared/form/CancelButton';
 
@@ -68,7 +68,21 @@ class LoginForm extends React.Component {
           )
           .then(user => {
             console.log(user);
-            if (user[1] !== '0x0000000000000000000000000000000000000000') {
+            if (user[2] !== '0x0000000000000000000000000000000000000000') {
+              instance.getAdmin
+                .call(
+                  this.props.web3.utils.fromAscii(
+                    this.props.form.login.values.username
+                  )
+                )
+                .then(admin => {
+                  console.log(admin);
+                  let permissionsObject = {
+                    type: 'admin',
+                    permissions: admin
+                  };
+                  this.props.dispatch(updateUserPermissions(permissionsObject));
+                });
               this.props.dispatch(
                 userLogin({
                   username: this.props.form.login.values.username

@@ -49,11 +49,11 @@ contract Tartarus is Ownable {
     uint public adminBalance;
     uint public adminWages;
     uint public totalAdminWages;
-    uint public createUserCost;
-    uint public createForumCost;
-    uint public createPostCost;
-    uint public createCommentCost;
-    uint public voteCost;
+    uint public createUserCost = 0.03 ether;
+    uint public createForumCost = 0.03 ether;
+    uint public createPostCost = 0.0003 ether;
+    uint public createCommentCost = 0.00003 ether;
+    uint public voteCost = 0.00003 ether;
     uint public idNonce;
 
     struct User {
@@ -305,7 +305,6 @@ contract Tartarus is Ownable {
         newForum.owner = _user;
         newForum.pinnedPosts = new bytes32[](3);
         forums[forumBytes] = newForum;
-        
         emit ForumCreated(_user, forumBytes, now);
     }
 
@@ -528,14 +527,33 @@ contract Tartarus is Ownable {
     }
 
     function getModerator(bytes32 _user, bytes32 _forum)
-        public view returns(bool fullModerator, bool access, bool config, bool mail, bool flair, bool posts, uint wage) {
-        fullModerator = forums[_forum].moderators[_user].permissions[0];
-        access = forums[_forum].moderators[_user].permissions[1];
-        config = forums[_forum].moderators[_user].permissions[2];
-        mail = forums[_forum].moderators[_user].permissions[3];
-        flair = forums[_forum].moderators[_user].permissions[4];
-        posts = forums[_forum].moderators[_user].permissions[5];
-        wage = forums[_forum].moderators[_user].wage;
+        public view  onlyForumExists(_forum) returns(bool fullModerator, bool access, bool config, bool mail, bool flair, bool posts, uint wage) {
+        if (_user == forums[_forum].owner) {
+            fullModerator = true;
+            access = true;
+            config = true;
+            mail = true;
+            flair = true;
+            posts = true;
+            wage = 100 - forums[_forum].moderatorWages;
+        } else {
+            fullModerator = forums[_forum].moderators[_user].permissions[0];
+            access = forums[_forum].moderators[_user].permissions[1];
+            config = forums[_forum].moderators[_user].permissions[2];
+            mail = forums[_forum].moderators[_user].permissions[3];
+            flair = forums[_forum].moderators[_user].permissions[4];
+            posts = forums[_forum].moderators[_user].permissions[5];
+            wage = forums[_forum].moderators[_user].wage;
+        }
+    }
+    
+    function getModerators(bytes32 _forum) public view onlyForumExists(_forum) returns(bytes32[] memory) {
+        bytes32[] memory currentModerators = new bytes32[](forums[_forum].moderatorList.length + 1);
+        currentModerators[0] = forums[_forum].owner;
+        for (uint i = 1;i < forums[_forum].moderatorList.length + 1; i++) {
+            currentModerators[i] = forums[_forum].moderatorList[i];
+        }
+        return currentModerators;
     }
 
     function PinPost(bytes32 _user, bytes32 _forum, bytes32 _postId, uint _postIndex)
@@ -664,16 +682,36 @@ contract Tartarus is Ownable {
         return (_totalWage + _wage) <= 100;
     }
 
-    function getAdmin(bytes32 _user, bytes32 _forum)
+    function getAdmin(bytes32 _user)
         public view returns(bool fullAdmin, bool access, bool config, bool mail, bool flair, bool forum, bool posts, uint wage) {
-        fullAdmin = admins[_user].permissions[0];
-        access = admins[_user].permissions[1];
-        config = admins[_user].permissions[2];
-        mail = admins[_user].permissions[3];
-        flair = admins[_user].permissions[4];
-        posts = admins[_user].permissions[5];
-        forum = admins[_user].permissions[6];
-        wage = forums[_forum].moderators[_user].wage;
+        if (_user == ownerAccount) {
+            fullAdmin = true;
+            access = true;
+            config = true;
+            mail = true;
+            flair = true;
+            posts = true;
+            forum = true;
+            wage = 100 - adminWages;
+        } else {
+            fullAdmin = admins[_user].permissions[0];
+            access = admins[_user].permissions[1];
+            config = admins[_user].permissions[2];
+            mail = admins[_user].permissions[3];
+            flair = admins[_user].permissions[4];
+            posts = admins[_user].permissions[5];
+            forum = admins[_user].permissions[6];
+            wage = admins[_user].wage;
+        }
+    }
+    
+    function getAdmins() public view returns(bytes32[] memory) {
+        bytes32[] memory currentAdmins = new bytes32[](adminList.length + 1);
+        currentAdmins[0] = ownerAccount;
+        for (uint i = 1;i < adminList.length + 1; i++) {
+            currentAdmins[i] = adminList[i];
+        }
+        return currentAdmins;
     }
 
     function createAdmin(bytes32 _user, bytes32 _targetUser, bool[] memory _permissions, uint _wage)

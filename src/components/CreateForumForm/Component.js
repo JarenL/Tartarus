@@ -28,35 +28,20 @@ class CreateForumForm extends React.Component {
     this.setState({
       loading: true
     });
-    let forumDescriptionObject = {
-      description: this.props.form.createForum.values.forumDescription
-    };
-    let forumRulesObject = {
+    let forumInfoObject = {
+      description: this.props.form.createForum.values.forumDescription,
       rules: this.props.form.createForum.values.forumRules
     };
-    const forumDescriptionIpfsHash = await services.ipfs.uploadObject(
-      forumDescriptionObject
-    );
-    const forumRulesIpfsHash = await services.ipfs.uploadObject(
-      forumRulesObject
-    );
-
+    const forumInfoIpfsHash = await services.ipfs.uploadObject(forumInfoObject);
     const bs58 = require('bs58');
-    const forumDescriptionBytes32 =
+    const forumInfoBytes32 =
       '0x' +
       bs58
-        .decode(forumDescriptionIpfsHash)
-        .slice(2)
-        .toString('hex');
-    const forumRulesBytes32 =
-      '0x' +
-      bs58
-        .decode(forumRulesIpfsHash)
+        .decode(forumInfoIpfsHash)
         .slice(2)
         .toString('hex');
     this.createForum({
-      description: forumDescriptionBytes32,
-      rules: forumRulesBytes32
+      forumInfo: forumInfoBytes32
     });
   };
 
@@ -79,8 +64,7 @@ class CreateForumForm extends React.Component {
               .sendTransaction(
                 this.props.web3.utils.fromAscii(this.props.username),
                 this.props.form.createForum.values.forumName,
-                props.rules,
-                props.description,
+                props.forumInfo,
                 {
                   from: accounts[0],
                   gasPrice: 20000000000,

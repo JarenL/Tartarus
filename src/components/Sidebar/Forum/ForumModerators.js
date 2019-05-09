@@ -72,12 +72,7 @@ const ForumModerators = props => (
         {props.moderators !== null ? (
           <ul>
             {props.moderators.map(function(moderator) {
-              return (
-                <Moderator
-                  moderator={moderator.args.targetUser}
-                  web3={props.web3}
-                />
-              );
+              return <Moderator moderator={moderator} web3={props.web3} />;
             })}
           </ul>
         ) : (

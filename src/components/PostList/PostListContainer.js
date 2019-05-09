@@ -4,6 +4,7 @@ import Empty from '../shared/Empty';
 import TartarusContract from '../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 import PostList from './PostList';
+import { updateUserPermissions } from '../../redux/actions/actions';
 
 const blocksInDay = 5760;
 
@@ -139,17 +140,21 @@ class PostListContainer extends React.Component {
       const tartarus = contract(TartarusContract);
       tartarus.setProvider(this.props.web3.currentProvider);
       tartarus
-        .getModerator()
-        .call(
-          this.props.web3.utils.fromAscii(this.props.forumName),
-          this.props.web3.utils.fromAscii(this.props.username)
-        )
-        .then(moderator => {
-          console.log(moderator)
-        });
-      tartarus
         .at(this.props.tartarusAddress)
         .then(instance => {
+          instance.getModerator
+            .call(
+              this.props.web3.utils.fromAscii(this.props.forumName),
+              this.props.web3.utils.fromAscii(this.props.username)
+            )
+            .then(moderator => {
+              console.log(moderator);
+              let permissionsObject = {
+                type: 'moderator',
+                permissions: moderator
+              };
+              this.props.dispatch(updateUserPermissions(permissionsObject));
+            });
           this.handlePostTime().then(starting => {
             instance
               .PostCreated(
@@ -159,6 +164,7 @@ class PostListContainer extends React.Component {
                 { fromBlock: starting, toBlock: 'latest' }
               )
               .get((error, posts) => {
+                console.log(posts)
                 this.setState({
                   posts: this.handlePostType(posts),
                   loading: false

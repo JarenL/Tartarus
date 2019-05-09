@@ -65,19 +65,15 @@ class ForumSidebar extends Component {
                 exists: false
               });
             } else {
-              const rulesHex = '1220' + forum[1].slice(2);
-              const rulesBytes = Buffer.from(rulesHex, 'hex');
-              const rulesHash = bs58.encode(rulesBytes);
+              const forumInfoHex = '1220' + forum[1].slice(2);
+              const forumInfoBytes = Buffer.from(forumInfoHex, 'hex');
+              const forumInfoHash = bs58.encode(forumInfoBytes);
 
-              const descriptionHex = '1220' + forum[2].slice(2);
-              const descriptionBytes = Buffer.from(descriptionHex, 'hex');
-              const descriptionHash = bs58.encode(descriptionBytes);
-
-              const description = await services.ipfs.getJson(descriptionHash);
-              const rules = await services.ipfs.getJson(rulesHash);
-              if (description) {
+              const forumInfo = await services.ipfs.getJson(forumInfoHash);
+              console.log(forumInfo);
+              if (forumInfo.description) {
                 this.setState({
-                  description: description.description
+                  description: forumInfo.description
                 });
               } else {
                 this.setState({
@@ -85,29 +81,24 @@ class ForumSidebar extends Component {
                 });
               }
 
-              if (rules) {
+              if (forumInfo.rules) {
                 this.setState({
-                  rules: rules.rules
+                  rules: forumInfo.rules
                 });
               } else {
                 this.setState({
                   rules: 'None'
                 });
               }
-              instance
-                .ModeratorCreated(
-                  {
-                    forum: this.props.web3.utils.fromAscii(this.props.forumName)
-                  },
-                  { fromBlock: 0, toBlock: 'latest' }
-                )
-                .get((error, moderators) => {
-                  console.log(forum);
-                  this.setState({
-                    loading: false,
-                    moderators: moderators
-                  });
+              instance.getModerators
+              .call(this.props.web3.utils.fromAscii(this.props.forumName))
+              .then(moderators => {
+                console.log(moderators);
+                this.setState({
+                  loading: false,
+                  moderators: moderators
                 });
+              });
             }
           });
       });

@@ -2,6 +2,7 @@ import {
   UPDATE_USER_SUBSCRIPTIONS,
   UPDATE_USER_SAVED,
   INITIALIZE_USER_SETTINGS,
+  UPDATE_USER_PERMISSIONS,
   USER_LOGIN,
   USER_LOGOUT
 } from '../actions/actions';
@@ -12,12 +13,13 @@ import storage from 'redux-persist/lib/storage';
 const userPersistConfig = {
   key: 'accounts',
   storage: storage,
-  whitelist: ['userSettings', 'username']
+  whitelist: ['userSettings', 'username', 'userPermissions']
 };
 
 const initialState = {
   username: null,
-  userSettings: []
+  userSettings: [],
+  userPermissions: []
 };
 
 const accountsReducer = (state = initialState, action) => {
@@ -85,7 +87,18 @@ const accountsReducer = (state = initialState, action) => {
     case USER_LOGOUT:
       return {
         ...state,
-        username: null
+        username: null,
+        userPermissions: []
+      };
+
+    case UPDATE_USER_PERMISSIONS:
+      console.log(action.payload);
+      return {
+        ...state,
+        userPermissions: {
+          ...state.userPermissions,
+          [action.payload.type]: action.payload.permissions
+        }
       };
 
     case UPDATE_USER_SUBSCRIPTIONS:
