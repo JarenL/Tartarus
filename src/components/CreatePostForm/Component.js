@@ -177,7 +177,7 @@ class CreatePostForm extends React.Component {
             .decode(postIpfsHash)
             .slice(2)
             .toString('hex');
-        this.submitPostTransaction({ postBytes32 });
+        this.submitPostTransaction(postBytes32);
       } else {
         this.setState({
           loading: false
@@ -196,32 +196,6 @@ class CreatePostForm extends React.Component {
         instance.createPostCost.call().then(createPostCost => {
           console.log(createPostCost)
           console.log(createPostCost.toString())
-          // 79864
-          // let test = 0
-          // instance.createPost
-          //   .estimateGas(
-          //     this.props.web3.utils.fromAscii(this.props.username),
-          //     this.props.web3.utils.fromAscii(this.props.forumName),
-          //     props,
-          //     {
-          //       from: accounts[0],
-          //       gasPrice: 20000000000,
-          //       value: createPostCost
-          //     }
-          //   )
-          //   .then(cost => {
-          //     // this.props.web3.utils.fromWei(test.toString(), 'ether')
-          //     console.log(cost);
-          //     test = cost;
-          //     // test = this.props.web3.utils.toBN(cost * 1000000000);
-          //     let test2 = this.props.web3.utils.fromWei(cost.toString());
-          //     let wei = this.props.web3.util
-          //     let bn = this.props.web3.utils.toBN(cost * 100000000000000);
-          //     console.log(bn);
-
-          //     console.log(test);
-          //     console.log(test2);
-          //   });
           instance.createPost
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),

@@ -91,14 +91,14 @@ class ForumSidebar extends Component {
                 });
               }
               instance.getModerators
-              .call(this.props.web3.utils.fromAscii(this.props.forumName))
-              .then(moderators => {
-                console.log(moderators);
-                this.setState({
-                  loading: false,
-                  moderators: moderators
+                .call(this.props.web3.utils.fromAscii(this.props.forumName))
+                .then(moderators => {
+                  console.log(moderators);
+                  this.setState({
+                    loading: false,
+                    moderators: moderators
+                  });
                 });
-              });
             }
           });
       });

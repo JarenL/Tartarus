@@ -10,14 +10,12 @@ contract Tartarus is Ownable {
     event AdminBan (bytes32 user, bytes32 targetUser, uint time);
     event AdminUnban (bytes32 user, bytes32 targetUser, uint time);
     event AdminPaid (bytes32 user, bytes32 targetUser, uint amount, uint time);
-    event AdminsPaid (bytes32 user, uint amount, uint time);
     event ModeratorCreated (bytes32 indexed forum, bytes32 user, bytes32 targetUser, bool[] permissions, uint wage, uint time);
     event ModeratorUpdated (bytes32 indexed forum, bytes32 userm, bytes32 targetUser, bool[] permissions, uint wage, uint time);
     event ModeratorRemoved (bytes32 indexed forum, bytes32 user, bytes32 targetUser, uint time);
     event ModeratorBan (bytes32 user, bytes32 indexed forum, bytes32 targetUser, uint time);
     event ModeratorUnban (bytes32 user, bytes32 indexed forum, bytes32 targetUser, uint time);
-    event ModeratorPaid (bytes32 indexed forum, bytes32 user, uint amount, uint time);
-    event ModeratorsPaid (bytes32 indexed forum, bytes32 user, uint amount, uint time);
+    event ModeratorPaid (bytes32 indexed forum, bytes32 user, bytes32 targetUser, uint amount, uint time);
     event UserCreated (bytes32 indexed user, uint time);
     event UserUpdated(bytes32 indexed user, bytes32 newInfo, uint time);
     event UserPaid(bytes32 indexed user, uint amount, uint time);
@@ -45,7 +43,7 @@ contract Tartarus is Ownable {
     mapping (bytes32 => User) public users;
     mapping (bytes32 => Forum) public forums;
     bytes32[] adminList;
-    bytes32 ownerAccount;
+    bytes32 public ownerAccount;
     uint public adminBalance;
     uint public adminWages;
     uint public totalAdminWages;
@@ -60,7 +58,7 @@ contract Tartarus is Ownable {
         bytes32 username;
         bytes32 userInfo;
         address creator;
-        uint balance;
+        uint userBalance;
     }
 
     // admin permissions
@@ -75,6 +73,7 @@ contract Tartarus is Ownable {
     struct Admin {
         bool[] permissions;
         uint wage;
+        uint lastPaid;
         uint listPointer;
     }
 
@@ -89,6 +88,7 @@ contract Tartarus is Ownable {
     struct Moderator {
         bool[] permissions;
         uint wage;
+        uint lastPaid;
         uint listPointer;
     }
     
@@ -98,7 +98,7 @@ contract Tartarus is Ownable {
         bytes32 owner;
         uint moderatorWages;
         uint totalModeratorWages;
-        uint balance;
+        uint forumBalance;
         bool locked;
         bytes32[] pinnedPosts;
         bytes32[] moderatorList;
@@ -281,7 +281,7 @@ contract Tartarus is Ownable {
     }
 
     function userWithDraw(bytes32 _user, address payable _withdrawAddress) external onlyUserVerified(_user) {
-        _withdrawAddress.transfer(users[_user].balance);
+        _withdrawAddress.transfer(users[_user].userBalance);
     }
 
     function createForum(bytes32 _user, string memory _forum, bytes32 _forumInfo)
@@ -305,6 +305,7 @@ contract Tartarus is Ownable {
         newForum.owner = _user;
         newForum.pinnedPosts = new bytes32[](3);
         forums[forumBytes] = newForum;
+        adminBalance += msg.value;
         emit ForumCreated(_user, forumBytes, now);
     }
 
@@ -521,8 +522,11 @@ contract Tartarus is Ownable {
         return (forums[_forum].moderators[_user].permissions[0] || forums[_forum].owner == _user);
     }
 
-    function checkModeratorWage(uint _totalWage, uint _wage) internal pure returns(bool) {
-        require(_wage >= 0, "Negative wage");
+    function checkWage(uint _totalWage, uint _wage) internal pure returns(bool) {
+        require(
+            _wage >= 0,
+            "Negative wage"
+        );
         return (_totalWage + _wage) <= 100;
     }
 
@@ -590,11 +594,13 @@ contract Tartarus is Ownable {
             "User does not have permission"
         );
         require(
-            checkModeratorWage((forums[_forum].totalModeratorWages - forums[_forum].moderators[_targetUser].wage), _wage),
+            checkWage(forums[_forum].totalModeratorWages, _wage),
             "Wage exceeds budget"
         );
         forums[_forum].moderators[_targetUser].permissions = _permissions;
         forums[_forum].moderators[_targetUser].wage = _wage;
+        forums[_forum].moderators[_targetUser].lastPaid = forums[_forum].forumBalance;
+        forums[_forum].totalModeratorWages += _wage;
         forums[_forum].moderators[_targetUser].listPointer = forums[_forum].moderatorList.push(_targetUser) - 1;
         emit ModeratorCreated(_forum, _user, _targetUser, _permissions, _wage, now);
     }
@@ -610,9 +616,11 @@ contract Tartarus is Ownable {
             "User does not have permission"
         );
         require(
-            checkModeratorWage((forums[_forum].totalModeratorWages - forums[_forum].moderators[_targetUser].wage), _wage),
+            checkWage((forums[_forum].totalModeratorWages - forums[_forum].moderators[_targetUser].wage), _wage),
             "Wage exceeds budget"
         );
+        payoutModerator(_user, _targetUser, _forum);
+        forums[_forum].totalModeratorWages = forums[_forum].totalModeratorWages - forums[_forum].moderators[_targetUser].wage + _wage;
         forums[_forum].moderators[_targetUser].permissions = _permissions;
         forums[_forum].moderators[_targetUser].wage = _wage;
         emit ModeratorUpdated(_forum, _user, _targetUser, _permissions, _wage, now);
@@ -629,6 +637,8 @@ contract Tartarus is Ownable {
             admins[_user].permissions[5],
             "User does not have permission"
         );
+        payoutModerator(_user, _targetUser, _forum);
+        forums[_forum].totalModeratorWages = forums[_forum].totalModeratorWages - forums[_forum].moderators[_user].wage;
         uint rowToDelete = forums[_forum].moderators[_targetUser].listPointer;
         bytes32 keyToMove = forums[_forum].moderatorList[forums[_forum].moderatorList.length-1];
         forums[_forum].moderatorList[rowToDelete] = keyToMove;
@@ -677,11 +687,6 @@ contract Tartarus is Ownable {
         return (admins[_user].permissions[0] || _user == ownerAccount);
     }
 
-    function checkAdminWage(uint _totalWage, uint _wage) internal pure returns(bool) {
-        require(_wage >= 0, "Negative wage");
-        return (_totalWage + _wage) <= 100;
-    }
-
     function getAdmin(bytes32 _user)
         public view returns(bool fullAdmin, bool access, bool config, bool mail, bool flair, bool forum, bool posts, uint wage) {
         if (_user == ownerAccount) {
@@ -724,8 +729,13 @@ contract Tartarus is Ownable {
             isFullAdmin(_user),
             "User does not have permission"
         );
+        require(
+            checkWage((totalAdminWages - admins[_targetUser].wage), _wage),
+            "Wage exceeds budget"
+        );
         admins[_targetUser].permissions = _permissions;
         admins[_targetUser].wage = _wage;
+        admins[_targetUser].lastPaid = adminBalance;
         admins[_targetUser].listPointer = adminList.push(_targetUser) - 1;
         emit AdminCreated(_user, _targetUser, _permissions, now);
     }
@@ -740,17 +750,26 @@ contract Tartarus is Ownable {
             "User does not have permission"
         );
         require(
-            checkAdminWage((totalAdminWages - admins[_targetUser].wage), _wage),
+            checkWage((totalAdminWages - admins[_targetUser].wage), _wage),
             "Wage exceeds budget"
         );
+        payoutAdmin(_user, _targetUser);
         admins[_targetUser].permissions = _permissions;
         admins[_targetUser].wage = _wage;
         emit AdminUpdated(_user, _targetUser, _permissions, _wage, now);
     }
 
     function removeAdmin(bytes32 _user, bytes32 _targetUser) public onlyUserVerified(_user) onlyUserExists(_targetUser) {
-        require(isAdmin(_targetUser), "User not admin");
-        require(isFullAdmin(_user), "User does not have permission");
+        require(
+            isAdmin(_targetUser),
+            "User not admin"
+        );
+        require(
+            isFullAdmin(_user),
+            "User does not have permission"
+        );
+        payoutAdmin(_user, _targetUser);
+        totalAdminWages = totalAdminWages - admins[_targetUser].wage;
         uint rowToDelete = admins[_targetUser].listPointer;
         bytes32 keyToMove = adminList[adminList.length-1];
         adminList[rowToDelete] = keyToMove;
@@ -789,62 +808,55 @@ contract Tartarus is Ownable {
         emit AdminUnban(_user, _targetUser, now);
     }
 
-    function payoutAdmins(bytes32 _user) external onlyUserVerified(_user) {
+    function payoutAdmin(bytes32 _user, bytes32 _targetUser) public onlyUserVerified(_user) onlyUserExists(_targetUser) {
         require(
-            adminBalance >= 0,
+            adminBalance > 0,
             "Balance 0"
         );
         require(
-            isFullAdmin(_user),
+            isAdmin(_targetUser),
+            "User not admin"
+        );
+        require(
+            isFullAdmin(_user) ||
+            _user == _targetUser,
             "User does not have permission"
         );
-        uint currentAdminBalance = adminBalance;
-        uint ownerWage = currentAdminBalance * (100 - adminWages) / 100;
-        uint currentAdminWages = currentAdminBalance - ownerWage;
-        uint remainderAdminWages = (100 - totalAdminWages) / adminList.length;
+        uint adminWage = admins[_targetUser].wage;
+        uint adminPay = adminWage / 100 * (adminBalance - admins[_targetUser].lastPaid);
+        admins[_targetUser].lastPaid = adminBalance;
+        users[_targetUser].userBalance += adminPay;
+        emit AdminPaid(_user, _targetUser, adminPay, now);
 
-        for (uint i = 0; i < adminList.length; i++) {
-            uint currentAdminWage = (currentAdminWages * admins[adminList[i]].wage / 100) + remainderAdminWages;
-            users[adminList[i]].balance += currentAdminWage;
-            emit AdminPaid(_user, adminList[i], currentAdminWage, now);
-        }
-
-        users[ownerAccount].balance += ownerWage;
-        adminBalance = 0;
-        emit AdminsPaid(_user, currentAdminBalance, now);
     }
-
-    function payoutModerators(bytes32 _user, bytes32 _forum) public onlyUserVerified(_user) onlyForumExists(_forum) {
+    
+    function payoutModerator(bytes32 _user, bytes32 _targetUser, bytes32 _forum)
+        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyForumExists(_forum) {
         require(
-            forums[_forum].balance >= 0,
-            "Forum balance 0"
+            forums[_forum].forumBalance > 0,
+            "Balance 0"
         );
         require(
-            isFullModerator(_forum, _user),
+            isModerator(_forum, _targetUser),
+            "User not moderator"
+        );
+        require(
+            isFullModerator(_forum, _user) ||
+            _user == _targetUser,
             "User does not have permission"
         );
-        uint currentForumBalance = forums[_forum].balance;
-        uint ownerWage = currentForumBalance * (100 - forums[_forum].moderatorWages) / 100;
-        uint totalModeratorWages = currentForumBalance - ownerWage;
-        uint remainderModeratorWages = (100 - forums[_forum].totalModeratorWages) / forums[_forum].moderatorList.length;
-
-        for (uint i = 0; i < forums[_forum].moderatorList.length; i++) {
-            uint currentModeratorWage =
-                (totalModeratorWages * forums[_forum].moderators[forums[_forum].moderatorList[i]].wage / 100) + remainderModeratorWages;
-            users[forums[_forum].moderatorList[i]].balance += currentModeratorWage;
-            emit ModeratorPaid(_user, forums[_forum].moderatorList[i], currentModeratorWage, now);
-        }
-
-        users[forums[_forum].owner].balance += ownerWage;
-        forums[_forum].balance = 0;
-        emit ModeratorsPaid(_user, _forum, currentForumBalance, now);
+        uint moderatorWage = forums[_forum].moderators[_targetUser].wage;
+        uint moderatorPay = moderatorWage / 100 * (forums[_forum].forumBalance - forums[_forum].moderators[_targetUser].lastPaid);
+        forums[_forum].moderators[_targetUser].lastPaid = forums[_forum].forumBalance;
+        users[_targetUser].userBalance += moderatorPay;
+        emit ModeratorPaid(_forum, _user, _targetUser, moderatorPay, now);
     }
 
     function payoutPost(bytes32 _forum, uint _value) internal {
         uint adminCut = _value / 2;
         uint forumCut = _value - adminCut;
         adminBalance += adminCut;
-        forums[_forum].balance += forumCut;
+        forums[_forum].forumBalance += forumCut;
     }
 
     function payoutComment(bytes32 _forum, bytes32 _postId, bytes32 _targetId, uint _value) internal {
@@ -852,11 +864,11 @@ contract Tartarus is Ownable {
         uint forumCut = (_value - adminCut) / 2;
         uint postCut = _value - adminCut - forumCut;
         adminBalance += adminCut;
-        forums[_forum].balance += forumCut;
+        forums[_forum].forumBalance += forumCut;
         if (_postId == _targetId) {
-            users[forums[_forum].posts[_postId].creator].balance += postCut;
+            users[forums[_forum].posts[_postId].creator].userBalance += postCut;
         } else {
-            users[forums[_forum].comments[_targetId].creator].balance += postCut;
+            users[forums[_forum].comments[_targetId].creator].userBalance += postCut;
         }
     }
 
@@ -865,8 +877,8 @@ contract Tartarus is Ownable {
         uint forumCut = (_value - adminCut) / 2;
         uint postCut = _value - adminCut - forumCut;
         adminBalance += adminCut;
-        forums[_forum].balance += forumCut;
-        users[forums[_forum].posts[_postId].creator].balance += postCut;
+        forums[_forum].forumBalance += forumCut;
+        users[forums[_forum].posts[_postId].creator].userBalance += postCut;
     }
 
     function setCreateUserCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) {
@@ -913,4 +925,6 @@ contract Tartarus is Ownable {
         voteCost = _newCost;
         emit UpdateFee(_user, "vote", voteCost);
     }
+    
+    
 }
