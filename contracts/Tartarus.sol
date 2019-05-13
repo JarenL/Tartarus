@@ -4,7 +4,7 @@ import "./Ownable.sol";
 
 contract Tartarus is Ownable {
     event TartarusPaid (uint amount, uint time);
-    event AdminCreated (bytes32 user, bytes32 targetUser, bool[] permissions, uint time);
+    event AdminCreated (bytes32 user, bytes32 targetUser, bool[] permissions, uint wage, uint time);
     event AdminUpdated (bytes32 user, bytes32 targetUser, bool[] permissions, uint wage, uint time);
     event AdminRemoved (bytes32 user, bytes32 targetUser, uint time);
     event AdminBan (bytes32 user, bytes32 targetUser, uint time);
@@ -185,6 +185,49 @@ contract Tartarus is Ownable {
         );
     }
 
+    function isAdmin(bytes32 _user) internal view returns(bool) {
+        return (
+            adminList[admins[_user].listPointer] == _user ||
+            ownerAccount == _user
+        );
+    }
+
+    modifier onlyAdminAuthorized(bytes32 _user, uint _permissionIndex) {
+        _isAdminAuthorized(_user, _permissionIndex);
+        _;
+    }
+
+    function _isAdminAuthorized(bytes32 _user, uint _adminIndex) internal view {
+        require(
+            _user == ownerAccount ||
+            admins[_user].permissions[_adminIndex],
+            "Not admin"
+        );
+    }
+    
+    function isModerator(bytes32 _user, bytes32 _forum) internal view returns(bool) {
+        return (
+            forums[_forum].moderatorList[forums[_forum].moderators[_user].listPointer] == _user ||
+            forums[_forum].owner == _user
+        );
+    }
+
+    modifier onlyModeratorAuthorized(bytes32 _user, bytes32 _forum, uint _moderatorIndex, uint _adminIndex) {
+        _isModeratorAuthorized(_user, _forum, _moderatorIndex, _adminIndex);
+        _;
+    }
+
+    function _isModeratorAuthorized(bytes32 _user, bytes32 _forum, uint _moderatorIndex, uint _adminIndex) internal view {
+        require(
+            forums[_forum].owner == _user ||
+            forums[_forum].moderators[_user].permissions[0] ||
+            forums[_forum].moderators[_user].permissions[_moderatorIndex] ||
+            admins[_user].permissions[0] ||
+            admins[_user].permissions[_adminIndex],
+            "User not authorized"
+        );
+    }
+
     modifier onlyForumExists(bytes32 _forum) {
         _forumExists(_forum);
         _;
@@ -220,6 +263,19 @@ contract Tartarus is Ownable {
         require(
             forums[_forum].comments[_commentId].creator != 0,
             "Comment does not exist"
+        );
+    }
+
+    modifier onlyWithinBudget(uint _currentTotal, uint _newWage) {
+        _checkBudget(_currentTotal, _newWage);
+        _;
+    }
+    
+    function _checkBudget(uint _totalWage, uint _wage) internal pure {
+        require(
+            _wage >= 0 &&
+            (_totalWage + _wage) <= 100,
+            "Wage exceeds budget"
         );
     }
 
@@ -310,58 +366,32 @@ contract Tartarus is Ownable {
     }
 
     function lockForum(bytes32 _user, bytes32 _forum)
-        public onlyUserVerified(_user) onlyForumExists(_forum){
-        require(
-            !forums[_forum].locked,
-            "Forum locked"
-        );
-        require(
-            admins[_user].permissions[5] ||
-            isFullAdmin(_user),
-            "User does not have permission"
-        );
+        public onlyUserVerified(_user) onlyForumExists(_forum) onlyAdminAuthorized(_user, 5) {
         forums[_forum].locked = true;
         emit ForumLocked(_user, _forum, now);
     }
 
     function unlockForum(bytes32 _user, bytes32 _forum)
-        public onlyUserVerified(_user) onlyForumExists(_forum){
-        require(
-            !forums[_forum].locked,
-            "Forum not locked"
-        );
-        require(
-            admins[_user].permissions[5] ||
-            isFullAdmin(_user),
-            "User does not have permission"
-        );
+        public onlyUserVerified(_user) onlyForumExists(_forum) onlyAdminAuthorized(_user, 5) {
         forums[_forum].locked = false;
         emit ForumUnlocked(_user, _forum, now);
+    }
+
+    function updateForum(bytes32 _user, bytes32 _forum, bytes32 _forumInfo)
+        public onlyUserVerified(_user) onlyForumExists(_forum) onlyModeratorAuthorized(_user, _forum, 2, 5) {
+        forums[_forum].forumInfo = _forumInfo;
+        emit ForumUpdated(_user, _forum, _forumInfo, now);
     }
 
     function transferForumOwnership(bytes32 _user, bytes32 _forum, bytes32 _targetUser)
         public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyForumExists(_forum) {
         require(
             forums[_forum].owner == _user ||
-            admins[_user].permissions[5] ||
-            isFullAdmin(_user),
+            admins[_user].permissions[5],
             "User not authorized"
         );
         forums[_forum].owner = _targetUser;
         emit ForumTransferred(_forum, _user, _targetUser, now);
-    }
-
-    function updateForum(bytes32 _user, bytes32 _forum, bytes32 _forumInfo)
-        public onlyUserVerified(_user) onlyForumExists(_forum) {
-        require(
-            forums[_forum].moderators[_user].permissions[2] ||
-            isFullModerator(_user, _forum) ||
-            admins[_user].permissions[5] ||
-            isFullAdmin(_user),
-            "User does not have permission"
-        );
-        forums[_forum].forumInfo = _forumInfo;
-        emit ForumUpdated(_user, _forum, _forumInfo, now);
     }
     
     function createPost(bytes32 _user, bytes32 _forum, bytes32 _post)
@@ -378,30 +408,20 @@ contract Tartarus is Ownable {
     }
 
     function lockPost(bytes32 _user, bytes32 _forum, bytes32 _postId)
-        public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) {
+        public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) onlyModeratorAuthorized(_user, _forum, 5, 6) {
         require(
-            forums[_forum].moderators[_user].permissions[5] ||
-            isFullModerator(_user, _forum) ||
-            admins[_user].permissions[6] ||
-            isFullAdmin(_user),
-            "User not authorized"
+            !forums[_forum].posts[_postId].locked,
+            "Post locked"
         );
         forums[_forum].posts[_postId].locked = true;
         emit PostLocked(_user, _forum, _postId, now);
     }
 
     function unlockPost(bytes32 _user, bytes32 _forum, bytes32 _postId)
-        public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) {
+        public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) onlyModeratorAuthorized(_user, _forum, 5, 6) {
         require(
             forums[_forum].posts[_postId].locked,
             "Post not locked"
-        );
-        require(
-            forums[_forum].moderators[_user].permissions[5] ||
-            isFullModerator(_user, _forum) ||
-            admins[_user].permissions[6] ||
-            isFullAdmin(_user),
-            "User not authorized"
         );
         forums[_forum].posts[_postId].locked = false;
         emit PostUnlocked(_user, _forum, _postId, now);
@@ -410,16 +430,17 @@ contract Tartarus is Ownable {
     function deletePost(bytes32 _user, bytes32 _forum, bytes32 _postId)
         public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) {
         require(
+            _user == forums[_forum].posts[_postId].creator ||
+            forums[_forum].moderators[_user].permissions[0] ||
             forums[_forum].moderators[_user].permissions[5] ||
-            isFullModerator(_user, _forum) ||
-            admins[_user].permissions[6] ||
-            isFullAdmin(_user),
+            admins[_user].permissions[0] ||
+            admins[_user].permissions[6],
             "User does not have permission"
         );
         delete forums[_forum].posts[_postId];
         emit PostDeleted(_forum, _user, _postId, now);
     }
-    
+
     function getPost(bytes32 _forum, bytes32 _postId)
         public view returns (bytes32 post, bytes32 creator, uint16 votes, uint16 comments, bool locked) {
         post = forums[_forum].posts[_postId].post;
@@ -462,11 +483,12 @@ contract Tartarus is Ownable {
     function deleteComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _commentId)
         public onlyUserVerified(_user) onlyForumExists(_forum) onlyCommentExists(_forum, _commentId) {
         require(
-            admins[_user].permissions[5] ||
-            isFullAdmin(_user) ||
+            _user == forums[_forum].posts[_postId].creator ||
+            forums[_forum].moderators[_user].permissions[0] ||
             forums[_forum].moderators[_user].permissions[5] ||
-            isFullModerator(_user, _forum),
-            "User not authorized"
+            admins[_user].permissions[0] ||
+            admins[_user].permissions[6],
+            "User does not have permission"
         );
         delete forums[_forum].comments[_commentId];
         emit CommentDeleted(_forum, _user, _postId, _commentId, now);
@@ -513,23 +535,6 @@ contract Tartarus is Ownable {
         emit ReportComment(_forum, _postId, _commentId, _reason, now);
     }
 
-    function isModerator(bytes32 _user, bytes32 _forum) internal view returns(bool) {
-        if(forums[_forum].moderatorList.length == 0) return false;
-        return (forums[_forum].moderatorList[forums[_forum].moderators[_user].listPointer] == _user);
-    }
-
-    function isFullModerator(bytes32 _user, bytes32 _forum) internal view returns(bool) {
-        return (forums[_forum].moderators[_user].permissions[0] || forums[_forum].owner == _user);
-    }
-
-    function checkWage(uint _totalWage, uint _wage) internal pure returns(bool) {
-        require(
-            _wage >= 0,
-            "Negative wage"
-        );
-        return (_totalWage + _wage) <= 100;
-    }
-
     function getModerator(bytes32 _user, bytes32 _forum)
         public view  onlyForumExists(_forum) returns(bool fullModerator, bool access, bool config, bool mail, bool flair, bool posts, uint wage) {
         if (_user == forums[_forum].owner) {
@@ -561,41 +566,24 @@ contract Tartarus is Ownable {
     }
 
     function PinPost(bytes32 _user, bytes32 _forum, bytes32 _postId, uint _postIndex)
-        public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) {
-        require(
-            forums[_forum].moderators[_user].permissions[5] ||
-            isFullModerator(_user, _forum),
-            "User does not have permission"
-        );
+        public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) onlyModeratorAuthorized(_user, _forum, 5, 5) {
         forums[_forum].pinnedPosts[_postIndex] = _postId;
         emit PostPinned(_forum, _user, _postId, now);
     }
 
     function UnpinPost(bytes32 _user, bytes32 _forum, uint _postIndex)
-        public onlyUserVerified(_user) onlyForumExists(_forum) {
-        require(
-            forums[_forum].moderators[_user].permissions[5] ||
-            isFullModerator(_user, _forum),
-            "User does not have permission"
-        );
+        public onlyUserVerified(_user) onlyForumExists(_forum) onlyModeratorAuthorized(_user, _forum, 5, 5) {
         bytes32 currentPost = forums[_forum].pinnedPosts[_postIndex];
         delete forums[_forum].pinnedPosts[_postIndex];
         emit PostUnpinned(_forum, _user, currentPost, now);
     }
 
     function createModerator(bytes32 _user, bytes32 _forum, bytes32 _targetUser, bool[] memory _permissions, uint _wage)
-        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyForumExists(_forum) onlyUserAuthorized(_targetUser, _forum){
+        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyForumExists(_forum)
+            onlyWithinBudget(forums[_forum].totalModeratorWages, _wage) onlyModeratorAuthorized(_user, _forum, 0, 5) {
         require(
             !isModerator(_targetUser, _forum),
             "User already moderator"
-        );
-        require(
-            isFullModerator(_forum, _user),
-            "User does not have permission"
-        );
-        require(
-            checkWage(forums[_forum].totalModeratorWages, _wage),
-            "Wage exceeds budget"
         );
         forums[_forum].moderators[_targetUser].permissions = _permissions;
         forums[_forum].moderators[_targetUser].wage = _wage;
@@ -605,39 +593,36 @@ contract Tartarus is Ownable {
         emit ModeratorCreated(_forum, _user, _targetUser, _permissions, _wage, now);
     }
 
-    function updateModerator(bytes32 _user, bytes32 _forum, bytes32 _targetUser, bool[] memory _permissions, uint _wage)
-        public {
+    function updateModeratorPermissions(bytes32 _user, bytes32 _forum, bytes32 _targetUser, bool[] memory _permissions) 
+        public onlyUserVerified(_user) onlyModeratorAuthorized(_user, _forum, 0, 5) {
         require(
             !isModerator(_targetUser, _forum),
             "User not moderator"
         );
-        require(
-            isFullModerator(_forum, _user),
-            "User does not have permission"
-        );
-        require(
-            checkWage((forums[_forum].totalModeratorWages - forums[_forum].moderators[_targetUser].wage), _wage),
-            "Wage exceeds budget"
-        );
-        payoutModerator(_user, _targetUser, _forum);
-        forums[_forum].totalModeratorWages = forums[_forum].totalModeratorWages - forums[_forum].moderators[_targetUser].wage + _wage;
         forums[_forum].moderators[_targetUser].permissions = _permissions;
+        emit ModeratorUpdated(_forum, _user, _targetUser, _permissions, forums[_forum].moderators[_targetUser].wage, now);
+    }
+
+    function updateModeratorWage(bytes32 _user, bytes32 _forum, bytes32 _targetUser, uint _wage) 
+        public onlyUserVerified(_user) onlyModeratorAuthorized(_user, _forum, 0, 5)
+            onlyWithinBudget((forums[_forum].totalModeratorWages - forums[_forum].moderators[_targetUser].wage), _wage){
+        require(
+            !isModerator(_targetUser, _forum),
+            "User not moderator"
+        );
+        moderatorDisburse(_user, _targetUser, _forum);
+        forums[_forum].totalModeratorWages = forums[_forum].totalModeratorWages - forums[_forum].moderators[_targetUser].wage + _wage;
         forums[_forum].moderators[_targetUser].wage = _wage;
-        emit ModeratorUpdated(_forum, _user, _targetUser, _permissions, _wage, now);
+        emit ModeratorUpdated(_forum, _user, _targetUser, forums[_forum].moderators[_targetUser].permissions, _wage, now);
     }
 
     function removeModerator(bytes32 _user, bytes32 _forum, bytes32 _targetUser)
-        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyForumExists(_forum) {
+        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyForumExists(_forum) onlyModeratorAuthorized(_user, _forum, 0, 5) {
         require(
             isModerator(_targetUser, _forum),
             "User not moderator"
         );
-        require(
-            isFullModerator(_forum, _user) ||
-            admins[_user].permissions[5],
-            "User does not have permission"
-        );
-        payoutModerator(_user, _targetUser, _forum);
+        moderatorDisburse(_user, _targetUser, _forum);
         forums[_forum].totalModeratorWages = forums[_forum].totalModeratorWages - forums[_forum].moderators[_user].wage;
         uint rowToDelete = forums[_forum].moderators[_targetUser].listPointer;
         bytes32 keyToMove = forums[_forum].moderatorList[forums[_forum].moderatorList.length-1];
@@ -649,42 +634,25 @@ contract Tartarus is Ownable {
     }
 
     function moderatorBan(bytes32 _user, bytes32 _targetUser, bytes32 _forum)
-        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyForumExists(_forum) {
+        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyForumExists(_forum) onlyModeratorAuthorized(_user, _forum, 1, 5) {
         require(
-            !forums[_forum].banned[_targetUser],
+            forums[_forum].owner != _targetUser &&
+            !forums[_forum].banned[_targetUser] &&
+            !isModerator(_targetUser, _forum),
             "Target banned"
-        );
-        require(
-            forums[_forum].moderators[_user].permissions[1] ||
-            isFullModerator(_user, _forum),
-            "User does not have permission"
         );
         forums[_forum].banned[_targetUser] = true;
         emit ModeratorBan(_user, _forum, _targetUser, now);
     }
 
     function moderatorUnban(bytes32 _user, bytes32 _targetUser, bytes32 _forum)
-        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyForumExists(_forum) {
+        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyForumExists(_forum) onlyModeratorAuthorized(_user, _forum, 1, 5) {
         require(
             forums[_forum].banned[_targetUser],
             "Target not banned"
         );
-        require(
-            forums[_forum].moderators[_user].permissions[1] ||
-            isFullModerator(_user, _forum),
-            "User does not have permission"
-        );
         forums[_forum].banned[_targetUser] = false;
         emit ModeratorUnban(_user, _forum, _targetUser, now);
-    }
-
-    function isAdmin(bytes32 _user) internal view returns(bool) {
-        if(adminList.length == 0) return false;
-        return (adminList[admins[_user].listPointer] == _user);
-    }
-
-    function isFullAdmin(bytes32 _user) internal view returns(bool) {
-        return (admins[_user].permissions[0] || _user == ownerAccount);
     }
 
     function getAdmin(bytes32 _user)
@@ -720,55 +688,52 @@ contract Tartarus is Ownable {
     }
 
     function createAdmin(bytes32 _user, bytes32 _targetUser, bool[] memory _permissions, uint _wage)
-    public onlyUserVerified(_user) onlyUserExists(_targetUser) {
+    public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyAdminAuthorized(_user, 0) onlyWithinBudget(totalAdminWages, _wage) {
         require(
+            ownerAccount != _targetUser &&
             !isAdmin(_targetUser),
             "User already admin"
         );
-        require(
-            isFullAdmin(_user),
-            "User does not have permission"
-        );
-        require(
-            checkWage((totalAdminWages - admins[_targetUser].wage), _wage),
-            "Wage exceeds budget"
-        );
+        totalAdminWages += _wage;
         admins[_targetUser].permissions = _permissions;
         admins[_targetUser].wage = _wage;
         admins[_targetUser].lastPaid = adminBalance;
         admins[_targetUser].listPointer = adminList.push(_targetUser) - 1;
-        emit AdminCreated(_user, _targetUser, _permissions, now);
+        emit AdminCreated(_user, _targetUser, _permissions, _wage, now);
     }
 
-    function updateAdmin(bytes32 _user, bytes32 _targetUser, bool[] memory _permissions, uint _wage) public {
+    function updateAdminWage(bytes32 _user, bytes32 _targetUser, uint _wage) 
+    public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyAdminAuthorized(_user, 0) onlyWithinBudget((totalAdminWages - admins[_targetUser].wage), _wage) {
         require(
-            isAdmin(_targetUser),
-            "User not admin"
+            isAdmin(_targetUser) &&
+            ownerAccount != _targetUser,
+            "Invalid target"
         );
-        require(
-            isFullAdmin(_user),
-            "User does not have permission"
-        );
-        require(
-            checkWage((totalAdminWages - admins[_targetUser].wage), _wage),
-            "Wage exceeds budget"
-        );
-        payoutAdmin(_user, _targetUser);
-        admins[_targetUser].permissions = _permissions;
+        adminDisburse(_user, _targetUser);
+        totalAdminWages = totalAdminWages - admins[_targetUser].wage + _wage;
         admins[_targetUser].wage = _wage;
-        emit AdminUpdated(_user, _targetUser, _permissions, _wage, now);
+        emit AdminUpdated(_user, _targetUser, admins[_targetUser].permissions, _wage, now);
     }
 
-    function removeAdmin(bytes32 _user, bytes32 _targetUser) public onlyUserVerified(_user) onlyUserExists(_targetUser) {
+    function updateAdminPermissions(bytes32 _user, bytes32 _targetUser, bool[] memory _permissions) 
+        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyAdminAuthorized(_user, 0) {
         require(
-            isAdmin(_targetUser),
-            "User not admin"
+            isAdmin(_targetUser) &&
+            ownerAccount != _targetUser,
+            "Invalid target"
         );
+        admins[_targetUser].permissions = _permissions;
+        emit AdminUpdated(_user, _targetUser, _permissions, admins[_targetUser].wage, now);
+    }
+
+    function removeAdmin(bytes32 _user, bytes32 _targetUser) 
+        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyAdminAuthorized(_user, 0) {
         require(
-            isFullAdmin(_user),
-            "User does not have permission"
+            isAdmin(_targetUser) &&
+            ownerAccount != _targetUser,
+            "Invalid target"
         );
-        payoutAdmin(_user, _targetUser);
+        adminDisburse(_user, _targetUser);
         totalAdminWages = totalAdminWages - admins[_targetUser].wage;
         uint rowToDelete = admins[_targetUser].listPointer;
         bytes32 keyToMove = adminList[adminList.length-1];
@@ -779,77 +744,84 @@ contract Tartarus is Ownable {
         emit AdminRemoved(_user, _targetUser, now);
     }
 
-    function adminBan(bytes32 _user, bytes32 _targetUser) public onlyUserVerified(_user) onlyUserExists(_targetUser) {
+    function adminBan(bytes32 _user, bytes32 _targetUser) 
+        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyAdminAuthorized(_user, 1) {
         require(
-            !banned[_targetUser],
-            "User is already banned"
-        );
-        require(
-            admins[_user].permissions[1] ||
-            isFullAdmin(_user),
-            "User does not have permission"
+            !banned[_targetUser] &&
+            ownerAccount != _targetUser &&
+            !isAdmin(_targetUser),
+            "Invalid ban target"
         );
         banned[_targetUser] = true;
         emit AdminBan(_user, _targetUser, now);
     }
 
-    function adminUnban(bytes32 _user, bytes32 _targetUser) public onlyUserVerified(_user) onlyUserExists(_targetUser) {
+    function adminUnban(bytes32 _user, bytes32 _targetUser) 
+        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyAdminAuthorized(_user, 1) {
         require(
-            banned[_targetUser],
-            "User is not banned"
+            !banned[_targetUser],
+            "Invalid ban target"
         );
-        require(
-            admins[_user].permissions[1] ||
-            isFullAdmin(_user),
-            "User does not have permission"
-        );
-
         banned[_targetUser] = false;
         emit AdminUnban(_user, _targetUser, now);
     }
-
-    function payoutAdmin(bytes32 _user, bytes32 _targetUser) public onlyUserVerified(_user) onlyUserExists(_targetUser) {
-        require(
-            adminBalance > 0,
-            "Balance 0"
-        );
+    
+    function adminDisburse(bytes32 _user, bytes32 _targetUser) internal {
         require(
             isAdmin(_targetUser),
-            "User not admin"
-        );
-        require(
-            isFullAdmin(_user) ||
-            _user == _targetUser,
-            "User does not have permission"
+           "User not admin"
         );
         uint adminWage = admins[_targetUser].wage;
         uint adminPay = adminWage / 100 * (adminBalance - admins[_targetUser].lastPaid);
         admins[_targetUser].lastPaid = adminBalance;
         users[_targetUser].userBalance += adminPay;
         emit AdminPaid(_user, _targetUser, adminPay, now);
-
     }
-    
-    function payoutModerator(bytes32 _user, bytes32 _targetUser, bytes32 _forum)
-        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyForumExists(_forum) {
+
+    function adminWithdraw(bytes32 _user) public onlyUserVerified(_user) {
         require(
-            forums[_forum].forumBalance > 0,
-            "Balance 0"
+            isAdmin(_user),
+           "User not admin"
         );
+        uint adminWage;
+        if (ownerAccount == _user) {
+            adminWage = 100 - totalAdminWages;
+        } else {
+            adminWage = admins[_user].wage;
+        }
+        uint adminPay = adminWage / 100 * (adminBalance - admins[_user].lastPaid);
+        admins[_user].lastPaid = adminBalance;
+        users[_user].userBalance += adminPay;
+        emit AdminPaid(_user, _user, adminPay, now);
+    }
+
+    function moderatorDisburse(bytes32 _user, bytes32 _targetUser, bytes32 _forum) internal {
         require(
-            isModerator(_forum, _targetUser),
-            "User not moderator"
-        );
-        require(
-            isFullModerator(_forum, _user) ||
-            _user == _targetUser,
-            "User does not have permission"
+           isModerator(_forum, _targetUser),
+           "User not moderator"
         );
         uint moderatorWage = forums[_forum].moderators[_targetUser].wage;
         uint moderatorPay = moderatorWage / 100 * (forums[_forum].forumBalance - forums[_forum].moderators[_targetUser].lastPaid);
         forums[_forum].moderators[_targetUser].lastPaid = forums[_forum].forumBalance;
         users[_targetUser].userBalance += moderatorPay;
         emit ModeratorPaid(_forum, _user, _targetUser, moderatorPay, now);
+    }
+
+    function moderatorWithdraw(bytes32 _user, bytes32 _forum) public onlyUserVerified(_user) onlyForumExists(_forum) {
+        require(
+           isModerator(_forum, _user),
+           "User not moderator"
+        );
+        uint moderatorWage;
+        if (forums[_forum].owner == _user) {
+            moderatorWage = 100 - forums[_forum].totalModeratorWages;
+        } else {
+            moderatorWage = forums[_forum].moderators[_user].wage;
+        }
+        uint moderatorPay = moderatorWage / 100 * (forums[_forum].forumBalance - forums[_forum].moderators[_user].lastPaid);
+        forums[_forum].moderators[_user].lastPaid = forums[_forum].forumBalance;
+        users[_user].userBalance += moderatorPay;
+        emit ModeratorPaid(_forum, _user, _user, moderatorPay, now);
     }
 
     function payoutPost(bytes32 _forum, uint _value) internal {
@@ -881,50 +853,28 @@ contract Tartarus is Ownable {
         users[forums[_forum].posts[_postId].creator].userBalance += postCut;
     }
 
-    function setCreateUserCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) {
-        require(
-            isFullAdmin(_user),
-            "User does not have permission"
-        );
+    function setCreateUserCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) onlyAdminAuthorized(_user, 0) {
         createUserCost = _newCost;
         emit UpdateFee(_user, "user", createUserCost);
     }
-    
-    function setCreateForumCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) {
-        require(
-            isFullAdmin(_user),
-            "User does not have permission"
-        );
+
+    function setCreateForumCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) onlyAdminAuthorized(_user, 0) {
         createForumCost = _newCost;
         emit UpdateFee(_user, "forum", createForumCost);
     }
-    
-    function setCreatePostCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) {
-        require(
-            isFullAdmin(_user),
-            "User does not have permission"
-        );
+
+    function setCreatePostCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) onlyAdminAuthorized(_user, 0) {
         createPostCost = _newCost;
         emit UpdateFee(_user, "post", createPostCost);
     }
-    
-    function setCreateCommentCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) {
-        require(
-            isFullAdmin(_user),
-            "User does not have permission"
-        );
+
+    function setCreateCommentCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) onlyAdminAuthorized(_user, 0) {
         createCommentCost = _newCost;
         emit UpdateFee(_user, "comment", createCommentCost);
     }
-    
-    function setVoteCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) {
-        require(
-            isFullAdmin(_user),
-            "User does not have permission"
-        );
+
+    function setVoteCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) onlyAdminAuthorized(_user, 0) {
         voteCost = _newCost;
         emit UpdateFee(_user, "vote", voteCost);
     }
-    
-    
 }
