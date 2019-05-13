@@ -40,7 +40,7 @@ class UserSidebar extends Component {
         instance
           .PostCreated(
             {
-              creator: this.props.web3.utils.fromAscii(this.props.username)
+              creator: this.props.web3.utils.fromAscii(this.props.user)
             },
             {
               fromBlock: 0,
@@ -63,14 +63,14 @@ class UserSidebar extends Component {
     if (this.state.loading) {
       return <LoadingIndicatorSpinner />;
     } else {
-      if (this.props.currentUser !== this.props.username) {
+      if (this.props.username !== this.props.user) {
         return (
           <Wrapper>
             <UserMessageButton />
-            <UserHeader username={this.props.username} />
+            <UserHeader user={this.props.user} />
             <UserList
               path={this.props.url}
-              username={this.props.username}
+              user={this.props.user}
               categories={categories}
             />
           </Wrapper>
@@ -78,10 +78,10 @@ class UserSidebar extends Component {
       } else {
         return (
           <Wrapper>
-            <UserHeader username={this.props.username} />
+            <UserHeader user={this.props.user} />
             <UserList
               path={this.props.url}
-              username={this.props.username}
+              user={this.props.user}
               categories={authCategories}
             />
           </Wrapper>

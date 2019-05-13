@@ -5,6 +5,7 @@ import { overflow } from '../../shared/helpers';
 import UpButton from '../Buttons/UpButton';
 import DownButton from '../Buttons/DownButton';
 import { Link } from 'react-router-dom';
+import ModerateButton from '../../Buttons/Moderate';
 
 const Wrapper = styled.div`
   display: flex;
@@ -57,9 +58,13 @@ const Moderator = props => {
 
 const ForumModerators = props => (
   <Wrapper>
+    {console.log(props)}
     <HeaderWrapper>
       {'Moderators'}
       <ButtonWrapper>
+        {props.moderators.includes(props.username) ? (
+          <ModerateButton size={18} />
+        ) : null}
         {props.showModerators ? (
           <UpButton size={18} onClick={props.toggleShowModerators} />
         ) : (

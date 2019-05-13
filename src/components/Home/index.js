@@ -94,28 +94,20 @@ const Home = props => {
         />
         <Route
           exact
-          path='/u/:username'
-          render={({ match }) => (
-            <PostListContainer username={match.params.username} />
-          )}
+          path='/u/:user'
+          render={({ match }) => <PostListContainer user={match.params.user} />}
         />
         <Route
-          path='/u/:username/posts'
-          render={({ match }) => (
-            <PostListContainer username={match.params.username} />
-          )}
+          path='/u/:user/posts'
+          render={({ match }) => <PostListContainer user={match.params.user} />}
         />
         <Route
-          path='/u/:username/comments'
-          render={({ match }) => (
-            <PostListContainer username={match.params.username} />
-          )}
+          path='/u/:user/comments'
+          render={({ match }) => <PostListContainer user={match.params.user} />}
         />
         <Route
-          path='/u/:username/saved'
-          render={({ match }) => (
-            <PostListContainer username={match.params.username} />
-          )}
+          path='/u/:user/saved'
+          render={({ match }) => <PostListContainer user={match.params.user} />}
         />
       </HomeMainSection>
       <Switch>
@@ -148,60 +140,60 @@ const Home = props => {
         />
         <Route
           exact
-          path='/u/:username'
+          path='/u/:user'
           render={({ match }) => {
             return (
               <SidebarContainer
                 key={match.url}
-                username={match.params.username}
+                user={match.params.user}
                 page={'user'}
               />
             );
           }}
         />
         <Route
-          path='/u/:username/posts'
+          path='/u/:user/posts'
           render={({ match }) => {
             return (
               <SidebarContainer
                 key={match.url}
-                username={match.params.username}
+                user={match.params.user}
                 page={'user'}
               />
             );
           }}
         />
         <Route
-          path='/u/:username/comments'
+          path='/u/:user/comments'
           render={({ match }) => {
             return (
               <SidebarContainer
                 key={match.url}
-                username={match.params.username}
+                user={match.params.user}
                 page={'user'}
               />
             );
           }}
         />
         <Route
-          path='/u/:username/saved'
+          path='/u/:user/saved'
           render={({ match }) => {
             return (
               <SidebarContainer
                 key={match.url}
-                username={match.params.username}
+                user={match.params.user}
                 page={'user'}
               />
             );
           }}
         />
         <Route
-          path='/u/:username/messages'
+          path='/u/:user/messages'
           render={({ match }) => {
             return (
               <SidebarContainer
                 key={match.url}
-                username={match.params.username}
+                user={match.params.user}
                 page={'user'}
               />
             );

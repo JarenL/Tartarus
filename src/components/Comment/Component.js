@@ -86,15 +86,23 @@ class Comment extends Component {
                   comments: comments.length,
                   loading: false,
                   time: this.props.comment.time.c[0] * 1000,
-                  canDelete:
-                    this.props.username ===
-                    this.props.web3.utils.toUtf8(comment[1])
+                  canDelete: this.checkCanDelete(comment[1])
                 });
               });
           }
         });
     });
   }
+
+  checkCanDelete = props => {
+    return (
+      this.props.username === this.props.web3.utils.toUtf8(props) ||
+      this.props.userPermissions.admin[0] ||
+      this.props.userPermissions.admin[6] ||
+      this.props.userPermissions.moderator[0] ||
+      this.props.userPermissions.moderator[5]
+    );
+  };
 
   checkSaved = () => {
     const index = this.props.userSettings[

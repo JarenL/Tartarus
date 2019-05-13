@@ -6,7 +6,7 @@ const mapStateToProps = state => ({
   web3: state.web3,
   tartarusAddress: state.tartarus.tartarusAddress,
   userSettings: state.user.userSettings,
-  currentUser: state.user.username
+  username: state.user.username
 });
 
 const enhance = compose(connect(mapStateToProps));

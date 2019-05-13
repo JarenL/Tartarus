@@ -76,13 +76,22 @@ class PostContainer extends Component {
               votes: post[2].c[0],
               comments: post[3].c[0],
               loading: false,
-              canDelete:
-                this.props.username === this.props.web3.utils.toUtf8(post[1])
+              canDelete: this.checkCanDelete(post)
             });
           }
         });
     });
   }
+
+  checkCanDelete = props => {
+    return (
+      this.props.username === this.props.web3.utils.toUtf8(props[1]) ||
+      this.props.userPermissions.admin[0] ||
+      this.props.userPermissions.admin[6] ||
+      this.props.userPermissions.moderator[0] ||
+      this.props.userPermissions.moderator[5]
+    );
+  };
 
   checkSaved = () => {
     const index = this.props.userSettings[
@@ -141,7 +150,6 @@ class PostContainer extends Component {
   };
 
   handleDelete = () => {
-    console.log('unsave');
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
@@ -176,7 +184,6 @@ class PostContainer extends Component {
   };
 
   handleUpvote = () => {
-    console.log('unsave');
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
@@ -297,6 +304,7 @@ function mapStateToProps(state) {
     web3: state.web3,
     username: state.user.username,
     userSettings: state.user.userSettings,
+    userPermissions: state.user.userPermissions,
     tartarusAddress: state.tartarus.tartarusAddress
   };
 }

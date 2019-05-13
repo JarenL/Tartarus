@@ -7,8 +7,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid ${props => props.theme.border};
-  background-color: ${props => props.theme.accent};
-  color: #ffffff;
+  background-color: ${props => props.theme.foreground};
 `;
 
 const Header = styled.div`
@@ -16,6 +15,7 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   padding: 12px;
+  color: ${props => props.theme.mutedText};
 `;
 
 const HeaderText = styled.div`
@@ -25,12 +25,13 @@ const HeaderText = styled.div`
   font-size: 16px;
   align-items: center;
   justify-content: center;
+  color: ${props => props.theme.mutedText};
 `;
 
 const UserHeader = props => (
   <Wrapper>
     <Header>
-      <HeaderText>{props.username}</HeaderText>
+      <HeaderText>{props.user}</HeaderText>
     </Header>
   </Wrapper>
 );

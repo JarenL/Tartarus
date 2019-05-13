@@ -79,7 +79,7 @@ class PostListContainer extends React.Component {
   instantiateContract = () => {
     const contract = require('truffle-contract');
     if (this.props.forumName === undefined) {
-      if (this.props.username === undefined) {
+      if (this.props.user === undefined) {
         //front page
         console.log('front');
         const tartarus = contract(TartarusContract);
@@ -104,6 +104,7 @@ class PostListContainer extends React.Component {
           });
       } else {
         console.log('user');
+        console.log(this.props)
         const tartarus = contract(TartarusContract);
         tartarus.setProvider(this.props.web3.currentProvider);
         tartarus
@@ -142,10 +143,12 @@ class PostListContainer extends React.Component {
       tartarus
         .at(this.props.tartarusAddress)
         .then(instance => {
+          console.log(this.props.forumName)
+          console.log(this.props.username)
           instance.getModerator
             .call(
-              this.props.web3.utils.fromAscii(this.props.forumName),
-              this.props.web3.utils.fromAscii(this.props.username)
+              this.props.web3.utils.fromAscii(this.props.username),
+              this.props.web3.utils.fromAscii(this.props.forumName)
             )
             .then(moderator => {
               console.log(moderator);
@@ -188,6 +191,7 @@ class PostListContainer extends React.Component {
 export const mapStateToProps = state => ({
   web3: state.web3,
   tartarusAddress: state.tartarus.tartarusAddress,
+  username: state.user.username,
   time: state.form.filter.values.time,
   type: state.form.filter.values.type
 });

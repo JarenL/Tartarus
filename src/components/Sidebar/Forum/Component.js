@@ -57,7 +57,7 @@ class ForumSidebar extends Component {
           })
           .then(async forum => {
             if (
-              forum[0] ===
+              forum[2] ===
               '0x0000000000000000000000000000000000000000000000000000000000000000'
             ) {
               this.setState({
@@ -68,7 +68,6 @@ class ForumSidebar extends Component {
               const forumInfoHex = '1220' + forum[1].slice(2);
               const forumInfoBytes = Buffer.from(forumInfoHex, 'hex');
               const forumInfoHash = bs58.encode(forumInfoBytes);
-
               const forumInfo = await services.ipfs.getJson(forumInfoHash);
               console.log(forumInfo);
               if (forumInfo.description) {
@@ -203,6 +202,7 @@ class ForumSidebar extends Component {
             rules={this.state.rules}
           />
           <ForumModerators
+            username={this.props.username}
             showModerators={this.state.showModerators}
             toggleShowModerators={this.toggleShowModerators}
             moderators={this.state.moderators}

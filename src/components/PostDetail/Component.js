@@ -5,6 +5,7 @@ import CommentFormContainer from '../CreateCommentForm/Container';
 import PostDetailCommentSection from './CommentSection';
 import TartarusContract from '../../contracts/Tartarus.json';
 import PostContainer from '../Post/Post';
+import { updateUserPermissions } from '../../redux/actions/actions';
 
 class PostDetail extends Component {
   constructor(props) {
@@ -28,6 +29,19 @@ class PostDetail extends Component {
     tartarus.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
+        instance.getModerator
+          .call(
+            this.props.web3.utils.fromAscii(this.props.username),
+            this.props.web3.utils.fromAscii(this.props.forumName)
+          )
+          .then(moderator => {
+            console.log(moderator);
+            let permissionsObject = {
+              type: 'moderator',
+              permissions: moderator
+            };
+            this.props.dispatch(updateUserPermissions(permissionsObject));
+          });
         instance
           .PostCreated(
             {

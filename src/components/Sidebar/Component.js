@@ -46,7 +46,7 @@ const Sidebar = props => {
     case 'user':
       return (
         <Wrapper>
-          <UserSidebarContainer username={props.username} />
+          <UserSidebarContainer user={props.user} />
           <SubscriptionContainer />
         </Wrapper>
       );
