@@ -186,10 +186,15 @@ contract Tartarus is Ownable {
     }
 
     function isAdmin(bytes32 _user) internal view returns(bool) {
-        return (
-            adminList[admins[_user].listPointer] == _user ||
-            ownerAccount == _user
-        );
+        if (adminList.length != 0) {
+            return (
+                adminList[admins[_user].listPointer] == _user ||
+                ownerAccount == _user
+            );
+        } else {
+            return ownerAccount == _user;
+        }
+        
     }
 
     modifier onlyAdminAuthorized(bytes32 _user, uint _permissionIndex) {
@@ -206,10 +211,15 @@ contract Tartarus is Ownable {
     }
     
     function isModerator(bytes32 _user, bytes32 _forum) internal view returns(bool) {
-        return (
-            forums[_forum].moderatorList[forums[_forum].moderators[_user].listPointer] == _user ||
-            forums[_forum].owner == _user
-        );
+        if (forums[_forum].moderatorList.length != 0) {
+            return (
+                forums[_forum].moderatorList[forums[_forum].moderators[_user].listPointer] == _user ||
+                forums[_forum].owner == _user
+            );
+        } else {
+            return forums[_forum].owner == _user;
+        }
+        
     }
 
     modifier onlyModeratorAuthorized(bytes32 _user, bytes32 _forum, uint _moderatorIndex, uint _adminIndex) {

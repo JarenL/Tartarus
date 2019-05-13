@@ -92,7 +92,7 @@ class SignupForm extends React.Component {
           )
           .then(username => {
             console.log(username);
-            if (username[1] === '0x0000000000000000000000000000000000000000') {
+            if (username[2] === '0x0000000000000000000000000000000000000000') {
               console.log('available');
               this.setState({
                 available: true,
