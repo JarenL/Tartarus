@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   border: 1px solid ${props => props.theme.border};
   background-color: ${props => props.theme.foreground};
-  margin-top: 24px;
+  margin-top: 12px;
 `;
 
 const HeaderWrapper = styled.div`

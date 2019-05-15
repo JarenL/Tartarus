@@ -4,12 +4,15 @@ import UserSidebarItem from './UserItem';
 import { wideFont } from '../../shared/helpers';
 import { overflow } from '../../shared/helpers';
 
-const List = styled.nav`
+const Wrapper = styled.div`
   display: flex;
+  margin-top: 12px;
   flex-direction: column;
+  background-color: ${props => props.theme.foreground};
+  border: 1px solid ${props => props.theme.border};
 `;
 
-const Wrapper = styled.div`
+const List = styled.nav`
   display: flex;
   flex-direction: column;
 `;

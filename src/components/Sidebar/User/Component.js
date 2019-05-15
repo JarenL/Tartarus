@@ -11,8 +11,6 @@ import categories from './Categories';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid ${props => props.theme.border};
-  background-color: ${props => props.theme.foreground};
 `;
 
 class UserSidebar extends Component {
