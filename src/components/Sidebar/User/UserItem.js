@@ -18,7 +18,6 @@ const Item = styled(NavLink)`
 `;
 
 const UserSidebarItem = props => {
-  console.log(props);
   const isAll = props.category === 'all';
   return (
     <Item

@@ -25,10 +25,7 @@ class Comment extends Component {
     super(props);
     this.state = {
       comment: null,
-      username: null,
-      post: null,
-      forum: null,
-      target: null,
+      comments: 0,
       time: null,
       saved: false,
       commentReplies: null,
@@ -38,61 +35,91 @@ class Comment extends Component {
     this.instantiateContract = this.instantiateContract.bind(this);
   }
 
-  componentDidMount() {
-    this.instantiateContract();
-  }
+  componentDidMount = () => {
+    if (this.props.forumName === undefined) {
+      const contract = require('truffle-contract');
+      const tartarus = contract(TartarusContract);
+      tartarus.setProvider(this.props.web3.currentProvider);
+      console.log(this.props);
+      tartarus.at(this.props.tartarusAddress).then(instance => {
+        instance
+          .PostCreated(
+            {
+              postId: this.props.comment.postId
+            },
+            {
+              fromBlock: 0,
+              toBlock: 'latest'
+            }
+          )
+          .get((error, post) => {
+            this.instantiateContract(
+              this.props.web3.utils.toAscii(post[0].args.forum)
+            );
+          });
+      });
+    } else {
+      this.instantiateContract(this.props.forumName);
+    }
+  };
 
-  instantiateContract() {
+  instantiateContract = props => {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
     tartarus.at(this.props.tartarusAddress).then(instance => {
-      instance
-        .getComment(this.props.forumName, this.props.comment.commentId)
-        .then(comment => {
-          if (
-            comment[0] ===
-            '0x0000000000000000000000000000000000000000000000000000000000000000'
-          ) {
-            this.setState({
-              loading: false,
-              exists: false
-            });
-          } else {
-            instance
-              .CommentCreated(
-                {
-                  targetId: this.props.comment.commentId
-                },
-                {
-                  fromBlock: 0,
-                  toBlock: 'latest'
-                }
-              )
-              .get(async (error, comments) => {
-                const bs58 = require('bs58');
-                const commentHex = '1220' + comment[0].slice(2);
-                const commentBytes32 = Buffer.from(commentHex, 'hex');
-                const commentIpfsHash = bs58.encode(commentBytes32);
-
-                const commentData = await services.ipfs.getJson(
-                  commentIpfsHash
-                );
+      instance.getComment(props, this.props.comment.commentId).then(comment => {
+        if (
+          comment[0] ===
+          '0x0000000000000000000000000000000000000000000000000000000000000000'
+        ) {
+          this.setState({
+            loading: false,
+            exists: false
+          });
+        } else {
+          instance
+            .CommentCreated(
+              {
+                targetId: this.props.comment.commentId
+              },
+              {
+                fromBlock: 0,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, comments) => {
+              const bs58 = require('bs58');
+              const commentHex = '1220' + comment[0].slice(2);
+              const commentBytes32 = Buffer.from(commentHex, 'hex');
+              const commentIpfsHash = bs58.encode(commentBytes32);
+              services.ipfs.getJson(commentIpfsHash).then(commentData => {
                 if (this.props.username !== null) {
                   this.checkSaved();
                 }
-                this.setState({
-                  comment: commentData.comment,
-                  comments: comments.length,
-                  loading: false,
-                  time: this.props.comment.time.c[0] * 1000,
-                  canDelete: this.checkCanDelete(comment[1])
-                });
+                if (comments != null) {
+                  this.setState({
+                    comment: commentData.comment,
+                    comments: comments.length,
+                    loading: false,
+                    time: this.props.comment.time.c[0] * 1000,
+                    canDelete: this.checkCanDelete(comment[1])
+                  });
+                } else {
+                  this.setState({
+                    comment: commentData.comment,
+                    comments: comments.length,
+                    loading: false,
+                    time: this.props.comment.time.c[0] * 1000,
+                    canDelete: this.checkCanDelete(comment[1])
+                  });
+                }
               });
-          }
-        });
+            });
+        }
+      });
     });
-  }
+  };
 
   checkCanDelete = props => {
     return (
@@ -162,9 +189,7 @@ class Comment extends Component {
     }
   };
 
-  handleReport = () => {
-
-  }
+  handleReport = () => {};
 
   handleDelete = () => {
     console.log('unsave');

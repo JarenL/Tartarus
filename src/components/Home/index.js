@@ -10,6 +10,7 @@ import CreatePostFormContainer from '../CreatePostForm/Container';
 import SearchResultsContainer from '../Search/SearchResultsContainer';
 import ReportPostContainer from '../Report/Post/ReportPostContainer';
 import ReportCommentContainer from '../Report/Comment/ReportCommentContainer';
+import CommentListContainer from '../Comment/CommentList/Container';
 
 const Wrapper = styled.div`
   display: flex;
@@ -103,7 +104,9 @@ const Home = props => {
         />
         <Route
           path='/u/:user/comments'
-          render={({ match }) => <PostListContainer user={match.params.user} />}
+          render={({ match }) => (
+            <CommentListContainer user={match.params.user} />
+          )}
         />
         <Route
           path='/u/:user/saved'

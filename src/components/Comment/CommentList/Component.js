@@ -22,6 +22,7 @@ class CommentList extends Component {
 
   instantiateContract = () => {
     const contract = require('truffle-contract');
+    console.log(this.props)
     if (this.props.postId === undefined) {
       if (this.props.user === undefined) {
         //comment page
@@ -50,7 +51,6 @@ class CommentList extends Component {
       } else {
         // user page
         console.log('user');
-        console.log(this.props);
         const tartarus = contract(TartarusContract);
         tartarus.setProvider(this.props.web3.currentProvider);
         tartarus
@@ -134,7 +134,7 @@ class CommentList extends Component {
   };
 
   renderItem(index, key) {
-    console.log(this.props.comments);
+    console.log(this.state.comments);
     return (
       <CommentListItem
         key={key}
