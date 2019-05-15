@@ -185,7 +185,7 @@ contract Tartarus is Ownable {
         );
     }
 
-    function isAdmin(bytes32 _user) internal view returns(bool) {
+    function isAdmin(bytes32 _user) public view returns(bool) {
         if (adminList.length != 0) {
             return (
                 adminList[admins[_user].listPointer] == _user ||
@@ -210,7 +210,7 @@ contract Tartarus is Ownable {
         );
     }
     
-    function isModerator(bytes32 _user, bytes32 _forum) internal view returns(bool) {
+    function isModerator(bytes32 _user, bytes32 _forum) public view returns(bool) {
         if (forums[_forum].moderatorList.length != 0) {
             return (
                 forums[_forum].moderatorList[forums[_forum].moderators[_user].listPointer] == _user ||
@@ -546,7 +546,8 @@ contract Tartarus is Ownable {
     }
 
     function getModerator(bytes32 _user, bytes32 _forum)
-        public view  onlyForumExists(_forum) returns(bool fullModerator, bool access, bool config, bool mail, bool flair, bool posts, uint wage) {
+        public view  onlyForumExists(_forum) 
+        returns(bool fullModerator, bool access, bool config, bool mail, bool flair, bool posts, uint wage, uint lastPaid) {
         if (_user == forums[_forum].owner) {
             fullModerator = true;
             access = true;
@@ -555,6 +556,7 @@ contract Tartarus is Ownable {
             flair = true;
             posts = true;
             wage = 100 - forums[_forum].moderatorWages;
+            lastPaid = forums[_forum].moderators[_user].lastPaid;
         } else {
             fullModerator = forums[_forum].moderators[_user].permissions[0];
             access = forums[_forum].moderators[_user].permissions[1];
@@ -563,6 +565,7 @@ contract Tartarus is Ownable {
             flair = forums[_forum].moderators[_user].permissions[4];
             posts = forums[_forum].moderators[_user].permissions[5];
             wage = forums[_forum].moderators[_user].wage;
+            lastPaid = forums[_forum].moderators[_user].lastPaid;
         }
     }
     
@@ -666,7 +669,7 @@ contract Tartarus is Ownable {
     }
 
     function getAdmin(bytes32 _user)
-        public view returns(bool fullAdmin, bool access, bool config, bool mail, bool flair, bool forum, bool posts, uint wage) {
+        public view returns(bool fullAdmin, bool access, bool config, bool mail, bool flair, bool forum, bool posts, uint wage, uint lastPaid) {
         if (_user == ownerAccount) {
             fullAdmin = true;
             access = true;
@@ -676,6 +679,7 @@ contract Tartarus is Ownable {
             posts = true;
             forum = true;
             wage = 100 - adminWages;
+            lastPaid = admins[_user].lastPaid;
         } else {
             fullAdmin = admins[_user].permissions[0];
             access = admins[_user].permissions[1];
@@ -685,6 +689,7 @@ contract Tartarus is Ownable {
             posts = admins[_user].permissions[5];
             forum = admins[_user].permissions[6];
             wage = admins[_user].wage;
+            lastPaid = admins[_user].lastPaid;
         }
     }
     
@@ -725,7 +730,7 @@ contract Tartarus is Ownable {
         emit AdminUpdated(_user, _targetUser, admins[_targetUser].permissions, _wage, now);
     }
 
-    function updateAdminPermissions(bytes32 _user, bytes32 _targetUser, bool[] memory _permissions) 
+    function updateAdminPermissions(bytes32 _user, bytes32 _targetUser, bool[] memory _permissions)
         public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyAdminAuthorized(_user, 0) {
         require(
             isAdmin(_targetUser) &&
@@ -736,7 +741,7 @@ contract Tartarus is Ownable {
         emit AdminUpdated(_user, _targetUser, _permissions, admins[_targetUser].wage, now);
     }
 
-    function removeAdmin(bytes32 _user, bytes32 _targetUser) 
+    function removeAdmin(bytes32 _user, bytes32 _targetUser)
         public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyAdminAuthorized(_user, 0) {
         require(
             isAdmin(_targetUser) &&
@@ -807,8 +812,8 @@ contract Tartarus is Ownable {
 
     function moderatorDisburse(bytes32 _user, bytes32 _targetUser, bytes32 _forum) internal {
         require(
-           isModerator(_forum, _targetUser),
-           "User not moderator"
+            isModerator(_forum, _targetUser),
+            "User not moderator"
         );
         uint moderatorWage = forums[_forum].moderators[_targetUser].wage;
         uint moderatorPay = moderatorWage / 100 * (forums[_forum].forumBalance - forums[_forum].moderators[_targetUser].lastPaid);

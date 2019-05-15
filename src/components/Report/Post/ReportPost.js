@@ -5,7 +5,7 @@ import renderField from '../../shared/form/renderField';
 import SubmitButton from '../../shared/form/SubmitButton';
 import CancelButton from '../../shared/form/CancelButton';
 import styled from 'styled-components/macro';
-import PostContainer from '../../Post/PostContainer';
+import PostContainer from '../../Post/Post/Container';
 import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import Empty from '../../shared/Empty';

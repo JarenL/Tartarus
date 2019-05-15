@@ -56,13 +56,20 @@ const Moderator = props => {
   return <ModeratorLink to={`/u/${moderator}`}>{moderator}</ModeratorLink>;
 };
 
+const usernameToBytes32 = props => {
+  let remainder = 66 - props.length;
+  return props + '0'.repeat(remainder);
+};
+
 const ForumModerators = props => (
   <Wrapper>
-    {console.log(props)}
     <HeaderWrapper>
       {'Moderators'}
       <ButtonWrapper>
-        {props.moderators.includes(props.username) ? (
+        {props.moderators != null &&
+        props.moderators.includes(
+          usernameToBytes32(props.web3.utils.fromAscii(props.username))
+        ) ? (
           <ModerateButton size={18} />
         ) : null}
         {props.showModerators ? (
