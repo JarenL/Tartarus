@@ -102,15 +102,10 @@ const PostActions = props => (
           {'Delete'}
         </ButtonWrapper>
       ) : null}
-      <Link
-        to={`/f/${props.forumName}/p/${props.postId}/report`}
-        style={{ textDecoration: 'none' }}
-      >
-        <ButtonWrapper>
-          <Report size={16} />
-          {'Report'}
-        </ButtonWrapper>
-      </Link>
+      <ButtonWrapper onClick={props.handleReport}>
+        <Report size={16} />
+        {'Report'}
+      </ButtonWrapper>
     </ActionWrapper>
   </Wrapper>
 );

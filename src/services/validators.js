@@ -52,6 +52,7 @@ export const forumNameValidator = [
 export const forumDescriptionValidator = [required, min(1)];
 export const forumRulesValidator = [required, min(1)];
 export const reportValidator = [required, min(1)];
+export const wageValidator = [required, min(0), max(100)];
 export const textPostValidator = value =>
   required(value) || checkMinLength(value, 4);
 export const urlValidator = value => required(value) || validUrl(value);

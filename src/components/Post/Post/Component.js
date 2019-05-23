@@ -4,6 +4,7 @@ import { updateUserSaved } from '../../../redux/actions/actions';
 import styled from 'styled-components/macro';
 import PostContent from './Content/index.js';
 import PostVote from './Vote/Component.js';
+import { withRouter } from 'react-router';
 
 const services = require('../../../services');
 
@@ -47,13 +48,14 @@ class Post extends Component {
     tartarus.at(this.props.tartarusAddress).then(instance => {
       instance
         .getPost(this.props.post.forum, this.props.post.postId)
-        .then(async post => {
+        .then(post => {
           if (
             post[0] ===
             '0x0000000000000000000000000000000000000000000000000000000000000000'
           ) {
             this.setState({
-              exists: false
+              exists: false,
+              loading: false
             });
           } else {
             const bs58 = require('bs58');
@@ -61,18 +63,20 @@ class Post extends Component {
             const postBytes32 = Buffer.from(postHex, 'hex');
             const postIpfsHash = bs58.encode(postBytes32);
 
-            const postData = await services.ipfs.getJson(postIpfsHash);
-            if (this.props.username !== null) {
-              this.checkSaved();
-            }
-            this.setState({
-              title: postData.title,
-              type: postData.type,
-              post: postData.post,
-              votes: post[2].c[0],
-              comments: post[3].c[0],
-              loading: false,
-              canDelete: this.checkCanDelete(post)
+            services.ipfs.getJson(postIpfsHash).then(postData => {
+              if (this.props.username !== null) {
+                this.checkSaved();
+              }
+              console.log("loaded")
+              this.setState({
+                title: postData.title,
+                type: postData.type,
+                post: postData.post,
+                votes: post[2].c[0],
+                comments: post[3].c[0],
+                loading: false,
+                canDelete: this.checkCanDelete(post)
+              });
             });
           }
         });
@@ -80,6 +84,8 @@ class Post extends Component {
   }
 
   checkCanDelete = props => {
+    // console.log(this.props.userPermissions.admin)
+    console.log(this.props.userPermissions.moderator);
     return (
       this.props.username === this.props.web3.utils.toUtf8(props[1]) ||
       this.props.userPermissions.admin[0] ||
@@ -258,7 +264,13 @@ class Post extends Component {
     }
   };
 
-  handleReport = () => {};
+  handleReport = () => {
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      this.props.history.pus('/report');
+    }
+  };
 
   render() {
     if (!this.state.exists) {
@@ -288,6 +300,7 @@ class Post extends Component {
             handleSave={this.handleSave}
             handleUnsave={this.handleUnsave}
             handleDelete={this.handleDelete}
+            handleReport={this.handleReport}
           />
         </Wrapper>
       );
@@ -295,4 +308,4 @@ class Post extends Component {
   }
 }
 
-export default Post;
+export default withRouter(Post);

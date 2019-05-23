@@ -11,8 +11,13 @@ import Home from './components/Home';
 import LoginFormContainer from './components/LoginForm/Container';
 import SignupFormContainer from './components/SignupForm/Container';
 import CreateForumFormContainer from './components/CreateForumForm/Container';
-import { initializeWeb3, setTartarusAddress } from './redux/actions/actions';
+import {
+  initializeWeb3,
+  setTartarusAddress,
+  updateUserPermissions
+} from './redux/actions/actions';
 import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner';
+import TartarusContract from './contracts/Tartarus.json';
 
 const tartarusAddress = '0xb25ac8e6ce45b28db1922329100c672b0b4c8bd3';
 
@@ -29,14 +34,31 @@ class App extends Component {
       .then(results => {
         this.props.dispatch(initializeWeb3(results.web3));
         this.props.dispatch(setTartarusAddress(tartarusAddress));
-        this.setState({
-          loading: false
-        });
+        this.checkAdmin();
       })
       .catch(() => {
         console.log('Error finding web3.');
       });
   }
+
+  checkAdmin = () => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    tartarus.at(this.props.tartarusAddress).then(instance => {
+      instance.getAdmin
+        .call(this.props.web3.utils.fromAscii(this.props.username))
+        .then(isAdmin => {
+          console.log(isAdmin);
+          this.props.dispatch(
+            updateUserPermissions({ type: 'admin', permissions: isAdmin })
+          );
+          this.setState({
+            loading: false
+          });
+        });
+    });
+  };
 
   render() {
     if (this.state.loading) {
@@ -70,6 +92,7 @@ function mapStateToProps(state) {
   return {
     web3: state.web3,
     dark: state.theme.dark,
+    username: state.user.username,
     tartarusAddress: state.tartarus.tartarusAddress
   };
 }

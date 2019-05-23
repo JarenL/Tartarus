@@ -269,6 +269,7 @@ class PostContent extends Component {
             handleSave={this.props.handleSave}
             handleUnsave={this.props.handleUnsave}
             handleDelete={this.props.handleDelete}
+            handleReport={this.props.handleReport}
           />
           {this.state.preview &&
             renderEmbed({

@@ -8,7 +8,7 @@ import FrontHeader from './FrontHeader.js';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid ${props => props.theme.border};
+  // border: 1px solid ${props => props.theme.border};
   background-color: ${props => props.theme.foreground};
 `;
 

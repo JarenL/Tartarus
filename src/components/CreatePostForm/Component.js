@@ -13,6 +13,7 @@ import { compose } from 'redux';
 import styled from 'styled-components/macro';
 import CancelButton from '../shared/form/CancelButton';
 import SubmitButton from '../shared/form/SubmitButton';
+import { withRouter } from 'react-router-dom';
 
 const {
   fileToTypedArray,
@@ -310,4 +311,4 @@ CreatePostForm.propTypes = {
 
 const enhance = compose(withStyles(styles));
 
-export default enhance(CreatePostForm);
+export default enhance(withRouter(CreatePostForm));

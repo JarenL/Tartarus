@@ -36,13 +36,13 @@ const Moderators = styled.div`
   color: ${props => props.theme.normalText};
 `;
 
-const ModeratorLink = styled(Link)`
+const StyledLink = styled(Link)`
   text-decoration: none;
-  color: ${props => props.theme.accent};
+  color: ${props => props.theme.mutedText};
   &:hover {
-    color: ${props => props.theme.normalText};
+    color: ${props => props.theme.accent};
     & > svg {
-      color: ${props => props.theme.normalText} !important;
+      color: ${props => props.theme.accent} !important;
     }
   }
 `;
@@ -53,7 +53,7 @@ const ButtonWrapper = styled.div`
 
 const Moderator = props => {
   const moderator = props.web3.utils.toAscii(props.moderator);
-  return <ModeratorLink to={`/u/${moderator}`}>{moderator}</ModeratorLink>;
+  return <StyledLink to={`/u/${moderator}`}>{moderator}</StyledLink>;
 };
 
 const usernameToBytes32 = props => {
@@ -70,7 +70,9 @@ const ForumModerators = props => (
         props.moderators.includes(
           usernameToBytes32(props.web3.utils.fromAscii(props.username))
         ) ? (
-          <ModerateButton size={18} />
+          <StyledLink to={`${props.forumName}/moderate`}>
+            <ModerateButton size={18} />
+          </StyledLink>
         ) : null}
         {props.showModerators ? (
           <UpButton size={18} onClick={props.toggleShowModerators} />

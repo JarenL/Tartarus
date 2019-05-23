@@ -10,7 +10,6 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
   ${props =>
     props.loading &&
     'filter: grayscale(0.5) blur(5px) opacity(0.6); pointer-events: none'};

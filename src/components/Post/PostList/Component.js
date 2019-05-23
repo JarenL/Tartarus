@@ -37,6 +37,13 @@ class PostList extends React.Component {
       });
       this.instantiateContract();
     }
+
+    if (newProps.username !== this.props.username) {
+      this.setState({
+        loading: true
+      });
+      this.instantiateContract();
+    }
   };
 
   handlePostTime = async () => {

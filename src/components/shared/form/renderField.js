@@ -9,8 +9,14 @@ import styled from 'styled-components/macro';
 import { transition } from '../helpers';
 import Editor from './Editor';
 import EditButton from '../../Sidebar/Buttons/EditButton';
+import Checkbox from './Checkbox/Checkbox';
 
 const SelectInputWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+const PermissionsInputWrapper = styled.div`
   position: relative;
   width: 100%;
 `;
@@ -109,6 +115,36 @@ const VariableField = field => {
         <InputWrapper>
           <RadioGroup field={field} />
         </InputWrapper>
+      );
+
+    case 'checkbox':
+      console.log(field);
+      console.log('check');
+      return (
+        <InputWrapper>
+          <Label>{field.label}</Label>
+          <Checkbox checked={field.checked} onChange={field.testCheck()} />
+        </InputWrapper>
+      );
+
+    case 'permissionsText':
+      console.log(field)
+      return (
+        <PermissionsInputWrapper>
+          <Label>{field.label}</Label>
+          {field.meta.touched && field.meta.error && (
+            <Error>{field.meta.error}</Error>
+          )}
+          <UploadInput
+            {...field.input}
+            as='textarea'
+            rows='1'
+            // disabled={true}
+            error={field.meta.touched && !!field.meta.error}
+            value={field.input}
+            onChange={field.handleInput}
+          />
+        </PermissionsInputWrapper>
       );
 
     case 'textarea':

@@ -19,7 +19,10 @@ const userPersistConfig = {
 const initialState = {
   username: null,
   userSettings: [],
-  userPermissions: []
+  userPermissions: {
+    admin: [false, false, false, false, false, false, false, 0, 0],
+    moderator: [false, false, false, false, false, false, 0, 0]
+  }
 };
 
 const accountsReducer = (state = initialState, action) => {
@@ -40,6 +43,11 @@ const accountsReducer = (state = initialState, action) => {
             ...state.userSettings[action.payload.username],
             lastVisited: Date.now()
           }
+        },
+        userPermissions: {
+          ...state.userPermissions,
+          admin: [false, false, false, false, false, false, false, 0, 0],
+          moderator: [false, false, false, false, false, false, 0, 0]
         }
       };
     case 'web3/LOGOUT':
@@ -88,7 +96,10 @@ const accountsReducer = (state = initialState, action) => {
       return {
         ...state,
         username: null,
-        userPermissions: []
+        userPermissions: {
+          admin: [false, false, false, false, false, false, false, 0, 0],
+          moderator: [false, false, false, false, false, false, 0, 0]
+        }
       };
 
     case UPDATE_USER_PERMISSIONS:

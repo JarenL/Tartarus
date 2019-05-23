@@ -6,7 +6,7 @@ import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import UserHeader from './UserHeader';
 import authCategories from './AuthCategories';
-import categories from './Categories';
+import categories from './ModeratorCategories';
 
 const Wrapper = styled.div`
   display: flex;

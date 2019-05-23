@@ -9,8 +9,7 @@ import PostContainer from '../../Post/Post/Container';
 import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import Empty from '../../shared/Empty';
-import CommentContainer from '../../Comment/Comment/Container';
-import CommentList from '../../Comment/CommentList/Component';
+import CommentListContainer from '../../Comment/CommentList/Container';
 
 const Wrapper = styled.div`
   display: flex;
@@ -224,9 +223,9 @@ class ReportComment extends React.Component {
         <Space />
         {this.state.commentExists ? (
           <CommentWrapper>
-            <CommentList
+            <CommentListContainer
               forumName={this.props.forumName}
-              comments={[this.state.comment]}
+              postId={this.props.postId}
             />
           </CommentWrapper>
         ) : (

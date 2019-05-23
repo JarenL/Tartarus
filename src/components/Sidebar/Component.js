@@ -7,6 +7,7 @@ import UserSidebarContainer from './User/Container';
 import FrontSidebarContainer from './Front/Container';
 import TrendingContainer from './Trending/TrendingContainer';
 import AboutContainer from './About/AboutContainer';
+import ModerateSidebarContainer from './Moderate/Container';
 
 const Wrapper = styled.aside`
   position: sticky;
@@ -25,7 +26,7 @@ const Wrapper = styled.aside`
 `;
 
 const Sidebar = props => {
-  console.log(props);
+  console.log(props.page);
   //create frontpage, user, forum, post sidebar component
 
   switch (props.page) {
@@ -47,6 +48,14 @@ const Sidebar = props => {
       return (
         <Wrapper>
           <UserSidebarContainer user={props.user} />
+          <SubscriptionContainer />
+        </Wrapper>
+      );
+    case 'moderate':
+      console.log("moderate")
+      return (
+        <Wrapper>
+          <ModerateSidebarContainer forumName={props.forumName} createModerator={props.createModerator} />
           <SubscriptionContainer />
         </Wrapper>
       );

@@ -1,4 +1,4 @@
-import ModeratorSidebar from './Component';
+import ModerateSidebar from './Component';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
@@ -12,6 +12,6 @@ const mapStateToProps = state => ({
 
 const enhance = compose(connect(mapStateToProps));
 
-const ModeratorSidebarContainer = enhance(ModeratorSidebar);
+const ModerateSidebarContainer = enhance(ModerateSidebar);
 
-export default ModeratorSidebarContainer;
+export default ModerateSidebarContainer;
