@@ -7,6 +7,7 @@ import TartarusContract from '../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 import CreateModeratorFormContainer from '../CreateModeratorForm/Container';
 import NotAuthorized from '../shared/NotAuthorized';
+import ActivityContainer from './Activity/Container';
 // import ActivityContainer from './Activity/Container';
 
 const Wrapper = styled.div`
@@ -92,13 +93,13 @@ class Moderate extends Component {
       if (this.state.isModerator) {
         switch (this.props.type) {
           case 'activity':
-            return <Empty />;
+            return <ActivityContainer forumName={this.props.forumName} />;
           case 'moderators':
             return <ModeratorsContainer forumName={this.props.forumName} />;
           case 'create':
             return (
               <>
-                <CreateModeratorFormContainer />
+                <CreateModeratorFormContainer forumName={this.props.forumName} />
                 <Space />
                 <ModeratorsContainer forumName={this.props.forumName} />
               </>

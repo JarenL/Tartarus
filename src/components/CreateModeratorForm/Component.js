@@ -107,13 +107,14 @@ class CreateModeratorForm extends React.Component {
     };
   }
 
-  componentDidMount = () => {
-    // this.instantiateContract();
+  componentWillUnmount = () => {
+    this.props.reset('createModerator');
   };
 
   handleSubmit = () => {
     console.log(this.state.permissions.slice(0, 6));
-    console.log(this.props.moderator);
+    console.log(this.props.targetUser.values.targetUser);
+    console.log(this.props.forumName)
     this.setState({
       laoding: true
     });
@@ -126,7 +127,7 @@ class CreateModeratorForm extends React.Component {
           .sendTransaction(
             this.props.web3.utils.fromAscii(this.props.username),
             this.props.web3.utils.fromAscii(this.props.forumName),
-            this.props.web3.utils.fromAscii(this.props.moderator),
+            this.props.web3.utils.fromAscii(this.props.targetUser.values.targetUser),
             this.state.permissions,
             this.state.wage,
             {
@@ -178,8 +179,8 @@ class CreateModeratorForm extends React.Component {
       >
         <FieldWrapper>
           <Field
-            name='username'
-            label='username'
+            name='targetUser'
+            label='New Moderator'
             type='text'
             component={renderField}
             validate={this.props.usernameValidator}

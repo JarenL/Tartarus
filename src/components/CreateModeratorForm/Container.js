@@ -14,7 +14,8 @@ const mapStateToProps = state => ({
   form: state.form,
   username: state.user.username,
   userPermissions: state.user.userPermissions,
-  tartarusAddress: state.tartarus.tartarusAddress
+  tartarusAddress: state.tartarus.tartarusAddress,
+  targetUser: state.form.createModerator
 });
 
 const enhance = compose(

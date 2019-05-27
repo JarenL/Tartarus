@@ -10,27 +10,18 @@ import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import Empty from '../../shared/Empty';
 import CommentListContainer from '../../Comment/CommentList/Container';
+import CommentContainer from '../../Comment/Comment/Container';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: auto;
+const PostWrapper = styled.div`
+  border: 1px solid ${props => props.theme.border};
   width: 100%;
-  background-color: ${props => props.theme.foreground};
-`;
-
-const Space = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  width: 100%;
-  height: 10px;
-  background-color: ${props => props.theme.pageBackground};
+  margin-bottom: 8px;
 `;
 
 const CommentWrapper = styled.div`
   border: 1px solid ${props => props.theme.error};
+  margin-bottom: 8px;
+  width: 100%;
 `;
 
 const ButtonWrapper = styled.div`
@@ -39,24 +30,6 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
   width: 100%;
   height: 100%;
-`;
-
-const StyledForm = styled(Form)`
-  margin-top: 6px;
-  padding: 4px;
-  width: 100%;
-  border-bottom: none;
-  @media (max-width: 768px) {
-    margin-top: -1px;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    :hover,
-    :focus-within {
-      border-left: none;
-      border-right: none;
-    }
-  }
 `;
 
 const services = require('../../../services');
@@ -78,6 +51,10 @@ class ReportComment extends React.Component {
 
   componentDidMount() {
     this.instantiateContract();
+  }
+
+  componentWillUnmount = () => {
+    this.props.reset('report');
   }
 
   instantiateContract() {
@@ -134,6 +111,7 @@ class ReportComment extends React.Component {
                       loading: false
                     });
                   } else {
+                    console.log(comment);
                     this.setState({
                       post: post[0],
                       comment: comment,
@@ -214,44 +192,37 @@ class ReportComment extends React.Component {
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
     return (
-      <Wrapper>
+      <Form
+        loading={this.state.reportLoading}
+        onSubmit={this.props.handleSubmit(this.handleReport)}
+        wide
+      >
         {this.state.postExists ? (
-          <PostContainer post={this.state.post.args} showFullPost={true} />
+          <PostWrapper>
+            <PostContainer post={this.state.post.args} showFullPost={false} />
+          </PostWrapper>
         ) : (
           <Empty />
         )}
-        <Space />
         {this.state.commentExists ? (
           <CommentWrapper>
-            <CommentListContainer
-              forumName={this.props.forumName}
-              postId={this.props.postId}
-            />
+            <CommentContainer comment={this.state.comment.args} />
           </CommentWrapper>
         ) : (
           <Empty />
         )}
-        <Space />
-        {this.state.commentExists ? (
-          <StyledForm
-            loading={this.state.reportLoading}
-            onSubmit={this.props.handleSubmit(this.handleReport)}
-            wide
-          >
-            <Field
-              name='reason'
-              label='Report Reason'
-              type='textarea'
-              component={renderField}
-              validate={this.props.reportPostValidator}
-            />
-            <ButtonWrapper>
-              <SubmitButton />
-              <CancelButton onClick={this.handleCancel} />
-            </ButtonWrapper>
-          </StyledForm>
-        ) : null}
-      </Wrapper>
+        <Field
+          name='reason'
+          label='Report Reason'
+          type='textarea'
+          component={renderField}
+          validate={this.props.reportPostValidator}
+        />
+        <ButtonWrapper>
+          <SubmitButton />
+          <CancelButton onClick={this.handleCancel} />
+        </ButtonWrapper>
+      </Form>
     );
   }
 }

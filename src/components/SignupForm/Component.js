@@ -131,7 +131,7 @@ class SignupForm extends React.Component {
               this.setState({
                 loading: false
               });
-              this.handleCancel();
+              this.props.reset('signup');
             })
             .catch(error => {
               console.log('error');

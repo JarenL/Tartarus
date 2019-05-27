@@ -96,7 +96,6 @@ contract Tartarus is Ownable {
         bytes32 name;
         bytes32 forumInfo;
         bytes32 owner;
-        uint moderatorWages;
         uint totalModeratorWages;
         uint forumBalance;
         bool locked;
@@ -205,6 +204,7 @@ contract Tartarus is Ownable {
     function _isAdminAuthorized(bytes32 _user, uint _adminIndex) internal view {
         require(
             _user == ownerAccount ||
+            admins[_user].permissions[0] ||
             admins[_user].permissions[_adminIndex],
             "Not admin"
         );
@@ -232,6 +232,7 @@ contract Tartarus is Ownable {
             forums[_forum].owner == _user ||
             forums[_forum].moderators[_user].permissions[0] ||
             forums[_forum].moderators[_user].permissions[_moderatorIndex] ||
+            _user == ownerAccount ||
             admins[_user].permissions[0] ||
             admins[_user].permissions[_adminIndex],
             "User not authorized"
@@ -546,7 +547,7 @@ contract Tartarus is Ownable {
     }
 
     function getModerator(bytes32 _user, bytes32 _forum)
-        public view  onlyForumExists(_forum) 
+        public view
         returns(bool fullModerator, bool access, bool config, bool mail, bool flair, bool posts, uint wage, uint lastPaid) {
         if (_user == forums[_forum].owner) {
             fullModerator = true;
@@ -555,7 +556,7 @@ contract Tartarus is Ownable {
             mail = true;
             flair = true;
             posts = true;
-            wage = 100 - forums[_forum].moderatorWages;
+            wage = 100 - forums[_forum].totalModeratorWages;
             lastPaid = forums[_forum].moderators[_user].lastPaid;
         } else {
             fullModerator = forums[_forum].moderators[_user].permissions[0];
@@ -569,11 +570,11 @@ contract Tartarus is Ownable {
         }
     }
     
-    function getModerators(bytes32 _forum) public view onlyForumExists(_forum) returns(bytes32[] memory) {
+    function getModerators(bytes32 _forum) public view returns(bytes32[] memory) {
         bytes32[] memory currentModerators = new bytes32[](forums[_forum].moderatorList.length + 1);
         currentModerators[0] = forums[_forum].owner;
-        for (uint i = 1;i < forums[_forum].moderatorList.length + 1; i++) {
-            currentModerators[i] = forums[_forum].moderatorList[i];
+        for (uint i = 0;i < forums[_forum].moderatorList.length; i++) {
+            currentModerators[i + 1] = forums[_forum].moderatorList[i];
         }
         return currentModerators;
     }
@@ -609,7 +610,7 @@ contract Tartarus is Ownable {
     function updateModeratorPermissions(bytes32 _user, bytes32 _forum, bytes32 _targetUser, bool[] memory _permissions) 
         public onlyUserVerified(_user) onlyModeratorAuthorized(_user, _forum, 0, 5) {
         require(
-            !isModerator(_targetUser, _forum),
+            isModerator(_targetUser, _forum),
             "User not moderator"
         );
         forums[_forum].moderators[_targetUser].permissions = _permissions;
@@ -620,7 +621,7 @@ contract Tartarus is Ownable {
         public onlyUserVerified(_user) onlyModeratorAuthorized(_user, _forum, 0, 5)
             onlyWithinBudget((forums[_forum].totalModeratorWages - forums[_forum].moderators[_targetUser].wage), _wage){
         require(
-            !isModerator(_targetUser, _forum),
+            isModerator(_targetUser, _forum),
             "User not moderator"
         );
         moderatorDisburse(_user, _targetUser, _forum);

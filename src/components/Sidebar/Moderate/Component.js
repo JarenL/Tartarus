@@ -45,6 +45,7 @@ class ModerateSidebar extends Component {
             }
           )
           .then(isModerator => {
+            console.log(isModerator)
             if (isModerator) {
               this.setState({
                 isModerator: true,

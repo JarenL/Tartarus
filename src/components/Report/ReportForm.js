@@ -26,7 +26,7 @@ class ReportForm extends React.Component {
     return (
       <Form
         loading={this.state.loading}
-        // onSubmit={this.props.handleReport}
+        onSubmit={this.props.handleSubmit(this.handleSubmit)}
         wide
       >
         <Field

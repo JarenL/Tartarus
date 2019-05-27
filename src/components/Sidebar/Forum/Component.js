@@ -56,6 +56,7 @@ class ForumSidebar extends Component {
             gasPrice: 20000000000
           })
           .then(forum => {
+            console.log(forum)
             if (
               forum[2] ===
               '0x0000000000000000000000000000000000000000000000000000000000000000'

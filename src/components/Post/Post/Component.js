@@ -67,7 +67,7 @@ class Post extends Component {
               if (this.props.username !== null) {
                 this.checkSaved();
               }
-              console.log("loaded")
+              console.log('loaded');
               this.setState({
                 title: postData.title,
                 type: postData.type,
@@ -268,7 +268,11 @@ class Post extends Component {
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
-      this.props.history.pus('/report');
+      this.props.history.push(
+        `/f/${this.props.web3.utils.toAscii(this.props.post.forum)}/p/${
+          this.props.post.postId
+        }/report`
+      );
     }
   };
 

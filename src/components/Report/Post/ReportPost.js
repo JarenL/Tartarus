@@ -10,44 +10,10 @@ import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import Empty from '../../shared/Empty';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: auto;
-  width: 100%;
-  background-color: ${props => props.theme.foreground};
-`;
-
-const Space = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  width: 100%;
-  height: 10px;
-  background-color: ${props => props.theme.pageBackground};
-`;
-
 const PostWrapper = styled.div`
   border: 1px solid ${props => props.theme.error};
-`;
-
-const StyledForm = styled(Form)`
-  margin-top: 6px;
-  padding: 4px;
   width: 100%;
-  border-bottom: none;
-  @media (max-width: 768px) {
-    margin-top: -1px;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    :hover,
-    :focus-within {
-      border-left: none;
-      border-right: none;
-    }
-  }
+  margin-bottom: 8px;
 `;
 
 const ButtonWrapper = styled.div`
@@ -77,6 +43,10 @@ class ReportForm extends React.Component {
     this.instantiateContract();
   }
 
+  componentWillUnmount = () => {
+    this.props.reset('report');
+  }
+
   instantiateContract() {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
@@ -94,10 +64,11 @@ class ReportForm extends React.Component {
             }
           )
           .get((error, post) => {
+            console.log(post)
             if (
+              post.length === 0 ||
               post[0].args.creator ===
-              '0x0000000000000000000000000000000000000000000000000000000000000000'
-            ) {
+              '0x0000000000000000000000000000000000000000000000000000000000000000') {
               this.setState({
                 exists: false,
                 loading: false
@@ -191,21 +162,16 @@ class ReportForm extends React.Component {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
     if (!this.state.exists) return <Empty />;
     return (
-      <Wrapper>
+      <Form
+        loading={this.state.reportLoading}
+        onSubmit={this.props.handleSubmit(this.handleReport)}
+        wide
+      >
         {this.state.exists ? (
-          <PostWrapper>
-            <PostContainer post={this.state.post.args} showFullPost={true} />
-          </PostWrapper>
-        ) : (
-          <Empty />
-        )}
-        <Space />
-        {this.state.exists ? (
-          <StyledForm
-            loading={this.state.reportLoading}
-            onSubmit={this.props.handleSubmit(this.handleReport)}
-            wide
-          >
+          <>
+            <PostWrapper>
+              <PostContainer post={this.state.post.args} showFullPost={false} />
+            </PostWrapper>
             <Field
               name='reason'
               label='Report Reason'
@@ -217,9 +183,11 @@ class ReportForm extends React.Component {
               <SubmitButton />
               <CancelButton onClick={this.handleCancel} />
             </ButtonWrapper>
-          </StyledForm>
-        ) : null}
-      </Wrapper>
+          </>
+        ) : (
+          <Empty />
+        )}
+      </Form>
     );
   }
 }
