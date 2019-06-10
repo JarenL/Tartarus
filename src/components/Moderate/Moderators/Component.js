@@ -4,8 +4,17 @@ import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import ReactList from 'react-list';
 import ModeratorContainer from './Moderator/Container';
+import WagesContainer from './Wages/Container';
+import styled from 'styled-components/macro';
 
 const blocksInDay = 5760;
+
+const Space = styled.div`
+  display: flex;
+  width: 100%;
+  height: 10px;
+  background-color: ${props => props.theme.pageBackground};
+`;
 
 class Moderators extends React.Component {
   constructor(props) {
@@ -103,7 +112,7 @@ class Moderators extends React.Component {
   };
 
   renderItem(index, key) {
-    console.log(this.props.forumName)
+    console.log(this.props.forumName);
     return (
       <ModeratorContainer
         key={key}
@@ -118,12 +127,20 @@ class Moderators extends React.Component {
     if (!this.state.moderators || this.state.moderators.length === 0) {
       return <Empty />;
     } else {
+      console.log(this.state.moderators);
       return (
-        <ReactList
-          itemRenderer={this.renderItem.bind(this)}
-          length={this.state.moderators.length}
-          type='simple'
-        />
+        <>
+          <WagesContainer
+            moderators={this.state.moderators}
+            forumName={this.props.forumName}
+          />
+          <Space />
+          <ReactList
+            itemRenderer={this.renderItem.bind(this)}
+            length={this.state.moderators.length}
+            type='simple'
+          />
+        </>
       );
     }
   }

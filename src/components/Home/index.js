@@ -17,6 +17,8 @@ const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
   margin: 0 10vw;
+  // margin: 0 24px;
+  margin-top: 18px;
 
   @media (max-width: 1024px) {
     margin: 0 5vw;
@@ -127,6 +129,18 @@ const Home = props => {
               key={match.url}
               forumName={match.params.forumName}
               type={'create'}
+            />
+          )}
+        />
+
+        <Route
+          exact
+          path='/f/:forumName/moderate/info'
+          render={({ match }) => (
+            <ModerateContainer
+              key={match.url}
+              forumName={match.params.forumName}
+              type={'info'}
             />
           )}
         />

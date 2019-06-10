@@ -8,7 +8,7 @@ import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 import CreateModeratorFormContainer from '../CreateModeratorForm/Container';
 import NotAuthorized from '../shared/NotAuthorized';
 import ActivityContainer from './Activity/Container';
-// import ActivityContainer from './Activity/Container';
+import InfoContainer from './Info/Container';
 
 const Wrapper = styled.div`
   display: flex;
@@ -104,6 +104,8 @@ class Moderate extends Component {
                 <ModeratorsContainer forumName={this.props.forumName} />
               </>
             );
+          case 'info':
+            return <InfoContainer forumName={this.props.forumName} />;
           default:
             return <Empty />;
         }

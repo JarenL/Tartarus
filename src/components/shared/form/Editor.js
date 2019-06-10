@@ -32,22 +32,23 @@ const StyledQuill = styled(ReactQuill)`
   }
 `;
 
-const Editor = ({ input }) => {
+const Editor = props => {
+  console.log(props)
   return (
     <StyledQuill
-      {...input}
       // theme={'snow'}
       modules={Editor.modules}
       formats={Editor.formats}
       bounds={'self'}
-      placeholder={'comment...'}
+      defaultValue={props.defaultValue}
+      placeholder={props.placeholder}
       onChange={(newValue, delta, source) => {
         if (source === 'user') {
-          input.onChange(newValue);
+          props.input.onChange(newValue);
         }
       }}
       onBlur={(range, source, quill) => {
-        input.onBlur(quill.getHTML());
+        props.input.onBlur(quill.getHTML());
       }}
     />
   );

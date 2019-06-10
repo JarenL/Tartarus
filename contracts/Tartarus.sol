@@ -18,7 +18,7 @@ contract Tartarus is Ownable {
     event ModeratorPaid (bytes32 indexed forum, bytes32 user, bytes32 targetUser, uint amount, uint time);
     event UserCreated (bytes32 indexed user, uint time);
     event UserUpdated(bytes32 indexed user, bytes32 newInfo, uint time);
-    event UserPaid(bytes32 indexed user, uint amount, uint time);
+    event UserWithdraw(bytes32 indexed user, uint amount, uint time);
     event ForumCreated (bytes32 indexed user, bytes32 indexed forum, uint time);
     event ForumLocked (bytes32 indexed user, bytes32 indexed forum, uint time);
     event ForumUnlocked (bytes32 indexed user, bytes32 indexed forum, uint time);
@@ -347,8 +347,11 @@ contract Tartarus is Ownable {
         emit UserUpdated(_user, _userInfo, now);
     }
 
-    function userWithDraw(bytes32 _user, address payable _withdrawAddress) external onlyUserVerified(_user) {
+    function userWithdraw(bytes32 _user, address payable _withdrawAddress) external onlyUserVerified(_user) {
+        uint amount = users[_user].userBalance;
         _withdrawAddress.transfer(users[_user].userBalance);
+        users[_user].userBalance = 0;
+        emit UserWithdraw(_user, amount, now);
     }
 
     function createForum(bytes32 _user, string memory _forum, bytes32 _forumInfo)
@@ -607,7 +610,7 @@ contract Tartarus is Ownable {
         emit ModeratorCreated(_forum, _user, _targetUser, _permissions, _wage, now);
     }
 
-    function updateModeratorPermissions(bytes32 _user, bytes32 _forum, bytes32 _targetUser, bool[] memory _permissions) 
+    function updateModeratorPermissions(bytes32 _user, bytes32 _forum, bytes32 _targetUser, bool[] memory _permissions)
         public onlyUserVerified(_user) onlyModeratorAuthorized(_user, _forum, 0, 5) {
         require(
             isModerator(_targetUser, _forum),
@@ -617,7 +620,7 @@ contract Tartarus is Ownable {
         emit ModeratorUpdated(_forum, _user, _targetUser, _permissions, forums[_forum].moderators[_targetUser].wage, now);
     }
 
-    function updateModeratorWage(bytes32 _user, bytes32 _forum, bytes32 _targetUser, uint _wage) 
+    function updateModeratorWage(bytes32 _user, bytes32 _forum, bytes32 _targetUser, uint _wage)
         public onlyUserVerified(_user) onlyModeratorAuthorized(_user, _forum, 0, 5)
             onlyWithinBudget((forums[_forum].totalModeratorWages - forums[_forum].moderators[_targetUser].wage), _wage){
         require(
@@ -718,7 +721,7 @@ contract Tartarus is Ownable {
         emit AdminCreated(_user, _targetUser, _permissions, _wage, now);
     }
 
-    function updateAdminWage(bytes32 _user, bytes32 _targetUser, uint _wage) 
+    function updateAdminWage(bytes32 _user, bytes32 _targetUser, uint _wage)
     public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyAdminAuthorized(_user, 0) onlyWithinBudget((totalAdminWages - admins[_targetUser].wage), _wage) {
         require(
             isAdmin(_targetUser) &&
@@ -760,7 +763,7 @@ contract Tartarus is Ownable {
         emit AdminRemoved(_user, _targetUser, now);
     }
 
-    function adminBan(bytes32 _user, bytes32 _targetUser) 
+    function adminBan(bytes32 _user, bytes32 _targetUser)
         public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyAdminAuthorized(_user, 1) {
         require(
             !banned[_targetUser] &&
@@ -772,7 +775,7 @@ contract Tartarus is Ownable {
         emit AdminBan(_user, _targetUser, now);
     }
 
-    function adminUnban(bytes32 _user, bytes32 _targetUser) 
+    function adminUnban(bytes32 _user, bytes32 _targetUser)
         public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyAdminAuthorized(_user, 1) {
         require(
             !banned[_targetUser],
@@ -785,7 +788,7 @@ contract Tartarus is Ownable {
     function adminDisburse(bytes32 _user, bytes32 _targetUser) internal {
         require(
             isAdmin(_targetUser),
-           "User not admin"
+            "User not admin"
         );
         uint adminWage = admins[_targetUser].wage;
         uint adminPay = adminWage / 100 * (adminBalance - admins[_targetUser].lastPaid);
@@ -797,7 +800,7 @@ contract Tartarus is Ownable {
     function adminWithdraw(bytes32 _user) public onlyUserVerified(_user) {
         require(
             isAdmin(_user),
-           "User not admin"
+            "User not admin"
         );
         uint adminWage;
         if (ownerAccount == _user) {
@@ -813,7 +816,7 @@ contract Tartarus is Ownable {
 
     function moderatorDisburse(bytes32 _user, bytes32 _targetUser, bytes32 _forum) internal {
         require(
-            isModerator(_forum, _targetUser),
+            isModerator(_targetUser, _forum),
             "User not moderator"
         );
         uint moderatorWage = forums[_forum].moderators[_targetUser].wage;
@@ -825,8 +828,8 @@ contract Tartarus is Ownable {
 
     function moderatorWithdraw(bytes32 _user, bytes32 _forum) public onlyUserVerified(_user) onlyForumExists(_forum) {
         require(
-           isModerator(_forum, _user),
-           "User not moderator"
+            isModerator(_user, _forum),
+            "User not moderator"
         );
         uint moderatorWage;
         if (forums[_forum].owner == _user) {

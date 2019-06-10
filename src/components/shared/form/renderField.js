@@ -165,13 +165,14 @@ const VariableField = field => {
       );
 
     case 'editor':
+      console.log(field)
       return (
         <InputWrapper>
           <Label>{field.label}</Label>
           {field.meta.touched && field.meta.error && (
             <Error>{field.meta.error}</Error>
           )}
-          <Editor input={field.input} />
+          <Editor input={field.input} placeholder={field.placeholder} defaultValue={field.defaultValue} />
         </InputWrapper>
       );
 

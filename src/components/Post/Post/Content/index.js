@@ -55,7 +55,6 @@ const renderContent = props => {
         return (
           <LinkPreview onClick={() => window.open(props.post)}>
             {ReactHtmlParser(props.post)}
-            {console.log(props.post.length)}
           </LinkPreview>
         );
       }
@@ -72,6 +71,7 @@ const renderContent = props => {
       if (props.preview) {
         return <PostContentFullText post={props.post} />;
       } else {
+        console.log(ReactHtmlParser(props.post))
         return <TextPreview>{ReactHtmlParser(props.post)}</TextPreview>;
       }
     default:

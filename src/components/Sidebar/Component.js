@@ -14,8 +14,8 @@ const Wrapper = styled.aside`
   top: 60px;
   display: flex;
   flex-direction: column;
-  flex-basis: 280px;
-  max-width: 280px;
+  flex-basis: 300px;
+  max-width: 300px;
   margin-left: 24px;
   // border: 1px solid ${props => props.theme.border};
   border-radius: 2px;
