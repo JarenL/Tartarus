@@ -19,7 +19,7 @@ import {
 import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner';
 import TartarusContract from './contracts/Tartarus.json';
 
-const tartarusAddress = '0xe4dad86716712525bc9ee70b4dc830e32036ec83';
+const tartarusAddress = '0x64cecc9e2578db3dfafc37c1aef4bf8237042e7a';
 
 class App extends Component {
   constructor(props) {

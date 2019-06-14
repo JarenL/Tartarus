@@ -72,8 +72,8 @@ class Post extends Component {
                 title: postData.title,
                 type: postData.type,
                 post: postData.post,
-                votes: post[2].c[0],
-                comments: post[3].c[0],
+                votes: post[2].c[0] - post[3].c[0],
+                comments: post[4].c[0],
                 loading: false,
                 canDelete: this.checkCanDelete(post)
               });
@@ -85,7 +85,6 @@ class Post extends Component {
 
   checkCanDelete = props => {
     // console.log(this.props.userPermissions.admin)
-    console.log(this.props.userPermissions.moderator);
     return (
       this.props.username === this.props.web3.utils.toUtf8(props[1]) ||
       this.props.userPermissions.admin[0] ||

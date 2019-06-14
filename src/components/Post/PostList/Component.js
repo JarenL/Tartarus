@@ -13,6 +13,7 @@ class PostList extends React.Component {
     super(props);
     this.state = {
       posts: [],
+      topPosts: [],
       loading: true,
       latest: null
     };
@@ -65,11 +66,14 @@ class PostList extends React.Component {
   };
 
   handlePostType = props => {
+    this.setState({
+      posts: []
+    })
     switch (this.props.type) {
       case 'top':
-        return null;
+        return this.handleTop(props);
       case 'hot':
-        return null;
+        return this.handleHot(props);
       case 'new':
         return props.reverse();
       case 'old':
@@ -79,9 +83,76 @@ class PostList extends React.Component {
     }
   };
 
-  handleTop = props => {
+  handleHot = async props => {
+    console.log('hot')
+    await Promise.all(
+      props.map(post => this.getPost(post))
+    );
+
+    console.log(this.state.posts)
+
+    return this.state.posts.sort(function(a,b) { return parseFloat(b.hotWeight) - parseFloat(a.hotWeight) } );
+  }
+
+  handleTop = async props => {
     console.log('top');
+    console.log(props)
+    await Promise.all(
+      props.map(post => this.getPost(post))
+    );
+    // this.instantiateContract();
+    return this.state.posts.sort(function(a,b) { return parseFloat(b.votes) - parseFloat(a.votes) } );
   };
+
+  getPost = props => {
+    console.log('getpost')
+    // console.log(props)
+
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    tartarus
+      .at(this.props.tartarusAddress)
+      .then(instance => {
+        instance.getPost
+          .call(props.args.forum, props.args.postId)
+          .then(post => {
+            console.log(props)
+            // console.log(post)
+            let newPost = props;
+            newPost.votes = post[2].c[0] - post[3].c[0];
+            newPost.comments = post[4].c[0];
+            newPost.hotWeight = this.getHot(newPost)
+            
+            let topPostList = this.state.posts;
+            topPostList.push(newPost);
+            this.setState({
+              posts: topPostList
+            })
+          });
+      })
+      .catch(err => {
+        console.log('error');
+      });
+  };
+
+  getHot = props => {
+    console.log(props)
+    let xValue = props.votes;
+    let tValue = Date.now() - props.args.time.c[0];
+    let yValue;
+    if (xValue > 0) {
+      yValue = 1;
+    } else if (xValue = 0) {
+      yValue = 0;
+    } else if (xValue < 0) {
+      yValue = -1;
+    }
+
+    let zValue = Math.abs(props.votes) >= 0 ? Math.abs(props.votes) : 1
+    console.log(Math.log10(zValue) + ((yValue * tValue) / 45000))
+    return Math.log10(zValue) + ((yValue * tValue) / 45000)
+  }
 
   instantiateContract = () => {
     const contract = require('truffle-contract');
@@ -97,12 +168,11 @@ class PostList extends React.Component {
             this.handlePostTime().then(starting => {
               instance
                 .PostCreated({}, { fromBlock: starting, toBlock: 'latest' })
-                .get((error, posts) => {
+                .get(async (error, posts) => {
                   this.setState({
-                    posts: this.handlePostType(posts),
+                    posts: await this.handlePostType(posts),
                     loading: false
                   });
-                  console.log(posts);
                 });
             });
           })
@@ -112,7 +182,6 @@ class PostList extends React.Component {
       } else {
         // user page
         console.log('user');
-        console.log(this.props);
         const tartarus = contract(TartarusContract);
         tartarus.setProvider(this.props.web3.currentProvider);
         tartarus
@@ -129,12 +198,11 @@ class PostList extends React.Component {
                     toBlock: 'latest'
                   }
                 )
-                .get((error, posts) => {
+                .get(async (error, posts) => {
                   this.setState({
-                    posts: this.handlePostType(posts),
+                    posts: await this.handlePostType(posts),
                     loading: false
                   });
-                  console.log(posts);
                 });
             });
           })
@@ -172,10 +240,10 @@ class PostList extends React.Component {
                 },
                 { fromBlock: starting, toBlock: 'latest' }
               )
-              .get((error, posts) => {
+              .get(async (error, posts) => {
                 console.log(posts);
                 this.setState({
-                  posts: this.handlePostType(posts),
+                  posts: await this.handlePostType(posts),
                   loading: false
                 });
               });

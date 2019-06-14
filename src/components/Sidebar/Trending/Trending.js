@@ -56,7 +56,7 @@ class Trending extends Component {
   }
 
   instantiateContract = async props => {
-    console.log(props);
+    // console.log(props);
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     let currentBlock = await this.props.web3.eth.getBlockNumber();
@@ -73,19 +73,19 @@ class Trending extends Component {
             }
           )
           .get((error, weeklyPosts) => {
-            console.log(weeklyPosts);
+            // console.log(weeklyPosts);
             var weeklyCount = weeklyPosts.reduce(
               (acc, o) => (
                 (acc[o.args.forum] = (acc[o.args.forum] || 0) + 1), acc
               ),
               {}
             );
-            console.log(weeklyCount);
-            console.log(
-              weeklyCount[
-                '0x646f677300000000000000000000000000000000000000000000000000000000'
-              ]
-            );
+            // console.log(weeklyCount);
+            // console.log(
+            //   weeklyCount[
+            //     '0x646f677300000000000000000000000000000000000000000000000000000000'
+            //   ]
+            // );
             instance
               .PostCreated(
                 {},
@@ -102,18 +102,18 @@ class Trending extends Component {
                   ),
                   {}
                 );
-                console.log(dailyCount);
-                console.log(
-                  dailyCount[
-                    '0x646f677300000000000000000000000000000000000000000000000000000000'
-                  ]
-                );
+                // console.log(dailyCount);
+                // console.log(
+                //   dailyCount[
+                //     '0x646f677300000000000000000000000000000000000000000000000000000000'
+                //   ]
+                // );
                 var dailyData = Object.keys(dailyCount);
                 let trendingForums = [];
                 dailyData.forEach(function(forum) {
-                  console.log(forum);
-                  console.log(dailyCount[forum]);
-                  console.log(weeklyCount[forum]);
+                  // console.log(forum);
+                  // console.log(dailyCount[forum]);
+                  // console.log(weeklyCount[forum]);
                   let forumWeight = {
                     [forum]:
                       (dailyCount[forum] - weeklyCount[forum] / 7) /
@@ -127,8 +127,8 @@ class Trending extends Component {
                     parseFloat(Object.values(b)[0])
                   );
                 });
-                console.log(dailyData);
-                console.log(trendingForums);
+                // console.log(dailyData);
+                // console.log(trendingForums);
                 this.setState({
                   trending: trendingForums.reverse().slice(0, 5),
                   loading: false

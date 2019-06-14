@@ -40,7 +40,7 @@ const UserWithdraw = props => {
       <BalanceWrapper>
         <TextWrapper>{`Your Balance - ${props.userBalance} ETH`}</TextWrapper>
         <ButtonWrapper>
-          <WithdrawButton handleWithdraw={props.handleWithdraw} />
+          {props.userBalance > 0 ? <WithdrawButton handleWithdraw={props.handleWithdraw} /> : null}
         </ButtonWrapper>
       </BalanceWrapper>
     </Wrapper>
