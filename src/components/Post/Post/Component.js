@@ -62,21 +62,31 @@ class Post extends Component {
             const postHex = '1220' + post[0].slice(2);
             const postBytes32 = Buffer.from(postHex, 'hex');
             const postIpfsHash = bs58.encode(postBytes32);
+            console.log(postIpfsHash);
+            // console.log(post[0])
 
             services.ipfs.getJson(postIpfsHash).then(postData => {
               if (this.props.username !== null) {
                 this.checkSaved();
               }
-              console.log('loaded');
-              this.setState({
-                title: postData.title,
-                type: postData.type,
-                post: postData.post,
-                votes: post[2].c[0] - post[3].c[0],
-                comments: post[4].c[0],
-                loading: false,
-                canDelete: this.checkCanDelete(post)
-              });
+              if (postData !== null) {
+                this.setState({
+                  title: postData.title,
+                  type: postData.type,
+                  post: postData.post,
+                  votes: post[2].c[0] - post[3].c[0],
+                  comments: post[4].c[0],
+                  loading: false,
+                  canDelete: this.checkCanDelete(post)
+                });
+              } else {
+                this.setState({
+                  exists: false,
+                  loading: false
+                });
+              }
+              // console.log('loaded');
+              // console.log(postData);
             });
           }
         });
