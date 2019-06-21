@@ -12,7 +12,8 @@ class CommentList extends Component {
     this.state = {
       comments: [],
       loading: true,
-      currentComment: null
+      currentComment: null,
+      focusedComment: null
     };
   }
 

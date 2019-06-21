@@ -95,7 +95,6 @@ class Trending extends Component {
                 }
               )
               .get((error, dailyPosts) => {
-                console.log(dailyPosts);
                 var dailyCount = dailyPosts.reduce(
                   (acc, o) => (
                     (acc[o.args.forum] = (acc[o.args.forum] || 0) + 1), acc

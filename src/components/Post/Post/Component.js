@@ -62,7 +62,7 @@ class Post extends Component {
             const postHex = '1220' + post[0].slice(2);
             const postBytes32 = Buffer.from(postHex, 'hex');
             const postIpfsHash = bs58.encode(postBytes32);
-            console.log(postIpfsHash);
+            // console.log(postIpfsHash);
             // console.log(post[0])
 
             services.ipfs.getJson(postIpfsHash).then(postData => {

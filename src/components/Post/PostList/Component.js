@@ -13,8 +13,8 @@ class PostList extends React.Component {
     super(props);
     this.state = {
       posts: [],
-      topPosts: [],
       loading: true,
+      sorted: false,
       latest: null
     };
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -66,9 +66,6 @@ class PostList extends React.Component {
   };
 
   handlePostType = props => {
-    this.setState({
-      posts: []
-    });
     switch (this.props.type) {
       case 'top':
         this.handleTop(props);
@@ -80,93 +77,80 @@ class PostList extends React.Component {
         this.handleNew(props);
         break;
       case 'old':
-        return props;
+        break;
       default:
-        return props;
+        break;
     }
   };
 
-  handleHot = async props => {
+  handleHot = props => {
     console.log('hot');
-    await Promise.all(props.map(post => this.getPost(post)));
-
-    let sortedPosts = this.state.posts.sort(function(a, b) {
-      return parseFloat(b.hotWeight) - parseFloat(a.hotWeight);
-    });
+    let sortedPosts = props.sort((a, b) => parseFloat(b.hotWeight) - parseFloat(a.hotWeight));
     this.setState({
       posts: sortedPosts,
       loading: false
     });
   };
 
-  handleTop = async props => {
+  handleTop = props => {
     console.log('top');
-    // console.log(props);
-    await Promise.all(props.map(post => this.getPost(post)));
-    let sortedPosts = this.state.posts.sort(
-      (a, b) => parseFloat(b.price) - parseFloat(a.price)
-    );
-    this.setState({
+    let sortedPosts = props.sort((a, b) => b.votes - a.votes)
+    this.setState({ 
       posts: sortedPosts,
       loading: false
-    });
+    })
   };
 
   handleNew = props => {
     console.log('new');
-    // console.log(props)
+    let sortedPosts = props.reverse();
     this.setState({
-      posts: props.reverse(),
+      posts: sortedPosts,
       loading: false
     });
   };
 
-  getPost = props => {
+  getPosts = async props => {
+    let results = await Promise.all(props.map((post) => this.getPost(post)))
+    this.handlePostType(results);
+  }
+
+  getPost = async props => {
     console.log('getpost');
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
-    tartarus
-      .at(this.props.tartarusAddress)
-      .then(instance => {
-        instance.getPost
-          .call(props.args.forum, props.args.postId)
-          .then(post => {
-            console.log(props);
-            // console.log(post)
-            let newPost = props;
-            newPost.votes = post[2].c[0] - post[3].c[0];
-            newPost.comments = post[4].c[0];
-            newPost.hotWeight = this.getHot(newPost);
-
-            let topPostList = this.state.posts;
-            topPostList.push(newPost);
-            this.setState({
-              posts: topPostList
-            });
-          });
-      })
-      .catch(err => {
-        console.log('error');
-      });
+    let instance = await tartarus.at(this.props.tartarusAddress)
+    let post = await instance.getPost.call(props.args.forum, props.args.postId)
+    let newPost = props;
+    newPost.votes = post[2].c[0] - post[3].c[0];
+    newPost.comments = post[4].c[0];
+    newPost.hotWeight = this.getHot(newPost);
+    return newPost;
   };
 
   getHot = props => {
     // console.log(props);
     let xValue = props.votes;
-    let tValue = Date.now() - props.args.time.c[0];
+    let tValue = (Date.now() / 1000 - props.args.time.c[0]);
+    // console.log(Date.now())
+    // console.log(props.args.time.c[0]);
     let yValue;
     if (xValue > 0) {
       yValue = 1;
-    } else if ((xValue = 0)) {
+    } else if ((xValue === 0)) {
       yValue = 0;
     } else if (xValue < 0) {
       yValue = -1;
     }
+    let zValue = (Math.abs(props.votes) >= 1) ? Math.abs(props.votes) : 1;
 
-    let zValue = Math.abs(props.votes) >= 0 ? Math.abs(props.votes) : 1;
-    console.log(Math.log10(zValue) + (yValue * tValue) / 45000);
-    return Math.log10(zValue) + (yValue * tValue) / 45000;
+    // console.log(xValue)
+    // console.log(yValue)
+    // console.log(zValue)
+    // console.log(tValue)
+
+    return (Math.log10(zValue) + ((yValue * tValue) / 45000));
   };
 
   instantiateContract = () => {
@@ -184,8 +168,8 @@ class PostList extends React.Component {
               instance
                 .PostCreated({}, { fromBlock: starting, toBlock: 'latest' })
                 .get(async (error, posts) => {
-                  await this.handlePostType(posts);
-                });
+                  await this.getPosts(posts)
+                })
             });
           })
           .catch(err => {
@@ -211,10 +195,7 @@ class PostList extends React.Component {
                   }
                 )
                 .get(async (error, posts) => {
-                  this.setState({
-                    posts: await this.handlePostType(posts),
-                    loading: false
-                  });
+                  await this.getPosts(posts)
                 });
             });
           })
@@ -253,11 +234,7 @@ class PostList extends React.Component {
                 { fromBlock: starting, toBlock: 'latest' }
               )
               .get(async (error, posts) => {
-                console.log(posts);
-                this.setState({
-                  posts: await this.handlePostType(posts),
-                  loading: false
-                });
+                await this.getPosts(posts)
               });
           });
         })
