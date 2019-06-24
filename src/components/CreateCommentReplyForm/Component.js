@@ -78,6 +78,8 @@ class CommentForm extends React.Component {
   };
 
   submitCommentTransaction = ipfsHash => {
+    console.log(ipfsHash)
+    console.log(this.props)
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
@@ -102,7 +104,7 @@ class CommentForm extends React.Component {
                 loading: false
               });
             })
-            .catch(function(e) {
+            .catch(error => {
               console.log('error');
               this.setState({
                 loading: false

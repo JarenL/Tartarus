@@ -7,6 +7,8 @@ import Delete from './Delete';
 import Report from './Report';
 import Comment from './Comment';
 import { Link } from 'react-router-dom';
+import ChildArrow from '../../../Buttons/ChildArrow';
+import UnfocusButton from '../../../Buttons/Unfocus';
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,30 +44,34 @@ const ButtonWrapper = styled.span`
 const CommentActions = props => (
   <Wrapper>
     <ActionWrapper>
-      <ButtonWrapper onClick={() => props.handleReply(props.commentId)}>
+      <ButtonWrapper
+        onClick={() => props.handleReply(props.comment.args.commentId)}
+      >
         <Comment size={16} />
+        {props.comment.args.commentId}
         {' Reply'}
       </ButtonWrapper>
       {!props.saved ? (
-        <ButtonWrapper onClick={() => props.handleSave(props.commentId)}>
+        <ButtonWrapper
+          onClick={() => props.handleSave(props.comment.args.commentId)}
+        >
           <Save size={16} />
           {'Save'}
         </ButtonWrapper>
       ) : (
-        <ButtonWrapper onClick={() => props.handleUnsave(props.commentId)}>
+        <ButtonWrapper
+          onClick={() => props.handleUnsave(props.comment.args.commentId)}
+        >
           <Unsave size={16} />
           {'Unsave'}
         </ButtonWrapper>
       )}
-      <Link to={`/u/${props.creator}/tip`} style={{ textDecoration: 'none' }}>
+      <Link to={`/u/${props.comment.args.creator}/tip`} style={{ textDecoration: 'none' }}>
         <ButtonWrapper>
           <Tip />
           {'Tip'}
         </ButtonWrapper>
       </Link>
-    </ActionWrapper>
-
-    <ActionWrapper>
       {props.canDelete ? (
         <ButtonWrapper onClick={props.handleDelete}>
           <Delete size={16} />
@@ -73,8 +79,8 @@ const CommentActions = props => (
         </ButtonWrapper>
       ) : null}
       <Link
-        to={`/f/${props.forumName}/p/${props.postId}/c/${
-          props.commentId
+        to={`/f/${props.forumName}/p/${props.comment.args.postId}/c/${
+          props.comment.args.commentId
         }/report`}
         style={{ textDecoration: 'none' }}
       >
@@ -83,6 +89,20 @@ const CommentActions = props => (
           {'Report'}
         </ButtonWrapper>
       </Link>
+    </ActionWrapper>
+
+    <ActionWrapper>
+      {props.comments > 0 ? (
+        <ButtonWrapper onClick={() => props.handleFocus(props.comment)}>
+          {props.focused ? (
+            <UnfocusButton size={14} />
+          ) : (
+            <ChildArrow size={14} />
+          )}
+          {props.comments} comment
+          {props.comments !== 1 ? 's' : null}
+        </ButtonWrapper>
+      ) : null}
     </ActionWrapper>
   </Wrapper>
 );

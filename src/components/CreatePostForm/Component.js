@@ -195,8 +195,8 @@ class CreatePostForm extends React.Component {
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
         instance.createPostCost.call().then(createPostCost => {
-          console.log(createPostCost)
-          console.log(createPostCost.toString())
+          console.log(createPostCost);
+          console.log(createPostCost.toString());
           instance.createPost
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),

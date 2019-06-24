@@ -4,8 +4,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 const styles = {
   image: {
     // maxHeight: '100%',
-    maxWidth: '100%',
-    paddingTop: '12px',
+    // maxWidth: '100%',
+    paddingTop: '6px',
     // transform: 'translateX(-50%)',
     // marginLeft: '50%',
     animation: 'fadeIn ease 0.5s'

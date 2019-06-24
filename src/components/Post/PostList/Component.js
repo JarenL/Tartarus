@@ -85,7 +85,9 @@ class PostList extends React.Component {
 
   handleHot = props => {
     console.log('hot');
-    let sortedPosts = props.sort((a, b) => parseFloat(b.hotWeight) - parseFloat(a.hotWeight));
+    let sortedPosts = props.sort(
+      (a, b) => parseFloat(b.hotWeight) - parseFloat(a.hotWeight)
+    );
     this.setState({
       posts: sortedPosts,
       loading: false
@@ -94,11 +96,11 @@ class PostList extends React.Component {
 
   handleTop = props => {
     console.log('top');
-    let sortedPosts = props.sort((a, b) => b.votes - a.votes)
-    this.setState({ 
+    let sortedPosts = props.sort((a, b) => b.votes - a.votes);
+    this.setState({
       posts: sortedPosts,
       loading: false
-    })
+    });
   };
 
   handleNew = props => {
@@ -111,17 +113,17 @@ class PostList extends React.Component {
   };
 
   getPosts = async props => {
-    let results = await Promise.all(props.map((post) => this.getPost(post)))
+    let results = await Promise.all(props.map(post => this.getPost(post)));
     this.handlePostType(results);
-  }
+  };
 
   getPost = async props => {
     console.log('getpost');
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
-    let instance = await tartarus.at(this.props.tartarusAddress)
-    let post = await instance.getPost.call(props.args.forum, props.args.postId)
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    let post = await instance.getPost.call(props.args.forum, props.args.postId);
     let newPost = props;
     newPost.votes = post[2].c[0] - post[3].c[0];
     newPost.comments = post[4].c[0];
@@ -132,25 +134,25 @@ class PostList extends React.Component {
   getHot = props => {
     // console.log(props);
     let xValue = props.votes;
-    let tValue = (Date.now() / 1000 - props.args.time.c[0]);
+    let tValue = Date.now() / 1000 - props.args.time.c[0];
     // console.log(Date.now())
     // console.log(props.args.time.c[0]);
     let yValue;
     if (xValue > 0) {
       yValue = 1;
-    } else if ((xValue === 0)) {
+    } else if (xValue === 0) {
       yValue = 0;
     } else if (xValue < 0) {
       yValue = -1;
     }
-    let zValue = (Math.abs(props.votes) >= 1) ? Math.abs(props.votes) : 1;
+    let zValue = Math.abs(props.votes) >= 1 ? Math.abs(props.votes) : 1;
 
     // console.log(xValue)
     // console.log(yValue)
     // console.log(zValue)
     // console.log(tValue)
 
-    return (Math.log10(zValue) + ((yValue * tValue) / 45000));
+    return Math.log10(zValue) + (yValue * tValue) / 45000;
   };
 
   instantiateContract = () => {
@@ -168,8 +170,8 @@ class PostList extends React.Component {
               instance
                 .PostCreated({}, { fromBlock: starting, toBlock: 'latest' })
                 .get(async (error, posts) => {
-                  await this.getPosts(posts)
-                })
+                  await this.getPosts(posts);
+                });
             });
           })
           .catch(err => {
@@ -195,7 +197,7 @@ class PostList extends React.Component {
                   }
                 )
                 .get(async (error, posts) => {
-                  await this.getPosts(posts)
+                  await this.getPosts(posts);
                 });
             });
           })
@@ -234,7 +236,7 @@ class PostList extends React.Component {
                 { fromBlock: starting, toBlock: 'latest' }
               )
               .get(async (error, posts) => {
-                await this.getPosts(posts)
+                await this.getPosts(posts);
               });
           });
         })

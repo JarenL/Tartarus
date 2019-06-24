@@ -38,6 +38,7 @@ const TextWrapper = styled.div`
 `;
 
 const AddressWrapper = styled.div`
+${overflow};
   font-weight: 700;
   font-size: 10px;
   text-transform: uppercase;

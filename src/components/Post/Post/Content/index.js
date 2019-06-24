@@ -13,6 +13,7 @@ import ReactHtmlParser, {
 } from 'react-html-parser';
 import LinkPreview from './LinkPreview';
 import TextPreview from './TextPreview';
+// import ContentLoader from 'react-content-loader';
 
 const isIPFS = require('is-ipfs');
 

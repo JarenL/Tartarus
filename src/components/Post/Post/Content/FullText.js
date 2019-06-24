@@ -10,7 +10,9 @@ const Wrapper = styled.div`
   margin: 8px -8px;
   overflow-wrap: break-word;
   border-left: none;
-  padding: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 13px;
   // background-color: ${props => props.theme.inputBackground};
   color: ${props => props.theme.mutedText};
 `;

@@ -13,7 +13,9 @@ class CommentList extends Component {
       comments: [],
       loading: true,
       currentComment: null,
-      focusedComment: null
+      focusedCommentsList: [],
+      focusedCommentsMap: {},
+      focusedChildren: []
     };
   }
 
@@ -23,7 +25,7 @@ class CommentList extends Component {
 
   instantiateContract = () => {
     const contract = require('truffle-contract');
-    console.log(this.props)
+    console.log(this.props);
     if (this.props.postId === undefined) {
       if (this.props.user === undefined) {
         //comment page
@@ -134,29 +136,143 @@ class CommentList extends Component {
     }
   };
 
+  handleFocus = props => {
+    console.log('focus');
+    console.log(props)
+    if (this.state.focusedCommentsMap[props.args.commentId] !== undefined) {
+      let newFocusedCommentsList = this.state.focusedCommentsList;
+      let removedFocus = newFocusedCommentsList
+        .map(comment => {
+          return comment.args.commentId;
+        })
+        .indexOf(props.args.commentId);
+      newFocusedCommentsList.splice(
+        removedFocus,
+        newFocusedCommentsList.length
+      );
+      console.log(newFocusedCommentsList.length);
+      let newFocusedChildren;
+      if (newFocusedCommentsList.length !== 0) {
+        newFocusedChildren = this.state.comments.filter(comment => {
+          if (
+            comment.args.targetId ===
+            newFocusedCommentsList[newFocusedCommentsList.length - 1].args
+              .commentId
+          ) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+      } else {
+        newFocusedChildren = [];
+      }
+
+      let newFocusedCommentsMap = newFocusedCommentsList.reduce(
+        (map, comment) => ((map[comment.args.commentId] = true), map),
+        {}
+      );
+      this.setState({
+        focusedCommentsList: newFocusedCommentsList,
+        focusedCommentsMap: newFocusedCommentsMap,
+        focusedChildren: newFocusedChildren,
+        focusedCombined: newFocusedCommentsList.concat(newFocusedChildren)
+      });
+    } else {
+      let newFocusedCommentsList = this.state.focusedCommentsList;
+      newFocusedCommentsList.push(props);
+      let newFocusedChildren = this.state.comments.filter(comment => {
+        if (
+          comment.args.targetId ===
+          newFocusedCommentsList[newFocusedCommentsList.length - 1].args
+            .commentId
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      console.log(newFocusedChildren);
+      let newFocusedCommentsMap = newFocusedCommentsList.reduce(
+        (map, comment) => ((map[comment.args.commentId] = true), map),
+        {}
+      );
+      console.log(newFocusedCommentsMap);
+      this.setState({
+        focusedCommentsList: newFocusedCommentsList,
+        focusedCommentsMap: newFocusedCommentsMap,
+        focusedChildren: newFocusedChildren,
+        focusedCombined: newFocusedCommentsList.concat(newFocusedChildren)
+      });
+    }
+    console.log(this.state.focusedCommentsList);
+  };
+
   renderItem(index, key) {
-    console.log(this.state.comments);
     return (
       <CommentListItem
         key={key}
         forumName={this.props.forumName}
-        comment={this.state.comments[index].args}
+        comment={this.state.comments[index]}
         currentComment={this.state.currentComment}
+        focusedComment={
+          this.state.focusedCommentsMap[
+            this.state.comments[index].args.commentId
+          ]
+            ? true
+            : false
+        }
         handleReply={this.handleReply}
+        handleFocus={this.handleFocus}
+      />
+    );
+  }
+
+  renderFocusedItem(index, key) {
+    // console.log(combinedList.length);
+    // console.log(combinedList[0])
+    // console.log(combinedList[index].args.commentId)
+    return (
+      <CommentListItem
+        key={key}
+        forumName={this.props.forumName}
+        comment={this.state.focusedCombined[index]}
+        currentComment={this.state.currentComment}
+        focused={
+          this.state.focusedCommentsMap[this.state.focusedCombined[index].args.commentId]
+            ? true
+            : false
+        }
+        handleReply={this.handleReply}
+        handleFocus={this.handleFocus}
       />
     );
   }
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
-    if (!this.state.comments || this.state.comments.length === 0) return <Empty />;
-    return (
-      <ReactList
-        itemRenderer={this.renderItem.bind(this)}
-        length={this.state.comments.length}
-        type='simple'
-      />
-    );
+    if (!this.state.comments || this.state.comments.length === 0)
+      return <Empty />;
+    if (this.state.focusedCommentsList.length !== 0) {
+      return (
+        <ReactList
+          itemRenderer={this.renderFocusedItem.bind(this)}
+          length={
+            this.state.focusedCommentsList.length +
+            this.state.focusedChildren.length
+          }
+          type='simple'
+        />
+      );
+    } else {
+      return (
+        <ReactList
+          itemRenderer={this.renderItem.bind(this)}
+          length={this.state.comments.length}
+          type='simple'
+        />
+      );
+    }
   }
 }
 

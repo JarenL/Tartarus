@@ -18,6 +18,18 @@ const Wrapper = styled.div`
   }
 `;
 
+const BorderWrapper = styled.div`
+  border-radius: 2px;
+  background-color: ${props => props.theme.inputBackground};
+  border: 1px solid ${props => props.theme.accent};
+
+  @media (max-width: 768px) {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+`;
+
 const services = require('../../../services');
 
 class Comment extends Component {
@@ -28,7 +40,6 @@ class Comment extends Component {
       comments: 0,
       time: null,
       saved: false,
-      commentReplies: null,
       loading: true,
       exists: true
     };
@@ -45,7 +56,7 @@ class Comment extends Component {
         instance
           .PostCreated(
             {
-              postId: this.props.comment.postId
+              postId: this.props.comment.args.postId
             },
             {
               fromBlock: 0,
@@ -68,56 +79,48 @@ class Comment extends Component {
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
     tartarus.at(this.props.tartarusAddress).then(instance => {
-      instance.getComment(props, this.props.comment.commentId).then(comment => {
-        if (
-          comment[0] ===
-          '0x0000000000000000000000000000000000000000000000000000000000000000'
-        ) {
-          this.setState({
-            loading: false,
-            exists: false
-          });
-        } else {
-          instance
-            .CommentCreated(
-              {
-                targetId: this.props.comment.commentId
-              },
-              {
-                fromBlock: 0,
-                toBlock: 'latest'
-              }
-            )
-            .get((error, comments) => {
-              const bs58 = require('bs58');
-              const commentHex = '1220' + comment[0].slice(2);
-              const commentBytes32 = Buffer.from(commentHex, 'hex');
-              const commentIpfsHash = bs58.encode(commentBytes32);
-              services.ipfs.getJson(commentIpfsHash).then(commentData => {
-                if (this.props.username !== null) {
-                  this.checkSaved();
-                }
-                if (comments != null) {
-                  this.setState({
-                    comment: commentData.comment,
-                    comments: comments.length,
-                    loading: false,
-                    time: this.props.comment.time.c[0] * 1000,
-                    canDelete: this.checkCanDelete(comment[1])
-                  });
-                } else {
-                  this.setState({
-                    comment: commentData.comment,
-                    comments: comments.length,
-                    loading: false,
-                    time: this.props.comment.time.c[0] * 1000,
-                    canDelete: this.checkCanDelete(comment[1])
-                  });
-                }
-              });
+      instance
+        .getComment(props, this.props.comment.args.commentId)
+        .then(comment => {
+          if (
+            comment[0] ===
+            '0x0000000000000000000000000000000000000000000000000000000000000000'
+          ) {
+            this.setState({
+              loading: false,
+              exists: false
             });
-        }
-      });
+          } else {
+            instance
+              .CommentCreated(
+                {
+                  targetId: this.props.comment.args.commentId
+                },
+                {
+                  fromBlock: 0,
+                  toBlock: 'latest'
+                }
+              )
+              .get((error, comments) => {
+                const bs58 = require('bs58');
+                const commentHex = '1220' + comment[0].slice(2);
+                const commentBytes32 = Buffer.from(commentHex, 'hex');
+                const commentIpfsHash = bs58.encode(commentBytes32);
+                services.ipfs.getJson(commentIpfsHash).then(commentData => {
+                  if (this.props.username !== null) {
+                    this.checkSaved();
+                  }
+                  this.setState({
+                    comment: commentData.comment,
+                    comments: comments.length,
+                    loading: false,
+                    time: this.props.comment.args.time.c[0] * 1000,
+                    canDelete: this.checkCanDelete(comment[1])
+                  });
+                });
+              });
+          }
+        });
     });
   };
 
@@ -135,7 +138,7 @@ class Comment extends Component {
     const index = this.props.userSettings[
       this.props.username
     ].saved.comments.findIndex(
-      comment => comment.commentId === this.props.comment.commentId
+      comment => comment.commentId === this.props.comment.args.commentId
     );
     if (index === -1) {
       this.setState({
@@ -205,8 +208,8 @@ class Comment extends Component {
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),
               this.props.web3.utils.fromAscii(this.props.forumName),
-              this.props.comment.postId,
-              this.props.comment.commentId,
+              this.props.comment.args.postId,
+              this.props.comment.args.commentId,
               { from: accounts[0], gasPrice: 20000000000 }
             )
             .then(result => {
@@ -229,42 +232,90 @@ class Comment extends Component {
 
   render() {
     if (this.state.exists) {
-      return (
-        <Wrapper>
-          <CommentDetail
-            creator={this.props.web3.utils.toAscii(this.props.comment.creator)}
-            time={this.state.time}
-            saved={this.state.saved}
-            targetId={this.props.comment.targetId}
-            postId={this.props.comment.postId}
-          />
-          <CommentContent
-            loading={this.state.loading}
-            comment={this.state.comment}
-          />
-          <CommentActions
-            commentId={this.props.comment.commentId}
-            forumName={this.props.forumName}
-            postId={this.props.comment.postId}
-            comments={this.state.comments}
-            handleReply={this.props.handleReply}
-            handleSave={this.handleSave}
-            handleUnsave={this.handleUnsave}
-            saved={this.state.saved}
-            canDelete={this.state.canDelete}
-            handleDelete={this.handleDelete}
-          />
-          {this.props.currentComment === this.props.comment.commentId ? (
-            <CommentReplyFormContainer
-              handleReply={this.props.handleReply}
-              postId={this.props.comment.postId}
-              commentId={this.props.comment.commentId}
-              forumName={this.props.forumName}
-              targetId={this.props.comment.commentId}
+      console.log(this.props);
+      if (this.props.focused) {
+        return (
+          <BorderWrapper>
+            <CommentDetail
+              creator={this.props.web3.utils.toAscii(
+                this.props.comment.args.creator
+              )}
+              time={this.state.time}
+              saved={this.state.saved}
+              targetId={this.props.comment.args.targetId}
+              postId={this.props.comment.args.postId}
             />
-          ) : null}
-        </Wrapper>
-      );
+            <CommentContent
+              loading={this.state.loading}
+              comment={this.state.comment}
+            />
+            <CommentActions
+              comment={this.props.comment}
+              forumName={this.props.forumName}
+              postId={this.props.comment.args.postId}
+              comments={this.state.comments}
+              focused={this.props.focused}
+              handleReply={this.props.handleReply}
+              handleSave={this.handleSave}
+              handleUnsave={this.handleUnsave}
+              saved={this.state.saved}
+              canDelete={this.state.canDelete}
+              handleDelete={this.handleDelete}
+              handleFocus={this.props.handleFocus}
+            />
+            {this.props.currentComment === this.props.comment.args.commentId ? (
+              <CommentReplyFormContainer
+                handleReply={this.props.handleReply}
+                postId={this.props.comment.args.postId}
+                commentId={this.props.comment.args.commentId}
+                forumName={this.props.forumName}
+                targetId={this.props.comment.args.commentId}
+              />
+            ) : null}
+          </BorderWrapper>
+        );
+      } else {
+        return (
+          <Wrapper>
+            <CommentDetail
+              creator={this.props.web3.utils.toAscii(
+                this.props.comment.args.creator
+              )}
+              time={this.state.time}
+              saved={this.state.saved}
+              targetId={this.props.comment.args.targetId}
+              postId={this.props.comment.args.postId}
+            />
+            <CommentContent
+              loading={this.state.loading}
+              comment={this.state.comment}
+            />
+            <CommentActions
+              comment={this.props.comment}
+              forumName={this.props.forumName}
+              postId={this.props.comment.args.postId}
+              comments={this.state.comments}
+              focused={this.props.focused}
+              handleReply={this.props.handleReply}
+              handleSave={this.handleSave}
+              handleUnsave={this.handleUnsave}
+              saved={this.state.saved}
+              canDelete={this.state.canDelete}
+              handleDelete={this.handleDelete}
+              handleFocus={this.props.handleFocus}
+            />
+            {this.props.currentComment === this.props.comment.args.commentId ? (
+              <CommentReplyFormContainer
+                handleReply={this.props.handleReply}
+                postId={this.props.comment.args.postId}
+                commentId={this.props.comment.args.commentId}
+                forumName={this.props.forumName}
+                targetId={this.props.comment.args.commentId}
+              />
+            ) : null}
+          </Wrapper>
+        );
+      }
     } else {
       return null;
     }

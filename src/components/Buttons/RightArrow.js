@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
-import { MdArrowForward } from 'react-icons/md';
+import { MdArrowUpward } from 'react-icons/md';
 
-const ParentArrow = styled(MdArrowForward)`
+const ParentArrow = styled(MdArrowUpward)`
   vertical-align: sub;
   cursor: pointer;
   margin-right: 2px;

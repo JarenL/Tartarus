@@ -38,7 +38,7 @@ const UserWithdraw = props => {
   return (
     <Wrapper>
       <BalanceWrapper>
-        <TextWrapper>{`Your Balance - ${props.userBalance} ETH`}</TextWrapper>
+        <TextWrapper>{`${props.userBalance} ETH`}</TextWrapper>
         <ButtonWrapper>
           {props.userBalance > 0 ? <WithdrawButton handleWithdraw={props.handleWithdraw} /> : null}
         </ButtonWrapper>

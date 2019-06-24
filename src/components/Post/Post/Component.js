@@ -48,7 +48,7 @@ class Post extends Component {
     tartarus.at(this.props.tartarusAddress).then(instance => {
       instance
         .getPost(this.props.post.forum, this.props.post.postId)
-        .then(post => {
+        .then(async post => {
           if (
             post[0] ===
             '0x0000000000000000000000000000000000000000000000000000000000000000'
@@ -65,29 +65,28 @@ class Post extends Component {
             // console.log(postIpfsHash);
             // console.log(post[0])
 
-            services.ipfs.getJson(postIpfsHash).then(postData => {
-              if (this.props.username !== null) {
-                this.checkSaved();
-              }
-              if (postData !== null) {
-                this.setState({
-                  title: postData.title,
-                  type: postData.type,
-                  post: postData.post,
-                  votes: post[2].c[0] - post[3].c[0],
-                  comments: post[4].c[0],
-                  loading: false,
-                  canDelete: this.checkCanDelete(post)
-                });
-              } else {
-                this.setState({
-                  exists: false,
-                  loading: false
-                });
-              }
-              // console.log('loaded');
-              // console.log(postData);
-            });
+            let postData = await services.ipfs.getJson(postIpfsHash);
+            if (this.props.username !== null) {
+              this.checkSaved();
+            }
+            if (postData !== null) {
+              this.setState({
+                title: postData.title,
+                type: postData.type,
+                post: postData.post,
+                votes: post[2].c[0] - post[3].c[0],
+                comments: post[4].c[0],
+                loading: false,
+                canDelete: this.checkCanDelete(post)
+              });
+            } else {
+              this.setState({
+                exists: false,
+                loading: false
+              });
+            }
+            // console.log('loaded');
+            // console.log(postData);
           }
         });
     });
