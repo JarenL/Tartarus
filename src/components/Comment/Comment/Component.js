@@ -106,6 +106,7 @@ class Comment extends Component {
                 const commentHex = '1220' + comment[0].slice(2);
                 const commentBytes32 = Buffer.from(commentHex, 'hex');
                 const commentIpfsHash = bs58.encode(commentBytes32);
+                console.log(commentIpfsHash)
                 services.ipfs.getJson(commentIpfsHash).then(commentData => {
                   if (this.props.username !== null) {
                     this.checkSaved();
@@ -232,7 +233,6 @@ class Comment extends Component {
 
   render() {
     if (this.state.exists) {
-      console.log(this.props);
       if (this.props.focused) {
         return (
           <BorderWrapper>
@@ -285,6 +285,8 @@ class Comment extends Component {
               saved={this.state.saved}
               targetId={this.props.comment.args.targetId}
               postId={this.props.comment.args.postId}
+              index={this.props.index}
+              handleScroll={this.props.handleScroll}
             />
             <CommentContent
               loading={this.state.loading}

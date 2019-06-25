@@ -33,9 +33,9 @@ const Wrapper = styled.header`
 const Header = props => (
   <Wrapper>
     <HeaderLogo />
-    {props.type === undefined || props.type === 'f' ? (
+    {/* {props.type === undefined || props.type === 'f' ? (
       <FilterContainer />
-    ) : null}
+    ) : null} */}
     <SearchContainer />
     <HeaderDarkButtonContainer />
     {console.log(props)}

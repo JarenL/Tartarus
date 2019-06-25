@@ -74,7 +74,6 @@ class CommentList extends Component {
                   comments: comments,
                   loading: false
                 });
-                console.log(comments);
               });
           })
           .catch(err => {
@@ -88,15 +87,12 @@ class CommentList extends Component {
       tartarus
         .at(this.props.tartarusAddress)
         .then(instance => {
-          console.log(this.props.forumName);
-          console.log(this.props.username);
           instance.getModerator
             .call(
               this.props.web3.utils.fromAscii(this.props.username),
               this.props.web3.utils.fromAscii(this.props.forumName)
             )
             .then(moderator => {
-              console.log(moderator);
               let permissionsObject = {
                 type: 'moderator',
                 permissions: moderator
@@ -111,7 +107,6 @@ class CommentList extends Component {
               { fromBlock: 0, toBlock: 'latest' }
             )
             .get((error, comments) => {
-              console.log(comments);
               this.setState({
                 comments: comments,
                 loading: false
@@ -138,7 +133,6 @@ class CommentList extends Component {
 
   handleFocus = props => {
     console.log('focus');
-    console.log(props)
     if (this.state.focusedCommentsMap[props.args.commentId] !== undefined) {
       let newFocusedCommentsList = this.state.focusedCommentsList;
       let removedFocus = newFocusedCommentsList
@@ -150,7 +144,6 @@ class CommentList extends Component {
         removedFocus,
         newFocusedCommentsList.length
       );
-      console.log(newFocusedCommentsList.length);
       let newFocusedChildren;
       if (newFocusedCommentsList.length !== 0) {
         newFocusedChildren = this.state.comments.filter(comment => {
@@ -176,7 +169,6 @@ class CommentList extends Component {
         focusedCommentsList: newFocusedCommentsList,
         focusedCommentsMap: newFocusedCommentsMap,
         focusedChildren: newFocusedChildren,
-        focusedCombined: newFocusedCommentsList.concat(newFocusedChildren)
       });
     } else {
       let newFocusedCommentsList = this.state.focusedCommentsList;
@@ -192,30 +184,33 @@ class CommentList extends Component {
           return false;
         }
       });
-      console.log(newFocusedChildren);
       let newFocusedCommentsMap = newFocusedCommentsList.reduce(
         (map, comment) => ((map[comment.args.commentId] = true), map),
         {}
       );
-      console.log(newFocusedCommentsMap);
       this.setState({
         focusedCommentsList: newFocusedCommentsList,
         focusedCommentsMap: newFocusedCommentsMap,
         focusedChildren: newFocusedChildren,
-        focusedCombined: newFocusedCommentsList.concat(newFocusedChildren)
       });
     }
-    console.log(this.state.focusedCommentsList);
   };
+
+  handleScrollTo = props => {
+    console.log(this.list)
+    this.list.scrollTo(props);
+  }
 
   renderItem(index, key) {
     return (
       <CommentListItem
-        key={key}
+        index={index}
+        handleScroll={this.handleScrollTo}
+        key={this.state.comments[index].args.commentId}
         forumName={this.props.forumName}
         comment={this.state.comments[index]}
         currentComment={this.state.currentComment}
-        focusedComment={
+        focused={
           this.state.focusedCommentsMap[
             this.state.comments[index].args.commentId
           ]
@@ -229,17 +224,17 @@ class CommentList extends Component {
   }
 
   renderFocusedItem(index, key) {
-    // console.log(combinedList.length);
-    // console.log(combinedList[0])
-    // console.log(combinedList[index].args.commentId)
+    let combinedList = this.state.focusedCommentsList.concat(this.state.focusedChildren)
     return (
       <CommentListItem
-        key={key}
+        index={index}
+        handleScroll={this.handleScrollTo}
+        key={combinedList[index].args.commentId}
         forumName={this.props.forumName}
-        comment={this.state.focusedCombined[index]}
+        comment={combinedList[index]}
         currentComment={this.state.currentComment}
         focused={
-          this.state.focusedCommentsMap[this.state.focusedCombined[index].args.commentId]
+          this.state.focusedCommentsMap[combinedList[index].args.commentId]
             ? true
             : false
         }
@@ -253,9 +248,10 @@ class CommentList extends Component {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
     if (!this.state.comments || this.state.comments.length === 0)
       return <Empty />;
-    if (this.state.focusedCommentsList.length !== 0) {
+    if (this.state.focusedCommentsList.length > 0) {
       return (
         <ReactList
+          ref={c => this.list = c}
           itemRenderer={this.renderFocusedItem.bind(this)}
           length={
             this.state.focusedCommentsList.length +
@@ -267,6 +263,7 @@ class CommentList extends Component {
     } else {
       return (
         <ReactList
+          ref={c => this.list = c}
           itemRenderer={this.renderItem.bind(this)}
           length={this.state.comments.length}
           type='simple'

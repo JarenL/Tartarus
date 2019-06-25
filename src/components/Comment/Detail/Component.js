@@ -45,7 +45,7 @@ class CommentDetail extends React.Component {
           <CommentDetailTimestamp created={this.props.time} />
         </div>
         {this.props.postId !== this.props.targetId ? (
-          <ButtonWrapper>
+          <ButtonWrapper onClick={() => this.props.handleScroll(this.props.index)}>
             <ParentArrow size={14} />
             {this.props.targetId}
           </ButtonWrapper>

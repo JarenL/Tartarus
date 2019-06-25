@@ -64,8 +64,7 @@ const SortByWrapper = styled.div`
   padding: 12px;
   color: ${props => props.theme.mutedText};
 `;
-
-class Filter extends Component {
+class TestFilter extends Component {
   mapTimeCategories = () =>
     timeCategories.map((category, index) => (
       <option key={index} value={category}>
@@ -83,22 +82,22 @@ class Filter extends Component {
   render() {
     return (
       <Wrapper>
-      <SortByWrapper>{'sort'}</SortByWrapper>
-      <FormWrapper>
-          <StyledForm>
-          <Field name='type' type='select' component={renderField}>
-              {this.mapTypeCategories()}
-          </Field>
-          </StyledForm>
-          <StyledForm>
-          <Field name='time' label={null} type='select' component={renderField}>
-              {this.mapTimeCategories()}
-          </Field>
-          </StyledForm>
-      </FormWrapper>
-    </Wrapper>
+        <SortByWrapper>{'sort'}</SortByWrapper>
+        <FormWrapper>
+            <StyledForm>
+            <Field name='type' type='select' component={renderField}>
+                {this.mapTypeCategories()}
+            </Field>
+            </StyledForm>
+            <StyledForm>
+            <Field name='time' label={null} type='select' component={renderField}>
+                {this.mapTimeCategories()}
+            </Field>
+            </StyledForm>
+        </FormWrapper>
+      </Wrapper>
     );
   }
 }
 
-export default Filter;
+export default TestFilter;

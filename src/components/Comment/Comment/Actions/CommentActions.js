@@ -48,7 +48,6 @@ const CommentActions = props => (
         onClick={() => props.handleReply(props.comment.args.commentId)}
       >
         <Comment size={16} />
-        {props.comment.args.commentId}
         {' Reply'}
       </ButtonWrapper>
       {!props.saved ? (

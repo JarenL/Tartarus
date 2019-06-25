@@ -12,6 +12,7 @@ import ReportPostContainer from '../Report/Post/ReportPostContainer';
 import ReportCommentContainer from '../Report/Comment/ReportCommentContainer';
 import CommentListContainer from '../Comment/CommentList/Container';
 import ModerateContainer from '../Moderate/Container';
+import FilterContainer from '../Header/Filter/FilterContainer';
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,7 +36,21 @@ const Home = props => {
     <Wrapper>
       <HomeMainSection>
         <Route component={CategoryMenu} />
-        <Route exact path='/' component={PostListContainer} />
+        {/* <Route exact path='/' component={PostListContainer} /> */}
+        <Route
+          exact
+          path='/'
+          render={({ match }) => {
+            return (
+              <>
+              <FilterContainer />
+              <PostListContainer
+                key={match.url}
+              />
+              </>
+            );
+          }}
+        />
         <Route
           exact
           path='/search/:search'
@@ -48,10 +63,13 @@ const Home = props => {
           path='/f/:forumName'
           render={({ match }) => {
             return (
+              <>
+              <FilterContainer />
               <PostListContainer
                 key={match.url}
                 forumName={match.params.forumName}
               />
+              </>
             );
           }}
         />
@@ -148,12 +166,28 @@ const Home = props => {
         <Route
           exact
           path='/u/:user'
-          render={({ match }) => <PostListContainer user={match.params.user} />}
+          render={({ match }) => {
+            return (
+
+            <>
+            <FilterContainer />
+            <PostListContainer user={match.params.user} />
+            </>
+            )
+          }}
+
         />
         <Route
           path='/u/:user/posts'
-          render={({ match }) => <PostListContainer user={match.params.user} />}
-        />
+          render={({ match }) => {
+            return (
+
+            <>
+            <FilterContainer />
+            <PostListContainer user={match.params.user} />
+            </>
+            )
+          }}        />
         <Route
           path='/u/:user/comments'
           render={({ match }) => (
@@ -162,8 +196,15 @@ const Home = props => {
         />
         <Route
           path='/u/:user/saved'
-          render={({ match }) => <PostListContainer user={match.params.user} />}
-        />
+          render={({ match }) => {
+            return (
+
+            <>
+            <FilterContainer />
+            <PostListContainer user={match.params.user} />
+            </>
+            )
+          }}        />
       </HomeMainSection>
       <Switch>
         <Route
