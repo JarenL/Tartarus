@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { ThemeProvider } from 'styled-components';
 import theme from './theme';
 import getWeb3 from './services/web3/getWeb3';
@@ -18,6 +17,20 @@ import {
 } from './redux/actions/actions';
 import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner';
 import TartarusContract from './contracts/Tartarus.json';
+
+// import * as ipfsearch from "ipfsearch-indexlib";
+// const ipfsearch = require('../node_modules/ipfsearch-indexlib');
+// import * as ipfsearch from 'ipfsearch-index';
+
+
+// let indexer = new ipfsearch.Indexer()
+// indexer.addToIndex(new ipfsearch.Document("Python","A great, nice programming language. Super user-friendly."))
+// indexer.addToIndex(new ipfsearch.Document("Javascript","A language that was hacked together in 14 days and ECMA is trying to make it better. Still feels hacked together tho"))
+// //add more docs...
+
+// indexer.persist("assets/sortedindex.inx", "assets/index.inx","authors name","index name")
+
+// console.log(indexer)
 
 // const tartarusAddress = '0x4c905e8c4533cb6928abaa159ca7b45b22f4d086';
 const tartarusAddress = '0x3ca7832b2edd307b075903e2aac2ff04308ad001';
