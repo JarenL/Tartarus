@@ -5,7 +5,7 @@ import CategoryMenu from './Component';
 
 const mapStateToProps = state => ({
   web3: state.web3,
-  userAddress: state.user.userAddress,
+  username: state.user.username,
   userSettings: state.user.userSettings
   // currentUserAddress: state.accounts.currentUserAddress
 });

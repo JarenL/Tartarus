@@ -40,7 +40,6 @@ const ButtonWrapper = styled.div`
 
 const SubscriptionItem = props => {
   const isAll = props.forumName === 'all';
-  console.log(props);
   return (
     <Wrapper>
       <Item exact={isAll} to={isAll ? '/' : `/f/${props.forumName}`}>

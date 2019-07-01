@@ -2,32 +2,28 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { Route } from 'react-router-dom';
 import CategoryMenuDropdown from './Dropdown';
-import CategoryMenuCreatePostButton from './CreatePostButton';
 
-const Menu = styled.nav`
-  display: none;
-  border: 1px solid ${props => props.theme.border};
-  border-left: none;
-  border-right: none;
-
-  @media (max-width: 768px) {
-    display: flex;
+const CategoryMenu = props => {
+  const subscriptions = [
+    'all',
+    ...props.userSettings[props.username].subscriptions
+  ];
+  if (props.username !== null && subscriptions.length > 1) {
+    return (
+      <Route
+        path='/f/:forumName'
+        children={({ match, history }) => (
+          <CategoryMenuDropdown
+            subscriptions={subscriptions}
+            category={match ? match.params.forumName : 'all'}
+            history={history}
+          />
+        )}
+      />
+    );
+  } else {
+    return null;
   }
-`;
-
-const CategoryMenu = props => (
-  <Menu>
-    <Route
-      path='/a/:category'
-      children={({ match, history }) => (
-        <CategoryMenuDropdown
-          category={match ? match.params.category : 'all'}
-          history={history}
-        />
-      )}
-    />
-    {props.token && <CategoryMenuCreatePostButton />}
-  </Menu>
-);
+};
 
 export default CategoryMenu;

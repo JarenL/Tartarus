@@ -38,7 +38,7 @@ const SelectInput = styled.input`
     border: 1px solid ${props.theme.border}
   `};
   border-radius: 3px;
-  width: 105px;
+  width: 80px;
   padding: 8px;
   background-color: ${props => props.theme.inputBackground};
   font-size: 14px;
