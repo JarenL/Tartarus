@@ -38,11 +38,11 @@ const SelectInput = styled.input`
     border: 1px solid ${props.theme.border}
   `};
   border-radius: 3px;
-  width: 80px;
+  width: 100%;
   padding: 8px;
   background-color: ${props => props.theme.inputBackground};
-  font-size: 14px;
-  color: ${props => props.theme.mutedText};
+  font-size: 12px;
+  color: ${props => props.theme.normalText};
   appearance: none;
   outline: none;
   resize: vertical;

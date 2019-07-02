@@ -13,7 +13,8 @@ import CategoryMenu from '../../CategoryMenu/Container';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  margin-right: 6.5%;
+  margin-right: 6%;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
   background-color: ${props => props.theme.foreground};
@@ -31,11 +32,9 @@ const FormWrapper = styled.div`
 `;
 
 const StyledForm = styled(Form)`
-  // border: 1px solid ${props => props.theme.border};
-  // border-radius: 3px;
-  // width: 100%;
   padding: 0px;
-  margin-left: 10px;
+  width: 100%;
+  margin-left: 8px;
   background-color: ${props => props.theme.foreground};
   font-size: 12px;
   color: ${props => props.theme.normalText};

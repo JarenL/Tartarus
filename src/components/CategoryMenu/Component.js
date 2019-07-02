@@ -4,11 +4,11 @@ import { Route } from 'react-router-dom';
 import CategoryMenuDropdown from './Dropdown';
 
 const CategoryMenu = props => {
-  const subscriptions = [
-    'all',
-    ...props.userSettings[props.username].subscriptions
-  ];
-  if (props.username !== null && subscriptions.length > 1) {
+  if (props.username !== null) {
+    const subscriptions = [
+      'all',
+      ...props.userSettings[props.username].subscriptions
+    ];
     return (
       <Route
         path='/f/:forumName'

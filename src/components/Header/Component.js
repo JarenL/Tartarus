@@ -33,7 +33,7 @@ const Wrapper = styled.header`
 
 const FilterWrapper = styled.div`
   display: flex;
-  width: 35%;
+  width: 45%;
   @media (max-width: 768px) {
     display: none;
   }
@@ -47,7 +47,6 @@ const Header = props => (
     </FilterWrapper>
     <SearchContainer />
     <HeaderDarkButtonContainer />
-    {console.log(props)}
     {props.username ? (
       <>
         <HeaderUsername username={props.username} />
