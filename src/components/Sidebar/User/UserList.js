@@ -6,7 +6,6 @@ import { overflow } from '../../shared/helpers';
 
 const Wrapper = styled.div`
   display: flex;
-  margin-top: 12px;
   flex-direction: column;
   background-color: ${props => props.theme.foreground};
   border: 1px solid ${props => props.theme.border};

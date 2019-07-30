@@ -53,6 +53,8 @@ const Divider = styled.div`
 
 const SidebarWrapper = styled.div`
   display: flex;
+  width: 100%;
+  max-width: 240px;
   @media (max-width: 768px) {
     display: none;
   }
@@ -197,7 +199,9 @@ const Home = props => {
           render={({ match }) => {
             return (
               <>
-                <FilterContainer />
+                <FilterWrapper>
+                  <FilterContainer />
+                </FilterWrapper>
                 <PostListContainer user={match.params.user} />
               </>
             );
@@ -208,7 +212,9 @@ const Home = props => {
           render={({ match }) => {
             return (
               <>
-                <FilterContainer />
+                <FilterWrapper>
+                  <FilterContainer />
+                </FilterWrapper>
                 <PostListContainer user={match.params.user} />
               </>
             );

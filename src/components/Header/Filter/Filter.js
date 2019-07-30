@@ -27,8 +27,7 @@ const FormWrapper = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: auto;
-  width: 50%;
-  // margin: 3px;
+  width: 55%;
 `;
 
 const StyledForm = styled(Form)`
@@ -39,11 +38,6 @@ const StyledForm = styled(Form)`
   font-size: 12px;
   color: ${props => props.theme.normalText};
   appearance: none;
-  // @media (hover: hover) {
-  //   :hover {
-  //     border: 1px solid ${props => props.theme.accent};
-  //   }
-  // }
 `;
 
 class Filter extends Component {

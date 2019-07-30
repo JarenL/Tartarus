@@ -9,6 +9,8 @@ const PostVoteUpvote = styled(MdArrowUpward)`
   width: 18px;
   background-color: transparent;
   cursor: pointer;
+  color: ${props =>
+    props.upvoted ? props.theme.accent : props.theme.mutedText};
 
   :focus {
     outline: 0;

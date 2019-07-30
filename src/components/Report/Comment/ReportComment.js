@@ -9,8 +9,8 @@ import PostContainer from '../../Post/Post/Container';
 import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import Empty from '../../shared/Empty';
-import CommentListContainer from '../../Comment/CommentList/Container';
 import CommentContainer from '../../Comment/Comment/Container';
+import { withRouter } from 'react-router-dom';
 
 const PostWrapper = styled.div`
   border: 1px solid ${props => props.theme.border};
@@ -127,6 +127,11 @@ class ReportComment extends React.Component {
     });
   }
 
+  handleCancel = () => {
+    this.props.reset('report');
+    this.props.history.goBack();
+  };
+
   handleReport = async () => {
     console.log(this.props.form.report.values);
     this.setState({
@@ -227,4 +232,4 @@ class ReportComment extends React.Component {
   }
 }
 
-export default ReportComment;
+export default withRouter(ReportComment);

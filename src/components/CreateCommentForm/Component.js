@@ -5,6 +5,8 @@ import TartarusContract from '../../contracts/Tartarus.json';
 import Editor from '../shared/form/Editor';
 import { Field } from 'redux-form';
 import SubmitButton from '../shared/form/SubmitButton';
+import CancelButton from '../shared/form/CancelButton';
+import CommentButton from '../shared/form/CommentButton';
 
 const services = require('../../services');
 
@@ -13,6 +15,7 @@ const StyledForm = styled(Form)`
   max-width: none;
   padding: 0;
   border-bottom: none;
+  background-color: ${props => props.theme.pageBackground};
   @media (max-width: 768px) {
     margin-top: -1px;
     border-radius: 0;
@@ -43,6 +46,19 @@ class CommentForm extends React.Component {
       commenting: false
     };
   }
+
+  handleComment = () => {
+    this.setState({
+      commenting: true
+    });
+  };
+
+  handleCancel = () => {
+    this.props.reset('createComment');
+    this.setState({
+      commenting: false
+    });
+  };
 
   handleSubmit = async () => {
     console.log(this.props);
@@ -91,7 +107,8 @@ class CommentForm extends React.Component {
             )
             .then(result => {
               this.setState({
-                loading: false
+                loading: false,
+                commenting: false
               });
             })
             .catch(function(e) {
@@ -106,17 +123,26 @@ class CommentForm extends React.Component {
   };
 
   render() {
-    return (
-      <StyledForm
-        onSubmit={this.props.handleSubmit(this.handleSubmit)}
-        loading={this.state.loading}
-      >
-        <Field name='comment' component={Editor} />
-        <Wrapper>
-          <SubmitButton />
-        </Wrapper>
-      </StyledForm>
-    );
+    if (this.state.commenting) {
+      return (
+        <StyledForm
+          onSubmit={this.props.handleSubmit(this.handleSubmit)}
+          loading={this.state.loading}
+        >
+          <Field name='comment' component={Editor} />
+          <Wrapper>
+            <SubmitButton />
+            <CancelButton onClick={this.handleCancel} />
+          </Wrapper>
+        </StyledForm>
+      );
+    } else {
+      return (
+        <StyledForm>
+          <CommentButton onClick={this.handleComment} />
+        </StyledForm>
+      );
+    }
   }
 }
 

@@ -7,6 +7,7 @@
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
     "bs58": "^4.0.1",
+    "ethereum-blockies-base64": "^1.0.2",
     "ipfs-http-client": "^32.0.1",
     "ipfs-mini": "^1.1.5",
     "ipfsearch-index": "^2.5.5",

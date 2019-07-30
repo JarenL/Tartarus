@@ -32,7 +32,9 @@ class Post extends Component {
       canReport: false,
       canDelete: false,
       toggleTip: false,
-      toggleReport: false
+      toggleReport: false,
+      upvoted: false,
+      downvoted: false
     };
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -64,6 +66,7 @@ class Post extends Component {
             const postIpfsHash = bs58.encode(postBytes32);
             console.log(postIpfsHash);
             // console.log(post[0])
+            await this.checkUserVoted();
 
             let postData = await services.ipfs.getJson(postIpfsHash);
             if (this.props.username !== null) {
@@ -91,6 +94,32 @@ class Post extends Component {
         });
     });
   }
+
+  checkUserVoted = () => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    this.props.web3.eth.getAccounts((error, accounts) => {
+      tartarus.at(this.props.tartarusAddress).then(instance => {
+        instance.getUserVoted
+          .call(
+            this.props.post.forum,
+            this.props.web3.utils.fromAscii(this.props.username),
+            this.props.post.postId
+          )
+          .then(result => {
+            console.log(result);
+            this.setState({
+              upvoted: result[0],
+              downvoted: result[1]
+            });
+          })
+          .catch(error => {
+            console.log('error');
+          });
+      });
+    });
+  };
 
   checkCanDelete = props => {
     // console.log(this.props.userPermissions.admin)
@@ -263,7 +292,7 @@ class Post extends Component {
               .catch(error => {
                 console.log('error');
                 this.setState({
-                  loading: false
+                  voteLoading: false
                 });
               });
           });
@@ -292,6 +321,8 @@ class Post extends Component {
         <Wrapper>
           <PostVote
             votes={this.state.votes}
+            upvoted={this.state.upvoted}
+            downvoted={this.state.downvoted}
             loading={this.state.voteLoading}
             handleUpvote={this.handleUpvote}
             handleDownvote={this.handleDownvote}

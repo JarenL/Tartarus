@@ -26,11 +26,12 @@ const PostVote = props => {
       </Wrapper>
     );
   } else {
+    console.log(props.downvoted)
     return (
       <Wrapper>
-        <PostVoteUpvote didVote={false} onClick={props.handleUpvote} />
+        <PostVoteUpvote upvoted={props.upvoted} onClick={props.handleUpvote} />
         <span>{props.votes}</span>
-        <PostVoteDownvote didVote={false} onClick={props.handleDownvote} />
+        <PostVoteDownvote downvoted={props.downvoted} onClick={props.handleDownvote} />
       </Wrapper>
     );
   }

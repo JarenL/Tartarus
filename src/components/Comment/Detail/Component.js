@@ -14,9 +14,11 @@ const Wrapper = styled.div`
 `;
 
 const ButtonWrapper = styled.span`
+  text-overflow: ellipsis;
+  overflow: hidden;
   text-transform: uppercase;
   display: flex;
-  font-size: 10px;
+  font-size: 7px;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
@@ -46,7 +48,7 @@ class CommentDetail extends React.Component {
         </div>
         {this.props.postId !== this.props.targetId ? (
           <ButtonWrapper onClick={() => this.props.handleScroll(this.props.index)}>
-            <ParentArrow size={14} />
+            <ParentArrow size={12} />
             {this.props.targetId}
           </ButtonWrapper>
         ) : null}

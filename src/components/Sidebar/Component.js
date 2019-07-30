@@ -8,6 +8,7 @@ import FrontSidebarContainer from './Front/Container';
 import TrendingContainer from './Trending/TrendingContainer';
 import AboutContainer from './About/AboutContainer';
 import ModerateSidebarContainer from './Moderate/Container';
+import Divider from './Divider';
 
 const Wrapper = styled.div`
   position: sticky;
@@ -67,7 +68,9 @@ const Sidebar = props => {
         <Wrapper>
           <FrontSidebarContainer />
           {/* <SubscriptionContainer /> */}
+          <Divider />
           <TrendingContainer />
+          <Divider />
           <AboutContainer />
         </Wrapper>
       );

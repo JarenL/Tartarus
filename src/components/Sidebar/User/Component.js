@@ -8,10 +8,13 @@ import UserHeader from './UserHeader';
 import authCategories from './AuthCategories';
 import categories from './ModeratorCategories';
 import UserWithdraw from './UserWithdraw';
+import makeBlockie from 'ethereum-blockies-base64';
+import UserBlockie from './UserBlockie';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  min-width: 240px;
 `;
 
 class UserSidebar extends Component {
@@ -25,9 +28,10 @@ class UserSidebar extends Component {
   }
 
   componentDidMount = () => {
-    if (this.props.user === this.props.username) {
-      this.instantiateContract();
-    }
+    // if (this.props.user === this.props.username) {
+    //   this.instantiateContract();
+    // }
+    this.instantiateContract();
   };
 
   instantiateContract() {
@@ -38,7 +42,7 @@ class UserSidebar extends Component {
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
         instance.users
-          .call(this.props.web3.utils.fromAscii(this.props.username), {
+          .call(this.props.web3.utils.fromAscii(this.props.user), {
             fromBlock: 0,
             toBlock: 'latest'
           })
@@ -60,7 +64,7 @@ class UserSidebar extends Component {
   handleWithdraw = () => {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
-    console.log('withdraw')
+    console.log('withdraw');
     tartarus.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus
@@ -103,7 +107,10 @@ class UserSidebar extends Component {
         return (
           <Wrapper>
             <UserMessageButton />
-            <UserHeader user={this.props.user} />
+            <UserHeader
+              user={this.props.user}
+              userHex={this.props.web3.utils.fromAscii(this.props.user)}
+            />
             <UserList
               path={this.props.url}
               user={this.props.user}
@@ -114,8 +121,14 @@ class UserSidebar extends Component {
       } else {
         return (
           <Wrapper>
-            <UserHeader user={this.props.user} />
-            <UserWithdraw userBalance={this.state.userBalance} handleWithdraw={this.handleWithdraw} />
+            <UserHeader
+              user={this.props.user}
+              userHex={this.props.web3.utils.fromAscii(this.props.user)}
+            />
+            <UserWithdraw
+              userBalance={this.state.userBalance}
+              handleWithdraw={this.handleWithdraw}
+            />
             <UserList
               path={this.props.url}
               user={this.props.user}

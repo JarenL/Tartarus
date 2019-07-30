@@ -9,6 +9,8 @@ const PostVoteDownvote = styled(MdArrowDownward)`
   width: 18px;
   background-color: transparent;
   cursor: pointer;
+  color: ${props => 
+    props.downvoted ? props.theme.error : props.theme.mutedText};
 
   :focus {
     outline: 0;

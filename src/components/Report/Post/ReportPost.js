@@ -9,6 +9,7 @@ import PostContainer from '../../Post/Post/Container';
 import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import Empty from '../../shared/Empty';
+import { withRouter } from 'react-router-dom';
 
 const PostWrapper = styled.div`
   border: 1px solid ${props => props.theme.error};
@@ -45,7 +46,7 @@ class ReportForm extends React.Component {
 
   componentWillUnmount = () => {
     this.props.reset('report');
-  }
+  };
 
   instantiateContract() {
     const contract = require('truffle-contract');
@@ -64,11 +65,12 @@ class ReportForm extends React.Component {
             }
           )
           .get((error, post) => {
-            console.log(post)
+            console.log(post);
             if (
               post.length === 0 ||
               post[0].args.creator ===
-              '0x0000000000000000000000000000000000000000000000000000000000000000') {
+                '0x0000000000000000000000000000000000000000000000000000000000000000'
+            ) {
               this.setState({
                 exists: false,
                 loading: false
@@ -97,6 +99,11 @@ class ReportForm extends React.Component {
       });
     });
   }
+
+  handleCancel = () => {
+    this.props.reset('report');
+    this.props.history.goBack();
+  };
 
   handleReport = async () => {
     console.log(this.props.form.report.values);
@@ -192,4 +199,4 @@ class ReportForm extends React.Component {
   }
 }
 
-export default ReportForm;
+export default withRouter(ReportForm);

@@ -1,40 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+import SwipeableDrawer from '@material-ui/core/Drawer';
 import SidebarContainer from '../Sidebar/Container';
 import styled from 'styled-components/macro';
 import { Route, Switch } from 'react-router-dom';
 import DrawerSidebar from './DrawerSidebar';
+import { setDrawerState } from '../../redux/actions/actions'; 
 
 const styles = theme => ({
   drawerPaper: {
-    position: 'fixed',
-    marginTop: 50
+    position: 'fixed'
+    // marginTop: 50,
     // width: '100%'
-    // boxShadow: '2px 4px 40px #9E9E9E'
+    // boxShadow: '2px 2px 40px #9E9E9E'
   }
 });
-
-const Wrapper = styled(Drawer)`
-  // display: none;
-  // @media (max-width: 768px) {
-    // position: fixed;
-    // top: 500px;
-    // display: flex;
-    // height: 100%;
-    // width: 100%;
-    // flex-direction: column;
-    // flex-basis: 240px;
-    // max-width: 240px;
-    // margin-top: 50px;
-    // flex-basis: 240px;
-    // max-width: 240px;
-    // border: 1px solid ${props => props.theme.border};
-    // border-radius: 2px;
-    box-shadow: "2px 4px 40px #9E9E9E";
-  // }
-`;
 
 class AppDrawer extends Component {
   render() {
@@ -43,8 +24,11 @@ class AppDrawer extends Component {
       console.log('drawer open');
       return (
         // <Wrapper>
-        <Drawer
-          variant='permanent'
+        <SwipeableDrawer
+          // variant='temporary'
+          anchor={'left'}
+          open={this.props.drawerState}
+          onClose={() => this.props.dispatch(setDrawerState())}
           classes={{
             paper: classes.drawerPaper
           }}
@@ -224,7 +208,7 @@ class AppDrawer extends Component {
               }}
             />
           </Switch>
-        </Drawer>
+        </SwipeableDrawer>
         // </Wrapper>
       );
     } else {

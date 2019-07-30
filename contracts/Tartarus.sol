@@ -449,9 +449,11 @@ contract Tartarus is Ownable {
     function deletePost(bytes32 _user, bytes32 _forum, bytes32 _postId)
         public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) {
         require(
-            _user == forums[_forum].posts[_postId].creator ||
+            user == forums[_forum].posts[_postId].creator ||
+            forums[_forum].owner == _user;
             forums[_forum].moderators[_user].permissions[0] ||
             forums[_forum].moderators[_user].permissions[5] ||
+            admins.ownerAccount == _user;
             admins[_user].permissions[0] ||
             admins[_user].permissions[6],
             "User does not have permission"
@@ -510,8 +512,10 @@ contract Tartarus is Ownable {
         public onlyUserVerified(_user) onlyForumExists(_forum) onlyCommentExists(_forum, _commentId) {
         require(
             _user == forums[_forum].posts[_postId].creator ||
+            forums[_forum].owner == _user;
             forums[_forum].moderators[_user].permissions[0] ||
             forums[_forum].moderators[_user].permissions[5] ||
+            admins.ownerAccount == _user
             admins[_user].permissions[0] ||
             admins[_user].permissions[6],
             "User does not have permission"
