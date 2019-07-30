@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "sourceMap": false,
+        //"isolatedModules": true,
+        "alwaysStrict": true,
+        "module": "commonjs",
+        "watch": true,
+        "declaration": true
+    }
+}

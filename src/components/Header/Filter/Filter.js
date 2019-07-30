@@ -13,7 +13,7 @@ import CategoryMenu from '../../CategoryMenu/Container';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  margin-right: 6%;
+  margin-left: auto;
   width: 100%;
   justify-content: space-between;
   align-items: center;
@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 const FormWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  margin-left: auto;
   width: 50%;
   // margin: 3px;
 `;
@@ -44,13 +44,6 @@ const StyledForm = styled(Form)`
   //     border: 1px solid ${props => props.theme.accent};
   //   }
   // }
-`;
-
-const SortByWrapper = styled.div`
-  ${wideFont};
-  align-items: center;
-  // padding: 12px;
-  color: ${props => props.theme.mutedText};
 `;
 
 class Filter extends Component {
@@ -72,7 +65,6 @@ class Filter extends Component {
     return (
       <Wrapper>
         <CategoryMenu />
-        {/* <SortByWrapper>{'sort'}</SortByWrapper> */}
         <FormWrapper>
           <StyledForm>
             <Field name='type' type='select' component={renderField}>

@@ -4,7 +4,7 @@ import HeaderNavLink from '../NavLink';
 import HeaderUsernameText from './Text';
 
 const Wrapper = styled(HeaderNavLink)`
-  flex-shrink: 1;
+  // flex-shrink: 1;
   border-left: 1px solid ${props => props.theme.border};
   border-right: 1px solid ${props => props.theme.border};
   min-width: 0;

@@ -22,6 +22,14 @@ const Wrapper = styled.div`
   // background-color: ${props => props.theme.foreground};
 `;
 
+const Divider = styled.div`
+  width: 100%;
+  height: 12px;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
 class ForumSidebar extends Component {
   constructor(props) {
     super(props);
@@ -194,17 +202,20 @@ class ForumSidebar extends Component {
             unsubscribeHandler={this.unsubscribeHandler}
           />
           <ForumHeader name={this.props.forumName} />
+          <Divider />
           <ForumDescription
             showDescription={this.state.showDescription}
             toggleShowDescription={this.toggleShowDescription}
             forumName={this.props.forumName}
             description={this.state.description}
           />
+          <Divider />
           <ForumRules
             showRules={this.state.showRules}
             toggleShowRules={this.toggleShowRules}
             rules={this.state.rules}
           />
+          <Divider />
           <ForumModerators
             username={this.props.username}
             forumName={this.props.forumName}

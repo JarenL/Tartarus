@@ -12,6 +12,7 @@ export const INITIALIZE_USER_SETTINGS = 'INITIALIZE_USER_SETTINGS';
 export const TOGGLE_DARK_THEME = 'TOGGLE_DARK_THEME';
 export const USER_LOGOUT = 'USER_LOGOUT';
 export const USER_LOGIN = 'USER_LOGIN';
+export const DRAWER_STATE = 'DRAWER_STATE';
 
 /*
  * action creators
@@ -75,5 +76,11 @@ export function updateUserPermissions(userPermissions) {
   return {
     type: UPDATE_USER_PERMISSIONS,
     payload: userPermissions
-  }
+  };
+}
+
+export function setDrawerState() {
+  return {
+    type: DRAWER_STATE
+  };
 }

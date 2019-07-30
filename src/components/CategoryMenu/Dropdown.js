@@ -6,30 +6,38 @@ import { transition } from '../shared/helpers';
 
 const Dropdown = styled.select`
   ${transition('border', 'box-shadow')};
-  border: 1px solid ${props => props.theme.border};
+
+  --border: ${props => (props.error ? props.theme.error : props.theme.accent)};
+  --shadow: ${props =>
+    props.error ? props.theme.error + '4d' : props.theme.accent + '4d'};
+
+  display: block;
+  ${props =>
+    props.error
+      ? `
+    border: 1px solid var(--border)
+    `
+      : `
+    border: 1px solid ${props.theme.border}
+  `};
   border-radius: 3px;
   width: 100%;
-  padding: 8px 16px;
+  padding: 8px;
   background-color: ${props => props.theme.inputBackground};
   font-size: 12px;
   color: ${props => props.theme.normalText};
   appearance: none;
-  @media (hover: hover) {
-    :hover {
-      border: 1px solid ${props => props.theme.accent};
-    }
+  outline: none;
+  resize: vertical;
+
+  :hover,
+  :focus {
+    border: 1px solid var(--border);
   }
-  // @media (max-width: 768px) {
-  //   margin-top: -1px;
-  //   border-radius: 0;
-  //   border-left: none;
-  //   border-right: none;
-  //   :hover,
-  //   :focus-within {
-  //     border-left: none;
-  //     border-right: none;
-  //   }
-  // }
+
+  :focus {
+    box-shadow: 0 0 0 2px var(--shadow);
+  }
 `;
 
 class CategoryMenuDropdown extends React.Component {

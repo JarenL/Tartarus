@@ -1,14 +1,22 @@
 import styled from 'styled-components/macro';
 import PostVoteButton from './Button';
+import { MdArrowUpward } from 'react-icons/md';
 
-const PostVoteUpvote = styled(PostVoteButton)`
-  --iconColor: ${props =>
-    props.didVote ? props.theme.upvote : props.theme.vote};
+const PostVoteUpvote = styled(MdArrowUpward)`
+  border: 0;
+  border-radius: 3px;
+  height: 18px;
+  width: 18px;
+  background-color: transparent;
+  cursor: pointer;
 
-  ::after {
-    border-top: 2px solid var(--iconColor);
-    border-right: 2px solid var(--iconColor);
-    top: 3px;
+  :focus {
+    outline: 0;
+  }
+
+  :hover {
+    color: ${props => props.theme.accent};
+    background-color: ${props => props.theme.voteButtonHover};
   }
 `;
 

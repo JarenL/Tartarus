@@ -13,13 +13,15 @@ import ReportCommentContainer from '../Report/Comment/ReportCommentContainer';
 import CommentListContainer from '../Comment/CommentList/Container';
 import ModerateContainer from '../Moderate/Container';
 import FilterContainer from '../Header/Filter/FilterContainer';
+import DrawerContainer from '../Drawer/Container';
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: flex-start;
+  position: relative;
+  // align-items: flex-start;
   margin: 0 10vw;
   // margin: 0 24px;
-  margin-top: 18px;
+  // margin-top: 18px;
 
   @media (max-width: 1024px) {
     margin: 0 5vw;
@@ -33,17 +35,34 @@ const Wrapper = styled.div`
 
 const FilterWrapper = styled.div`
   display: none;
+  width: 100%;
   @media (max-width: 768px) {
     display: flex;
     width: 100%;
   }
 `;
 
+const Divider = styled.div`
+  display: flex;
+  height: 100%;
+  width: 24px;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const SidebarWrapper = styled.div`
+  display: flex;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
 const Home = props => {
   return (
     <Wrapper>
+      <DrawerContainer />
       <HomeMainSection>
-        {/* <Route exact path='/' component={PostListContainer} /> */}
         <Route
           exact
           path='/'
@@ -71,7 +90,9 @@ const Home = props => {
           render={({ match }) => {
             return (
               <>
-                <FilterContainer />
+                <FilterWrapper>
+                  <FilterContainer />
+                </FilterWrapper>
                 <PostListContainer
                   key={match.url}
                   forumName={match.params.forumName}
@@ -211,181 +232,184 @@ const Home = props => {
           }}
         />
       </HomeMainSection>
-      <Switch>
-        <Route
-          exact
-          path='/'
-          render={({ match }) => <SidebarContainer page={'front'} />}
-        />
-        <Route
-          exact
-          path='/f/:forumName'
-          render={({ match }) => (
-            <SidebarContainer
-              key={match.url}
-              forumName={match.params.forumName}
-              page={'forum'}
-            />
-          )}
-        />
-        <Route
-          path='/f/:forumName/p/:postId'
-          render={({ match }) => (
-            <SidebarContainer
-              key={match.url}
-              forumName={match.params.forumName}
-              postId={match.params.postId}
-              page={'post'}
-            />
-          )}
-        />
-
-        <Route
-          exact
-          path='/f/:forumName/moderate'
-          render={({ match }) => (
-            <SidebarContainer
-              key={match.url}
-              forumName={match.params.forumName}
-              page={'moderate'}
-            />
-          )}
-        />
-
-        <Route
-          exact
-          path='/f/:forumName/moderate/moderators'
-          render={({ match }) => (
-            <SidebarContainer
-              key={match.url}
-              forumName={match.params.forumName}
-              page={'moderate'}
-              createModerator={true}
-            />
-          )}
-        />
-
-        <Route
-          exact
-          path='/f/:forumName/moderate/moderators/create'
-          render={({ match }) => (
-            <SidebarContainer
-              key={match.url}
-              forumName={match.params.forumName}
-              page={'moderate'}
-            />
-          )}
-        />
-
-        <Route
-          exact
-          path='/f/:forumName/moderate/info'
-          render={({ match }) => (
-            <SidebarContainer
-              key={match.url}
-              forumName={match.params.forumName}
-              page={'moderate'}
-            />
-          )}
-        />
-        <Route
-          exact
-          path='/f/:forumName/moderate/banned'
-          render={({ match }) => (
-            <SidebarContainer
-              key={match.url}
-              forumName={match.params.forumName}
-              page={'moderate'}
-            />
-          )}
-        />
-
-        <Route
-          exact
-          path='/f/:forumName/moderate/removed'
-          render={({ match }) => (
-            <SidebarContainer
-              key={match.url}
-              forumName={match.params.forumName}
-              page={'moderate'}
-            />
-          )}
-        />
-
-        <Route
-          exact
-          path='/f/:forumName/moderate/reports'
-          render={({ match }) => (
-            <SidebarContainer
-              key={match.url}
-              forumName={match.params.forumName}
-              page={'moderate'}
-            />
-          )}
-        />
-
-        <Route
-          exact
-          path='/u/:user'
-          render={({ match }) => {
-            return (
+      <Divider />
+      <SidebarWrapper>
+        <Switch>
+          <Route
+            exact
+            path='/'
+            render={({ match }) => <SidebarContainer page={'front'} />}
+          />
+          <Route
+            exact
+            path='/f/:forumName'
+            render={({ match }) => (
               <SidebarContainer
                 key={match.url}
-                user={match.params.user}
-                page={'user'}
+                forumName={match.params.forumName}
+                page={'forum'}
               />
-            );
-          }}
-        />
-        <Route
-          path='/u/:user/posts'
-          render={({ match }) => {
-            return (
+            )}
+          />
+          <Route
+            path='/f/:forumName/p/:postId'
+            render={({ match }) => (
               <SidebarContainer
                 key={match.url}
-                user={match.params.user}
-                page={'user'}
+                forumName={match.params.forumName}
+                postId={match.params.postId}
+                page={'post'}
               />
-            );
-          }}
-        />
-        <Route
-          path='/u/:user/comments'
-          render={({ match }) => {
-            return (
+            )}
+          />
+
+          <Route
+            exact
+            path='/f/:forumName/moderate'
+            render={({ match }) => (
               <SidebarContainer
                 key={match.url}
-                user={match.params.user}
-                page={'user'}
+                forumName={match.params.forumName}
+                page={'moderate'}
               />
-            );
-          }}
-        />
-        <Route
-          path='/u/:user/saved'
-          render={({ match }) => {
-            return (
+            )}
+          />
+
+          <Route
+            exact
+            path='/f/:forumName/moderate/moderators'
+            render={({ match }) => (
               <SidebarContainer
                 key={match.url}
-                user={match.params.user}
-                page={'user'}
+                forumName={match.params.forumName}
+                page={'moderate'}
+                createModerator={true}
               />
-            );
-          }}
-        />
-        <Route
-          path='/u/:user/messages'
-          render={({ match }) => {
-            return (
+            )}
+          />
+
+          <Route
+            exact
+            path='/f/:forumName/moderate/moderators/create'
+            render={({ match }) => (
               <SidebarContainer
                 key={match.url}
-                user={match.params.user}
-                page={'user'}
+                forumName={match.params.forumName}
+                page={'moderate'}
               />
-            );
-          }}
-        />
-      </Switch>
+            )}
+          />
+
+          <Route
+            exact
+            path='/f/:forumName/moderate/info'
+            render={({ match }) => (
+              <SidebarContainer
+                key={match.url}
+                forumName={match.params.forumName}
+                page={'moderate'}
+              />
+            )}
+          />
+          <Route
+            exact
+            path='/f/:forumName/moderate/banned'
+            render={({ match }) => (
+              <SidebarContainer
+                key={match.url}
+                forumName={match.params.forumName}
+                page={'moderate'}
+              />
+            )}
+          />
+
+          <Route
+            exact
+            path='/f/:forumName/moderate/removed'
+            render={({ match }) => (
+              <SidebarContainer
+                key={match.url}
+                forumName={match.params.forumName}
+                page={'moderate'}
+              />
+            )}
+          />
+
+          <Route
+            exact
+            path='/f/:forumName/moderate/reports'
+            render={({ match }) => (
+              <SidebarContainer
+                key={match.url}
+                forumName={match.params.forumName}
+                page={'moderate'}
+              />
+            )}
+          />
+
+          <Route
+            exact
+            path='/u/:user'
+            render={({ match }) => {
+              return (
+                <SidebarContainer
+                  key={match.url}
+                  user={match.params.user}
+                  page={'user'}
+                />
+              );
+            }}
+          />
+          <Route
+            path='/u/:user/posts'
+            render={({ match }) => {
+              return (
+                <SidebarContainer
+                  key={match.url}
+                  user={match.params.user}
+                  page={'user'}
+                />
+              );
+            }}
+          />
+          <Route
+            path='/u/:user/comments'
+            render={({ match }) => {
+              return (
+                <SidebarContainer
+                  key={match.url}
+                  user={match.params.user}
+                  page={'user'}
+                />
+              );
+            }}
+          />
+          <Route
+            path='/u/:user/saved'
+            render={({ match }) => {
+              return (
+                <SidebarContainer
+                  key={match.url}
+                  user={match.params.user}
+                  page={'user'}
+                />
+              );
+            }}
+          />
+          <Route
+            path='/u/:user/messages'
+            render={({ match }) => {
+              return (
+                <SidebarContainer
+                  key={match.url}
+                  user={match.params.user}
+                  page={'user'}
+                />
+              );
+            }}
+          />
+        </Switch>
+      </SidebarWrapper>
     </Wrapper>
   );
 };

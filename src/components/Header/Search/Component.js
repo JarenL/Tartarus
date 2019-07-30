@@ -9,6 +9,7 @@ import { Redirect } from 'react-router';
 
 const Wrapper = styled.div`
   display: flex;
+  width: 100%;
   margin-right: 1.25%;
   flex-direction: row;
   justify-content: center;
@@ -17,23 +18,39 @@ const Wrapper = styled.div`
 
 const StyledForm = styled(Form)`
   ${transition('border', 'box-shadow')};
-  border: 1px solid ${props => props.theme.border};
-  border-radius: 0 0 2px 2px;
-  display: flex;
-  margin-right: 5px;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+
+  --border: ${props => (props.error ? props.theme.error : props.theme.accent)};
+  --shadow: ${props =>
+    props.error ? props.theme.error + '4d' : props.theme.accent + '4d'};
+
+  display: block;
+  ${props =>
+    props.error
+      ? `
+  border: 1px solid var(--border)
+  `
+      : `
+  border: 1px solid ${props.theme.border}
+`};
+  border-radius: 3px;
+  width: 100%;
   padding: 0;
-  @media (hover: hover) {
-    :hover {
-      border: 1px solid ${props => props.theme.accent};
-    }
+  background-color: ${props => props.theme.inputBackground};
+  font-size: 12px;
+  color: ${props => props.theme.normalText};
+  appearance: none;
+  outline: none;
+  resize: vertical;
+
+  :hover,
+  :focus {
+    border: 1px solid var(--border);
   }
-  :focus-within {
-    border: 1px solid ${props => props.theme.accent};
-    box-shadow: 0 0 0 2px ${props => props.theme.accent + '4d'};
+
+  :focus {
+    box-shadow: 0 0 0 2px var(--shadow);
   }
+
   @media (max-width: 768px) {
     margin-top: -1px;
     border-radius: 0;

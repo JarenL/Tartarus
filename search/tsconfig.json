@@ -2,10 +2,10 @@
     "compilerOptions": {
         "target": "esnext",
         "sourceMap": false,
-        //"isolatedModules": true,
-        "alwaysStrict": true,
-        "module": "commonjs",
-        "watch": true,
-        "declaration": true
-    }
+        "outFile": "./bundle.js",
+        "moduleResolution": "node"
+    },
+    "include": [
+        "./*"
+    ]
 }
