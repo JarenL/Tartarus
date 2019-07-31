@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { Route, Switch } from 'react-router-dom';
 import HomeMainSection from './MainSection';
-import CategoryMenu from '../CategoryMenu/Component';
+import CategoryMenu from '../Header/CategoryMenu/Component';
 import PostListContainer from '../Post/PostList/Container';
 import SidebarContainer from '../Sidebar/Container';
 import PostDetail from '../Post/PostDetail/Container';
@@ -228,7 +228,23 @@ const Home = props => {
         <Route
           path='/u/:user/comments'
           render={({ match }) => (
-            <CommentListContainer user={match.params.user} />
+            <>
+              <FilterWrapper>
+                <FilterContainer />
+              </FilterWrapper>
+              <CommentListContainer user={match.params.user} />
+            </>
+          )}
+        />
+        <Route
+          path='/u/:user/votes'
+          render={({ match }) => (
+            <>
+              <FilterWrapper>
+                <FilterContainer />
+              </FilterWrapper>
+              <PostListContainer user={match.params.user} votes={true} />
+            </>
           )}
         />
         <Route
@@ -236,8 +252,10 @@ const Home = props => {
           render={({ match }) => {
             return (
               <>
-                <FilterContainer />
-                <PostListContainer user={match.params.user} />
+                <FilterWrapper>
+                  <FilterContainer />
+                </FilterWrapper>
+                <PostListContainer user={match.params.user} saved={true} />
               </>
             );
           }}
@@ -397,6 +415,18 @@ const Home = props => {
           />
           <Route
             path='/u/:user/saved'
+            render={({ match }) => {
+              return (
+                <SidebarContainer
+                  key={match.url}
+                  user={match.params.user}
+                  page={'saved'}
+                />
+              );
+            }}
+          />
+          <Route
+            path='/u/:user/votes'
             render={({ match }) => {
               return (
                 <SidebarContainer

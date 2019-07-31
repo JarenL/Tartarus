@@ -1,4 +1,4 @@
-const modCategories = ['posts', 'comments', 'votes'];
+const modCategories = ['posts', 'comments'];
 
 
 export default modCategories;

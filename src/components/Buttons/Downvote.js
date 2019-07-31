@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import PostVoteButton from './Button';
+import PostVoteButton from '../Post/Post/Vote/Button';
 import { MdArrowDownward } from 'react-icons/md';
 
 const PostVoteDownvote = styled(MdArrowDownward)`
@@ -10,7 +10,7 @@ const PostVoteDownvote = styled(MdArrowDownward)`
   background-color: transparent;
   cursor: pointer;
   color: ${props => 
-    props.downvoted ? props.theme.error : props.theme.mutedText};
+    props.downvoted ? props.theme.downvote : props.theme.mutedText};
 
   :focus {
     outline: 0;

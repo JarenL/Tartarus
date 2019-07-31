@@ -123,12 +123,12 @@ const CommentActions = props => (
     <ActionWrapper>
       {props.comments > 0 ? (
         <ButtonWrapper onClick={() => props.handleFocus(props.comment)}>
+          {props.comments}
           {props.focused ? (
             <UnfocusButton size={16} />
           ) : (
             <ChildArrow size={16} />
           )}
-          {props.comments}
         </ButtonWrapper>
       ) : null}
     </ActionWrapper>

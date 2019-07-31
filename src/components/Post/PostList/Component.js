@@ -124,6 +124,7 @@ class PostList extends React.Component {
     tartarus.setProvider(this.props.web3.currentProvider);
     let instance = await tartarus.at(this.props.tartarusAddress);
     let post = await instance.getPost.call(props.args.forum, props.args.postId);
+    console.log(post)
     let newPost = props;
     newPost.votes = post[2].c[0] - post[3].c[0];
     newPost.comments = post[4].c[0];
@@ -179,31 +180,70 @@ class PostList extends React.Component {
           });
       } else {
         // user page
-        console.log('user');
-        const tartarus = contract(TartarusContract);
-        tartarus.setProvider(this.props.web3.currentProvider);
-        tartarus
-          .at(this.props.tartarusAddress)
-          .then(instance => {
-            this.handlePostTime().then(starting => {
-              instance
-                .PostCreated(
-                  {
-                    creator: this.props.web3.utils.fromAscii(this.props.user)
-                  },
-                  {
-                    fromBlock: starting,
-                    toBlock: 'latest'
-                  }
-                )
-                .get(async (error, posts) => {
-                  await this.getPosts(posts);
+        if (this.props.votes) {
+          console.log('votes');
+          if (this.props.username === this.props.user) {
+            const tartarus = contract(TartarusContract);
+            tartarus.setProvider(this.props.web3.currentProvider);
+            tartarus
+              .at(this.props.tartarusAddress)
+              .then(instance => {
+                this.handlePostTime().then(starting => {
+                  instance
+                    .UserVoted(
+                      {
+                        user: this.props.web3.utils.fromAscii(this.props.user)
+                      },
+                      {
+                        fromBlock: starting,
+                        toBlock: 'latest'
+                      }
+                    )
+                    .get(async (error, posts) => {
+                      await posts.forEach(function(post) {
+                        post.args.postId = post.args.contentId;
+                        post.args.creator = post.args.user;
+                      });
+                      console.log(posts)
+                      await this.getPosts(posts);
+                    });
                 });
+              })
+              .catch(err => {
+                console.log('error');
+              });
+          } else {
+            this.setState({
+              loading: false
             });
-          })
-          .catch(err => {
-            console.log('error');
-          });
+          }
+        } else {
+          console.log('user');
+          const tartarus = contract(TartarusContract);
+          tartarus.setProvider(this.props.web3.currentProvider);
+          tartarus
+            .at(this.props.tartarusAddress)
+            .then(instance => {
+              this.handlePostTime().then(starting => {
+                instance
+                  .PostCreated(
+                    {
+                      creator: this.props.web3.utils.fromAscii(this.props.user)
+                    },
+                    {
+                      fromBlock: starting,
+                      toBlock: 'latest'
+                    }
+                  )
+                  .get(async (error, posts) => {
+                    await this.getPosts(posts);
+                  });
+              });
+            })
+            .catch(err => {
+              console.log('error');
+            });
+        }
       }
     } else {
       //forum page

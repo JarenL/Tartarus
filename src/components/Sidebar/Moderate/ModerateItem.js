@@ -7,6 +7,7 @@ const Item = styled(NavLink)`
   padding: 12px;
   font-size: 15px;
   text-decoration: none;
+  width: 100%;
   color: ${props => props.theme.normalText};
 
   ::after {

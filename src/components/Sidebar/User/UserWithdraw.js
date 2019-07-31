@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import WithdrawButton from './WithdrawButton';
+import WithdrawButton from '../../Buttons/WithdrawButton';
 
 const Wrapper = styled.div`
   display: flex;

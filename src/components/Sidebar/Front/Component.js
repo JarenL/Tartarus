@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components/macro';
-import CreateForumButton from './CreateForum.js';
+import CreateForumButton from '../../Buttons/CreateForum';
 import { withRouter } from 'react-router-dom';
-import LoadingTest from '../../shared/LoadingIndicator/LoadingTest.js';
 import FrontHeader from './FrontHeader.js';
 
 const Wrapper = styled.div`

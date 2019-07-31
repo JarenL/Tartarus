@@ -37,7 +37,7 @@ const Moderators = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  list-style:none;
+  list-style: none;
   text-decoration: none;
   color: ${props => props.theme.mutedText};
   &:hover {
@@ -54,7 +54,11 @@ const ButtonWrapper = styled.div`
 
 const Moderator = props => {
   const moderator = props.web3.utils.toAscii(props.moderator);
-  return <StyledLink to={`/u/${moderator}`}><li>{moderator}</li></StyledLink>;
+  return (
+    <StyledLink to={`/u/${moderator}`}>
+      <li>{moderator}</li>
+    </StyledLink>
+  );
 };
 
 const usernameToBytes32 = props => {

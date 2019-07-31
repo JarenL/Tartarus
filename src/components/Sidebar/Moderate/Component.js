@@ -5,12 +5,18 @@ import { withRouter } from 'react-router-dom';
 import LoadingTest from '../../shared/LoadingIndicator/LoadingTest.js';
 import ModerateList from './ModerateList';
 import ModerateHeader from './ModerateHeader.js';
-import CreateModeratorButton from './CreateModeratorButton.js';
+import CreateModeratorButton from '../../Buttons/CreateModeratorButton';
 import NotAuthorized from '../../shared/NotAuthorized.js';
+import Divider from '../Divider.js';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
+  // width: 100%;
+  // border: 1px solid ${props => props.theme.border};
+  // background-color: ${props => props.theme.foreground};
+  // margin-top: 12px;
 `;
 
 class ModerateSidebar extends Component {
@@ -43,39 +49,41 @@ class ModerateSidebar extends Component {
             }
           )
           .then(isModerator => {
-            console.log(isModerator)
-            if (isModerator) {
-              this.setState({
-                isModerator: true,
-                loading: false
-              });
-            } else {
-              this.setState({
-                loading: false
-              })
-            }
+            console.log(isModerator);
+            this.setState({
+              isModerator: isModerator,
+              loading: false
+            });
           });
       });
     });
   };
 
   createModerator = () => {
-    this.props.history.push(`/f/${this.props.forumName}/moderate/moderators/create`);
-  }
+    this.props.history.push(
+      `/f/${this.props.forumName}/moderate/moderators/create`
+    );
+  };
 
   render() {
     if (this.state.loading) {
-      return <LoadingTest />;
+      return (
+        <Wrapper>
+          <LoadingTest />
+        </Wrapper>
+      );
     } else {
       if (!this.state.isModerator) {
         return <NotAuthorized />;
       } else {
         return (
           <Wrapper>
-            {this.props.userPermissions.moderator[0] && this.props.createModerator ? (
-              <CreateModeratorButton createModerator={this.createModerator} />
-            ) : null}
-            <ModerateHeader forumName={this.props.forumName} />
+            <ModerateHeader
+              userPermissions={this.props.userPermissions.moderator[0]}
+              createModerator={this.createModerator}
+              forumName={this.props.forumName}
+            />
+            <Divider />
             <ModerateList forumName={this.props.forumName} />
           </Wrapper>
         );

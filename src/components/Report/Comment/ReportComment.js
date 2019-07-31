@@ -211,7 +211,7 @@ class ReportComment extends React.Component {
         )}
         {this.state.commentExists ? (
           <CommentWrapper>
-            <CommentContainer comment={this.state.comment.args} />
+            <CommentContainer comment={this.state.comment} />
           </CommentWrapper>
         ) : (
           <Empty />

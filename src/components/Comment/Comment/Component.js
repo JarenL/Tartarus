@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components/macro';
 import CommentContent from './Content';
 import TartarusContract from '../../../contracts/Tartarus.json';
-import CommentDetail from '../Detail/Component';
+import CommentDetail from './Detail/Component';
 import { updateUserSaved } from '../../../redux/actions/actions';
 import CommentActions from './CommentActions';
 import CommentReplyFormContainer from '../../CreateCommentReplyForm/Container';
@@ -10,6 +10,7 @@ import CommentReplyFormContainer from '../../CreateCommentReplyForm/Container';
 const Wrapper = styled.div`
   border-radius: 2px;
   background-color: ${props => props.theme.inputBackground};
+  border: 0.5px solid ${props => props.theme.border};
 
   @media (max-width: 768px) {
     border-left: none;
@@ -21,7 +22,7 @@ const Wrapper = styled.div`
 const BorderWrapper = styled.div`
   border-radius: 2px;
   background-color: ${props => props.theme.inputBackground};
-  border: 1px solid ${props => props.theme.accent};
+  border: 0.5px solid ${props => props.theme.accent};
 
   @media (max-width: 768px) {
     border-left: none;
@@ -106,7 +107,7 @@ class Comment extends Component {
                 const commentHex = '1220' + comment[0].slice(2);
                 const commentBytes32 = Buffer.from(commentHex, 'hex');
                 const commentIpfsHash = bs58.encode(commentBytes32);
-                console.log(commentIpfsHash)
+                console.log(commentIpfsHash);
                 services.ipfs.getJson(commentIpfsHash).then(commentData => {
                   if (this.props.username !== null) {
                     this.checkSaved();
@@ -233,7 +234,10 @@ class Comment extends Component {
 
   render() {
     if (this.state.exists) {
-      if (this.props.focused) {
+      if (
+        this.props.focused ||
+        this.props.parentHover === this.props.comment.args.commentId
+      ) {
         return (
           <BorderWrapper>
             <CommentDetail
@@ -244,6 +248,7 @@ class Comment extends Component {
               saved={this.state.saved}
               targetId={this.props.comment.args.targetId}
               postId={this.props.comment.args.postId}
+              handleParentHover={this.props.handleParentHover}
             />
             <CommentContent
               loading={this.state.loading}
@@ -281,6 +286,7 @@ class Comment extends Component {
               creator={this.props.web3.utils.toAscii(
                 this.props.comment.args.creator
               )}
+              handleParentHover={this.props.handleParentHover}
               time={this.state.time}
               saved={this.state.saved}
               targetId={this.props.comment.args.targetId}

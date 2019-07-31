@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import { wideFont } from '../../shared/helpers';
 import { MdSearch } from 'react-icons/md';
 import { overflow } from '../../shared/helpers';
+import CreateModeratorButton from '../../Buttons/CreateModeratorButton';
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,6 +32,9 @@ const HeaderText = styled.div`
 
 const ModerateHeader = props => (
   <Wrapper>
+    {props.userPermissions && props.createModerator ? (
+      <CreateModeratorButton createModerator={props.createModerator} />
+    ) : null}
     <Header>
       <HeaderText>{props.forumName}</HeaderText>
     </Header>

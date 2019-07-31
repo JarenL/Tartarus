@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import PostVoteUpvote from './Upvote';
-import PostVoteDownvote from './Downvote';
+import PostVoteUpvote from '../../../Buttons/Upvote';
+import PostVoteDownvote from '../../../Buttons/Downvote';
 import Loading from '../../../shared/LoadingIndicator/Loading';
 
 const Wrapper = styled.div`

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components/macro';
 import UserList from './UserList';
-import UserMessageButton from './UserMessageButton';
+import UserMessageButton from '../../Buttons/UserMessageButton';
 import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import UserHeader from './UserHeader';
@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 240px;
+  background-color: ${props => props.theme.foreground};
 `;
 
 class UserSidebar extends Component {

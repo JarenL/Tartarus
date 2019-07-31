@@ -1,10 +1,11 @@
 import React from 'react';
-import Button from '../../shared/Button';
+import Button from '../shared/Button';
 import styled from 'styled-components/macro';
 
 const SubscribeButton = styled(Button)`
-  border-radius: 0 0 0 0;
+  border-radius: 2px 2px 2px 2px;
   padding: 16px;
+  margin: 4px;
   text-decoration: none;
   text-align: center;
 `;

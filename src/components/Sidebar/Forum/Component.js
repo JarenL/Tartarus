@@ -3,16 +3,14 @@ import TartarusContract from '../../../contracts/Tartarus.json';
 import styled from 'styled-components/macro';
 import ForumHeader from './ForumHeader';
 import ForumRules from './ForumRules.js';
-import LoadingBubble from '../../shared/LoadingIndicator/Bubble.js';
 import ForumModerators from './ForumModerators.js';
 import ForumDescription from './ForumDescription.js';
 import { updateUserSubscriptions } from '../../../redux/actions/actions';
-import Subscribe from './Subscribe.js';
-import CreatePostButton from './CreatePost.js';
-import CreateForumButton from './CreateForum.js';
+import Subscribe from '../../Buttons/Subscribe';
+import CreatePostButton from '../../Buttons/CreatePost';
+import CreateForumButton from '../../Buttons/CreateForum';
 import { withRouter } from 'react-router-dom';
 import LoadingTest from '../../shared/LoadingIndicator/LoadingTest.js';
-import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner.js';
 
 const services = require('../../../services');
 
@@ -186,7 +184,11 @@ class ForumSidebar extends Component {
 
   render() {
     if (this.state.loading) {
-      return <LoadingIndicatorSpinner />;
+      return (
+        <Wrapper>
+          <LoadingTest />
+        </Wrapper>
+      );
     } else {
       return (
         <Wrapper>

@@ -1,4 +1,4 @@
-const authCategories = ['posts', 'comments', 'votes', 'messages', 'saved'];
+const authCategories = ['posts', 'comments', 'votes', 'saved', 'messages'];
 
 
 export default authCategories;

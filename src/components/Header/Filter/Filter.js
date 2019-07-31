@@ -8,7 +8,7 @@ import typeCategories from './FilterTypeCategories';
 import { transition } from '../../shared/helpers';
 import { format } from 'util';
 import { wideFont } from '../../shared/helpers';
-import CategoryMenu from '../../CategoryMenu/Container';
+import CategoryMenu from '../CategoryMenu/Container';
 
 const Wrapper = styled.div`
   display: flex;

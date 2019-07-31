@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import Author from '../../shared/Author';
+import Author from '../../../shared/Author';
 import CommentDetailTimestamp from './Timestamp';
-import ParentArrow from '../../Buttons/RightArrow';
-import { wideFont } from '../../shared/helpers';
-import { overflow } from '../../shared/helpers';
+import ParentArrow from '../../../Buttons/RightArrow';
+import { wideFont } from '../../../shared/helpers';
+import { overflow } from '../../../shared/helpers';
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,8 +49,12 @@ class CommentDetail extends React.Component {
         {this.props.postId !== this.props.targetId ? (
           <ButtonWrapper
             onClick={() => this.props.handleScroll(this.props.index)}
+            onMouseEnter={() => this.props.handleParentHover(this.props.targetId)}
+            onMouseLeave={() => this.props.handleParentHover(null)}
           >
-            <ParentArrow size={16} />
+            <ParentArrow
+              size={16}
+            />
             {/* {this.props.targetId} */}
           </ButtonWrapper>
         ) : null}

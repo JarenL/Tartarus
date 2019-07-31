@@ -6,12 +6,15 @@ import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import { updateUserPermissions } from '../../../redux/actions/actions';
 import Empty from '../../shared/Empty';
 
+const blocksInDay = 5760;
+
 class CommentList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       comments: [],
       loading: true,
+      parentHover: null,
       currentComment: null,
       focusedCommentsList: [],
       focusedCommentsMap: {},
@@ -23,58 +26,92 @@ class CommentList extends Component {
     this.instantiateContract();
   };
 
+  componentDidUpdate = (newProps, oldProps) => {
+    if (newProps.time !== this.props.time) {
+      this.setState({
+        loading: true
+      });
+      this.instantiateContract();
+    }
+
+    if (newProps.username !== this.props.username) {
+      this.setState({
+        loading: true
+      });
+      this.instantiateContract();
+    }
+  };
+
+  handlePostTime = async () => {
+    const latest = await this.props.web3.eth.getBlock('latest');
+    switch (this.props.time) {
+      case 'day':
+        return latest.number - 1 * blocksInDay;
+      case 'week':
+        return latest.number - 7 * blocksInDay;
+      case 'month':
+        return latest.number - 30 * blocksInDay;
+      case 'year':
+        return latest.number - 365 * blocksInDay;
+      case 'all':
+        return 0;
+      default:
+        return null;
+    }
+  };
+
   instantiateContract = () => {
     const contract = require('truffle-contract');
-    console.log(this.props);
     if (this.props.postId === undefined) {
       if (this.props.user === undefined) {
         //comment page
-        console.log('comment');
         const tartarus = contract(TartarusContract);
         tartarus.setProvider(this.props.web3.currentProvider);
         tartarus
           .at(this.props.tartarusAddress)
           .then(instance => {
-            instance
-              .CommentCreated(
-                { postId: this.props.postId },
-                { fromBlock: 0, toBlock: 'latest' }
-              )
-              .get((error, comments) => {
-                this.setState({
-                  comments: comments,
-                  loading: false
+            this.handlePostTime().then(starting => {
+              instance
+                .CommentCreated(
+                  { postId: this.props.postId },
+                  { fromBlock: starting, toBlock: 'latest' }
+                )
+                .get((error, comments) => {
+                  this.setState({
+                    comments: comments,
+                    loading: false
+                  });
                 });
-                console.log(comments);
-              });
+            });
           })
           .catch(err => {
             console.log('error');
           });
       } else {
         // user page
-        console.log('user');
         const tartarus = contract(TartarusContract);
         tartarus.setProvider(this.props.web3.currentProvider);
         tartarus
           .at(this.props.tartarusAddress)
           .then(instance => {
-            instance
-              .CommentCreated(
-                {
-                  creator: this.props.web3.utils.fromAscii(this.props.user)
-                },
-                {
-                  fromBlock: 0,
-                  toBlock: 'latest'
-                }
-              )
-              .get((error, comments) => {
-                this.setState({
-                  comments: comments,
-                  loading: false
+            this.handlePostTime().then(starting => {
+              instance
+                .CommentCreated(
+                  {
+                    creator: this.props.web3.utils.fromAscii(this.props.user)
+                  },
+                  {
+                    fromBlock: starting,
+                    toBlock: 'latest'
+                  }
+                )
+                .get((error, comments) => {
+                  this.setState({
+                    comments: comments,
+                    loading: false
+                  });
                 });
-              });
+            });
           })
           .catch(err => {
             console.log('error');
@@ -131,8 +168,13 @@ class CommentList extends Component {
     }
   };
 
+  handleParentHover = props => {
+    this.setState({
+      parentHover: props
+    });
+  };
+
   handleFocus = props => {
-    console.log('focus');
     if (this.state.focusedCommentsMap[props.args.commentId] !== undefined) {
       let newFocusedCommentsList = this.state.focusedCommentsList;
       let removedFocus = newFocusedCommentsList
@@ -168,7 +210,7 @@ class CommentList extends Component {
       this.setState({
         focusedCommentsList: newFocusedCommentsList,
         focusedCommentsMap: newFocusedCommentsMap,
-        focusedChildren: newFocusedChildren,
+        focusedChildren: newFocusedChildren
       });
     } else {
       let newFocusedCommentsList = this.state.focusedCommentsList;
@@ -191,21 +233,22 @@ class CommentList extends Component {
       this.setState({
         focusedCommentsList: newFocusedCommentsList,
         focusedCommentsMap: newFocusedCommentsMap,
-        focusedChildren: newFocusedChildren,
+        focusedChildren: newFocusedChildren
       });
     }
   };
 
   handleScrollTo = props => {
-    console.log(this.list)
     this.list.scrollTo(props);
-  }
+  };
 
   renderItem(index, key) {
     return (
       <CommentListItem
         index={index}
         handleScroll={this.handleScrollTo}
+        handleParentHover={this.handleParentHover}
+        parentHover={this.state.parentHover}
         key={this.state.comments[index].args.commentId}
         forumName={this.props.forumName}
         comment={this.state.comments[index]}
@@ -224,10 +267,14 @@ class CommentList extends Component {
   }
 
   renderFocusedItem(index, key) {
-    let combinedList = this.state.focusedCommentsList.concat(this.state.focusedChildren)
+    let combinedList = this.state.focusedCommentsList.concat(
+      this.state.focusedChildren
+    );
     return (
       <CommentListItem
         index={index}
+        handleParentHover={this.handleParentHover}
+        parentHover={this.state.parentHover}
         handleScroll={this.handleScrollTo}
         key={combinedList[index].args.commentId}
         forumName={this.props.forumName}
@@ -251,7 +298,7 @@ class CommentList extends Component {
     if (this.state.focusedCommentsList.length > 0) {
       return (
         <ReactList
-          ref={c => this.list = c}
+          ref={c => (this.list = c)}
           itemRenderer={this.renderFocusedItem.bind(this)}
           length={
             this.state.focusedCommentsList.length +
@@ -263,7 +310,7 @@ class CommentList extends Component {
     } else {
       return (
         <ReactList
-          ref={c => this.list = c}
+          ref={c => (this.list = c)}
           itemRenderer={this.renderItem.bind(this)}
           length={this.state.comments.length}
           type='simple'

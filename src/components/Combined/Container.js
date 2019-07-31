@@ -1,18 +1,17 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import Comment from './Component';
+import PostList from './Component';
 
-export const mapStateToProps = state => ({
+const mapStateToProps = state => ({
   web3: state.web3,
   tartarusAddress: state.tartarus.tartarusAddress,
   username: state.user.username,
-  userPermissions: state.user.userPermissions,
-  userSettings: state.user.userSettings,
   time: state.form.filter.values.time,
+  type: state.form.filter.values.type
 });
 
 const enhance = compose(connect(mapStateToProps));
 
-const CommentContainer = enhance(Comment);
+const PostListContainer = enhance(PostList);
 
-export default CommentContainer;
+export default PostListContainer;

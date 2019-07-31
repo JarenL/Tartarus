@@ -23,11 +23,13 @@ const ButtonWrapper = styled.div`
 
 class DrawerHeader extends Component {
   render() {
+    console.log(this.props.user);
     return (
       <>
         <Header>
           <ButtonWrapper>
             <IconButton
+              disableRipple={true}
               color='inherit'
               aria-label='Open drawer'
               onClick={() => this.props.handleDrawerToggle()}
@@ -37,7 +39,9 @@ class DrawerHeader extends Component {
           </ButtonWrapper>
           <HeaderLogo />
         </Header>
-        <UserHeader user={this.props.user} userHex={this.props.userHex} />
+        {this.props.user !== null ? (
+          <UserHeader user={this.props.user} userHex={this.props.userHex} />
+        ) : null}
       </>
     );
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import Button from '../../shared/Button';
+import Button from '../shared/Button';
 
 const Withdraw = styled(Button)`
   align-self: flex-end;

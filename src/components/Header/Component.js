@@ -7,13 +7,14 @@ import HeaderNavLink from './NavLink';
 import { userLogout } from '../../redux/actions/actions';
 import SearchContainer from './Search/SearchContainer';
 import FilterContainer from './Filter/FilterContainer';
-import CategoryMenu from '../CategoryMenu/Container';
+import CategoryMenu from './CategoryMenu/Container';
 import Drawer from '../Drawer/Component';
 import { setDrawerState } from '../../redux/actions/actions';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import DrawerButton from '../Buttons/DrawerButton';
 
 const Wrapper = styled.header`
   position: sticky;
@@ -60,10 +61,6 @@ const styles = theme => ({
     marginLeft: 'auto'
   }
 });
-
-const DrawerButton = styled(MenuIcon)`
-  color: ${props => props.theme.mutedText};
-`;
 
 class Header extends Component {
   handleDrawerToggle = () => {

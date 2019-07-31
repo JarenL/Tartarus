@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import PostVoteButton from './Button';
+import PostVoteButton from '../Post/Post/Vote/Button';
 import { MdArrowUpward } from 'react-icons/md';
 
 const PostVoteUpvote = styled(MdArrowUpward)`
@@ -10,7 +10,7 @@ const PostVoteUpvote = styled(MdArrowUpward)`
   background-color: transparent;
   cursor: pointer;
   color: ${props =>
-    props.upvoted ? props.theme.accent : props.theme.mutedText};
+    props.upvoted ? props.theme.upvote : props.theme.mutedText};
 
   :focus {
     outline: 0;

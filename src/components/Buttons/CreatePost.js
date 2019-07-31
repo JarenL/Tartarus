@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import Button from '../../shared/Button';
+import Button from '../shared/Button';
 
 const PostButton = styled(Button)`
-  border-radius: 2px 2px 0 0;
+  border-radius: 2px 2px 2px 2px;
   padding: 16px;
+  margin: 4px;
   text-decoration: none;
   text-align: center;
 `;

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import categories from '../../categories';
-import SelectWrapper from '../shared/form/SelectWrapper';
-import { transition } from '../shared/helpers';
+import categories from '../../../categories';
+import SelectWrapper from '../../shared/form/SelectWrapper';
+import { transition } from '../../shared/helpers';
 
 const Dropdown = styled.select`
   ${transition('border', 'box-shadow')};
