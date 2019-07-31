@@ -4,44 +4,37 @@ import { Link } from 'react-router-dom';
 import { link } from '../../../shared/helpers';
 
 import { ifNotProp, prop } from 'styled-tools';
-import Delete from './Buttons/Delete';
-import Report from './Buttons/Report';
-import Comment from './Buttons/Comment';
-import More from './Buttons/More';
-import Less from './Buttons/Less';
-import Save from './Buttons/Save';
-import Unsave from './Buttons/Unsave';
-import Tip from './Buttons/Tip';
+import Delete from '../../../Buttons/Delete';
+import Report from '../../../Buttons/Report';
+import Comment from '../../../Buttons/Comment';
+import More from '../../../Buttons/More';
+import Less from '../../../Buttons/Less';
+import Save from '../../../Buttons/Save';
+import Unsave from '../../../Buttons/Unsave';
+import Tip from '../../../Buttons/Tip';
 
 const Wrapper = styled.div`
   display: flex;
-  flexgrow: 1;
-  justify-content: space-between;
+  flex-direction: row;
   align-items: center;
-  font-size: 14px;
+  width: 100%;
+  justify-content: flex-start;
+  font-size: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  & > * {
-    margin-right: 4px;
-  }
-
-  & > a {
-    ${link};
-  }
-
-  & > span {
-    color: ${props => props.theme.mutedText};
-  }
 `;
 
-const ButtonWrapper = styled.span`
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
   cursor: pointer;
   color: ${props => props.theme.mutedText};
-  & > svg {
-    margin-right: 3px;
-    margin-left: 5px;
-  }
+  margin-right: 10px;
+  // & > svg {
+  //   margin-right: 3px;
+  //   margin-left: 5px;
+  // }
   &:last-child {
     margin-right: 0;
   }
@@ -53,60 +46,79 @@ const ButtonWrapper = styled.span`
   }
 `;
 
-const ActionWrapper = styled.div`
+const LinkWrapper = styled(Link)`
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  color: ${props => props.theme.mutedText};
+  margin-right: 10px;
+  // & > svg {
+  //   margin-right: 3px;
+  //   margin-left: 5px;
+  // }
+  &:last-child {
+    margin-right: 0;
+  }
+  &:hover {
+    color: ${props => props.theme.accent};
+    & > svg {
+      color: ${props => props.theme.accent} !important;
+    }
+  }
+`;
+
+const TextWrapper = styled.div`
+  display: flex;
+  @media (max-width: 425px) {
+    display: none;
+  }
+`;
+
+const CommentCountWrapper = styled.div`
   display: flex;
 `;
 
 const PostActions = props => (
   <Wrapper>
-    <ActionWrapper>
-      <ButtonWrapper>
-        {!props.preview ? (
-          <More size={16} onClick={props.handlePreview} />
-        ) : (
-          <Less size={16} onClick={props.handlePreview} />
-        )}
-      </ButtonWrapper>
-      <Link
-        to={`/f/${props.forumName}/p/${props.postId}`}
-        style={{ textDecoration: 'none' }}
-      >
-        <ButtonWrapper>
-          <Comment size={16} /> {props.commentCount} comment
-          {props.commentCount !== 1 ? 's' : null}
-        </ButtonWrapper>
-      </Link>
-      {!props.saved ? (
-        <ButtonWrapper onClick={() => props.handleSave(props.postId)}>
-          <Save size={16} />
-          {'Save'}
-        </ButtonWrapper>
+    <ButtonWrapper>
+      {!props.preview ? (
+        <More size={16} onClick={props.handlePreview} />
       ) : (
-        <ButtonWrapper onClick={() => props.handleUnsave(props.postId)}>
-          <Unsave size={16} />
-          {'Unsave'}
-        </ButtonWrapper>
+        <Less size={16} onClick={props.handlePreview} />
       )}
-      <Link to={`/u/${props.creator}/tip`} style={{ textDecoration: 'none' }}>
-        <ButtonWrapper>
-          <Tip />
-          {'Tip'}
-        </ButtonWrapper>
-      </Link>
-    </ActionWrapper>
-
-    <ActionWrapper>
-      {props.canDelete ? (
-        <ButtonWrapper onClick={props.handleDelete}>
-          <Delete size={16} />
-          {'Delete'}
-        </ButtonWrapper>
-      ) : null}
-      <ButtonWrapper onClick={props.handleReport}>
-        <Report size={16} />
-        {'Report'}
+    </ButtonWrapper>
+    <LinkWrapper
+      to={`/f/${props.forumName}/p/${props.postId}`}
+      style={{ textDecoration: 'none' }}
+    >
+      <Comment size={16} />
+      <CommentCountWrapper>{props.commentCount}</CommentCountWrapper>
+    </LinkWrapper>
+    {!props.saved ? (
+      <ButtonWrapper onClick={() => props.handleSave(props.postId)}>
+        <Save size={16} />
+        <TextWrapper>{'Save'}</TextWrapper>
       </ButtonWrapper>
-    </ActionWrapper>
+    ) : (
+      <ButtonWrapper onClick={() => props.handleUnsave(props.postId)}>
+        <Unsave size={16} />
+        <TextWrapper>{'Unsave'}</TextWrapper>
+      </ButtonWrapper>
+    )}
+    <ButtonWrapper>
+      <Tip size={16} />
+      <TextWrapper>{'Tip'}</TextWrapper>
+    </ButtonWrapper>
+    {props.canDelete ? (
+      <ButtonWrapper onClick={props.handleDelete}>
+        <Delete size={16} />
+        <TextWrapper>{'Delete'}</TextWrapper>
+      </ButtonWrapper>
+    ) : null}
+    <ButtonWrapper onClick={props.handleReport}>
+      <Report size={16} />
+      <TextWrapper>{'Report'}</TextWrapper>
+    </ButtonWrapper>
   </Wrapper>
 );
 

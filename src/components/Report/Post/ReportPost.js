@@ -15,6 +15,7 @@ const PostWrapper = styled.div`
   border: 1px solid ${props => props.theme.error};
   width: 100%;
   margin-bottom: 8px;
+  margin: 6px;
 `;
 
 const ButtonWrapper = styled.div`

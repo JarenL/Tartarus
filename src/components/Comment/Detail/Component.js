@@ -9,7 +9,7 @@ import { overflow } from '../../shared/helpers';
 const Wrapper = styled.div`
   display: flex;
   padding: 4px;
-  font-size: 13px;
+  font-size: 12px;
   justify-content: space-between;
 `;
 
@@ -47,9 +47,11 @@ class CommentDetail extends React.Component {
           <CommentDetailTimestamp created={this.props.time} />
         </div>
         {this.props.postId !== this.props.targetId ? (
-          <ButtonWrapper onClick={() => this.props.handleScroll(this.props.index)}>
-            <ParentArrow size={12} />
-            {this.props.targetId}
+          <ButtonWrapper
+            onClick={() => this.props.handleScroll(this.props.index)}
+          >
+            <ParentArrow size={16} />
+            {/* {this.props.targetId} */}
           </ButtonWrapper>
         ) : null}
       </Wrapper>

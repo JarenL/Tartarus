@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import CreateForumButton from './Buttons/CreateForumButton';
+import CreateForumButton from '../Buttons/CreateForumButton';
 import ForumSidebarContainer from './Forum/Container';
 import SubscriptionContainer from './Subscription/SubscriptionContainer';
 import UserSidebarContainer from './User/Container';
@@ -17,6 +17,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   flex-basis: 240px;
   max-width: 240px;
+  height: 100%;
   // margin-left: 24px;
   // border: 1px solid ${props => props.theme.border};
   border-radius: 2px;

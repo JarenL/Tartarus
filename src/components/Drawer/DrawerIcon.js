@@ -6,6 +6,7 @@ const DrawerButton = styled(MdDehaze)`
   cursor: pointer;
   margin-right: 2px;
   margin-left: 2px;
+  color: ${props => props.theme.mutedText};
   &:last-child {
     margin-right: 0;
   }

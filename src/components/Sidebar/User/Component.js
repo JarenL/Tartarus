@@ -8,8 +8,6 @@ import UserHeader from './UserHeader';
 import authCategories from './AuthCategories';
 import categories from './ModeratorCategories';
 import UserWithdraw from './UserWithdraw';
-import makeBlockie from 'ethereum-blockies-base64';
-import UserBlockie from './UserBlockie';
 
 const Wrapper = styled.div`
   display: flex;
@@ -121,10 +119,10 @@ class UserSidebar extends Component {
       } else {
         return (
           <Wrapper>
-            <UserHeader
+            {/* <UserHeader
               user={this.props.user}
               userHex={this.props.web3.utils.fromAscii(this.props.user)}
-            />
+            /> */}
             <UserWithdraw
               userBalance={this.state.userBalance}
               handleWithdraw={this.handleWithdraw}

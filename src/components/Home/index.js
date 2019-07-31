@@ -35,10 +35,15 @@ const Wrapper = styled.div`
 
 const FilterWrapper = styled.div`
   display: none;
+  position: sticky;
+  top: 48px;
   width: 100%;
   @media (max-width: 768px) {
     display: flex;
     width: 100%;
+  }
+  @media (max-width: 425px) {
+    top: 40px;
   }
 `;
 

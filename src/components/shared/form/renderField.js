@@ -8,7 +8,7 @@ import RadioGroup from './RadioGroup';
 import styled from 'styled-components/macro';
 import { transition } from '../helpers';
 import Editor from './Editor';
-import EditButton from '../../Sidebar/Buttons/EditButton';
+import EditButton from '../../Buttons/EditButton';
 import Checkbox from './Checkbox/Checkbox';
 
 const SelectInputWrapper = styled.div`

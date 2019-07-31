@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import NavLink from '../../shared/NavLink';
-import CloseButton from '../Buttons/CloseButton';
+import CloseButton from '../../Buttons/CloseButton';
 
 const Wrapper = styled.div`
   display: flex;

@@ -1,11 +1,12 @@
 import styled from 'styled-components/macro';
-import { MdStarBorder } from 'react-icons/md';
+import { MdClose } from 'react-icons/md';
 
-const Save = styled(MdStarBorder)`
+const DrawerClose = styled(MdClose)`
   vertical-align: sub;
   cursor: pointer;
   margin-right: 2px;
   margin-left: 2px;
+  color: ${props => props.theme.mutedText};
   &:last-child {
     margin-right: 0;
   }
@@ -17,4 +18,4 @@ const Save = styled(MdStarBorder)`
   }
 `;
 
-export default Save;
+export default DrawerClose;

@@ -61,6 +61,10 @@ const styles = theme => ({
   }
 });
 
+const DrawerButton = styled(MenuIcon)`
+  color: ${props => props.theme.mutedText};
+`;
+
 class Header extends Component {
   handleDrawerToggle = () => {
     this.props.dispatch(setDrawerState());
@@ -77,7 +81,7 @@ class Header extends Component {
             aria-label='Open drawer'
             onClick={this.handleDrawerToggle}
           >
-            <MenuIcon />
+            <DrawerButton />
           </IconButton>
         </IconWrapper>
         <HeaderLogo />

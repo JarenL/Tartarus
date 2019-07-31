@@ -12,6 +12,7 @@ import CreatePostButton from './CreatePost.js';
 import CreateForumButton from './CreateForum.js';
 import { withRouter } from 'react-router-dom';
 import LoadingTest from '../../shared/LoadingIndicator/LoadingTest.js';
+import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner.js';
 
 const services = require('../../../services');
 
@@ -185,7 +186,7 @@ class ForumSidebar extends Component {
 
   render() {
     if (this.state.loading) {
-      return <LoadingTest />;
+      return <LoadingIndicatorSpinner />;
     } else {
       return (
         <Wrapper>

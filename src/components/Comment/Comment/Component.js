@@ -4,7 +4,7 @@ import CommentContent from './Content';
 import TartarusContract from '../../../contracts/Tartarus.json';
 import CommentDetail from '../Detail/Component';
 import { updateUserSaved } from '../../../redux/actions/actions';
-import CommentActions from './Actions/CommentActions';
+import CommentActions from './CommentActions';
 import CommentReplyFormContainer from '../../CreateCommentReplyForm/Container';
 
 const Wrapper = styled.div`

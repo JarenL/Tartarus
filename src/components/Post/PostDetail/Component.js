@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import Empty from '../../shared/Empty';
+import styled from 'styled-components/macro';
 import CommentFormContainer from '../../CreateCommentForm/Container';
 import CommentListContainer from '../../Comment/CommentList/Container';
 import TartarusContract from '../../../contracts/Tartarus.json';
 import PostContainer from '../Post/Container';
 import { updateUserPermissions } from '../../../redux/actions/actions';
+
+const Wrapper = styled.div`
+  margin: 0px;
+  @media (max-width: 768px) {
+    margin: 6px;
+  }
+`;
 
 class PostDetail extends Component {
   constructor(props) {
@@ -82,7 +90,7 @@ class PostDetail extends Component {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
     if (!this.state.exists) return <Empty />;
     return (
-      <>
+      <Wrapper>
         <PostContainer post={this.state.post.args} showFullPost={true} />
         <CommentFormContainer
           postId={this.props.postId}
@@ -93,7 +101,7 @@ class PostDetail extends Component {
           forumName={this.props.forumName}
           postId={this.props.postId}
         />
-      </>
+      </Wrapper>
     );
   }
 }

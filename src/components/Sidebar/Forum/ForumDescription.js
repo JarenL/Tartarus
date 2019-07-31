@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { wideFont } from '../../shared/helpers';
 import { overflow } from '../../shared/helpers';
-import UpButton from '../Buttons/UpButton';
-import DownButton from '../Buttons/DownButton';
+import UpButton from '../../Buttons/UpButton';
+import DownButton from '../../Buttons/DownButton';
 import ReactHtmlParser from 'react-html-parser';
 
 const Wrapper = styled.div`

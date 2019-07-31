@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import UpButton from '../../../Sidebar/Buttons/UpButton';
-import DownButton from '../../../Sidebar/Buttons/DownButton';
+import UpButton from '../../../Buttons/UpButton';
+import DownButton from '../../../Buttons/DownButton';
 import { Link } from 'react-router-dom';
 import PermissionsContainer from './Permissions/Container';
 

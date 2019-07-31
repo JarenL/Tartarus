@@ -150,7 +150,11 @@ class Trending extends Component {
 
   render() {
     if (this.state.loading) {
-      return <LoadingTest />;
+      return (
+        <Wrapper>
+          <LoadingTest />
+        </Wrapper>
+      );
     } else {
       return (
         <Wrapper>

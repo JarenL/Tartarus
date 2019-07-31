@@ -121,8 +121,8 @@ class SignupForm extends React.Component {
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
         instance.createUserCost.call().then(createUserCost => {
-          instance
-            .createUser(this.props.form.signup.values.username, {
+          instance.createUser
+            .sendTransaction(this.props.form.signup.values.username, {
               from: accounts[0],
               gasPrice: 20000000000,
               value: createUserCost

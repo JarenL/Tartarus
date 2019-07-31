@@ -1,11 +1,15 @@
-import React from 'react';
+// import React from 'react';
+
+// const Tip = () => {
+//   return <i class='fab fa-ethereum' />;
+// };
+
+// export default Tip;
+
 import styled from 'styled-components/macro';
+import { MdAttachMoney } from 'react-icons/md';
 
-const Tip = () => {
-  return <i class='fab fa-ethereum' />;
-};
-
-const TipButton = styled(Tip)`
+const Tip = styled(MdAttachMoney)`
   vertical-align: sub;
   cursor: pointer;
   margin-right: 2px;
@@ -21,4 +25,4 @@ const TipButton = styled(Tip)`
   }
 `;
 
-export default TipButton;
+export default Tip;

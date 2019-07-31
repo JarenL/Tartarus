@@ -1,12 +1,11 @@
 import styled from 'styled-components/macro';
-import { MdStar } from 'react-icons/md';
+import { MdZoomOutMap } from 'react-icons/md';
 
-const Unsave = styled(MdStar)`
+const More = styled(MdZoomOutMap)`
   vertical-align: sub;
   cursor: pointer;
   margin-right: 2px;
-  margin-left: 2px;
-  color: ${props => props.theme.accent};
+  margin-left: au;
   &:last-child {
     margin-right: 0;
   }
@@ -18,4 +17,4 @@ const Unsave = styled(MdStar)`
   }
 `;
 
-export default Unsave;
+export default More;

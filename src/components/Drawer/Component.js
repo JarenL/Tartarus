@@ -5,8 +5,9 @@ import SwipeableDrawer from '@material-ui/core/Drawer';
 import SidebarContainer from '../Sidebar/Container';
 import styled from 'styled-components/macro';
 import { Route, Switch } from 'react-router-dom';
-import DrawerSidebar from './DrawerSidebar';
-import { setDrawerState } from '../../redux/actions/actions'; 
+import { setDrawerState } from '../../redux/actions/actions';
+import DrawerHeader from './DrawerHeader';
+import DrawerFooter from './DrawerFooter';
 
 const styles = theme => ({
   drawerPaper: {
@@ -18,6 +19,10 @@ const styles = theme => ({
 });
 
 class AppDrawer extends Component {
+  handleDrawerToggle = () => {
+    this.props.dispatch(setDrawerState());
+  };
+
   render() {
     if (this.props.drawerState) {
       const { classes } = this.props;
@@ -33,6 +38,11 @@ class AppDrawer extends Component {
             paper: classes.drawerPaper
           }}
         >
+          <DrawerHeader
+            user={this.props.username}
+            userHex={this.props.web3.utils.fromAscii(this.props.username)}
+            handleDrawerToggle={this.handleDrawerToggle}
+          />
           <Switch>
             <Route
               exact
@@ -208,8 +218,8 @@ class AppDrawer extends Component {
               }}
             />
           </Switch>
+          <DrawerFooter />
         </SwipeableDrawer>
-        // </Wrapper>
       );
     } else {
       return null;
