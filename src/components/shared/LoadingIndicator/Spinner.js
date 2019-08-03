@@ -14,7 +14,7 @@ const spin = keyframes`
 const LoadingIndicatorSpinner = styled.div`
   position: fixed;
   top: 25%;
-  left: 35%;
+  left: 50%;
   animation: ${spin} 1s infinite linear;
   border: 0.3rem solid ${props => props.theme.accent + '4d'};
   border-top-color: ${props => props.theme.accent};

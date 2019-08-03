@@ -124,7 +124,6 @@ class PostList extends React.Component {
     tartarus.setProvider(this.props.web3.currentProvider);
     let instance = await tartarus.at(this.props.tartarusAddress);
     let post = await instance.getPost.call(props.args.forum, props.args.postId);
-    console.log(post)
     let newPost = props;
     newPost.votes = post[2].c[0] - post[3].c[0];
     newPost.comments = post[4].c[0];
@@ -204,7 +203,7 @@ class PostList extends React.Component {
                         post.args.postId = post.args.contentId;
                         post.args.creator = post.args.user;
                       });
-                      console.log(posts)
+                      console.log(posts);
                       await this.getPosts(posts);
                     });
                 });

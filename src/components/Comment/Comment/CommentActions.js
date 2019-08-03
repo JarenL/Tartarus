@@ -121,7 +121,7 @@ const CommentActions = props => (
     </ActionWrapper>
 
     <ActionWrapper>
-      {props.comments > 0 ? (
+      {props.comments > 0 && !props.disabled ? (
         <ButtonWrapper onClick={() => props.handleFocus(props.comment)}>
           {props.comments}
           {props.focused ? (

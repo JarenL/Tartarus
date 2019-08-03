@@ -3,7 +3,6 @@ import styled from 'styled-components/macro';
 import PostContentTitle from './Title';
 import PostContentFullText from './FullText';
 import PostActions from './Actions';
-import PostDetails from './Details';
 import EmbedWidget from '../EmbedWidget';
 import LoadingBubble from '../../../shared/LoadingIndicator/Bubble';
 import ReactHtmlParser, {
@@ -13,6 +12,7 @@ import ReactHtmlParser, {
 } from 'react-html-parser';
 import LinkPreview from './LinkPreview';
 import TextPreview from './TextPreview';
+import PostContentDetail from './Details';
 // import ContentLoader from 'react-content-loader';
 
 const isIPFS = require('is-ipfs');
@@ -250,9 +250,12 @@ class PostContent extends Component {
             post: this.props.post
           })}
           {/* <PostAddress postAddress={this.props.postAddress} /> */}
-          <PostDetails
+          <PostContentDetail
             time={this.props.time}
             creator={this.props.creator}
+            creatorHex={this.props.creatorHex}
+            isModerator={this.props.isModerator}
+            isAdmin={this.props.isAdmin}
             forumName={this.props.forumName}
           />
           <PostActions

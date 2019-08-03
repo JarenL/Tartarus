@@ -74,10 +74,6 @@ class App extends Component {
               <Switch>
                 <Route path='/login' component={LoginFormContainer} />
                 <Route path='/signup' component={SignupFormContainer} />
-                <Route
-                  path='/createforum'
-                  component={CreateForumFormContainer}
-                />
                 <Route path='/' component={Home} />
               </Switch>
             </>

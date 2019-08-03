@@ -7,7 +7,7 @@ import ActivityItem from '../Activity/ActivityItem';
 
 const blocksInDay = 5760;
 
-class Banned extends React.Component {
+class Removed extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,7 +30,7 @@ class Banned extends React.Component {
       .at(this.props.tartarusAddress)
       .then(instance => {
         instance
-          .ModeratorBan(
+          .PostDeleted(
             {
               forum: forumBytes
             },
@@ -39,10 +39,10 @@ class Banned extends React.Component {
               toBlock: 'latest'
             }
           )
-          .get((error, usersBanned) => {
+          .get((error, postsDeleted) => {
             // console.log(usersBanned);
             instance
-              .ModeratorUnban(
+              .CommentDeleted(
                 {
                   forum: forumBytes
                 },
@@ -51,10 +51,10 @@ class Banned extends React.Component {
                   toBlock: 'latest'
                 }
               )
-              .get((error, usersUnbanned) => {
+              .get((error, commentsDeleted) => {
                 let moderatorEventsArray = [].concat.apply(
                   [],
-                  [usersBanned, usersUnbanned]
+                  [postsDeleted, commentsDeleted]
                 );
                 console.log(moderatorEventsArray);
                 moderatorEventsArray.sort((a, b) =>
@@ -70,45 +70,6 @@ class Banned extends React.Component {
       .catch(err => {
         console.log('error');
       });
-  };
-
-  handleUnban = () => {
-    const contract = require('truffle-contract');
-    const tartarus = contract(TartarusContract);
-    tartarus.setProvider(this.props.web3.currentProvider);
-    this.props.web3.eth.getAccounts((error, accounts) => {
-      tartarus.at(this.props.event.address).then(instance => {
-        console.log(this.state);
-        console.log(this.props);
-        instance.moderatorBan
-          .sendTransaction(
-            this.props.web3.utils.fromAscii(this.props.username),
-            this.state.comment === null
-              ? this.state.post.args.creator
-              : this.state.comment.args.creator,
-            this.state.comment === null
-              ? this.props.event.args._forum
-              : this.props.event.args._forumId,
-            {
-              from: accounts[0],
-              gasPrice: 20000000000
-            }
-          )
-          .then(result => {
-            console.log(result);
-            this.setState({
-              reportLoading: false
-            });
-            this.props.reset('report');
-          })
-          .catch(error => {
-            console.log('error');
-            this.setState({
-              reportLoading: false
-            });
-          });
-      });
-    });
   };
 
   renderItem(index, key) {
@@ -139,4 +100,4 @@ class Banned extends React.Component {
   }
 }
 
-export default Banned;
+export default Removed;

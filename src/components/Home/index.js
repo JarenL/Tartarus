@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { Route, Switch } from 'react-router-dom';
 import HomeMainSection from './MainSection';
-import CategoryMenu from '../Header/CategoryMenu/Component';
 import PostListContainer from '../Post/PostList/Container';
 import SidebarContainer from '../Sidebar/Container';
 import PostDetail from '../Post/PostDetail/Container';
@@ -14,6 +13,9 @@ import CommentListContainer from '../Comment/CommentList/Container';
 import ModerateContainer from '../Moderate/Container';
 import FilterContainer from '../Header/Filter/FilterContainer';
 import DrawerContainer from '../Drawer/Container';
+import CombinedListContainer from '../Combined/Container';
+import ComingSoon from '../shared/ComingSoon';
+import CreateForumFormContainer from '../CreateForumForm/Container';
 
 const Wrapper = styled.div`
   display: flex;
@@ -70,6 +72,7 @@ const Home = props => {
     <Wrapper>
       <DrawerContainer />
       <HomeMainSection>
+        <Route path='/createforum' component={CreateForumFormContainer} />
         <Route
           exact
           path='/'
@@ -176,6 +179,42 @@ const Home = props => {
 
         <Route
           exact
+          path='/f/:forumName/moderate/banned'
+          render={({ match }) => (
+            <ModerateContainer
+              key={match.url}
+              forumName={match.params.forumName}
+              type={'banned'}
+            />
+          )}
+        />
+
+        <Route
+          exact
+          path='/f/:forumName/moderate/removed'
+          render={({ match }) => (
+            <ModerateContainer
+              key={match.url}
+              forumName={match.params.forumName}
+              type={'removed'}
+            />
+          )}
+        />
+
+        <Route
+          exact
+          path='/f/:forumName/moderate/reports'
+          render={({ match }) => (
+            <ModerateContainer
+              key={match.url}
+              forumName={match.params.forumName}
+              type={'reports'}
+            />
+          )}
+        />
+
+        <Route
+          exact
           path='/f/:forumName/moderate/moderators/create'
           render={({ match }) => (
             <ModerateContainer
@@ -207,7 +246,7 @@ const Home = props => {
                 <FilterWrapper>
                   <FilterContainer />
                 </FilterWrapper>
-                <PostListContainer user={match.params.user} />
+                <CombinedListContainer user={match.params.user} />
               </>
             );
           }}
@@ -232,7 +271,7 @@ const Home = props => {
               <FilterWrapper>
                 <FilterContainer />
               </FilterWrapper>
-              <CommentListContainer user={match.params.user} />
+              <CommentListContainer user={match.params.user} disabled={true} />
             </>
           )}
         />
@@ -255,7 +294,33 @@ const Home = props => {
                 <FilterWrapper>
                   <FilterContainer />
                 </FilterWrapper>
-                <PostListContainer user={match.params.user} saved={true} />
+                <CombinedListContainer user={match.params.user} saved={true} />
+              </>
+            );
+          }}
+        />
+        <Route
+          path='/u/:user/messages'
+          render={({ match }) => {
+            return (
+              <>
+                <FilterWrapper>
+                  <FilterContainer />
+                </FilterWrapper>
+                <ComingSoon />
+              </>
+            );
+          }}
+        />
+        <Route
+          path='/u/:user/message'
+          render={({ match }) => {
+            return (
+              <>
+                <FilterWrapper>
+                  <FilterContainer />
+                </FilterWrapper>
+                <ComingSoon />
               </>
             );
           }}
@@ -271,7 +336,23 @@ const Home = props => {
           />
           <Route
             exact
+            path='/createforum'
+            render={({ match }) => <SidebarContainer page={'front'} />}
+          />
+          <Route
+            exact
             path='/f/:forumName'
+            render={({ match }) => (
+              <SidebarContainer
+                key={match.url}
+                forumName={match.params.forumName}
+                page={'forum'}
+              />
+            )}
+          />
+          <Route
+            exact
+            path='/f/:forumName/createPost'
             render={({ match }) => (
               <SidebarContainer
                 key={match.url}
@@ -300,6 +381,18 @@ const Home = props => {
                 key={match.url}
                 forumName={match.params.forumName}
                 page={'moderate'}
+              />
+            )}
+          />
+
+          <Route
+            exact
+            path='/f/:forumName/banned'
+            render={({ match }) => (
+              <SidebarContainer
+                key={match.url}
+                forumName={match.params.forumName}
+                page={'banned'}
               />
             )}
           />
@@ -420,7 +513,7 @@ const Home = props => {
                 <SidebarContainer
                   key={match.url}
                   user={match.params.user}
-                  page={'saved'}
+                  page={'user'}
                 />
               );
             }}
@@ -439,6 +532,18 @@ const Home = props => {
           />
           <Route
             path='/u/:user/messages'
+            render={({ match }) => {
+              return (
+                <SidebarContainer
+                  key={match.url}
+                  user={match.params.user}
+                  page={'user'}
+                />
+              );
+            }}
+          />
+          <Route
+            path='/u/:user/message'
             render={({ match }) => {
               return (
                 <SidebarContainer

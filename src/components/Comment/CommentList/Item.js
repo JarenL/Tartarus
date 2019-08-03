@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import Comment from '../Comment/Container';
 
 const Item = styled.li`
-  margin-bottom: 8px;
+  // margin-bottom: 8px;
   list-style-type: none;
 `;
 

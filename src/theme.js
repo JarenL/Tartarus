@@ -2,11 +2,18 @@ const constants = {
   error: '#f5222d',
   vote: '#b6b6b6',
   upvote: '#FF4500',
-  downvote: '#33a0ff'
+  downvote: '#33a0ff',
+  mod: '#3BCB56',
+  admin: '#ED001C'
 };
+
+const fontSize = {
+
+}
 
 const dark = {
   ...constants,
+  ...fontSize,
   normalText: '#ffffff',
   mutedText: '#b0b8bf',
   border: '#333333',
@@ -23,6 +30,7 @@ const dark = {
 
 const light = {
   ...constants,
+  ...fontSize,
   normalText: '#454f5b',
   mutedText: '#818e99',
   border: '#ebedf0',

@@ -152,14 +152,16 @@ class ReportForm extends React.Component {
           .then(result => {
             console.log(result);
             this.setState({
-              loading: false
+              loading: false,
+              reportLoading: false
             });
             this.props.reset('report');
           })
           .catch(error => {
             console.log('error');
             this.setState({
-              loading: false
+              loading: false,
+              reportLoading: false
             });
           });
       });

@@ -4,7 +4,6 @@ import styled from 'styled-components/macro';
 import PostVoteUpvote from './Upvote';
 import PostVoteDownvote from './Downvote';
 import CommentContract from '../../../contracts/Comment.json';
-import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import Loading from '../../Loading';
 
 const Wrapper = styled.div`

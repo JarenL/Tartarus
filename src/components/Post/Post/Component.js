@@ -5,6 +5,7 @@ import styled from 'styled-components/macro';
 import PostContent from './Content/index.js';
 import PostVote from './Vote/Component.js';
 import { withRouter } from 'react-router';
+import Empty from '../../shared/Empty.js';
 
 const services = require('../../../services');
 
@@ -34,7 +35,9 @@ class Post extends Component {
       toggleTip: false,
       toggleReport: false,
       upvoted: false,
-      downvoted: false
+      downvoted: false,
+      isModerator: false,
+      isAdmin: false
     };
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -64,8 +67,7 @@ class Post extends Component {
             const postHex = '1220' + post[0].slice(2);
             const postBytes32 = Buffer.from(postHex, 'hex');
             const postIpfsHash = bs58.encode(postBytes32);
-            console.log(postIpfsHash);
-            // console.log(post[0])
+
             await this.checkUserVoted();
 
             let postData = await services.ipfs.getJson(postIpfsHash);
@@ -74,12 +76,14 @@ class Post extends Component {
             }
             if (postData !== null) {
               this.setState({
+                isModerator: await this.checkIsModerator(post[1]),
+                isAdmin: await this.checkIsAdmin(post[1]),
+                loading: false,
                 title: postData.title,
                 type: postData.type,
                 post: postData.post,
                 votes: post[2].c[0] - post[3].c[0],
                 comments: post[4].c[0],
-                loading: false,
                 canDelete: this.checkCanDelete(post)
               });
             } else {
@@ -95,6 +99,23 @@ class Post extends Component {
     });
   }
 
+  checkIsModerator = async props => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    return await instance.isModerator.call(props, this.props.post.forum);
+  };
+
+  checkIsAdmin = async props => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    return await instance.isAdmin.call(props);
+
+  };
+
   checkUserVoted = () => {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
@@ -108,7 +129,6 @@ class Post extends Component {
             this.props.post.postId
           )
           .then(result => {
-            console.log(result);
             this.setState({
               upvoted: result[0],
               downvoted: result[1]
@@ -155,7 +175,9 @@ class Post extends Component {
       let newSavedPostsArray = this.props.userSettings[this.props.username]
         .saved;
       newSavedPostsArray.posts.push({
-        postId: props
+        postId: props,
+        args: this.props.post,
+        event: 'PostCreated'
       });
       let payload = {
         username: this.props.username,
@@ -315,7 +337,11 @@ class Post extends Component {
 
   render() {
     if (!this.state.exists) {
-      return null;
+      if (this.props.showDeleted) {
+        return <Empty />;
+      } else {
+        return null;
+      }
     } else {
       return (
         <Wrapper>
@@ -328,6 +354,8 @@ class Post extends Component {
             handleDownvote={this.handleDownvote}
           />
           <PostContent
+            isModerator={this.state.isModerator}
+            isAdmin={this.state.isAdmin}
             loading={this.state.loading}
             showFullPost={this.props.showFullPost}
             type={this.state.type}
@@ -335,6 +363,7 @@ class Post extends Component {
             title={this.state.title}
             post={this.state.post}
             time={this.props.post.time.c[0] * 1000}
+            creatorHex={this.props.post.creator}
             creator={this.props.web3.utils.toAscii(this.props.post.creator)}
             forumName={this.props.web3.utils.toAscii(this.props.post.forum)}
             commentCount={this.state.comments}

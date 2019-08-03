@@ -43,7 +43,7 @@ class LoginForm extends React.Component {
     this.props.history.goBack();
   };
 
-  onSubmit = () => {
+  onSubmit = async () => {
     this.redirectIfLoggedIn();
     this.setState({
       loading: true
@@ -51,50 +51,49 @@ class LoginForm extends React.Component {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
-    this.props.web3.eth.getAccounts((error, accounts) => {
-      tartarus.at(this.props.tartarusAddress).then(instance => {
-        console.log(
+    let accounts = await this.props.web3.eth.getAccounts();
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    let user = await instance.users.call(
+      this.props.web3.utils.fromAscii(this.props.form.login.values.username),
+      {
+        from: accounts[0],
+        gasPrice: 20000000000
+      }
+    );
+    console.log(user[2]);
+    console.log(accounts[0]);
+    console.log(user[2] === accounts[0]);
+    // 0x366Ebde1b1cbCF95b35e1bd85de01D48f9F1eFC6
+    if (
+      user[2] !== '0x0000000000000000000000000000000000000000' &&
+      this.props.web3.utils.toChecksumAddress(user[2]) === accounts[0]
+    ) {
+      instance.getAdmin
+        .call(
           this.props.web3.utils.fromAscii(this.props.form.login.values.username)
-        );
-        instance.users
-          .call(
-            this.props.web3.utils.fromAscii(
-              this.props.form.login.values.username
-            ),
-            {
-              from: accounts[0],
-              gasPrice: 20000000000
-            }
-          )
-          .then(user => {
-            console.log(user);
-            if (user[2] !== '0x0000000000000000000000000000000000000000') {
-              instance.getAdmin
-                .call(
-                  this.props.web3.utils.fromAscii(
-                    this.props.form.login.values.username
-                  )
-                )
-                .then(admin => {
-                  console.log(admin);
-                  let permissionsObject = {
-                    type: 'admin',
-                    permissions: admin
-                  };
-                  this.props.dispatch(updateUserPermissions(permissionsObject));
-                });
-              this.props.dispatch(
-                userLogin({
-                  username: this.props.form.login.values.username
-                })
-              );
-            }
-            this.setState({
-              loading: false
-            });
+        )
+        .then(admin => {
+          console.log(admin);
+          let permissionsObject = {
+            type: 'admin',
+            permissions: admin
+          };
+          this.props.dispatch(updateUserPermissions(permissionsObject));
+          this.props.dispatch(
+            userLogin({
+              username: this.props.form.login.values.username
+            })
+          );
+          this.setState({
+            loading: false
           });
+        });
+    } else {
+      this.setState({
+        loading: false
       });
-    });
+    }
+
     this.redirectIfLoggedIn();
   };
 

@@ -11,8 +11,8 @@ const MessageButton = styled(Button)`
   text-align: center;
 `;
 
-const UserMessageButton = () => (
-  <MessageButton as={Link} to='/message'>
+const UserMessageButton = props => (
+  <MessageButton onClick={() => props.handleMessage()}>
     send message
   </MessageButton>
 );

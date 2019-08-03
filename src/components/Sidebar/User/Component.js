@@ -8,6 +8,7 @@ import UserHeader from './UserHeader';
 import authCategories from './AuthCategories';
 import categories from './ModeratorCategories';
 import UserWithdraw from './UserWithdraw';
+import { withRouter } from 'react-router';
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,6 +22,7 @@ class UserSidebar extends Component {
     super(props);
     this.state = {
       loading: true,
+      userHex: null,
       userBalance: 0
     };
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -52,6 +54,7 @@ class UserSidebar extends Component {
                 user[3].toString(),
                 'ether'
               ),
+              userHex: user[0],
               loading: false
             });
             console.log(user);
@@ -59,6 +62,14 @@ class UserSidebar extends Component {
       });
     });
   }
+
+  handleMessage = () => {
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      this.props.history.push('/message');
+    }
+  };
 
   handleWithdraw = () => {
     const contract = require('truffle-contract');
@@ -105,11 +116,8 @@ class UserSidebar extends Component {
       if (this.props.username !== this.props.user) {
         return (
           <Wrapper>
-            <UserMessageButton />
-            <UserHeader
-              user={this.props.user}
-              userHex={this.props.web3.utils.fromAscii(this.props.user)}
-            />
+            <UserMessageButton user={this.props.user} handleMessage={this.handleMessage} />
+            <UserHeader user={this.props.user} userHex={this.state.userHex} />
             <UserList
               path={this.props.url}
               user={this.props.user}
@@ -140,4 +148,4 @@ class UserSidebar extends Component {
   }
 }
 
-export default UserSidebar;
+export default withRouter(UserSidebar);

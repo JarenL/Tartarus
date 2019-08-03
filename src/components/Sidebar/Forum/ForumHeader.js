@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import { wideFont } from '../../shared/helpers';
 import { MdSearch } from 'react-icons/md';
 import { overflow } from '../../shared/helpers';
+import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,7 +33,9 @@ const HeaderText = styled.div`
 const ForumHeader = props => (
   <Wrapper>
     <Header>
-      <HeaderText>{props.name}</HeaderText>
+      <Link to={`/f/${props.name}`} style={{ textDecoration: 'none' }}>
+        <HeaderText>{props.name}</HeaderText>
+      </Link>
     </Header>
   </Wrapper>
 );

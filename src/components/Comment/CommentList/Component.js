@@ -77,6 +77,7 @@ class CommentList extends Component {
                   { fromBlock: starting, toBlock: 'latest' }
                 )
                 .get((error, comments) => {
+                  console.log(comments);
                   this.setState({
                     comments: comments,
                     loading: false
@@ -144,6 +145,7 @@ class CommentList extends Component {
               { fromBlock: 0, toBlock: 'latest' }
             )
             .get((error, comments) => {
+              console.log(comments);
               this.setState({
                 comments: comments,
                 loading: false
@@ -262,6 +264,7 @@ class CommentList extends Component {
         }
         handleReply={this.handleReply}
         handleFocus={this.handleFocus}
+        disabled={this.props.disabled}
       />
     );
   }
@@ -287,6 +290,7 @@ class CommentList extends Component {
         }
         handleReply={this.handleReply}
         handleFocus={this.handleFocus}
+        disabled={this.props.disabled}
       />
     );
   }

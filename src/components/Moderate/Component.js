@@ -9,6 +9,9 @@ import CreateModeratorFormContainer from '../CreateModeratorForm/Container';
 import NotAuthorized from '../shared/NotAuthorized';
 import ActivityContainer from './Activity/Container';
 import InfoContainer from './Info/Container';
+import BannedContainer from './Banned/Container';
+import RemovedContainer from './Removed/Container';
+import ReportsContainer from './Reports/Container';
 
 const Wrapper = styled.div`
   display: flex;
@@ -96,16 +99,26 @@ class Moderate extends Component {
             return <ActivityContainer forumName={this.props.forumName} />;
           case 'moderators':
             return <ModeratorsContainer forumName={this.props.forumName} />;
+          case 'info':
+            return <InfoContainer forumName={this.props.forumName} />;
+
+          case 'banned':
+            return <BannedContainer forumName={this.props.forumName} />;
           case 'create':
             return (
               <>
-                <CreateModeratorFormContainer forumName={this.props.forumName} />
+                <CreateModeratorFormContainer
+                  forumName={this.props.forumName}
+                />
                 <Space />
                 <ModeratorsContainer forumName={this.props.forumName} />
               </>
             );
-          case 'info':
-            return <InfoContainer forumName={this.props.forumName} />;
+          case 'removed':
+            return <RemovedContainer forumName={this.props.forumName} />;
+          case 'reports':
+            return <ReportsContainer forumName={this.props.forumName} />;
+
           default:
             return <Empty />;
         }

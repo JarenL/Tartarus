@@ -1,17 +1,17 @@
+import Reports from './Component';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import CombinedList from './Component';
 
 const mapStateToProps = state => ({
   web3: state.web3,
   tartarusAddress: state.tartarus.tartarusAddress,
-  username: state.user.username,
   userSettings: state.user.userSettings,
-  time: state.form.filter.values.time
+  username: state.user.username,
+  userPermissions: state.user.userPermissions
 });
 
 const enhance = compose(connect(mapStateToProps));
 
-const CombinedListContainer = enhance(CombinedList);
+const ReportsContainer = enhance(Reports);
 
-export default CombinedListContainer;
+export default ReportsContainer;

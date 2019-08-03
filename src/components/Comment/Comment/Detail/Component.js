@@ -5,11 +5,11 @@ import CommentDetailTimestamp from './Timestamp';
 import ParentArrow from '../../../Buttons/RightArrow';
 import { wideFont } from '../../../shared/helpers';
 import { overflow } from '../../../shared/helpers';
+import { link } from '../../../shared/helpers';
 
 const Wrapper = styled.div`
   display: flex;
   padding: 4px;
-  font-size: 12px;
   justify-content: space-between;
 `;
 
@@ -18,7 +18,6 @@ const ButtonWrapper = styled.span`
   overflow: hidden;
   text-transform: uppercase;
   display: flex;
-  font-size: 7px;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
@@ -38,23 +37,50 @@ const ButtonWrapper = styled.span`
   }
 `;
 
+const UserWrapper = styled.div`
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  margin-top: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  & > * {
+    margin-right: 4px;
+  }
+
+  & > a {
+    ${link};
+  }
+
+  & > span {
+    color: ${props => props.theme.mutedText};
+  }
+`;
+
 class CommentDetail extends React.Component {
   render() {
     return (
       <Wrapper>
-        <div>
-          <Author username={this.props.creator} />
+        <UserWrapper>
+          <Author
+            username={this.props.creator}
+            isModerator={this.props.isModerator}
+            isAdmin={this.props.isAdmin}
+            creatorHex={this.props.creatorHex}
+          />
           <CommentDetailTimestamp created={this.props.time} />
-        </div>
-        {this.props.postId !== this.props.targetId ? (
+        </UserWrapper>
+        {this.props.postId !== this.props.targetId && !this.props.disabled ? (
           <ButtonWrapper
             onClick={() => this.props.handleScroll(this.props.index)}
-            onMouseEnter={() => this.props.handleParentHover(this.props.targetId)}
+            onMouseEnter={() =>
+              this.props.handleParentHover(this.props.targetId)
+            }
             onMouseLeave={() => this.props.handleParentHover(null)}
           >
-            <ParentArrow
-              size={16}
-            />
+            <ParentArrow size={16} />
             {/* {this.props.targetId} */}
           </ButtonWrapper>
         ) : null}

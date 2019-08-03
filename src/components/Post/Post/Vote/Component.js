@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import PostVoteUpvote from '../../../Buttons/Upvote';
-import PostVoteDownvote from '../../../Buttons/Downvote';
+import Upvote from '../../../Buttons/Upvote';
+import Downvote from '../../../Buttons/Downvote';
 import Loading from '../../../shared/LoadingIndicator/Loading';
 
 const Wrapper = styled.div`
@@ -18,6 +18,14 @@ const Wrapper = styled.div`
   color: ${props => props.theme.normalText};
 `;
 
+const UpvoteScoreWrapper = styled.span`
+  color: ${props => props.theme.upvote};
+`;
+
+const DownvoteScoreWrapper = styled.span`
+  color: ${props => props.theme.downvote};
+`;
+
 const PostVote = props => {
   if (props.loading) {
     return (
@@ -26,12 +34,27 @@ const PostVote = props => {
       </Wrapper>
     );
   } else {
-    console.log(props.downvoted)
     return (
       <Wrapper>
-        <PostVoteUpvote upvoted={props.upvoted} onClick={props.handleUpvote} />
-        <span>{props.votes}</span>
-        <PostVoteDownvote downvoted={props.downvoted} onClick={props.handleDownvote} />
+        <Upvote
+          size={24}
+          upvoted={props.upvoted}
+          onClick={props.handleUpvote}
+        />
+        {props.upvoted || props.downvoted ? (
+          props.upvoted ? (
+            <UpvoteScoreWrapper>{props.votes}</UpvoteScoreWrapper>
+          ) : (
+            <DownvoteScoreWrapper>{props.votes}</DownvoteScoreWrapper>
+          )
+        ) : (
+          <span>{props.votes}</span>
+        )}
+        <Downvote
+          size={24}
+          downvoted={props.downvoted}
+          onClick={props.handleDownvote}
+        />
       </Wrapper>
     );
   }

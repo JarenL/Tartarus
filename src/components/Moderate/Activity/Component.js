@@ -186,8 +186,12 @@ class Activity extends React.Component {
                                         forumCreated
                                       ]
                                     );
-                                    console.log(moderatorEventsArray)
-                                    moderatorEventsArray.sort((a, b) => (a.args.time.c[0] > b.args.time.c[0]) ? 1 : -1)
+                                    console.log(moderatorEventsArray);
+                                    moderatorEventsArray.sort((a, b) =>
+                                      b.args.time.c[0] > a.args.time.c[0]
+                                        ? 1
+                                        : -1
+                                    );
                                     this.setState({
                                       moderatorEvents: moderatorEventsArray,
                                       loading: false
@@ -209,9 +213,11 @@ class Activity extends React.Component {
     return (
       <ActivityItem
         key={key}
+        tartarusAddress={this.props.tartarusAddress}
         forumName={this.props.forumName}
         event={this.state.moderatorEvents[index]}
         web3={this.props.web3}
+        username={this.props.username}
       />
     );
   }
@@ -219,7 +225,10 @@ class Activity extends React.Component {
   render() {
     console.log(this.state.moderatorEvents);
     if (this.state.loading) return <LoadingIndicatorSpinner />;
-    if (!this.state.moderatorEvents || this.state.moderatorEvents.length === 0) {
+    if (
+      !this.state.moderatorEvents ||
+      this.state.moderatorEvents.length === 0
+    ) {
       return <Empty />;
     } else {
       return (

@@ -52,7 +52,6 @@ class Comment extends Component {
       const contract = require('truffle-contract');
       const tartarus = contract(TartarusContract);
       tartarus.setProvider(this.props.web3.currentProvider);
-      console.log(this.props);
       tartarus.at(this.props.tartarusAddress).then(instance => {
         instance
           .PostCreated(
@@ -102,28 +101,49 @@ class Comment extends Component {
                   toBlock: 'latest'
                 }
               )
-              .get((error, comments) => {
+              .get(async (error, comments) => {
                 const bs58 = require('bs58');
                 const commentHex = '1220' + comment[0].slice(2);
                 const commentBytes32 = Buffer.from(commentHex, 'hex');
                 const commentIpfsHash = bs58.encode(commentBytes32);
-                console.log(commentIpfsHash);
-                services.ipfs.getJson(commentIpfsHash).then(commentData => {
-                  if (this.props.username !== null) {
-                    this.checkSaved();
-                  }
-                  this.setState({
-                    comment: commentData.comment,
-                    comments: comments.length,
-                    loading: false,
-                    time: this.props.comment.args.time.c[0] * 1000,
-                    canDelete: this.checkCanDelete(comment[1])
-                  });
+                let commentData = await services.ipfs.getJson(commentIpfsHash);
+                if (this.props.username !== null) {
+                  this.checkSaved();
+                }
+                this.setState({
+                  isModerator: await instance.isModerator.call(
+                    this.props.comment.args.creator,
+                    props
+                  ),
+                  isAdmin: await this.checkIsAdmin(
+                    this.props.comment.args.creator
+                  ),
+                  comment: commentData.comment,
+                  comments: comments.length,
+                  loading: false,
+                  time: this.props.comment.args.time.c[0] * 1000,
+                  canDelete: this.checkCanDelete(comment[1])
                 });
               });
           }
         });
     });
+  };
+
+  checkIsModerator = async props => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    return await instance.isModerator.call(props, this.props.post.forum);
+  };
+
+  checkIsAdmin = async props => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    return await instance.isAdmin.call(props);
   };
 
   checkCanDelete = props => {
@@ -161,7 +181,9 @@ class Comment extends Component {
       let newSavedCommentsArray = this.props.userSettings[this.props.username]
         .saved;
       newSavedCommentsArray.comments.push({
-        commentId: props
+        commentId: props,
+        args: this.props.comment.args,
+        event: 'CommentCreated'
       });
       let payload = {
         username: this.props.username,
@@ -244,11 +266,15 @@ class Comment extends Component {
               creator={this.props.web3.utils.toAscii(
                 this.props.comment.args.creator
               )}
+              creatorHex={this.props.comment.args.creator}
+              isModerator={this.state.isModerator}
+              isAdmin={this.state.isAdmin}
               time={this.state.time}
               saved={this.state.saved}
               targetId={this.props.comment.args.targetId}
               postId={this.props.comment.args.postId}
               handleParentHover={this.props.handleParentHover}
+              disabled={this.props.disabled}
             />
             <CommentContent
               loading={this.state.loading}
@@ -267,6 +293,7 @@ class Comment extends Component {
               canDelete={this.state.canDelete}
               handleDelete={this.handleDelete}
               handleFocus={this.props.handleFocus}
+              disabled={this.props.disabled}
             />
             {this.props.currentComment === this.props.comment.args.commentId ? (
               <CommentReplyFormContainer
@@ -286,6 +313,9 @@ class Comment extends Component {
               creator={this.props.web3.utils.toAscii(
                 this.props.comment.args.creator
               )}
+              creatorHex={this.props.comment.args.creator}
+              isModerator={this.state.isModerator}
+              isAdmin={this.state.isAdmin}
               handleParentHover={this.props.handleParentHover}
               time={this.state.time}
               saved={this.state.saved}
@@ -293,6 +323,7 @@ class Comment extends Component {
               postId={this.props.comment.args.postId}
               index={this.props.index}
               handleScroll={this.props.handleScroll}
+              disabled={this.props.disabled}
             />
             <CommentContent
               loading={this.state.loading}
@@ -311,6 +342,7 @@ class Comment extends Component {
               canDelete={this.state.canDelete}
               handleDelete={this.handleDelete}
               handleFocus={this.props.handleFocus}
+              disabled={this.props.disabled}
             />
             {this.props.currentComment === this.props.comment.args.commentId ? (
               <CommentReplyFormContainer

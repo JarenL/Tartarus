@@ -32,6 +32,7 @@ class PostDetail extends Component {
   }
 
   instantiateContract() {
+    console.log(this.props)
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
@@ -91,7 +92,7 @@ class PostDetail extends Component {
     if (!this.state.exists) return <Empty />;
     return (
       <Wrapper>
-        <PostContainer post={this.state.post.args} showFullPost={true} />
+        <PostContainer post={this.state.post.args} showFullPost={true} showDeleted={true} />
         <CommentFormContainer
           postId={this.props.postId}
           forumName={this.props.forumName}

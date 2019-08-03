@@ -91,7 +91,7 @@ class CommentForm extends React.Component {
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
         instance.createCommentCost.call().then(createCommentCost => {
-          console.log(this.props)
+          console.log(this.props);
           instance.createComment
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),
@@ -111,8 +111,8 @@ class CommentForm extends React.Component {
                 commenting: false
               });
             })
-            .catch(function(e) {
-              console.log('error');
+            .catch(err => {
+              console.log(err);
               this.setState({
                 loading: false
               });

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import WithdrawButton from '../../Buttons/WithdrawButton';
+import { wideFont } from '../../shared/helpers';
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,7 +13,10 @@ const Wrapper = styled.div`
 const TextWrapper = styled.div`
   display: flex;
   justify-content: center;
+  width: 100%;
   align-items: center;
+  padding-top: 4px;
+  padding-bottom: 4px;
   font-size: 12px;
   color: ${props => props.theme.normalText};
 `;
@@ -34,9 +38,20 @@ const ButtonWrapper = styled.div`
   align-self: flex-end;
 `;
 
+const BalanceHeader = styled.span`
+  ${wideFont};
+  display: flex;
+  justify-content: center;
+  alignitems: center;
+  padding: 12px;
+  color: ${props => props.theme.mutedText};
+  border-bottom: 1px solid ${props => props.theme.border};
+`;
+
 const UserWithdraw = props => {
   return (
     <Wrapper>
+      <BalanceHeader>{'Balance'}</BalanceHeader>
       <BalanceWrapper>
         <TextWrapper>{`${props.userBalance} ETH`}</TextWrapper>
         <ButtonWrapper>
