@@ -32,6 +32,7 @@ class Post extends Component {
       saved: false,
       canReport: false,
       canDelete: false,
+      canPin: false,
       toggleTip: false,
       toggleReport: false,
       upvoted: false,
@@ -75,6 +76,7 @@ class Post extends Component {
               this.checkSaved();
             }
             if (postData !== null) {
+              let pinnedPosts = await instance.getForumPinnedPosts(this.props.post.forum);
               this.setState({
                 isModerator: await this.checkIsModerator(post[1]),
                 isAdmin: await this.checkIsAdmin(post[1]),
@@ -84,7 +86,9 @@ class Post extends Component {
                 post: postData.post,
                 votes: post[2].c[0] - post[3].c[0],
                 comments: post[4].c[0],
-                canDelete: this.checkCanDelete(post)
+                canDelete: this.checkCanDelete(post),
+                canPin: this.checkCanPin(),
+                forumPinned: pinnedPosts.indexOf(this.props.post.postId) !== -1
               });
             } else {
               this.setState({
@@ -113,7 +117,6 @@ class Post extends Component {
     tartarus.setProvider(this.props.web3.currentProvider);
     let instance = await tartarus.at(this.props.tartarusAddress);
     return await instance.isAdmin.call(props);
-
   };
 
   checkUserVoted = () => {
@@ -145,6 +148,16 @@ class Post extends Component {
     // console.log(this.props.userPermissions.admin)
     return (
       this.props.username === this.props.web3.utils.toUtf8(props[1]) ||
+      this.props.userPermissions.admin[0] ||
+      this.props.userPermissions.admin[6] ||
+      this.props.userPermissions.moderator[0] ||
+      this.props.userPermissions.moderator[5]
+    );
+  };
+
+  checkCanPin = () => {
+    // console.log(this.props.userPermissions.admin)
+    return (
       this.props.userPermissions.admin[0] ||
       this.props.userPermissions.admin[6] ||
       this.props.userPermissions.moderator[0] ||
@@ -219,26 +232,25 @@ class Post extends Component {
       tartarus.setProvider(this.props.web3.currentProvider);
       this.props.web3.eth.getAccounts((error, accounts) => {
         tartarus.at(this.props.tartarusAddress).then(instance => {
-          instance.deletePost
-            .sendTransaction(
-              this.props.web3.utils.fromAscii(this.props.username),
-              this.props.post.forum,
-              this.props.post.postId,
-              { from: accounts[0], gasPrice: 20000000000 }
-            )
-            .then(result => {
-              this.setState({
-                loading: false
-              });
-              this.props.reset('createForum');
-              this.props.history.goBack();
-            })
-            .catch(error => {
-              console.log('error');
-              this.setState({
-                loading: false
-              });
-            });
+          instance.deletePost.sendTransaction(
+            this.props.web3.utils.fromAscii(this.props.username),
+            this.props.post.forum,
+            this.props.post.postId,
+            { from: accounts[0], gasPrice: 20000000000 }
+          );
+          // .then(result => {
+          //   this.setState({
+          //     loading: false
+          //   });
+          //   this.props.reset('createForum');
+          //   this.props.history.goBack();
+          // })
+          // .catch(error => {
+          //   console.log('error');
+          //   this.setState({
+          //     loading: false
+          //   });
+          // });
         });
       });
     }
@@ -268,8 +280,6 @@ class Post extends Component {
                 this.setState({
                   voteLoading: false
                 });
-                this.props.reset('createForum');
-                this.props.history.goBack();
               })
               .catch(error => {
                 console.log('error');
@@ -308,8 +318,6 @@ class Post extends Component {
                 this.setState({
                   voteLoading: false
                 });
-                this.props.reset('createForum');
-                this.props.history.goBack();
               })
               .catch(error => {
                 console.log('error');
@@ -321,6 +329,54 @@ class Post extends Component {
         });
       });
     }
+  };
+
+  handlePin = async () => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    let accounts = await this.props.web3.eth.getAccounts();
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    let pinnedPosts = await instance.getForumPinnedPosts(this.props.post.forum);
+    for (let i = 0; i < pinnedPosts.length; i++) {
+      if (
+        pinnedPosts[i] ===
+        '0x0000000000000000000000000000000000000000000000000000000000000000'
+      ) {
+        instance.PinPost.sendTransaction(
+          this.props.web3.utils.fromAscii(this.props.username),
+          this.props.post.forum,
+          this.props.post.postId,
+          i,
+          { from: accounts[0], gasPrice: 20000000000 }
+        );
+        break;
+      }
+    }
+    console.log(pinnedPosts);
+  };
+
+  handleUnpin = async () => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    let accounts = await this.props.web3.eth.getAccounts();
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    let pinnedPosts = await instance.getForumPinnedPosts(this.props.post.forum);
+    for (let i = 0; i < pinnedPosts.length; i++) {
+      console.log(this.props.post.postId)
+      console.log(pinnedPosts[i])
+      if (pinnedPosts[i] === this.props.post.postId) {
+        instance.UnpinPost.sendTransaction(
+          this.props.web3.utils.fromAscii(this.props.username),
+          this.props.post.forum,
+          i,
+          { from: accounts[0], gasPrice: 20000000000 }
+        );
+        break;
+      }
+    }
+    console.log(pinnedPosts);
   };
 
   handleReport = () => {
@@ -368,11 +424,16 @@ class Post extends Component {
             forumName={this.props.web3.utils.toAscii(this.props.post.forum)}
             commentCount={this.state.comments}
             canDelete={this.state.canDelete}
+            canPin={this.state.canPin}
+            handlePin={this.handlePin}
+            handleUnpin={this.handleUnpin}
             saved={this.state.saved}
             handleSave={this.handleSave}
             handleUnsave={this.handleUnsave}
             handleDelete={this.handleDelete}
             handleReport={this.handleReport}
+            forumPinned={this.state.forumPinned}
+            // adminPinned={true}
           />
         </Wrapper>
       );

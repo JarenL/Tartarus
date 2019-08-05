@@ -12,7 +12,7 @@ const Item = styled.li`
 
 const PostListItem = props => (
   <Item>
-    <PostContainer post={props.post} />
+    <PostContainer post={props.post} forumPinned={props.forumPinned} />
   </Item>
 );
 

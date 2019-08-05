@@ -82,10 +82,12 @@ class Comment extends Component {
       instance
         .getComment(props, this.props.comment.args.commentId)
         .then(comment => {
+          console.log(comment)
           if (
-            comment[0] ===
+            comment[1] ===
             '0x0000000000000000000000000000000000000000000000000000000000000000'
           ) {
+            console.log("noo")
             this.setState({
               loading: false,
               exists: false
@@ -102,28 +104,54 @@ class Comment extends Component {
                 }
               )
               .get(async (error, comments) => {
-                const bs58 = require('bs58');
-                const commentHex = '1220' + comment[0].slice(2);
-                const commentBytes32 = Buffer.from(commentHex, 'hex');
-                const commentIpfsHash = bs58.encode(commentBytes32);
-                let commentData = await services.ipfs.getJson(commentIpfsHash);
-                if (this.props.username !== null) {
-                  this.checkSaved();
+                console.log(comment)
+                if (
+                  comment[0] !==
+                  '0x0000000000000000000000000000000000000000000000000000000000000000'
+                ) {
+                  const bs58 = require('bs58');
+                  const commentHex = '1220' + comment[0].slice(2);
+                  const commentBytes32 = Buffer.from(commentHex, 'hex');
+                  const commentIpfsHash = bs58.encode(commentBytes32);
+                  let commentData = await services.ipfs.getJson(
+                    commentIpfsHash
+                  );
+                  if (this.props.username !== null) {
+                    this.checkSaved();
+                  }
+                  this.setState({
+                    isModerator: await instance.isModerator.call(
+                      this.props.comment.args.creator,
+                      props
+                    ),
+                    isAdmin: await this.checkIsAdmin(
+                      this.props.comment.args.creator
+                    ),
+                    comment: commentData.comment,
+                    comments: comments.length,
+                    loading: false,
+                    time: this.props.comment.args.time.c[0] * 1000,
+                    canDelete: this.checkCanDelete(comment[1])
+                  });
+                } else {
+                  if (this.props.username !== null) {
+                    this.checkSaved();
+                  }
+                  this.setState({
+                    isModerator: await instance.isModerator.call(
+                      this.props.comment.args.creator,
+                      props
+                    ),
+                    isAdmin: await this.checkIsAdmin(
+                      this.props.comment.args.creator
+                    ),
+                    comment: <i>Deleted</i>,
+                    comments: comments.length,
+                    loading: false,
+                    time: this.props.comment.args.time.c[0] * 1000,
+                    canDelete: this.checkCanDelete(comment[1])
+                  });
                 }
-                this.setState({
-                  isModerator: await instance.isModerator.call(
-                    this.props.comment.args.creator,
-                    props
-                  ),
-                  isAdmin: await this.checkIsAdmin(
-                    this.props.comment.args.creator
-                  ),
-                  comment: commentData.comment,
-                  comments: comments.length,
-                  loading: false,
-                  time: this.props.comment.args.time.c[0] * 1000,
-                  canDelete: this.checkCanDelete(comment[1])
-                });
               });
           }
         });

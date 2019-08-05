@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
-import { MdGavel } from 'react-icons/md';
+import { MdBuild } from 'react-icons/md';
 
-const ModerateButton = styled(MdGavel)`
+const ModerateButton = styled(MdBuild)`
   vertical-align: sub;
   cursor: pointer;
   margin-right: 2px;

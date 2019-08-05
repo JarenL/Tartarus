@@ -13,6 +13,7 @@ class PostList extends React.Component {
     super(props);
     this.state = {
       posts: [],
+      pinnedPosts: [],
       loading: true,
       sorted: false,
       latest: null
@@ -275,6 +276,12 @@ class PostList extends React.Component {
                 { fromBlock: starting, toBlock: 'latest' }
               )
               .get(async (error, posts) => {
+                let pinnedPosts = await instance.getForumPinnedPosts(
+                  this.props.web3.utils.fromAscii(this.props.forumName)
+                );
+                this.setState({
+                  pinnedPosts: pinnedPosts
+                });
                 await this.getPosts(posts);
               });
           });
@@ -286,7 +293,13 @@ class PostList extends React.Component {
   };
 
   renderItem(index, key) {
-    return <PostListItem key={key} post={this.state.posts[index].args} />;
+    if (
+      this.state.pinnedPosts.indexOf(this.state.posts[index].args.postId) !== -1
+    ) {
+      return null;
+    } else {
+      return <PostListItem key={key} post={this.state.posts[index].args} />;
+    }
   }
 
   render() {

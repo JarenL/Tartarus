@@ -20,23 +20,21 @@ contract Tartarus is Ownable {
     event UserUpdated(bytes32 indexed user, bytes32 newInfo, uint time);
     event UserWithdraw(bytes32 indexed user, uint amount, uint time);
     event ForumCreated (bytes32 indexed user, bytes32 indexed forum, uint time);
-    event ForumLocked (bytes32 indexed user, bytes32 indexed forum, uint time);
-    event ForumUnlocked (bytes32 indexed user, bytes32 indexed forum, uint time);
+    event ForumLocked (bytes32 indexed user, bytes32 indexed forum, uint postLockState, uint commentLockState, uint time);
     event ForumUpdated (bytes32 user, bytes32 indexed forum, bytes32 newInfo, uint time);
     event ForumTransferred (bytes32 indexed forum, bytes32 user, bytes32 targetUser, uint time);
     event PostCreated (bytes32 indexed forum, bytes32 indexed creator, bytes32 indexed postId, uint time);
     event PostDeleted (bytes32 indexed forum, bytes32 user, bytes32 postId, uint time);
     event UserVoted (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed contentId, uint time);
-    event PostLocked (bytes32 user, bytes32 indexed forum, bytes32 postId, uint time);
-    event PostUnlocked (bytes32 user, bytes32 indexed forum, bytes32 postId, uint time);
+    event PostLocked (bytes32 user, bytes32 indexed forum, bytes32 postId, uint postLockState, uint time);
     event PostPinned (bytes32 indexed forum, bytes32 user, bytes32 postId, uint time);
     event PostUnpinned (bytes32 indexed forum, bytes32 user, bytes32 postId, uint time);
     event CommentCreated (bytes32 indexed postId, bytes32 indexed creator, bytes32 indexed targetId, bytes32 commentId, uint time);
     event CommentDeleted (bytes32 indexed forumId, bytes32 user, bytes32 postId, bytes32 commentId, uint time);
     event ReportUser (bytes32 targetUser, bytes32 reason, uint time);
     event ReportForum (bytes32 forum, bytes32 reason, uint time);
-    event ReportPost (bytes32 indexed _forum, bytes32 _postId, bytes32 reason, uint time);
-    event ReportComment (bytes32 indexed _forum, bytes32 _postId, bytes32 _commentId, bytes32 reason, uint time);
+    event ReportPost (bytes32 indexed forum, bytes32 postId, bytes32 reason, uint time);
+    event ReportComment (bytes32 indexed forum, bytes32 postId, bytes32 commentId, bytes32 reason, uint time);
     event UpdateFee (bytes32 user, string indexed feeType, uint newFee);
 
     mapping (bytes32 => Admin) public admins;
@@ -99,7 +97,8 @@ contract Tartarus is Ownable {
         bytes32 owner;
         uint totalModeratorWages;
         uint forumBalance;
-        bool locked;
+        uint postLocked;
+        uint commentLocked;
         bytes32[] pinnedPosts;
         bytes32[] moderatorList;
         mapping(bytes32 => Moderator) moderators;
@@ -109,7 +108,7 @@ contract Tartarus is Ownable {
         mapping(bytes32 => uint) upvotes;
         mapping(bytes32 => uint) downvotes;
         mapping(bytes32 => uint) commentCount;
-        mapping(bytes32 => bool) postLocked;
+        mapping(bytes32 => uint) lockedPosts;
         mapping(bytes32 => mapping(bytes32 => bool)) upvoted;
         mapping(bytes32 => mapping(bytes32 => bool)) downvoted;
     }
@@ -250,10 +249,31 @@ contract Tartarus is Ownable {
 
     function _forumExists(bytes32 _forum) internal view {
         require(
-            forums[_forum].owner != 0 &&
-            !forums[_forum].locked,
-            "Forum does not exist/locked"
+            forums[_forum].owner != 0,
+            "Forum does not exist"
         );
+    }
+
+    modifier onlyForumUnlocked(bytes32 _forum, bytes32 _user) {
+        _forumUnlocked(_forum, _user);
+        _;
+    }
+
+    function _forumUnlocked(bytes32 _forum, bytes32 _user) internal view {
+        if (forums[_forum].postLocked == 1) {
+            require(
+                isModerator(_user, _forum) ||
+                isAdmin(_user),
+                "Forum locked to user"
+            );
+        }
+
+        if (forums[_forum].postLocked == 2) {
+            require(
+                isAdmin(_user),
+                "Forum locked to user"
+            );
+        }
     }
 
     modifier onlyPostExists(bytes32 _forum, bytes32 _postId) {
@@ -263,17 +283,55 @@ contract Tartarus is Ownable {
 
     function _postExists(bytes32 _forum, bytes32 _postId) internal view {
         require(
-            forums[_forum].posts[_postId].creator != 0 &&
-            !forums[_forum].postLocked[_postId],
-            "Post does not exist/locked"
+            forums[_forum].posts[_postId].creator != 0,
+            "Post does not exist"
         );
     }
-    
+
+    modifier onlyPostUnlocked(bytes32 _forum, bytes32 _postId, bytes32 _user) {
+        _postUnlocked(_forum, _postId, _user);
+        _;
+    }
+
+    function _postUnlocked(bytes32 _forum, bytes32 _postId, bytes32 _user) internal view {
+        if (forums[_forum].commentLocked == 0) {
+            if (forums[_forum].lockedPosts[_postId] == 1) {
+                require(
+                    isModerator(_user, _forum) ||
+                    isAdmin(_user),
+                    "Post locked to user"
+                );
+            }
+
+            if (forums[_forum].lockedPosts[_postId] == 2) {
+                require(
+                    isAdmin(_user),
+                    "Post locked to user"
+                );
+            }
+        }
+        
+        if (forums[_forum].commentLocked == 1) {
+            require(
+                isModerator(_user, _forum) ||
+                isAdmin(_user),
+                "Post locked to user"
+            );
+        }
+
+        if (forums[_forum].commentLocked == 2) {
+            require(
+                isAdmin(_user),
+                "Post locked to user"
+            );
+        }
+    }
+
     modifier onlyNotVoted(bytes32 _forum, bytes32 _user, bytes32 _contentId) {
         _notVoted(_forum, _user, _contentId);
         _;
     }
-    
+
     function _notVoted(bytes32 _forum, bytes32 _user, bytes32 _contentId) internal view {
         require(
             !forums[_forum].upvoted[_contentId][_user] && !forums[_forum].downvoted[_contentId][_user],
@@ -394,22 +452,17 @@ contract Tartarus is Ownable {
         newForum.name = forumBytes;
         newForum.forumInfo = _forumInfo;
         newForum.owner = _user;
-        newForum.pinnedPosts = new bytes32[](3);
+        newForum.pinnedPosts = new bytes32[](5);
         forums[forumBytes] = newForum;
         adminBalance += msg.value;
         emit ForumCreated(_user, forumBytes, now);
     }
 
-    function lockForum(bytes32 _user, bytes32 _forum)
-        public onlyUserVerified(_user) onlyForumExists(_forum) onlyAdminAuthorized(_user, 5) {
-        forums[_forum].locked = true;
-        emit ForumLocked(_user, _forum, now);
-    }
-
-    function unlockForum(bytes32 _user, bytes32 _forum)
-        public onlyUserVerified(_user) onlyForumExists(_forum) onlyAdminAuthorized(_user, 5) {
-        forums[_forum].locked = false;
-        emit ForumUnlocked(_user, _forum, now);
+    function changeForumLock(bytes32 _user, bytes32 _forum, uint _postLockState, uint _commentLockState)
+        public onlyUserVerified(_user) onlyAdminAuthorized(_user, 5) {
+        forums[_forum].postLocked = _postLockState;
+        forums[_forum].commentLocked = _commentLockState;
+        emit ForumLocked(_user, _forum, _postLockState, _commentLockState, now);
     }
 
     function updateForum(bytes32 _user, bytes32 _forum, bytes32 _forumInfo)
@@ -419,7 +472,7 @@ contract Tartarus is Ownable {
     }
 
     function transferForumOwnership(bytes32 _user, bytes32 _forum, bytes32 _targetUser)
-        public onlyUserVerified(_user) onlyUserExists(_targetUser) onlyForumExists(_forum) {
+        public onlyUserVerified(_user) onlyForumExists(_forum) onlyUserExists(_targetUser){
         require(
             forums[_forum].owner == _user ||
             admins[_user].permissions[5],
@@ -428,9 +481,9 @@ contract Tartarus is Ownable {
         forums[_forum].owner = _targetUser;
         emit ForumTransferred(_forum, _user, _targetUser, now);
     }
-    
+
     function createPost(bytes32 _user, bytes32 _forum, bytes32 _post)
-        public payable onlyUserVerified(_user) onlyForumExists(_forum) onlyUserAuthorized(_user, _forum) onlyFee(createPostCost) {
+        public payable onlyUserVerified(_user) onlyForumExists(_forum) onlyForumUnlocked(_forum, _user) onlyUserAuthorized(_user, _forum) onlyFee(createPostCost) {
         bytes32 postId = generateId();
         Post memory newPost;
         newPost.post = _post;
@@ -440,10 +493,10 @@ contract Tartarus is Ownable {
         emit PostCreated(_forum, _user, postId, now);
     }
 
-    function changePostLock(bytes32 _user, bytes32 _forum, bytes32 _postId, bool _postState)
+    function changePostLock(bytes32 _user, bytes32 _forum, bytes32 _postId, uint _postLockState)
         public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) onlyModeratorAuthorized(_user, _forum, 5, 6) {
-        forums[_forum].postLocked[_postId] = _postState;
-        emit PostLocked(_user, _forum, _postId, now);
+        forums[_forum].lockedPosts[_postId] = _postLockState;
+        emit PostLocked(_user, _forum, _postId, _postLockState, now);
     }
 
     function deletePost(bytes32 _user, bytes32 _forum, bytes32 _postId)
@@ -458,24 +511,26 @@ contract Tartarus is Ownable {
             admins[_user].permissions[6],
             "User does not have permission"
         );
-        delete forums[_forum].posts[_postId];
+        delete forums[_forum].posts[_postId].post;
         emit PostDeleted(_forum, _user, _postId, now);
     }
 
     function getPost(bytes32 _forum, bytes32 _postId)
-        public view returns (bytes32 post, bytes32 creator, uint upvotes, uint downvotes, uint comments, bool locked) {
+        public view returns (bytes32 post, bytes32 creator, uint upvotes, uint downvotes, uint comments, uint postLockState) {
         post = forums[_forum].posts[_postId].post;
         creator = forums[_forum].posts[_postId].creator;
         upvotes = forums[_forum].upvotes[_postId];
         downvotes = forums[_forum].downvotes[_postId];
         comments = forums[_forum].commentCount[_postId];
-        locked = forums[_forum].postLocked[_postId];
+        postLockState = forums[_forum].lockedPosts[_postId];
     }
     
-    function getForumPinnedPosts(bytes32 _forum) public view returns (bytes32 post1, bytes32 post2, bytes32 post3) {
+    function getForumPinnedPosts(bytes32 _forum) public view returns (bytes32 post1, bytes32 post2, bytes32 post3, bytes32 post4, bytes32 post5) {
         post1 = forums[_forum].pinnedPosts[0];
         post2 = forums[_forum].pinnedPosts[1];
         post3 = forums[_forum].pinnedPosts[2];
+        post4 = forums[_forum].pinnedPosts[3];
+        post5 = forums[_forum].pinnedPosts[4];
     }
     
     // perhaps combine up/down vote functions
@@ -497,7 +552,7 @@ contract Tartarus is Ownable {
     }
 
     function createComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _comment, bytes32 _targetId)
-        public payable onlyUserVerified(_user) onlyForumExists(_forum) onlyUserAuthorized(_user, _forum) onlyPostExists(_forum, _postId) onlyFee(createCommentCost) {
+        public payable onlyUserVerified(_user) onlyUserAuthorized(_user, _forum) onlyPostUnlocked(_forum, _postId, _user) onlyFee(createCommentCost) {
         bytes32 commentId = generateId();
         Comment memory newComment;
         newComment.comment = _comment;
@@ -520,7 +575,7 @@ contract Tartarus is Ownable {
             admins[_user].permissions[6],
             "User does not have permission"
         );
-        delete forums[_forum].comments[_commentId];
+        delete forums[_forum].comments[_commentId].comment;
         emit CommentDeleted(_forum, _user, _postId, _commentId, now);
     }
 
@@ -598,13 +653,13 @@ contract Tartarus is Ownable {
         return currentModerators;
     }
 
-    function PinPost(bytes32 _user, bytes32 _forum, bytes32 _postId, uint _postIndex)
+    function pinPost(bytes32 _user, bytes32 _forum, bytes32 _postId, uint _postIndex)
         public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) onlyModeratorAuthorized(_user, _forum, 5, 5) {
         forums[_forum].pinnedPosts[_postIndex] = _postId;
         emit PostPinned(_forum, _user, _postId, now);
     }
 
-    function UnpinPost(bytes32 _user, bytes32 _forum, uint _postIndex)
+    function unpinPost(bytes32 _user, bytes32 _forum, uint _postIndex)
         public onlyUserVerified(_user) onlyForumExists(_forum) onlyModeratorAuthorized(_user, _forum, 5, 5) {
         bytes32 currentPost = forums[_forum].pinnedPosts[_postIndex];
         delete forums[_forum].pinnedPosts[_postIndex];

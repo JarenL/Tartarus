@@ -257,6 +257,11 @@ class PostContent extends Component {
             isModerator={this.props.isModerator}
             isAdmin={this.props.isAdmin}
             forumName={this.props.forumName}
+            canPin={this.props.canPin}
+            handlePin={this.props.handlePin}
+            handleUnpin={this.props.handleUnpin}
+            forumPinned={this.props.forumPinned}
+            adminPinned={this.props.adminPinned}
           />
           <PostActions
             preview={this.state.preview}
