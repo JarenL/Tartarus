@@ -9,9 +9,17 @@ import PostContainer from '../Post/Container';
 import { updateUserPermissions } from '../../../redux/actions/actions';
 
 const Wrapper = styled.div`
-  margin: 0px;
+  // margin: 0px;
   @media (max-width: 768px) {
     margin: 6px;
+  }
+`;
+
+const Divider = styled.div`
+  width: 100%;
+  height: 4px;
+  @media (max-width: 768px) {
+    height: 2px;
   }
 `;
 
@@ -93,11 +101,13 @@ class PostDetail extends Component {
     return (
       <Wrapper>
         <PostContainer post={this.state.post.args} showFullPost={true} showDeleted={true} />
+        <Divider />
         <CommentFormContainer
           postId={this.props.postId}
           forumName={this.props.forumName}
           targetId={this.props.postId}
         />
+        <Divider />
         <CommentListContainer
           forumName={this.props.forumName}
           postId={this.props.postId}

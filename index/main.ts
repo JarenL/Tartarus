@@ -2,10 +2,8 @@ import * as ipfsearch from "./ipfsearch-indexlib"
 
 const web3 = require('web3');
 const bs58 = require('bs58');
-const IPFS = require('ipfs-mini');
-const test = require('ipfs-http-client')
+const IPFS = require('ipfs-http-client')
 const ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
-const testIPFS = new test({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
 
 let count = 0;
 

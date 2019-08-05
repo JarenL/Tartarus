@@ -6,6 +6,8 @@ import { link } from '../../../shared/helpers';
 import Author from '../../../shared/Author';
 import PinButton from '../../../Buttons/PinButton';
 import UnpinButton from '../../../Buttons/UnpinButton';
+import LockButton from '../../../Buttons/LockButton';
+import UnlockButton from '../../../Buttons/UnlockButton';
 
 const Wrapper = styled.div`
   font-size: 12px;
@@ -29,22 +31,37 @@ const Wrapper = styled.div`
   }
 `;
 
-const AdminWrapper = styled(UnpinButton)`
+const AdminPin = styled(UnpinButton)`
   color: ${props => props.theme.admin};
 `;
 
-const ModWrapper = styled(UnpinButton)`
+const ModPin = styled(UnpinButton)`
   color: ${props => props.theme.mod};
 `;
 
-const UserWrapper = styled(PinButton)`
+const UserPin = styled(PinButton)`
+  color: ${props => props.theme.accent};
+`;
+
+const AdminLock = styled(UnlockButton)`
+  color: ${props => props.theme.admin};
+`;
+
+const ModLock = styled(UnlockButton)`
+  color: ${props => props.theme.mod};
+`;
+
+const UserLock = styled(LockButton)`
   color: ${props => props.theme.accent};
 `;
 
 const PostContentDetail = props => {
+  console.log(props);
   return (
     <Wrapper>
-      <Link to={`/f/${props.forumName}`}>/f/{props.forumName}</Link>
+      <Link to={`/f/${props.forumName}`} style={{ textDecoration: 'none' }}>
+        /f/{props.forumName}
+      </Link>
       <span>by</span>
       <Author
         username={props.creator}
@@ -54,12 +71,35 @@ const PostContentDetail = props => {
       />
       <span>{moment(props.time).fromNow()}</span>
       {props.adminPinned ? (
-        <AdminWrapper size={16} />
+        props.canPin ? (
+          <AdminPin size={16} onClick={() => props.handleUnpin()} />
+        ) : (
+          <AdminPin size={16} />
+        )
       ) : props.forumPinned ? (
-        <ModWrapper size={16} onClick={() => props.handleUnpin()} />
+        props.canPin ? (
+          <ModPin size={16} onClick={() => props.handleUnpin()} />
+        ) : (
+          <ModPin size={16} />
+        )
       ) : props.canPin ? (
-        <UserWrapper size={16} onClick={() => props.handlePin()} />
+        <UserPin size={16} onClick={() => props.handlePin()} />
       ) : null}
+      {props.isLocked === 0 ? (
+        props.canLock ? (
+          <UserLock size={16} onClick={() => props.handleLock()} />
+        ) : null
+      ) : props.isLocked === 1 ? (
+        props.canLock ? (
+          <ModLock size={16} onClick={() => props.handleUnlock()} />
+        ) : (
+          <ModLock size={16} />
+        )
+      ) : props.canLock ? (
+        <AdminLock size={16} onClick={() => props.handleUnlock()} />
+      ) : (
+        <AdminLock size={16} />
+      )}
     </Wrapper>
   );
 };

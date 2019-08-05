@@ -17,6 +17,7 @@ import CombinedListContainer from '../Combined/Container';
 import ComingSoon from '../shared/ComingSoon';
 import CreateForumFormContainer from '../CreateForumForm/Container';
 import ModeratorPinnedPostListContainer from '../Post/PostList/PinnedPosts/Moderator/Container';
+import AdminPinnedPostListContainer from '../Post/PostList/PinnedPosts/Admin/Container';
 
 const Wrapper = styled.div`
   display: flex;
@@ -104,10 +105,6 @@ const Home = props => {
                 <FilterWrapper>
                   <FilterContainer />
                 </FilterWrapper>
-                <ModeratorPinnedPostListContainer
-                  key={match.url}
-                  forumName={match.params.forumName}
-                />
                 <PostListContainer
                   key={match.url}
                   forumName={match.params.forumName}

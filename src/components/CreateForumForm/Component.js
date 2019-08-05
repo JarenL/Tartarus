@@ -72,11 +72,10 @@ class CreateForumForm extends React.Component {
                 }
               )
               .then(result => {
+                this.props.reset('createForum');
                 this.setState({
                   loading: false
                 });
-                this.props.reset('createForum');
-                this.props.history.goBack();
               })
               .catch(error => {
                 console.log('error');

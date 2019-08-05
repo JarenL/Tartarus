@@ -1,11 +1,11 @@
 import styled from 'styled-components/macro';
-import { MdBookmark } from 'react-icons/md';
+import { MdLock } from 'react-icons/md';
 
-const UnpinButton = styled(MdBookmark)`
+const UnlockButton = styled(MdLock)`
   vertical-align: sub;
   cursor: pointer;
-  // margin-right: 2px;
-  // margin-left: 2px;
+  margin-right: 2px;
+  margin-left: 2px;
   &:last-child {
     margin-right: 0;
   }
@@ -17,4 +17,4 @@ const UnpinButton = styled(MdBookmark)`
   }
 `;
 
-export default UnpinButton;
+export default UnlockButton;

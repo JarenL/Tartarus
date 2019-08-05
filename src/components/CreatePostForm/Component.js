@@ -194,9 +194,23 @@ class CreatePostForm extends React.Component {
     tartarus.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
-        instance.createPostCost.call().then(createPostCost => {
+        instance.createPostCost.call().then(async createPostCost => {
           console.log(createPostCost);
           console.log(createPostCost.toString());
+          let cost = await instance.createPost.estimateGas(
+            this.props.web3.utils.fromAscii(this.props.username),
+            this.props.web3.utils.fromAscii(this.props.forumName),
+            props,
+            {
+              from: accounts[0],
+              gasPrice: 20000000000,
+              value: createPostCost
+            }
+          );
+          console.log(cost);
+          let gasPrice = await this.props.web3.eth.getGasPrice();
+          console.log(cost * gasPrice);
+          console.log(this.props.web3.utils.fromWei(cost.toString(), 'ether'));
           instance.createPost
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),
@@ -209,12 +223,10 @@ class CreatePostForm extends React.Component {
               }
             )
             .then(result => {
-              console.log(result);
+              this.props.reset('createPost');
               this.setState({
                 loading: false
               });
-              this.props.reset('createPost');
-              // this.props.history.goBack();
             })
             .catch(error => {
               console.log('error');

@@ -7,12 +7,12 @@ import LoadingIndicatorSpinner from '../../../../shared/LoadingIndicator/Spinner
 
 const blocksInDay = 5760;
 
-class ModeratorPinnedPostList extends React.Component {
+class AdminPinnedPostList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: [],
-      loading: true
+      posts: []
+      // loading: true
       // sorted: false,
       // latest: null
     };
@@ -51,16 +51,9 @@ class ModeratorPinnedPostList extends React.Component {
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
     let instance = await tartarus.at(this.props.tartarusAddress);
-    let pinnedPosts = null;
-    if (this.props.forumName !== undefined) {
-      pinnedPosts = await instance.getForumPinnedPosts(
-        this.props.web3.utils.fromAscii(this.props.forumName)
-      );
-    } else {
-      pinnedPosts = await instance.getForumPinnedPosts(
-        this.props.web3.utils.fromAscii('announcements')
-      );
-    }
+    let pinnedPosts = await instance.getForumPinnedPosts(
+      this.props.web3.utils.fromAscii('announcements')
+    );
     console.log(pinnedPosts);
     let posts = [];
     pinnedPosts = pinnedPosts.filter(
@@ -108,4 +101,4 @@ class ModeratorPinnedPostList extends React.Component {
   }
 }
 
-export default ModeratorPinnedPostList;
+export default AdminPinnedPostList;

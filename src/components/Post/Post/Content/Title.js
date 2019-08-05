@@ -18,24 +18,17 @@ const Wrapper = styled.div`
     ${props => props.full && 'white-space: unset'};
   }
 
+  &:hover {
+    color: ${props => props.theme.accent};
+    & > svg {
+      color: ${props => props.theme.accent} !important;
+    }
+  }
+
   a {
-    ${link({ underline: true })};
+    ${link({ underline: false })};
   }
 `;
-
-const renderTitle = props => {
-  switch (props.type) {
-    case 'link':
-      return <a href={props.url}>{props.title}</a>;
-
-    case 'text':
-      if (props.full) return <span>{props.title}</span>;
-      return <Link to={`/a/${props.category}/${props.id}`}>{props.title}</Link>;
-
-    default:
-      break;
-  }
-};
 
 const PostContentTitle = props => (
   // <Wrapper full={props.full}>{renderTitle(props)}</Wrapper>

@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
-import { MdNotificationsNone } from 'react-icons/md';
+import { MdBookmarkBorder } from 'react-icons/md';
 
-const PinButton = styled(MdNotificationsNone)`
+const PinButton = styled(MdBookmarkBorder)`
   vertical-align: sub;
   cursor: pointer;
   // margin-right: 2px;

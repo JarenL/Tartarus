@@ -229,6 +229,7 @@ class PostContent extends Component {
   };
 
   render() {
+    console.log(this.props.forumName)
     if (this.props.loading) {
       return <LoadingBubble />;
     } else {
@@ -249,15 +250,18 @@ class PostContent extends Component {
             type: this.props.type,
             post: this.props.post
           })}
-          {/* <PostAddress postAddress={this.props.postAddress} /> */}
           <PostContentDetail
             time={this.props.time}
             creator={this.props.creator}
             creatorHex={this.props.creatorHex}
             isModerator={this.props.isModerator}
             isAdmin={this.props.isAdmin}
+            isLocked={this.props.isLocked}
             forumName={this.props.forumName}
             canPin={this.props.canPin}
+            canLock={this.props.canLock}
+            handleLock={this.props.handleLock}
+            handleUnlock={this.props.handleUnlock}
             handlePin={this.props.handlePin}
             handleUnpin={this.props.handleUnpin}
             forumPinned={this.props.forumPinned}

@@ -566,7 +566,7 @@ contract Tartarus is Ownable {
     function deleteComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _commentId)
         public onlyUserVerified(_user) onlyForumExists(_forum) onlyCommentExists(_forum, _commentId) {
         require(
-            _user == forums[_forum].posts[_postId].creator ||
+            _user == forums[_forum].comments[_commentId].creator ||
             forums[_forum].owner == _user ||
             forums[_forum].moderators[_user].permissions[0] ||
             forums[_forum].moderators[_user].permissions[5] ||

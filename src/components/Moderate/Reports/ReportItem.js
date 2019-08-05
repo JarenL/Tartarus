@@ -136,7 +136,7 @@ class ReportItem extends React.Component {
         instance
           .PostCreated(
             {
-              postId: this.props.event.args._postId
+              postId: this.props.event.args.postId
             },
             {
               fromBlock: 0,
@@ -158,7 +158,7 @@ class ReportItem extends React.Component {
               instance
                 .CommentCreated(
                   {
-                    postId: this.props.event.args._postId
+                    postId: this.props.event.args.postId
                   },
                   {
                     fromBlock: 0,
@@ -187,7 +187,7 @@ class ReportItem extends React.Component {
             .PostCreated(
               {
                 forum: this.props.event.args._forum,
-                postId: this.props.event.args._postId
+                postId: this.props.event.args.postId
               },
               {
                 fromBlock: 0,
@@ -208,7 +208,7 @@ class ReportItem extends React.Component {
                 instance
                   .CommentCreated(
                     {
-                      postId: this.props.event.args._postId
+                      postId: this.props.event.args.postId
                     },
                     {
                       fromBlock: 0,
@@ -223,7 +223,7 @@ class ReportItem extends React.Component {
                           .map(function(e) {
                             return e.args.commentId;
                           })
-                          .indexOf(this.props.event.args._commentId)
+                          .indexOf(this.props.event.args.commentId)
                       ];
                     if (comment === undefined) {
                       this.setState({
@@ -256,7 +256,7 @@ class ReportItem extends React.Component {
             <StyledLink
               to={`/f/${this.props.web3.utils.toAscii(
                 this.props.event.args._forum
-              )}/p/${this.props.event.args._postId}`}
+              )}/p/${this.props.event.args.postId}`}
             >
               {/* {props.web3.utils.toAscii(event.args.targetUser)} */}
               {this.props.event.event === 'ReportPost' ? 'Post' : 'Comment'}

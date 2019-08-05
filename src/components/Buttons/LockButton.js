@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
-import { MdBookmark } from 'react-icons/md';
+import { MdLockOpen } from 'react-icons/md';
 
-const UnpinButton = styled(MdBookmark)`
+const LockButton = styled(MdLockOpen)`
   vertical-align: sub;
   cursor: pointer;
   // margin-right: 2px;
@@ -9,6 +9,7 @@ const UnpinButton = styled(MdBookmark)`
   &:last-child {
     margin-right: 0;
   }
+  color: ${props => props.theme.mutedText};
   &:hover {
     color: ${props => props.theme.accent};
     & > svg {
@@ -17,4 +18,4 @@ const UnpinButton = styled(MdBookmark)`
   }
 `;
 
-export default UnpinButton;
+export default LockButton;

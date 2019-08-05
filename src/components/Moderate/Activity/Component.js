@@ -22,66 +22,6 @@ class Activity extends React.Component {
     this.instantiateContract();
   };
 
-  // componentDidUpdate = (newProps, oldProps) => {
-  //   if (newProps.time !== this.props.time) {
-  //     this.setState({
-  //       loading: true
-  //     });
-  //     this.instantiateContract();
-  //   }
-
-  //   if (newProps.type !== this.props.type) {
-  //     this.setState({
-  //       loading: true
-  //     });
-  //     this.instantiateContract();
-  //   }
-
-  //   if (newProps.username !== this.props.username) {
-  //     this.setState({
-  //       loading: true
-  //     });
-  //     this.instantiateContract();
-  //   }
-  // };
-
-  // handlePostTime = async () => {
-  //   const latest = await this.props.web3.eth.getBlock('latest');
-  //   switch (this.props.time) {
-  //     case 'day':
-  //       return latest.number - 1 * blocksInDay;
-  //     case 'week':
-  //       return latest.number - 7 * blocksInDay;
-  //     case 'month':
-  //       return latest.number - 30 * blocksInDay;
-  //     case 'year':
-  //       return latest.number - 365 * blocksInDay;
-  //     case 'all':
-  //       return 0;
-  //     default:
-  //       return null;
-  //   }
-  // };
-
-  // handlePostType = props => {
-  //   switch (this.props.type) {
-  //     case 'top':
-  //       return null;
-  //     case 'hot':
-  //       return null;
-  //     case 'new':
-  //       return props.reverse();
-  //     case 'old':
-  //       return props;
-  //     default:
-  //       return props;
-  //   }
-  // };
-
-  // handleTop = props => {
-  //   console.log('top');
-  // };
-
   instantiateContract = () => {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);

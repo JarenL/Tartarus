@@ -5,8 +5,25 @@ import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import { updateUserPermissions } from '../../../redux/actions/actions';
 import PostListItem from './Item';
 import ReactList from 'react-list';
+import styled from 'styled-components/macro';
 
 const blocksInDay = 5760;
+
+const PinnedDivider = styled.div`
+  width: 100%;
+  height: 8px;
+  @media (max-width: 768px) {
+    height: 4px;
+  }
+`;
+
+const PostDivider = styled.div`
+  width: 100%;
+  height: 4px;
+  @media (max-width: 768px) {
+    height: 2px;
+  }
+`;
 
 class PostList extends React.Component {
   constructor(props) {
@@ -118,6 +135,24 @@ class PostList extends React.Component {
     this.handlePostType(results);
   };
 
+  getPinned = async props => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    let pinnedPosts = await instance.getForumPinnedPosts(
+      this.props.web3.utils.fromAscii(props)
+    );
+    pinnedPosts = pinnedPosts.filter(
+      i =>
+        i !==
+        '0x0000000000000000000000000000000000000000000000000000000000000000'
+    );
+    this.setState({
+      pinnedPosts: pinnedPosts
+    });
+  };
+
   getPost = async props => {
     console.log('getpost');
     const contract = require('truffle-contract');
@@ -125,6 +160,13 @@ class PostList extends React.Component {
     tartarus.setProvider(this.props.web3.currentProvider);
     let instance = await tartarus.at(this.props.tartarusAddress);
     let post = await instance.getPost.call(props.args.forum, props.args.postId);
+    if (this.state.pinnedPosts.indexOf(props.args.postId !== -1)) {
+      let newPinnedPosts = this.state.pinnedPosts;
+      newPinnedPosts[newPinnedPosts.indexOf(props.args.postId)] = props;
+      this.setState({
+        pinnedPosts: newPinnedPosts
+      });
+    }
     let newPost = props;
     newPost.votes = post[2].c[0] - post[3].c[0];
     newPost.comments = post[4].c[0];
@@ -171,6 +213,7 @@ class PostList extends React.Component {
               instance
                 .PostCreated({}, { fromBlock: starting, toBlock: 'latest' })
                 .get(async (error, posts) => {
+                  await this.getPinned('announcements');
                   await this.getPosts(posts);
                 });
             });
@@ -276,12 +319,7 @@ class PostList extends React.Component {
                 { fromBlock: starting, toBlock: 'latest' }
               )
               .get(async (error, posts) => {
-                let pinnedPosts = await instance.getForumPinnedPosts(
-                  this.props.web3.utils.fromAscii(this.props.forumName)
-                );
-                this.setState({
-                  pinnedPosts: pinnedPosts
-                });
+                await this.getPinned(this.props.forumName);
                 await this.getPosts(posts);
               });
           });
@@ -293,24 +331,47 @@ class PostList extends React.Component {
   };
 
   renderItem(index, key) {
-    if (
-      this.state.pinnedPosts.indexOf(this.state.posts[index].args.postId) !== -1
-    ) {
-      return null;
-    } else {
-      return <PostListItem key={key} post={this.state.posts[index].args} />;
+    if (this.state.pinnedPosts.indexOf(this.state.posts[index]) === -1) {
+      return (
+        <>
+          <PostListItem key={key} post={this.state.posts[index].args} />
+          <PostDivider />
+        </>
+      );
     }
+  }
+
+  renderPinnedItem(index, key) {
+    return (
+      <>
+        <PostListItem key={key} post={this.state.pinnedPosts[index].args} />
+        <PostDivider />
+      </>
+    );
   }
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
     if (!this.state.posts || this.state.posts.length === 0) return <Empty />;
+    console.log(this.state.pinnedPosts);
     return (
-      <ReactList
-        itemRenderer={this.renderItem.bind(this)}
-        length={this.state.posts.length}
-        type='simple'
-      />
+      <>
+        {this.state.pinnedPosts.length !== 0 ? (
+          <>
+            <ReactList
+              itemRenderer={this.renderPinnedItem.bind(this)}
+              length={this.state.pinnedPosts.length}
+              type='simple'
+            />{' '}
+            <PinnedDivider />
+          </>
+        ) : null}
+        <ReactList
+          itemRenderer={this.renderItem.bind(this)}
+          length={this.state.posts.length}
+          type='simple'
+        />
+      </>
     );
   }
 }

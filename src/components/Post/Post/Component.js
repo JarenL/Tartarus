@@ -13,6 +13,9 @@ const Wrapper = styled.div`
   display: flex;
   height: auto;
   background-color: ${props => props.theme.foreground};
+  &:hover {
+    border: 0.5px solid ${props => props.theme.accent};
+  }
 `;
 
 class Post extends Component {
@@ -33,6 +36,7 @@ class Post extends Component {
       canReport: false,
       canDelete: false,
       canPin: false,
+      canLock: false,
       toggleTip: false,
       toggleReport: false,
       upvoted: false,
@@ -55,6 +59,7 @@ class Post extends Component {
       instance
         .getPost(this.props.post.forum, this.props.post.postId)
         .then(async post => {
+          console.log(post);
           if (
             post[0] ===
             '0x0000000000000000000000000000000000000000000000000000000000000000'
@@ -76,7 +81,15 @@ class Post extends Component {
               this.checkSaved();
             }
             if (postData !== null) {
-              let pinnedPosts = await instance.getForumPinnedPosts(this.props.post.forum);
+              console.log(this.props.post.forum);
+              console.log(this.props.web3.utils.toUtf8(this.props.post.forum));
+              let adminPinnedPosts = await instance.getForumPinnedPosts(
+                this.props.web3.utils.fromAscii('announcements')
+              );
+              let pinnedPosts = await instance.getForumPinnedPosts(
+                this.props.post.forum
+              );
+
               this.setState({
                 isModerator: await this.checkIsModerator(post[1]),
                 isAdmin: await this.checkIsAdmin(post[1]),
@@ -88,7 +101,11 @@ class Post extends Component {
                 comments: post[4].c[0],
                 canDelete: this.checkCanDelete(post),
                 canPin: this.checkCanPin(),
-                forumPinned: pinnedPosts.indexOf(this.props.post.postId) !== -1
+                canLock: this.checkCanLock(),
+                isLocked: post[5].c[0],
+                forumPinned: pinnedPosts.indexOf(this.props.post.postId) !== -1,
+                adminPinned:
+                  adminPinnedPosts.indexOf(this.props.post.postId) !== -1
               });
             } else {
               this.setState({
@@ -96,8 +113,6 @@ class Post extends Component {
                 loading: false
               });
             }
-            // console.log('loaded');
-            // console.log(postData);
           }
         });
     });
@@ -157,6 +172,15 @@ class Post extends Component {
 
   checkCanPin = () => {
     // console.log(this.props.userPermissions.admin)
+    return (
+      this.props.userPermissions.admin[0] ||
+      this.props.userPermissions.admin[6] ||
+      this.props.userPermissions.moderator[0] ||
+      this.props.userPermissions.moderator[5]
+    );
+  };
+
+  checkCanLock = () => {
     return (
       this.props.userPermissions.admin[0] ||
       this.props.userPermissions.admin[6] ||
@@ -343,7 +367,7 @@ class Post extends Component {
         pinnedPosts[i] ===
         '0x0000000000000000000000000000000000000000000000000000000000000000'
       ) {
-        instance.PinPost.sendTransaction(
+        instance.pinPost.sendTransaction(
           this.props.web3.utils.fromAscii(this.props.username),
           this.props.post.forum,
           this.props.post.postId,
@@ -364,15 +388,19 @@ class Post extends Component {
     let instance = await tartarus.at(this.props.tartarusAddress);
     let pinnedPosts = await instance.getForumPinnedPosts(this.props.post.forum);
     for (let i = 0; i < pinnedPosts.length; i++) {
-      console.log(this.props.post.postId)
-      console.log(pinnedPosts[i])
+      console.log(this.props.post.postId);
+      console.log(pinnedPosts[i]);
       if (pinnedPosts[i] === this.props.post.postId) {
-        instance.UnpinPost.sendTransaction(
-          this.props.web3.utils.fromAscii(this.props.username),
-          this.props.post.forum,
-          i,
-          { from: accounts[0], gasPrice: 20000000000 }
-        );
+        instance.unpinPost
+          .sendTransaction(
+            this.props.web3.utils.fromAscii(this.props.username),
+            this.props.post.forum,
+            i,
+            { from: accounts[0], gasPrice: 20000000000 }
+          )
+          .catch(error => {
+            console.log('error');
+          });
         break;
       }
     }
@@ -389,6 +417,55 @@ class Post extends Component {
         }/report`
       );
     }
+  };
+
+  handleLock = async () => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    let accounts = await this.props.web3.eth.getAccounts();
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    instance.changePostLock
+      .sendTransaction(
+        this.props.web3.utils.fromAscii(this.props.username),
+        this.props.post.forum,
+        this.props.post.postId,
+        this.props.userPermissions.admin[0] ||
+          this.props.userPermissions.admin[6]
+          ? 2
+          : 1,
+        { from: accounts[0], gasPrice: 20000000000 }
+      )
+      .catch(error => {
+        console.log('error');
+      });
+  };
+
+  handleUnlock = async () => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    let accounts = await this.props.web3.eth.getAccounts();
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    instance.changePostLock
+      .sendTransaction(
+        this.props.web3.utils.fromAscii(this.props.username),
+        this.props.post.forum,
+        this.props.post.postId,
+        0,
+        { from: accounts[0], gasPrice: 20000000000 }
+      )
+      .catch(error => {
+        console.log('error');
+      });
+  };
+
+  handleClick = () => {
+    this.props.history.push(
+      `/f/${this.props.web3.utils.toAscii(this.props.post.forum)}/p/${
+        this.props.post.postId
+      }`
+    );
   };
 
   render() {
@@ -425,15 +502,19 @@ class Post extends Component {
             commentCount={this.state.comments}
             canDelete={this.state.canDelete}
             canPin={this.state.canPin}
+            isLocked={this.state.isLocked}
+            canLock={this.state.canLock}
             handlePin={this.handlePin}
             handleUnpin={this.handleUnpin}
+            handleLock={this.handleLock}
+            handleUnlock={this.handleUnlock}
             saved={this.state.saved}
             handleSave={this.handleSave}
             handleUnsave={this.handleUnsave}
             handleDelete={this.handleDelete}
             handleReport={this.handleReport}
             forumPinned={this.state.forumPinned}
-            // adminPinned={true}
+            adminPinned={this.state.adminPinned}
           />
         </Wrapper>
       );
