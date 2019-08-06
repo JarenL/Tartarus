@@ -1,4 +1,4 @@
-import FrontSidebar from './Component';
+import AdminSidebar from './Component';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
@@ -12,6 +12,6 @@ const mapStateToProps = state => ({
 
 const enhance = compose(connect(mapStateToProps));
 
-const FrontSidebarContainer = enhance(FrontSidebar);
+const AdminSidebarContainer = enhance(AdminSidebar);
 
-export default FrontSidebarContainer;
+export default AdminSidebarContainer;

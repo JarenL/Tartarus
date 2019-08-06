@@ -3,6 +3,9 @@ import styled from 'styled-components/macro';
 import CreateForumButton from '../../Buttons/CreateForum';
 import { withRouter } from 'react-router-dom';
 import FrontHeader from './FrontHeader.js';
+import TartarusContract from '../../../contracts/Tartarus.json';
+
+const services = require('../../../services');
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,12 +15,87 @@ const Wrapper = styled.div`
 `;
 
 class FrontSidebar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      showDescription: true,
+      showRules: true,
+      showAdmins: true,
+      description: 'None',
+      rules: 'None',
+      time: null,
+      admin: true,
+      admins: null
+    };
+  }
+
+  componentDidMount() {
+    this.instantiateContract();
+  }
+
+  instantiateContract = async () => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    const bs58 = require('bs58');
+    tartarus.setProvider(this.props.web3.currentProvider);
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    let tartarusInfo = await instance.tartarusInfo.call();
+    const tartarusInfoHex = '1220' + tartarusInfo.slice(2);
+    const tartarusInfoBytes = Buffer.from(tartarusInfoHex, 'hex');
+    const tartarusInfoHash = bs58.encode(tartarusInfoBytes);
+    tartarusInfo = await services.ipfs.getJson(tartarusInfoHash);
+    if (tartarusInfo.description) {
+      this.setState({
+        description: tartarusInfo.description
+      });
+    } else {
+      this.setState({
+        description: 'None'
+      });
+    }
+    if (tartarusInfo.rules) {
+      this.setState({
+        rules: tartarusInfo.rules
+      });
+    } else {
+      this.setState({
+        rules: 'None'
+      });
+    }
+    let admins = await instance.getAdmins.call();
+    this.setState({
+      loading: false,
+      admins: admins
+    });
+  };
+
   createForumHandler = () => {
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
       this.props.history.push(`/createforum`);
     }
+  };
+
+  moderateHandler = () => {
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      this.props.history.push('/moderate');
+    }
+  };
+
+  toggleShowDescription = () => {
+    this.setState({ showDescription: !this.state.showDescription });
+  };
+
+  toggleShowRules = () => {
+    this.setState({ showRules: !this.state.showRules });
+  };
+
+  toggleShowAdmins = () => {
+    this.setState({ showAdmins: !this.state.showAdmins });
   };
 
   render() {

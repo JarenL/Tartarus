@@ -3,8 +3,8 @@ import TartarusContract from '../../../contracts/Tartarus.json';
 import styled from 'styled-components/macro';
 import { withRouter } from 'react-router-dom';
 import LoadingTest from '../../shared/LoadingIndicator/LoadingTest.js';
-import ModerateList from './ModerateList';
-import ModerateHeader from './ModerateHeader.js';
+import AdminList from './AdminList';
+import AdminHeader from './AdminHeader';
 import NotAuthorized from '../../shared/NotAuthorized.js';
 import Divider from '../Divider.js';
 
@@ -18,13 +18,12 @@ const Wrapper = styled.div`
   // margin-top: 12px;
 `;
 
-class ModerateSidebar extends Component {
+class AdminSidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
-      isModerator: false,
-      exists: true
+      isAdmin: false
     };
   }
 
@@ -38,19 +37,15 @@ class ModerateSidebar extends Component {
     tartarus.setProvider(this.props.web3.currentProvider);
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
-        instance.isModerator
-          .call(
-            this.props.web3.utils.fromAscii(this.props.username),
-            this.props.web3.utils.fromAscii(this.props.forumName),
-            {
-              from: accounts[0],
-              gasPrice: 20000000000
-            }
-          )
-          .then(isModerator => {
-            console.log(isModerator);
+        instance.isAdmin
+          .call(this.props.web3.utils.fromAscii(this.props.username), {
+            from: accounts[0],
+            gasPrice: 20000000000
+          })
+          .then(isAdmin => {
+            console.log(isAdmin);
             this.setState({
-              isModerator: isModerator,
+              isAdmin: isAdmin,
               loading: false
             });
           });
@@ -58,10 +53,8 @@ class ModerateSidebar extends Component {
     });
   };
 
-  createModerator = () => {
-    this.props.history.push(
-      `/f/${this.props.forumName}/moderate/moderators/create`
-    );
+  createAdmin = () => {
+    this.props.history.push(`/admin/admins/create`);
   };
 
   render() {
@@ -72,18 +65,18 @@ class ModerateSidebar extends Component {
         </Wrapper>
       );
     } else {
-      if (!this.state.isModerator) {
+      if (!this.state.isAdmin) {
         return <NotAuthorized />;
       } else {
         return (
           <Wrapper>
-            <ModerateHeader
-              userPermissions={this.props.userPermissions.moderator[0]}
-              createModerator={this.createModerator}
+            <AdminHeader
+              userPermissions={this.props.userPermissions.admin[0]}
+              createAdmin={this.createAdmin}
               forumName={this.props.forumName}
             />
             <Divider />
-            <ModerateList forumName={this.props.forumName} />
+            <AdminList />
           </Wrapper>
         );
       }
@@ -91,4 +84,4 @@ class ModerateSidebar extends Component {
   }
 }
 
-export default withRouter(ModerateSidebar);
+export default withRouter(AdminSidebar);

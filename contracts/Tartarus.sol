@@ -4,6 +4,7 @@ import "./Ownable.sol";
 
 contract Tartarus is Ownable {
     event TartarusPaid (uint amount, uint time);
+    event TartarusUpdated(bytes32 user, bytes32 newInfo, uint time);
     event AdminCreated (bytes32 user, bytes32 targetUser, bool[] permissions, uint wage, uint time);
     event AdminUpdated (bytes32 user, bytes32 targetUser, bool[] permissions, uint wage, uint time);
     event AdminRemoved (bytes32 user, bytes32 targetUser, uint time);
@@ -43,6 +44,7 @@ contract Tartarus is Ownable {
     mapping (bytes32 => Forum) public forums;
     bytes32[] adminList;
     bytes32 public ownerAccount;
+    bytes32 public tartarusInfo;
     uint public adminBalance;
     uint public adminWages;
     uint public totalAdminWages;
@@ -135,6 +137,11 @@ contract Tartarus is Ownable {
         newUser.creator = msg.sender;
         users[usernameBytes] = newUser;
         ownerAccount = usernameBytes;
+    }
+
+    function updateTartarus(bytes32 _user, bytes32 _tartarusInfo) public onlyUserVerified(_user) onlyAdminAuthorized(_user, 2) {
+        tartarusInfo = _tartarusInfo;
+        emit UserUpdated(_user, _tartarusInfo, now);
     }
 
     modifier onlyFee(uint _fee) {

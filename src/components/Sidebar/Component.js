@@ -8,6 +8,7 @@ import TrendingContainer from './Trending/TrendingContainer';
 import AboutContainer from './About/AboutContainer';
 import ModerateSidebarContainer from './Moderate/Container';
 import Divider from './Divider';
+import AdminSidebarContainer from './Admin/Container';
 
 const Wrapper = styled.div`
   position: sticky;
@@ -60,6 +61,14 @@ const Sidebar = props => {
             forumName={props.forumName}
             createModerator={props.createModerator}
           />
+          {/* <SubscriptionContainer /> */}
+        </Wrapper>
+      );
+    case 'admin':
+      console.log('admin');
+      return (
+        <Wrapper>
+          <AdminSidebarContainer createAdmin={props.createAdmin} />
           {/* <SubscriptionContainer /> */}
         </Wrapper>
       );

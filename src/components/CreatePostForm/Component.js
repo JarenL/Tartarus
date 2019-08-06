@@ -209,8 +209,9 @@ class CreatePostForm extends React.Component {
           );
           console.log(cost);
           let gasPrice = await this.props.web3.eth.getGasPrice();
-          console.log(cost * gasPrice);
+          let test = cost * gasPrice;
           console.log(this.props.web3.utils.fromWei(cost.toString(), 'ether'));
+          console.log(this.props.web3.utils.fromWei(test.toString(), 'ether'));
           instance.createPost
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),
