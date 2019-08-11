@@ -48,11 +48,11 @@ contract Tartarus is Ownable {
     uint public adminBalance;
     uint public adminWages;
     uint public totalAdminWages;
-    uint public createUserCost = 0.03 ether;
-    uint public createForumCost = 0.03 ether;
-    uint public createPostCost = 0.0003 ether;
-    uint public createCommentCost = 0.00003 ether;
-    uint public voteCost = 0.00003 ether;
+    uint public createUserCost = 0.001 ether;
+    uint public createForumCost = 0.01 ether;
+    uint public createPostCost = 0.0001 ether;
+    uint public createCommentCost = 0.00001 ether;
+    uint public voteCost = 0.00001 ether;
     uint public idNonce;
 
     struct User {
@@ -654,7 +654,7 @@ contract Tartarus is Ownable {
     function getModerators(bytes32 _forum) public view returns(bytes32[] memory) {
         bytes32[] memory currentModerators = new bytes32[](forums[_forum].moderatorList.length + 1);
         currentModerators[0] = forums[_forum].owner;
-        for (uint i = 0;i < forums[_forum].moderatorList.length; i++) {
+        for (uint i = 0; i < forums[_forum].moderatorList.length; i++) {
             currentModerators[i + 1] = forums[_forum].moderatorList[i];
         }
         return currentModerators;
@@ -778,8 +778,8 @@ contract Tartarus is Ownable {
     function getAdmins() public view returns(bytes32[] memory) {
         bytes32[] memory currentAdmins = new bytes32[](adminList.length + 1);
         currentAdmins[0] = ownerAccount;
-        for (uint i = 1;i < adminList.length + 1; i++) {
-            currentAdmins[i] = adminList[i];
+        for (uint i = 0; i < adminList.length; i++) {
+            currentAdmins[i + 1] = adminList[i];
         }
         return currentAdmins;
     }

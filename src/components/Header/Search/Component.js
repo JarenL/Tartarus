@@ -10,7 +10,7 @@ import { Redirect } from 'react-router';
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  margin-right: 1.25%;
+  // margin-right: 1.25%;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -34,13 +34,14 @@ const StyledForm = styled(Form)`
 `};
   border-radius: 3px;
   width: 100%;
-  padding: 0;
+  padding: 0px;
+  margin: 2px;
   background-color: ${props => props.theme.inputBackground};
   font-size: 12px;
   color: ${props => props.theme.normalText};
   appearance: none;
   outline: none;
-  resize: vertical;
+  resize: none;
 
   :hover,
   :focus {
@@ -51,17 +52,17 @@ const StyledForm = styled(Form)`
     box-shadow: 0 0 0 2px var(--shadow);
   }
 
-  @media (max-width: 768px) {
-    margin-top: -1px;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    :hover,
-    :focus-within {
-      border-left: none;
-      border-right: none;
-    }
-  }
+  // @media (max-width: 768px) {
+  //   margin-top: -1px;
+  //   border-radius: 0;
+  //   // border-left: none;
+  //   // border-right: none;
+  //   // :hover,
+  //   // :focus-within {
+  //   //   border-left: none;
+  //   //   border-right: none;
+  //   // }
+  // }
 `;
 
 class SearchBox extends Component {
@@ -95,7 +96,10 @@ class SearchBox extends Component {
   render() {
     return (
       <Wrapper>
-        {this.state.showSearch && (
+        <StyledForm loading={this.state.loading}>
+          <SearchTextArea name='search' onSubmit={this.handleSubmit} />
+        </StyledForm>
+        {/* {this.state.showSearch && (
           <StyledForm loading={this.state.loading}>
             <SearchTextArea name='search' onSubmit={this.handleSubmit} />
           </StyledForm>
@@ -104,7 +108,7 @@ class SearchBox extends Component {
           <CancelButton handleClose={this.handleClose} />
         ) : (
           <SearchButton handleShowSearch={this.handleShowSearch} />
-        )}
+        )} */}
       </Wrapper>
     );
   }

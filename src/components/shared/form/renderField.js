@@ -118,7 +118,7 @@ const VariableField = field => {
       );
 
     case 'checkbox':
-      console.log(field);
+      // console.log(field);
       console.log('check');
       return (
         <InputWrapper>
@@ -128,7 +128,6 @@ const VariableField = field => {
       );
 
     case 'permissionsText':
-      console.log(field)
       return (
         <PermissionsInputWrapper>
           <Label>{field.label}</Label>
@@ -165,7 +164,6 @@ const VariableField = field => {
       );
 
     case 'editor':
-      console.log(field)
       return (
         <InputWrapper>
           <Label>{field.label}</Label>

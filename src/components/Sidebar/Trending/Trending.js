@@ -33,7 +33,7 @@ const Forums = styled.div`
   font-size: 12px;
   list-style-position: inside;
   background-color: ${props => props.theme.inputBackground};
-  color: ${props => props.theme.normalText};
+  color: ${props => props.theme.mutedText};
 `;
 
 const ButtonWrapper = styled.div`

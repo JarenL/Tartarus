@@ -195,23 +195,23 @@ class CreatePostForm extends React.Component {
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
         instance.createPostCost.call().then(async createPostCost => {
-          // console.log(createPostCost);
-          // console.log(createPostCost.toString());
-          // let cost = await instance.createPost.estimateGas(
-          //   this.props.web3.utils.fromAscii(this.props.username),
-          //   this.props.web3.utils.fromAscii(this.props.forumName),
-          //   props,
-          //   {
-          //     from: accounts[0],
-          //     gasPrice: 20000000000,
-          //     value: createPostCost
-          //   }
-          // );
-          // console.log(cost);
-          // let gasPrice = await this.props.web3.eth.getGasPrice();
-          // let test = cost * gasPrice;
-          // console.log(this.props.web3.utils.fromWei(cost.toString(), 'ether'));
-          // console.log(this.props.web3.utils.fromWei(test.toString(), 'ether'));
+          let createPostGas = await instance.createPost.estimateGas(
+            this.props.web3.utils.fromAscii(this.props.username),
+            this.props.web3.utils.fromAscii(this.props.forumName),
+            props,
+            {
+              from: accounts[0],
+              gasPrice: 20000000000,
+              value: createPostCost
+            }
+          );
+          console.log('create post gas - ' + createPostGas.toString());
+          let gasPrice = await this.props.web3.eth.getGasPrice();
+          let postTest = createPostGas * gasPrice;
+          console.log(
+            'create post eth cost - ' +
+              this.props.web3.utils.fromWei(postTest.toString(), 'ether')
+          );
           instance.createPost
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),

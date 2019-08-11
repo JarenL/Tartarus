@@ -59,7 +59,6 @@ class Post extends Component {
       instance
         .getPost(this.props.post.forum, this.props.post.postId)
         .then(async post => {
-          console.log(post);
           if (
             post[0] ===
             '0x0000000000000000000000000000000000000000000000000000000000000000'
@@ -81,8 +80,6 @@ class Post extends Component {
               this.checkSaved();
             }
             if (postData !== null) {
-              console.log(this.props.post.forum);
-              console.log(this.props.web3.utils.toUtf8(this.props.post.forum));
               let adminPinnedPosts = await instance.getForumPinnedPosts(
                 this.props.web3.utils.fromAscii('announcements')
               );
@@ -292,7 +289,20 @@ class Post extends Component {
       tartarus.setProvider(this.props.web3.currentProvider);
       this.props.web3.eth.getAccounts((error, accounts) => {
         tartarus.at(this.props.tartarusAddress).then(instance => {
-          instance.voteCost.call().then(voteCost => {
+          instance.voteCost.call().then(async voteCost => {
+            let voteGas = await instance.upvote.estimateGas(
+              this.props.post.forum,
+              this.props.web3.utils.fromAscii(this.props.username),
+              this.props.post.postId,
+              { from: accounts[0], gasPrice: 20000000000, value: voteCost }
+            );
+            console.log('vote gas - ' + voteGas.toString());
+            let gasPrice = await this.props.web3.eth.getGasPrice();
+            let voteTest = voteGas * gasPrice;
+            console.log(
+              'create post eth cost - ' +
+                this.props.web3.utils.fromWei(voteTest.toString(), 'ether')
+            );
             instance.upvote
               .sendTransaction(
                 this.props.post.forum,

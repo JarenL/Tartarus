@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Content from './Content';
+import Sidebar from '../Home/Sidebar';
+import DrawerHeader from './DrawerHeader';
 
 const transforms = {
   top: 'translateY(-100%)',
@@ -89,7 +90,12 @@ export default class Drawer extends React.Component {
           position={position}
           backgroundColor={backgroundColor}
         >
-          <Content user={this.props.user} userHex={this.props.userHex} handleDrawerToggle={this.props.handleDrawerToggle} />
+          <DrawerHeader
+            username={this.props.username}
+            userHex={this.props.userHex}
+            handleDrawerToggle={this.props.handleDrawerToggle}
+          />
+          <Sidebar />
         </DrawerContent>
       </DrawerWrapper>
     );

@@ -104,7 +104,7 @@ class CreateAdminForm extends React.Component {
   }
 
   componentWillUnmount = () => {
-    this.props.reset('createModerator');
+    this.props.reset('createAdmin');
   };
 
   handleSubmit = async () => {

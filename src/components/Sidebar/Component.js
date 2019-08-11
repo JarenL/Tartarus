@@ -78,8 +78,6 @@ const Sidebar = props => {
           <FrontSidebarContainer />
           {/* <SubscriptionContainer /> */}
           <Divider />
-          <TrendingContainer />
-          <Divider />
           <AboutContainer />
         </Wrapper>
       );

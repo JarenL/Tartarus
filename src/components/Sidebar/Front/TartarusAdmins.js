@@ -6,11 +6,12 @@ import UpButton from '../../Buttons/UpButton';
 import DownButton from '../../Buttons/DownButton';
 import { Link } from 'react-router-dom';
 import ModerateButton from '../../Buttons/Moderate';
+import Author from '../../shared/Author';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid ${props => props.theme.border};
+  // border: 1px solid ${props => props.theme.border};
   background-color: ${props => props.theme.foreground};
   // margin-top: 12px;
 `;
@@ -26,13 +27,13 @@ const HeaderWrapper = styled.div`
   border-bottom: 1px solid ${props => props.theme.border};
 `;
 
-const Moderators = styled.div`
+const Admins = styled.div`
   overflow-wrap: break-word;
-  border-left: none;
+  margin-right: auto;
   padding: 8px;
   font-size: 12px;
   list-style-position: inside;
-  background-color: ${props => props.theme.inputBackground};
+  // background-color: ${props => props.theme.inputBackground};
   color: ${props => props.theme.normalText};
 `;
 
@@ -54,10 +55,12 @@ const ButtonWrapper = styled.div`
 
 const Admin = props => {
   const admin = props.web3.utils.toAscii(props.admin);
-  console.log(admin)
+  console.log(admin);
   return (
     <StyledLink to={`/u/${admin}`}>
-      <li>{admin}</li>
+      <li>
+        <Author creatorHex={props.admin} username={admin} isAdmin={true} />
+      </li>
     </StyledLink>
   );
 };
@@ -88,7 +91,7 @@ const TartarusAdmins = props => (
       </ButtonWrapper>
     </HeaderWrapper>
     {props.showAdmins ? (
-      <Moderators>
+      <Admins>
         {props.admins !== null ? (
           <ul>
             {props.admins.map(function(admin) {
@@ -98,7 +101,7 @@ const TartarusAdmins = props => (
         ) : (
           'None'
         )}
-      </Moderators>
+      </Admins>
     ) : null}
   </Wrapper>
 );

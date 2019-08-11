@@ -59,7 +59,27 @@ class CreateForumForm extends React.Component {
       tartarus.setProvider(this.props.web3.currentProvider);
       this.props.web3.eth.getAccounts((error, accounts) => {
         tartarus.at(this.props.tartarusAddress).then(instance => {
-          instance.createUserCost.call().then(createForumCost => {
+          instance.createUserCost.call().then(async createForumCost => {
+            let createForumGas = await instance.createForum.estimateGas(
+              this.props.web3.utils.fromAscii(this.props.username),
+              this.props.form.createForum.values.forumName,
+              props.forumInfo,
+              {
+                from: accounts[0],
+                gasPrice: 20000000000,
+                value: createForumCost
+              }
+            );
+            console.log('create forum gas - ' + createForumGas.toString());
+            let gasPrice = await this.props.web3.eth.getGasPrice();
+            let createForumTest = createForumGas * gasPrice;
+            console.log(
+              'create forum eth cost - ' +
+                this.props.web3.utils.fromWei(
+                  createForumTest.toString(),
+                  'ether'
+                )
+            );
             instance.createForum
               .sendTransaction(
                 this.props.web3.utils.fromAscii(this.props.username),

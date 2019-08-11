@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 import { link } from './helpers';
-import UserBlockie from '../Sidebar/User/UserBlockie';
 import makeBlockie from 'ethereum-blockies-base64';
 
 const StyledCreator = styled(Link)`

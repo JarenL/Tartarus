@@ -33,7 +33,6 @@ const StyledQuill = styled(ReactQuill)`
 `;
 
 const Editor = props => {
-  console.log(props)
   return (
     <StyledQuill
       // theme={'snow'}

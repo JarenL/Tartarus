@@ -20,7 +20,7 @@ import TartarusContract from './contracts/Tartarus.json';
 
 // const tartarusAddress = '0x4c905e8c4533cb6928abaa159ca7b45b22f4d086';
 // const tartarusAddress = '0x3ca7832b2edd307b075903e2aac2ff04308ad001';
-const tartarusAddress = '0xf12cb5271ee8d4c699cc6da6a1b757800a9aa2b7';
+const tartarusAddress = '0x48fa651daaa05c78235a026fbe4ad602ebd34e0c';
 
 class App extends Component {
   constructor(props) {
@@ -59,6 +59,32 @@ class App extends Component {
           });
         });
     });
+  };
+
+  getTxCosts = async () => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    let accounts = await this.props.web3.eth.getAccounts();
+    let createPostCost = await instance.createPostCost.call();
+    let createPostGas = await instance.createPost.estimateGas(
+      this.props.web3.utils.fromAscii(this.props.username),
+      this.props.web3.utils.fromAscii(this.props.forumName),
+      this.props.web3.utils.fromAscii(this.props.username),
+      {
+        from: accounts[0],
+        gasPrice: 20000000000,
+        value: createPostCost
+      }
+    );
+    console.log('create post gas - ' + createPostGas.toString());
+    let gasPrice = await this.props.web3.eth.getGasPrice();
+    let test = createPostGas * gasPrice;
+    console.log(
+      'create post eth cost - ' +
+        this.props.web3.utils.fromWei(test.toString(), 'ether')
+    );
   };
 
   render() {

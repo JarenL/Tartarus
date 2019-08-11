@@ -143,7 +143,6 @@ class PostList extends React.Component {
     let pinnedPosts = await instance.getForumPinnedPosts(
       this.props.web3.utils.fromAscii(props)
     );
-    console.log(pinnedPosts);
     pinnedPosts = pinnedPosts.filter(
       i =>
         i !==
@@ -249,7 +248,6 @@ class PostList extends React.Component {
                         post.args.postId = post.args.contentId;
                         post.args.creator = post.args.user;
                       });
-                      console.log(posts);
                       await this.getPosts(posts);
                     });
                 });
@@ -297,15 +295,12 @@ class PostList extends React.Component {
       tartarus
         .at(this.props.tartarusAddress)
         .then(instance => {
-          console.log(this.props.forumName);
-          console.log(this.props.username);
           instance.getModerator
             .call(
               this.props.web3.utils.fromAscii(this.props.username),
               this.props.web3.utils.fromAscii(this.props.forumName)
             )
             .then(moderator => {
-              console.log(moderator);
               let permissionsObject = {
                 type: 'moderator',
                 permissions: moderator
@@ -355,7 +350,6 @@ class PostList extends React.Component {
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
     if (!this.state.posts || this.state.posts.length === 0) return <Empty />;
-    console.log(this.state.pinnedPosts);
     return (
       <>
         {this.state.pinnedPosts.length !== 0 ? (

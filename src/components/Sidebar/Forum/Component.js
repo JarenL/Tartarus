@@ -11,6 +11,7 @@ import CreatePostButton from '../../Buttons/CreatePost';
 import CreateForumButton from '../../Buttons/CreateForum';
 import { withRouter } from 'react-router-dom';
 import LoadingTest from '../../shared/LoadingIndicator/LoadingTest.js';
+import SearchContainer from '../../Header/Search/SearchContainer.js';
 
 const services = require('../../../services');
 
@@ -192,6 +193,7 @@ class ForumSidebar extends Component {
     } else {
       return (
         <Wrapper>
+          <SearchContainer />
           {this.state.exists ? (
             <CreatePostButton createPostHandler={this.createPostHandler} />
           ) : (

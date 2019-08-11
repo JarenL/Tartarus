@@ -15,6 +15,9 @@ const Header = styled.div`
   align-items: stretch;
   // justify-content: center;
   border-bottom: 1px solid ${props => props.theme.border};
+  @media (max-width: 425px) {
+    height: 40px;
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -23,7 +26,6 @@ const ButtonWrapper = styled.div`
 
 class DrawerHeader extends Component {
   render() {
-    console.log(this.props.user);
     return (
       <>
         <Header>
@@ -39,8 +41,11 @@ class DrawerHeader extends Component {
           </ButtonWrapper>
           <HeaderLogo />
         </Header>
-        {this.props.user !== null ? (
-          <UserHeader user={this.props.user} userHex={this.props.userHex} />
+        {this.props.username !== null ? (
+          <UserHeader
+            user={this.props.username}
+            userHex={this.props.userHex}
+          />
         ) : null}
       </>
     );

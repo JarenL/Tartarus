@@ -20,7 +20,7 @@ const mapStateToProps = state => ({
 
 const enhance = compose(
   reduxForm({
-    form: 'createModerator',
+    form: 'createAdmin',
     usernameValidator
     // forumNameValidator,
     // forumDescriptionValidator,

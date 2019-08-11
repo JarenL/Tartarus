@@ -17,7 +17,7 @@ class AppDrawer extends Component {
           onDismiss={() => this.handleDrawerToggle()}
           // backgroundColor='rgba(5, 29, 51, 0.9)'
           size='240px'
-          user={this.props.username}
+          username={this.props.username}
           userHex={this.props.web3.utils.fromAscii(this.props.username)}
           handleDrawerToggle={this.handleDrawerToggle}
         />

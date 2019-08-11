@@ -7,6 +7,8 @@ import TartarusContract from '../../../contracts/Tartarus.json';
 import TartarusAdmins from './TartarusAdmins';
 import LoadingTest from '../../shared/LoadingIndicator/LoadingTest';
 import Divider from '../Divider';
+import TrendingContainer from '../Trending/TrendingContainer';
+import SearchContainer from '../../Header/Search/SearchContainer';
 
 const services = require('../../../services');
 
@@ -114,8 +116,11 @@ class FrontSidebar extends Component {
     } else {
       return (
         <Wrapper>
+          <SearchContainer />
           <CreateForumButton createForumHandler={this.createForumHandler} />
           <FrontHeader />
+          <Divider />
+          <TrendingContainer />
           <Divider />
           <TartarusAdmins
             username={this.props.username}

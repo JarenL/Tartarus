@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
-import { MdBookmark } from 'react-icons/md';
+import { MdLabel } from 'react-icons/md';
 
-const UnpinButton = styled(MdBookmark)`
+const UnpinButton = styled(MdLabel)`
   vertical-align: sub;
   cursor: pointer;
   // margin-right: 2px;

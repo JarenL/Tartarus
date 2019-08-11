@@ -6,11 +6,11 @@ import UpButton from '../../Buttons/UpButton';
 import DownButton from '../../Buttons/DownButton';
 import { Link } from 'react-router-dom';
 import ModerateButton from '../../Buttons/Moderate';
+import Author from '../../shared/Author';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid ${props => props.theme.border};
   background-color: ${props => props.theme.foreground};
   // margin-top: 12px;
 `;
@@ -28,11 +28,10 @@ const HeaderWrapper = styled.div`
 
 const Moderators = styled.div`
   overflow-wrap: break-word;
-  border-left: none;
   padding: 8px;
+  margin-right: auto;
   font-size: 12px;
   list-style-position: inside;
-  background-color: ${props => props.theme.inputBackground};
   color: ${props => props.theme.normalText};
 `;
 
@@ -56,7 +55,13 @@ const Moderator = props => {
   const moderator = props.web3.utils.toAscii(props.moderator);
   return (
     <StyledLink to={`/u/${moderator}`}>
-      <li>{moderator}</li>
+      <li>
+        <Author
+          creatorHex={props.moderator}
+          username={moderator}
+          isModerator={true}
+        />
+      </li>
     </StyledLink>
   );
 };
