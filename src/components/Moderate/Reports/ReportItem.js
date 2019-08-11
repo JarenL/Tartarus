@@ -258,13 +258,9 @@ class ReportItem extends React.Component {
                 this.props.event.args._forum
               )}/p/${this.props.event.args.postId}`}
             >
-              {/* {props.web3.utils.toAscii(event.args.targetUser)} */}
               {this.props.event.event === 'ReportPost' ? 'Post' : 'Comment'}
             </StyledLink>{' '}
             {' reported '}
-            {/* <StyledLink to={`/u/${props.web3.utils.toAscii(event.args.user)}`}>
-                {props.web3.utils.toAscii(event.args.user)}
-              </StyledLink> */}
             {` ${moment(this.props.event.args.time.c[0] * 1000).fromNow()}`}
           </div>
           {this.state.showDetails ? (
@@ -279,13 +275,11 @@ class ReportItem extends React.Component {
           )}
         </ReportWrapper>
         {this.state.showDetails ? (
-          // <Empty />
           this.props.event.event === 'ReportPost' ? (
             <PostWrapper>
               <PostContainer post={this.state.post.args} showFullPost={false} />
             </PostWrapper>
-          ) : // <Empty />
-          this.state.loading ? (
+          ) : this.state.loading ? (
             <LoadingIndicatorSpinner />
           ) : true ? (
             <CommentWrapper>
@@ -294,13 +288,7 @@ class ReportItem extends React.Component {
           ) : (
             <Empty />
           )
-        ) : // <PermissionsContainer
-        //   togglePermissions={props.toggleShowDetails}
-        //   permissions={props.permissions}
-        //   moderator={props.moderator}
-        //   forumName={props.forumName}
-        // />
-        null}
+        ) : null}
       </Wrapper>
     );
   }

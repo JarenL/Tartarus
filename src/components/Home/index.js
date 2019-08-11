@@ -16,8 +16,7 @@ import DrawerContainer from '../Drawer/Container';
 import CombinedListContainer from '../Combined/Container';
 import ComingSoon from '../shared/ComingSoon';
 import CreateForumFormContainer from '../CreateForumForm/Container';
-import ModeratorPinnedPostListContainer from '../Post/PostList/PinnedPosts/Moderator/Container';
-import AdminPinnedPostListContainer from '../Post/PostList/PinnedPosts/Admin/Container';
+import AdminContainer from '../Admin/Container';
 
 const Wrapper = styled.div`
   display: flex;
@@ -152,6 +151,46 @@ const Home = props => {
           path='/f/:forumName/createpost'
           render={({ match }) => (
             <CreatePostFormContainer forumName={match.params.forumName} />
+          )}
+        />
+
+        <Route
+          exact
+          path='/admin'
+          render={({ match }) => (
+            <AdminContainer key={match.url} type={'activity'} />
+          )}
+        />
+
+        <Route
+          exact
+          path='/admin/admins'
+          render={({ match }) => (
+            <AdminContainer key={match.url} type={'admins'} />
+          )}
+        />
+
+        <Route
+          exact
+          path='/admin/admins/create'
+          render={({ match }) => (
+            <AdminContainer key={match.url} type={'create'} />
+          )}
+        />
+
+        <Route
+          exact
+          path='/admin/info'
+          render={({ match }) => (
+            <AdminContainer key={match.url} type={'info'} />
+          )}
+        />
+
+        <Route
+          exact
+          path='/admin/banned'
+          render={({ match }) => (
+            <AdminContainer key={match.url} type={'banned'} />
           )}
         />
 
@@ -335,6 +374,55 @@ const Home = props => {
             exact
             path='/'
             render={({ match }) => <SidebarContainer page={'front'} />}
+          />
+          <Route
+            exact
+            path='/admin'
+            render={({ match }) => (
+              <SidebarContainer page={'admin'} key={match.url} />
+            )}
+          />
+          <Route
+            exact
+            path='/admin/admins'
+            render={({ match }) => (
+              <SidebarContainer page={'admin'} key={match.url} />
+            )}
+          />
+          <Route
+            exact
+            path='/admin/admins/create'
+            render={({ match }) => (
+              <SidebarContainer page={'admin'} key={match.url} />
+            )}
+          />
+          <Route
+            exact
+            path='/admin/info'
+            render={({ match }) => (
+              <SidebarContainer page={'admin'} key={match.url} />
+            )}
+          />
+          <Route
+            exact
+            path='/admin/banned'
+            render={({ match }) => (
+              <SidebarContainer page={'admin'} key={match.url} />
+            )}
+          />
+          <Route
+            exact
+            path='/admin/removed'
+            render={({ match }) => (
+              <SidebarContainer page={'admin'} key={match.url} />
+            )}
+          />
+          <Route
+            exact
+            path='/admin/reports'
+            render={({ match }) => (
+              <SidebarContainer page={'admin'} key={match.url} />
+            )}
           />
           <Route
             exact

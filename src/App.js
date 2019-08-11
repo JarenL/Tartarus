@@ -20,7 +20,7 @@ import TartarusContract from './contracts/Tartarus.json';
 
 // const tartarusAddress = '0x4c905e8c4533cb6928abaa159ca7b45b22f4d086';
 // const tartarusAddress = '0x3ca7832b2edd307b075903e2aac2ff04308ad001';
-const tartarusAddress = '0x5f379670a5ff7b3af62b8f077aac134deb3a419c';
+const tartarusAddress = '0xf12cb5271ee8d4c699cc6da6a1b757800a9aa2b7';
 
 class App extends Component {
   constructor(props) {

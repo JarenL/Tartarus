@@ -4,6 +4,9 @@ import CreateForumButton from '../../Buttons/CreateForum';
 import { withRouter } from 'react-router-dom';
 import FrontHeader from './FrontHeader.js';
 import TartarusContract from '../../../contracts/Tartarus.json';
+import TartarusAdmins from './TartarusAdmins';
+import LoadingTest from '../../shared/LoadingIndicator/LoadingTest';
+import Divider from '../Divider';
 
 const services = require('../../../services');
 
@@ -11,7 +14,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   // border: 1px solid ${props => props.theme.border};
-  background-color: ${props => props.theme.foreground};
+  // background-color: ${props => props.theme.foreground};
 `;
 
 class FrontSidebar extends Component {
@@ -41,10 +44,11 @@ class FrontSidebar extends Component {
     tartarus.setProvider(this.props.web3.currentProvider);
     let instance = await tartarus.at(this.props.tartarusAddress);
     let tartarusInfo = await instance.tartarusInfo.call();
-    const tartarusInfoHex = '1220' + tartarusInfo.slice(2);
-    const tartarusInfoBytes = Buffer.from(tartarusInfoHex, 'hex');
-    const tartarusInfoHash = bs58.encode(tartarusInfoBytes);
-    tartarusInfo = await services.ipfs.getJson(tartarusInfoHash);
+    console.log(tartarusInfo);
+    // const tartarusInfoHex = '1220' + tartarusInfo.slice(2);
+    // const tartarusInfoBytes = Buffer.from(tartarusInfoHex, 'hex');
+    // const tartarusInfoHash = bs58.encode(tartarusInfoBytes);
+    // tartarusInfo = await services.ipfs.getJson(tartarusInfoHash);
     if (tartarusInfo.description) {
       this.setState({
         description: tartarusInfo.description
@@ -63,7 +67,9 @@ class FrontSidebar extends Component {
         rules: 'None'
       });
     }
+
     let admins = await instance.getAdmins.call();
+    console.log(admins);
     this.setState({
       loading: false,
       admins: admins
@@ -78,11 +84,11 @@ class FrontSidebar extends Component {
     }
   };
 
-  moderateHandler = () => {
+  adminHandler = () => {
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
-      this.props.history.push('/moderate');
+      this.props.history.push('/admin');
     }
   };
 
@@ -99,12 +105,28 @@ class FrontSidebar extends Component {
   };
 
   render() {
-    return (
-      <Wrapper>
-        <CreateForumButton createForumHandler={this.createForumHandler} />
-        <FrontHeader />
-      </Wrapper>
-    );
+    if (this.state.loading) {
+      return (
+        <Wrapper>
+          <LoadingTest />
+        </Wrapper>
+      );
+    } else {
+      return (
+        <Wrapper>
+          <CreateForumButton createForumHandler={this.createForumHandler} />
+          <FrontHeader />
+          <Divider />
+          <TartarusAdmins
+            username={this.props.username}
+            showAdmins={this.state.showAdmins}
+            toggleShowAdmins={this.toggleShowAdmins}
+            admins={this.state.admins}
+            web3={this.props.web3}
+          />
+        </Wrapper>
+      );
+    }
   }
 }
 

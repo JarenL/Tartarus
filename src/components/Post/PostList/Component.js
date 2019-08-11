@@ -143,10 +143,12 @@ class PostList extends React.Component {
     let pinnedPosts = await instance.getForumPinnedPosts(
       this.props.web3.utils.fromAscii(props)
     );
+    console.log(pinnedPosts);
     pinnedPosts = pinnedPosts.filter(
       i =>
         i !==
-        '0x0000000000000000000000000000000000000000000000000000000000000000'
+          '0x0000000000000000000000000000000000000000000000000000000000000000' &&
+        i !== '0x'
     );
     this.setState({
       pinnedPosts: pinnedPosts

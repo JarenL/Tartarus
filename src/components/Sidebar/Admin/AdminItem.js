@@ -24,7 +24,7 @@ const AdminSidebarItem = props => {
     <Item
       exact={isAll}
       to={
-        isAll ? `/admin/administrate` : `/admin/administrate/${props.category}`
+        isAll ? `/admin` : `/admin/${props.category}`
       }
     >
       {props.category}

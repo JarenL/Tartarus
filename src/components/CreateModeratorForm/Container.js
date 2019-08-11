@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
-import CreateModeratorForm from './Component';
+import CreateAdminForm from './Component';
 import { usernameValidator } from '../../services/validators';
 // import {
 //   forumNameValidator,
@@ -29,6 +29,6 @@ const enhance = compose(
   connect(mapStateToProps)
 );
 
-const CreateModeratorFormContainer = enhance(CreateModeratorForm);
+const CreateAdminFormContainer = enhance(CreateAdminForm);
 
-export default CreateModeratorFormContainer;
+export default CreateAdminFormContainer;

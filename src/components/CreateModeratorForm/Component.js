@@ -114,7 +114,7 @@ class CreateModeratorForm extends React.Component {
   handleSubmit = () => {
     console.log(this.state.permissions.slice(0, 6));
     console.log(this.props.targetUser.values.targetUser);
-    console.log(this.props.forumName)
+    console.log(this.props.forumName);
     this.setState({
       laoding: true
     });
@@ -127,7 +127,9 @@ class CreateModeratorForm extends React.Component {
           .sendTransaction(
             this.props.web3.utils.fromAscii(this.props.username),
             this.props.web3.utils.fromAscii(this.props.forumName),
-            this.props.web3.utils.fromAscii(this.props.targetUser.values.targetUser),
+            this.props.web3.utils.fromAscii(
+              this.props.targetUser.values.targetUser
+            ),
             this.state.permissions,
             this.state.wage,
             {

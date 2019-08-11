@@ -54,6 +54,7 @@ const ButtonWrapper = styled.div`
 
 const Admin = props => {
   const admin = props.web3.utils.toAscii(props.admin);
+  console.log(admin)
   return (
     <StyledLink to={`/u/${admin}`}>
       <li>{admin}</li>
@@ -66,7 +67,7 @@ const usernameToBytes32 = props => {
   return props + '0'.repeat(remainder);
 };
 
-const ForumModerators = props => (
+const TartarusAdmins = props => (
   <Wrapper>
     <HeaderWrapper>
       {'Admins'}
@@ -86,12 +87,12 @@ const ForumModerators = props => (
         )}
       </ButtonWrapper>
     </HeaderWrapper>
-    {props.showModerators ? (
+    {props.showAdmins ? (
       <Moderators>
-        {props.moderators !== null ? (
+        {props.admins !== null ? (
           <ul>
-            {props.moderators.map(function(moderator) {
-              return <Moderator moderator={moderator} web3={props.web3} />;
+            {props.admins.map(function(admin) {
+              return <Admin admin={admin} web3={props.web3} />;
             })}
           </ul>
         ) : (
@@ -102,4 +103,4 @@ const ForumModerators = props => (
   </Wrapper>
 );
 
-export default ForumModerators;
+export default TartarusAdmins;
