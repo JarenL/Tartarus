@@ -1,8 +1,12 @@
-pragma solidity ^0.5.2;
+pragma solidity ^0.5.0;
 
-import "./Ownable.sol";
+// Import base Initializable contract
+import "zos-lib/contracts/Initializable.sol";
 
-contract Tartarus is Ownable {
+// Import interface and library from OpenZeppelin contracts
+import "openzeppelin-eth/contracts/math/SafeMath.sol";
+
+contract Tartarus is Initializable {
     event TartarusPaid (uint amount, uint time);
     event TartarusUpdated(bytes32 user, bytes32 newInfo, uint time);
     event AdminCreated (bytes32 user, bytes32 targetUser, bool[] permissions, uint wage, uint time);
@@ -48,11 +52,11 @@ contract Tartarus is Ownable {
     uint public adminBalance;
     uint public adminWages;
     uint public totalAdminWages;
-    uint public createUserCost = 0.001 ether;
-    uint public createForumCost = 0.01 ether;
-    uint public createPostCost = 0.0001 ether;
-    uint public createCommentCost = 0.00001 ether;
-    uint public voteCost = 0.00001 ether;
+    uint public createUserCost;
+    uint public createForumCost;
+    uint public createPostCost;
+    uint public createCommentCost;
+    uint public voteCost;
     uint public idNonce;
 
     struct User {
@@ -125,18 +129,22 @@ contract Tartarus is Ownable {
         bytes32 creator;
     }
 
-    constructor(string memory _username) public {
+    function initialize(string memory _username) public initializer {
         require(
             validateName(_username),
             "Invalid username"
         );
-        owner = msg.sender;
         bytes32 usernameBytes = stringToBytes32(_username);
         User memory newUser;
         newUser.username = usernameBytes;
         newUser.creator = msg.sender;
         users[usernameBytes] = newUser;
         ownerAccount = usernameBytes;
+        createUserCost = 0.001 ether;
+        createForumCost = 0.01 ether;
+        createPostCost = 0.0001 ether;
+        createCommentCost = 0.00001 ether;
+        voteCost = 0.00001 ether;
     }
 
     function updateTartarus(bytes32 _user, bytes32 _tartarusInfo) public onlyUserVerified(_user) onlyAdminAuthorized(_user, 2) {

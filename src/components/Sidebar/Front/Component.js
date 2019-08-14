@@ -107,13 +107,13 @@ class FrontSidebar extends Component {
   };
 
   render() {
-    if (this.state.loading) {
-      return (
-        <Wrapper>
-          <LoadingTest />
-        </Wrapper>
-      );
-    } else {
+    // if (this.state.loading) {
+    //   return (
+    //     <Wrapper>
+    //       <LoadingTest />
+    //     </Wrapper>
+    //   );
+    // } else {
       return (
         <Wrapper>
           <SearchContainer />
@@ -132,7 +132,7 @@ class FrontSidebar extends Component {
         </Wrapper>
       );
     }
-  }
+  // }
 }
 
 export default withRouter(FrontSidebar);

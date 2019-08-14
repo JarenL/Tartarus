@@ -5,9 +5,9 @@ import { transition } from '../shared/helpers';
 import TartarusContract from '../../contracts/Tartarus.json';
 import Editor from '../shared/form/Editor';
 import { Field } from 'redux-form';
-import SubmitButton from '../shared/form/SubmitButton';
-import CommentButton from '../shared/form/CommentButton';
-import CancelButton from '../shared/form/CancelButton';
+import SubmitButton from '../Buttons/SubmitButton';
+import CommentButton from '../Buttons/CommentButton';
+import CancelButton from '../Buttons/CancelButton';
 
 const services = require('../../services');
 

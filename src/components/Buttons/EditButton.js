@@ -1,21 +1,15 @@
+import React from 'react';
 import styled from 'styled-components/macro';
-import { MdCreate } from 'react-icons/md';
+import Button from '../shared/Button';
 
-const EditButton = styled(MdCreate)`
-  vertical-align: sub;
-  cursor: pointer;
+const StyledEditButton = styled(Button)`
   align-self: flex-end;
-  margin-right: 2px;
-  margin-left: 2px;
-  &:last-child {
-    margin-right: 0;
-  }
-  &:hover {
-    color: ${props => props.theme.accent};
-    & > svg {
-      color: ${props => props.theme.accent} !important;
-    }
-  }
+  margin: 4px;
+  padding: 4px 12px;
 `;
+
+const EditButton = props => (
+  <StyledEditButton>Edit</StyledEditButton>
+);
 
 export default EditButton;

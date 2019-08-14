@@ -2,9 +2,9 @@ import React from 'react';
 import { Field } from 'redux-form';
 import Form from '../shared/form/Form';
 import renderField from '../shared/form/renderField';
-import SubmitButton from '../shared/form/SubmitButton';
-import CancelButton from '../shared/form/CancelButton';
 import styled from 'styled-components/macro';
+import SubmitButton from '../Buttons/SubmitButton';
+import CancelButton from '../Buttons/CancelButton';
 
 const Wrapper = styled.div`
   display: flex;

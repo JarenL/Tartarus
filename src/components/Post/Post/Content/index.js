@@ -13,6 +13,8 @@ import ReactHtmlParser, {
 import LinkPreview from './LinkPreview';
 import TextPreview from './TextPreview';
 import PostContentDetail from './Details';
+import ReactPlaceholder from 'react-placeholder';
+import 'react-placeholder/lib/reactPlaceholder.css';
 // import ContentLoader from 'react-content-loader';
 
 const isIPFS = require('is-ipfs');
@@ -229,12 +231,15 @@ class PostContent extends Component {
   };
 
   render() {
-    console.log(this.props.forumName)
-    if (this.props.loading) {
-      return <LoadingBubble />;
-    } else {
-      return (
-        <Wrapper>
+    return (
+      <Wrapper>
+        <ReactPlaceholder
+          delay={1000}
+          color='#E0E0E0'
+          showLoadingAnimation={true}
+          rows={3}
+          ready={!this.props.loading}
+        >
           <PostContentTitle
             // url={url}
             title={this.props.title}
@@ -290,10 +295,11 @@ class PostContent extends Component {
               link: this.state.link,
               handleIpfsLink: this.handleIpfsLink
             })}
-        </Wrapper>
-      );
-    }
+        </ReactPlaceholder>
+      </Wrapper>
+    );
   }
+  // }
 }
 
 export default PostContent;

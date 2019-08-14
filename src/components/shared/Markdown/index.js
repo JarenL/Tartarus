@@ -54,14 +54,17 @@ const allowed = [
   'inlineCode'
 ];
 
-const Markdown = props => (
-  <StyledReactMarkdown
-    source={props.children}
-    plugins={[breaks]}
-    allowedTypes={allowed}
-    renderers={renderers}
-    unwrapDisallowed
-  />
-);
+const Markdown = props => {
+  console.log(props)
+  return (
+    <StyledReactMarkdown
+      source={props.children}
+      plugins={[breaks]}
+      allowedTypes={allowed}
+      renderers={renderers}
+      unwrapDisallowed
+    />
+  );
+};
 
 export default Markdown;

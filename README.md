@@ -51,7 +51,8 @@ You need web3 compatible browser:
 
 ## Built With
 
-* [Truffle](https://truffleframework.com/truffle) 
+* [Truffle](https://truffleframework.com/truffle)
+* [zos](https://docs.openzeppelin.com/openzeppelin/index.html) 
 * [React](https://reactjs.org/) 
 * [Redux](https://redux.js.org/)
 

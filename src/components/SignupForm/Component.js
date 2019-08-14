@@ -3,13 +3,13 @@ import { Field } from 'redux-form';
 import Form from '../shared/form/Form';
 import renderField from '../shared/form/renderField';
 import { usernameValidator } from '../../services/validators';
-import SubmitButton from '../shared/form/SubmitButton';
 import TartarusContract from '../../contracts/Tartarus.json';
 import styled from 'styled-components/macro';
-import CancelButton from '../shared/form/CancelButton';
-import CheckButton from '../shared/form/CheckButton';
 import ValidIcon from '../shared/form/ValidIcon';
 import InvalidIcon from '../shared/form/InvalidIcon';
+import CheckButton from '../Buttons/CheckButton';
+import CancelButton from '../Buttons/CancelButton';
+import SubmitButton from '../Buttons/SubmitButton';
 
 const Wrapper = styled.div`
   display: flex;

@@ -56,7 +56,6 @@ class Trending extends Component {
   }
 
   instantiateContract = async props => {
-    // console.log(props);
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     let currentBlock = await this.props.web3.eth.getBlockNumber();
@@ -80,12 +79,6 @@ class Trending extends Component {
               ),
               {}
             );
-            // console.log(weeklyCount);
-            // console.log(
-            //   weeklyCount[
-            //     '0x646f677300000000000000000000000000000000000000000000000000000000'
-            //   ]
-            // );
             instance
               .PostCreated(
                 {},
@@ -101,18 +94,9 @@ class Trending extends Component {
                   ),
                   {}
                 );
-                // console.log(dailyCount);
-                // console.log(
-                //   dailyCount[
-                //     '0x646f677300000000000000000000000000000000000000000000000000000000'
-                //   ]
-                // );
                 var dailyData = Object.keys(dailyCount);
                 let trendingForums = [];
                 dailyData.forEach(function(forum) {
-                  // console.log(forum);
-                  // console.log(dailyCount[forum]);
-                  // console.log(weeklyCount[forum]);
                   let forumWeight = {
                     [forum]:
                       (dailyCount[forum] - weeklyCount[forum] / 7) /
@@ -126,8 +110,6 @@ class Trending extends Component {
                     parseFloat(Object.values(b)[0])
                   );
                 });
-                // console.log(dailyData);
-                // console.log(trendingForums);
                 this.setState({
                   trending: trendingForums.reverse().slice(0, 5),
                   loading: false
@@ -140,43 +122,24 @@ class Trending extends Component {
       });
   };
 
-  createForumHandler = () => {
-    if (this.props.username === null) {
-      this.props.history.push('/login');
-    } else {
-      this.props.history.push(`/createforum`);
-    }
-  };
-
   render() {
-    if (this.state.loading) {
-      return (
-        <Wrapper>
-          <LoadingTest />
-        </Wrapper>
-      );
-    } else {
-      return (
-        <Wrapper>
-          <HeaderWrapper>
-            {'Trending Circles'}
-            <ButtonWrapper>
-              <TrendingButton size={16} />
-            </ButtonWrapper>
-          </HeaderWrapper>
-          <Forums>
-            {this.state.trending.length !== 0 ? (
-              <TrendingList
-                forums={this.state.trending}
-                web3={this.props.web3}
-              />
-            ) : (
-              'None'
-            )}
-          </Forums>
-        </Wrapper>
-      );
-    }
+    return (
+      <Wrapper>
+        <HeaderWrapper>
+          {'Trending Circles'}
+          <ButtonWrapper>
+            <TrendingButton size={16} />
+          </ButtonWrapper>
+        </HeaderWrapper>
+        <Forums>
+          {this.state.trending.length !== 0 ? (
+            <TrendingList forums={this.state.trending} web3={this.props.web3} />
+          ) : (
+            'None'
+          )}
+        </Forums>
+      </Wrapper>
+    );
   }
 }
 

@@ -5,15 +5,15 @@ import LoadingIndicatorSpinner from '../../../shared/LoadingIndicator/Spinner';
 import styled from 'styled-components/macro';
 import Form from '../../../shared/form/Form';
 import renderField from '../../../shared/form/renderField';
-import SubmitButton from '../../../shared/form/SubmitButton';
-import CancelButton from '../../../shared/form/CancelButton';
 import { Field } from 'redux-form';
 import ReactHtmlParser, {
   processNodes,
   convertNodeToElement,
   htmlparser2
 } from 'react-html-parser';
-import EditButton from '../../../shared/form/EditButton';
+import SubmitButton from '../../../Buttons/SubmitButton';
+import CancelButton from '../../../Buttons/CancelButton';
+import EditButton from '../../../Buttons/EditButton';
 
 const Wrapper = styled.div`
   display: flex;

@@ -5,7 +5,9 @@ import ReactHtmlParser, {
   convertNodeToElement,
   htmlparser2
 } from 'react-html-parser';
-import LoadingBubble from '../../shared/LoadingIndicator/Bubble';
+import ReactPlaceholder from 'react-placeholder';
+import 'react-placeholder/lib/reactPlaceholder.css';
+import { TextRow } from 'react-placeholder/lib/placeholders';
 
 const Wrapper = styled.div`
   overflow-wrap: break-word;
@@ -15,12 +17,25 @@ const Wrapper = styled.div`
   color: ${props => props.theme.mutedText};
 `;
 
+const textPlaceholder = (
+  <div className='text-placeholder'>
+    <TextRow color='#E0E0E0' />
+  </div>
+);
+
 const CommentContent = props => {
-  if (props.loading) {
-    return <LoadingBubble />;
-  } else {
-    return <Wrapper>{ReactHtmlParser(props.comment)}</Wrapper>;
-  }
+  return (
+    <Wrapper>
+      <ReactPlaceholder
+        delay={1000}
+        showLoadingAnimation={true}
+        ready={!props.loading}
+        customPlaceholder={textPlaceholder}
+      >
+        {ReactHtmlParser(props.comment)}
+      </ReactPlaceholder>
+    </Wrapper>
+  );
 };
 
 export default CommentContent;

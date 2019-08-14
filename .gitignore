@@ -37,3 +37,4 @@ build/
 
 # truffle
 .node-xmlhttprequest-*
+.zos.session

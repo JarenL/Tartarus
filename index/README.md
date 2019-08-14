@@ -19,6 +19,7 @@ Clone this repo and run:
 ```bash
 $ npm install
 $ node_modules/typescript/bin/tsc -p tsconfig.json
+$ node main.js
 ```
 
 # Test index

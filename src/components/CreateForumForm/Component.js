@@ -2,10 +2,10 @@ import React from 'react';
 import { Field } from 'redux-form';
 import Form from '../shared/form/Form';
 import renderField from '../shared/form/renderField';
-import SubmitButton from '../shared/form/SubmitButton';
-import CancelButton from '../shared/form/CancelButton';
 import styled from 'styled-components/macro';
 import TartarusContract from '../../contracts/Tartarus.json';
+import CancelButton from '../Buttons/CancelButton';
+import SubmitButton from '../Buttons/SubmitButton';
 const services = require('../../services');
 
 const Wrapper = styled.div`
@@ -60,26 +60,27 @@ class CreateForumForm extends React.Component {
       this.props.web3.eth.getAccounts((error, accounts) => {
         tartarus.at(this.props.tartarusAddress).then(instance => {
           instance.createUserCost.call().then(async createForumCost => {
-            let createForumGas = await instance.createForum.estimateGas(
-              this.props.web3.utils.fromAscii(this.props.username),
-              this.props.form.createForum.values.forumName,
-              props.forumInfo,
-              {
-                from: accounts[0],
-                gasPrice: 20000000000,
-                value: createForumCost
-              }
-            );
-            console.log('create forum gas - ' + createForumGas.toString());
-            let gasPrice = await this.props.web3.eth.getGasPrice();
-            let createForumTest = createForumGas * gasPrice;
-            console.log(
-              'create forum eth cost - ' +
-                this.props.web3.utils.fromWei(
-                  createForumTest.toString(),
-                  'ether'
-                )
-            );
+            console.log(createForumCost.toString());
+            // let createForumGas = await instance.createForum.estimateGas(
+            //   this.props.web3.utils.fromAscii(this.props.username),
+            //   this.props.form.createForum.values.forumName,
+            //   props.forumInfo,
+            //   {
+            //     from: accounts[0],
+            //     gasPrice: 20000000000,
+            //     value: createForumCost.toString()
+            //   }
+            // );
+            // console.log('create forum gas - ' + createForumGas.toString());
+            // let gasPrice = await this.props.web3.eth.getGasPrice();
+            // let createForumTest = createForumGas * gasPrice;
+            // console.log(
+            //   'create forum eth cost - ' +
+            //     this.props.web3.utils.fromWei(
+            //       createForumTest.toString(),
+            //       'ether'
+            //     )
+            // );
             instance.createForum
               .sendTransaction(
                 this.props.web3.utils.fromAscii(this.props.username),
@@ -88,7 +89,7 @@ class CreateForumForm extends React.Component {
                 {
                   from: accounts[0],
                   gasPrice: 20000000000,
-                  value: createForumCost
+                  value: (createForumCost * 10).toString()
                 }
               )
               .then(result => {

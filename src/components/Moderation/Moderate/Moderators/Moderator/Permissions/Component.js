@@ -2,8 +2,6 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import renderField from '../../../../../shared/form/renderField';
 // import Form from '../../../../shared/form/Form';
-import SubmitButton from '../../../../../shared/form/SubmitButton';
-import CancelButton from '../../../../../shared/form/CancelButton';
 import styled from 'styled-components/macro';
 import TartarusContract from '../../../../../../contracts/Tartarus.json';
 import Checkbox from '../../../../../shared/form/Checkbox/Checkbox';
@@ -11,6 +9,8 @@ import Label from '../../../../../shared/form/Label';
 import { transition } from '../../../../../shared/helpers';
 import LoadingIndicatorSpinner from '../../../../../shared/LoadingIndicator/Spinner';
 import RemoveModeratorButton from './RemoveModerator';
+import SubmitButton from '../../../../../Buttons/SubmitButton';
+import CancelButton from '../../../../../Buttons/CancelButton';
 
 const Wrapper = styled.div`
   display: flex;

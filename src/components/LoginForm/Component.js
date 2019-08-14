@@ -3,11 +3,11 @@ import Form from '../shared/form/Form';
 import { Field } from 'redux-form';
 import renderField from '../shared/form/renderField';
 import { usernameValidator } from '../../services/validators';
-import SubmitButton from '../shared/form/SubmitButton';
 import TartarusContract from '../../contracts/Tartarus.json';
 import { userLogin, updateUserPermissions } from '../../redux/actions/actions';
 import styled from 'styled-components/macro';
-import CancelButton from '../shared/form/CancelButton';
+import CancelButton from '../Buttons/CancelButton';
+import SubmitButton from '../Buttons/SubmitButton';
 
 const Wrapper = styled.div`
   display: flex;

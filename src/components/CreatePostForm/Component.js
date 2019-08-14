@@ -11,8 +11,8 @@ import styles from './styles';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import styled from 'styled-components/macro';
-import CancelButton from '../shared/form/CancelButton';
-import SubmitButton from '../shared/form/SubmitButton';
+import CancelButton from '../Buttons/CancelButton';
+import SubmitButton from '../Buttons/SubmitButton';
 import { withRouter } from 'react-router-dom';
 
 const {
@@ -148,7 +148,10 @@ class CreatePostForm extends React.Component {
           post: this.props.form.values.post,
           type: this.props.form.values.type
         };
-        const postIpfsHash = await services.ipfs.uploadObject(postObject);
+        const postIpfsHash = await services.ipfs.uploadObject(
+          postObject,
+          this.progress_func_video
+        );
         const bs58 = require('bs58');
         const postBytes32 =
           '0x' +
@@ -185,6 +188,10 @@ class CreatePostForm extends React.Component {
         });
       }
     }
+  };
+
+  progress_func_video = function(len) {
+    console.log('video progress:', len);
   };
 
   submitPostTransaction = props => {

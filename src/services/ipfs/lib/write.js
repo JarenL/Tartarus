@@ -17,16 +17,17 @@ const {
 } = require('./util');
 
 const uploadIpfsBuffer = async (ipfsBuffer, progressCb = () => {}) => {
-  const res = await ipfs.add(ipfsBuffer);
+  const res = await ipfs.add(ipfsBuffer, { progress: progressCb });
+  // const res = await ipfs.add(ipfsBuffer);
   const ipfsHash = res[0].hash;
   console.log(ipfsHash);
   return ipfsHash;
 };
 
-const uploadObject = async object => {
+const uploadObject = async (object, progressCb) => {
   // if (!state.ipfs) noProvider()
   const buffer = objectToIpfsBuffer(object);
-  return uploadIpfsBuffer(buffer);
+  return uploadIpfsBuffer(buffer, progressCb);
 };
 
 const uploadString = async string => {
