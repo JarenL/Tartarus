@@ -9,7 +9,6 @@ import HeaderContainer from './components/Header/Container';
 import Home from './components/Home';
 import LoginFormContainer from './components/LoginForm/Container';
 import SignupFormContainer from './components/SignupForm/Container';
-import CreateForumFormContainer from './components/CreateForumForm/Container';
 import {
   initializeWeb3,
   setTartarusAddress,
@@ -59,32 +58,6 @@ class App extends Component {
           });
         });
     });
-  };
-
-  getTxCosts = async () => {
-    const contract = require('truffle-contract');
-    const tartarus = contract(TartarusContract);
-    tartarus.setProvider(this.props.web3.currentProvider);
-    let instance = await tartarus.at(this.props.tartarusAddress);
-    let accounts = await this.props.web3.eth.getAccounts();
-    let createPostCost = await instance.createPostCost.call();
-    let createPostGas = await instance.createPost.estimateGas(
-      this.props.web3.utils.fromAscii(this.props.username),
-      this.props.web3.utils.fromAscii(this.props.forumName),
-      this.props.web3.utils.fromAscii(this.props.username),
-      {
-        from: accounts[0],
-        gasPrice: 20000000000,
-        value: createPostCost
-      }
-    );
-    console.log('create post gas - ' + createPostGas.toString());
-    let gasPrice = await this.props.web3.eth.getGasPrice();
-    let test = createPostGas * gasPrice;
-    console.log(
-      'create post eth cost - ' +
-        this.props.web3.utils.fromWei(test.toString(), 'ether')
-    );
   };
 
   render() {
