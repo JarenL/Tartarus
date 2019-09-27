@@ -17,6 +17,7 @@ const List = styled.ul`
 
 export default class ForumList extends Component {
   render() {
+    console.log(this.props.forums)
     const forums = this.props.forums.map(forum => {
       return <ForumListItem forumName={forum.args.forum} />;
     });

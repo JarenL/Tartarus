@@ -87,8 +87,8 @@ class Banned extends React.Component {
               ? this.state.post.args.creator
               : this.state.comment.args.creator,
             this.state.comment === null
-              ? this.props.event.args._forum
-              : this.props.event.args._forumId,
+              ? this.props.event.args.forum
+              : this.props.event.args.forum,
             {
               from: accounts[0],
               gasPrice: 20000000000

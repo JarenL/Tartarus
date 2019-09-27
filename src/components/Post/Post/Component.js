@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import TartarusContract from '../../../contracts/Tartarus.json';
-import { updateUserSaved } from '../../../redux/actions/actions';
+import {
+  updateUserSaved,
+  updateUserWatched
+} from '../../../redux/actions/actions';
 import styled from 'styled-components/macro';
 import PostContent from './Content/index.js';
 import PostVote from './Vote/Component.js';
@@ -33,6 +36,7 @@ class Post extends Component {
       comments: null,
       exists: true,
       saved: false,
+      watched: false,
       canReport: false,
       canDelete: false,
       canPin: false,
@@ -78,6 +82,7 @@ class Post extends Component {
             let postData = await services.ipfs.getJson(postIpfsHash);
             if (this.props.username !== null) {
               this.checkSaved();
+              this.checkWatched();
             }
             if (postData !== null) {
               let adminPinnedPosts = await instance.getForumPinnedPosts(
@@ -201,6 +206,21 @@ class Post extends Component {
     }
   };
 
+  checkWatched = () => {
+    const index = this.props.userSettings[
+      this.props.username
+    ].watched.posts.findIndex(post => post.postId === this.props.post.postId);
+    if (index === -1) {
+      this.setState({
+        watched: false
+      });
+    } else {
+      this.setState({
+        watched: true
+      });
+    }
+  };
+
   handleSave = props => {
     console.log('save');
     if (this.props.username === null) {
@@ -241,6 +261,49 @@ class Post extends Component {
       };
       this.props.dispatch(updateUserSaved(payload));
       this.checkSaved();
+    }
+  };
+
+  handleWatch = props => {
+    console.log('watch');
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      let newWatchedPostsArray = this.props.userSettings[this.props.username]
+        .watched;
+      newWatchedPostsArray.posts.push({
+        postId: props,
+        args: this.props.post,
+        event: 'PostCreated'
+      });
+      let payload = {
+        username: this.props.username,
+        watched: newWatchedPostsArray
+      };
+      this.props.dispatch(updateUserWatched(payload));
+      this.checkWatched();
+    }
+  };
+
+  handleUnwatch = props => {
+    console.log('unwatch');
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      let newWatched = this.props.userSettings[this.props.username].saved;
+      let newWatchedPostsArray = newWatched.posts.slice();
+      for (var i = 0; i < newWatchedPostsArray.length; i++) {
+        if (newWatchedPostsArray[i].postId === props) {
+          newWatchedPostsArray.splice(i, 1);
+        }
+      }
+      newWatched.posts = newWatchedPostsArray;
+      let payload = {
+        username: this.props.username,
+        watched: newWatched
+      };
+      this.props.dispatch(updateUserWatched(payload));
+      this.checkWatched();
     }
   };
 
@@ -506,8 +569,8 @@ class Post extends Component {
             title={this.state.title}
             post={this.state.post}
             time={this.props.post.time.c[0] * 1000}
-            creatorHex={this.props.post.creator}
-            creator={this.props.web3.utils.toAscii(this.props.post.creator)}
+            creatorHex={this.props.post.user}
+            creator={this.props.web3.utils.toAscii(this.props.post.user)}
             forumName={this.props.web3.utils.toAscii(this.props.post.forum)}
             commentCount={this.state.comments}
             canDelete={this.state.canDelete}
@@ -521,6 +584,9 @@ class Post extends Component {
             saved={this.state.saved}
             handleSave={this.handleSave}
             handleUnsave={this.handleUnsave}
+            watched={this.state.watched}
+            handleWatch={this.handleWatch}
+            handleUnwatch={this.handleUnwatch}
             handleDelete={this.handleDelete}
             handleReport={this.handleReport}
             forumPinned={this.state.forumPinned}

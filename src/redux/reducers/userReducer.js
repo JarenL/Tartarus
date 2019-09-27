@@ -2,9 +2,12 @@ import {
   UPDATE_USER_SUBSCRIPTIONS,
   UPDATE_USER_SAVED,
   INITIALIZE_USER_SETTINGS,
+  UPDATE_USER_WATCHED,
+  UPDATE_USER_NOTIFIED,
   UPDATE_USER_PERMISSIONS,
   USER_LOGIN,
-  USER_LOGOUT
+  USER_LOGOUT,
+  UPDATE_USER_NOTIFICATIONS
 } from '../actions/actions';
 
 import { persistReducer } from 'redux-persist';
@@ -27,12 +30,6 @@ const initialState = {
 
 const accountsReducer = (state = initialState, action) => {
   switch (action.type) {
-    // case 'web3/RECEIVE_ACCOUNT':
-    //   return {
-    //     ...state,
-    //     currentOwnerAddress: action.address
-    //   };
-
     case 'web3/CHANGE_ACCOUNT':
       return {
         ...state,
@@ -40,8 +37,7 @@ const accountsReducer = (state = initialState, action) => {
         userSettings: {
           ...state.userSettings,
           [action.payload.username]: {
-            ...state.userSettings[action.payload.username],
-            lastVisited: Date.now()
+            ...state.userSettings[action.payload.username]
           }
         },
         userPermissions: {
@@ -53,13 +49,10 @@ const accountsReducer = (state = initialState, action) => {
     case 'web3/LOGOUT':
       return {
         ...state,
-        username: action.payload.username,
-        userSettings: {
-          ...state.userSettings,
-          [action.payload.username]: {
-            ...state.userSettings[action.payload.username],
-            lastVisited: Date.now()
-          }
+        username: null,
+        userPermissions: {
+          admin: [false, false, false, false, false, false, false, 0, 0],
+          moderator: [false, false, false, false, false, false, 0, 0]
         }
       };
     case USER_LOGIN:
@@ -75,21 +68,19 @@ const accountsReducer = (state = initialState, action) => {
                 posts: [],
                 comments: []
               },
-              lastVisited: Date.now()
+              watched: {
+                posts: [],
+                comments: []
+              },
+              lastNotified: Date.now(),
+              notifications: []
             }
           }
         };
       } else {
         return {
           ...state,
-          username: action.payload.username,
-          userSettings: {
-            ...state.userSettings,
-            [action.payload.username]: {
-              ...state.userSettings[action.payload.username],
-              lastVisited: Date.now()
-            }
-          }
+          username: action.payload.username
         };
       }
     case USER_LOGOUT:
@@ -131,6 +122,40 @@ const accountsReducer = (state = initialState, action) => {
           [action.payload.username]: {
             ...state.userSettings[action.payload.username],
             saved: action.payload.saved
+          }
+        }
+      };
+    case UPDATE_USER_WATCHED:
+      return {
+        ...state,
+        userSettings: {
+          ...state.userSettings,
+          [action.payload.username]: {
+            ...state.userSettings[action.payload.username],
+            watched: action.payload.watched
+          }
+        }
+      };
+    case UPDATE_USER_NOTIFIED:
+      return {
+        ...state,
+        userSettings: {
+          ...state.userSettings,
+          [action.payload.username]: {
+            ...state.userSettings[action.payload.username]
+          }
+        }
+      };
+    case UPDATE_USER_NOTIFICATIONS:
+      console.log(action);
+      return {
+        ...state,
+        userSettings: {
+          ...state.userSettings,
+          [action.payload.username]: {
+            ...state.userSettings[action.payload.username],
+            notifications: action.payload.notifications,
+            lastNotified: Date.now()
           }
         }
       };

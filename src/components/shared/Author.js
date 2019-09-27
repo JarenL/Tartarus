@@ -45,7 +45,6 @@ const Blockie = styled.img`
   margin-right: 3px;
   width: 12px;
   height: 12px;
-
   border-radius: 5px;
 `;
 

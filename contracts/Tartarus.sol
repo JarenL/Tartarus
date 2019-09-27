@@ -8,39 +8,39 @@ import "openzeppelin-eth/contracts/math/SafeMath.sol";
 
 contract Tartarus is Initializable {
     event TartarusPaid (uint amount, uint time);
-    event TartarusUpdated(bytes32 user, bytes32 newInfo, uint time);
-    event AdminCreated (bytes32 user, bytes32 targetUser, bool[] permissions, uint wage, uint time);
-    event AdminUpdated (bytes32 user, bytes32 targetUser, bool[] permissions, uint wage, uint time);
-    event AdminRemoved (bytes32 user, bytes32 targetUser, uint time);
-    event AdminBan (bytes32 user, bytes32 targetUser, uint time);
-    event AdminUnban (bytes32 user, bytes32 targetUser, uint time);
-    event AdminPaid (bytes32 user, bytes32 targetUser, uint amount, uint time);
-    event ModeratorCreated (bytes32 indexed forum, bytes32 user, bytes32 targetUser, bool[] permissions, uint wage, uint time);
-    event ModeratorUpdated (bytes32 indexed forum, bytes32 userm, bytes32 targetUser, bool[] permissions, uint wage, uint time);
-    event ModeratorRemoved (bytes32 indexed forum, bytes32 user, bytes32 targetUser, uint time);
-    event ModeratorBan (bytes32 user, bytes32 indexed forum, bytes32 targetUser, uint time);
-    event ModeratorUnban (bytes32 user, bytes32 indexed forum, bytes32 targetUser, uint time);
-    event ModeratorPaid (bytes32 indexed forum, bytes32 user, bytes32 targetUser, uint amount, uint time);
+    event TartarusUpdated(bytes32 indexed user, bytes32 newInfo, uint time);
+    event AdminCreated (bytes32 indexed user, bytes32 indexed targetUser, bool[] permissions, uint wage, uint time);
+    event AdminUpdated (bytes32 indexed user, bytes32 indexed targetUser, bool[] permissions, uint wage, uint time);
+    event AdminRemoved (bytes32 indexed user, bytes32 indexed targetUser, uint time);
+    event AdminBan (bytes32 indexed user, bytes32 indexed targetUser, uint time);
+    event AdminUnban (bytes32 indexed user, bytes32 indexed targetUser, uint time);
+    event AdminPaid (bytes32 indexed user, bytes32 indexed targetUser, uint amount, uint time);
+    event ModeratorCreated (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed targetUser, bool[] permissions, uint wage, uint time);
+    event ModeratorUpdated (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed targetUser, bool[] permissions, uint wage, uint time);
+    event ModeratorRemoved (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed targetUser, uint time);
+    event ModeratorBan (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed targetUser, uint time);
+    event ModeratorUnban (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed targetUser, uint time);
+    event ModeratorPaid (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed targetUser, uint amount, uint time);
     event UserCreated (bytes32 indexed user, uint time);
     event UserUpdated(bytes32 indexed user, bytes32 newInfo, uint time);
     event UserWithdraw(bytes32 indexed user, uint amount, uint time);
-    event ForumCreated (bytes32 indexed user, bytes32 indexed forum, uint time);
-    event ForumLocked (bytes32 indexed user, bytes32 indexed forum, uint postLockState, uint commentLockState, uint time);
-    event ForumUpdated (bytes32 user, bytes32 indexed forum, bytes32 newInfo, uint time);
-    event ForumTransferred (bytes32 indexed forum, bytes32 user, bytes32 targetUser, uint time);
-    event PostCreated (bytes32 indexed forum, bytes32 indexed creator, bytes32 indexed postId, uint time);
-    event PostDeleted (bytes32 indexed forum, bytes32 user, bytes32 postId, uint time);
+    event ForumCreated (bytes32 indexed forum, bytes32 indexed user, uint time);
+    event ForumLocked (bytes32 indexed forum, bytes32 indexed user, uint postLockState, uint commentLockState, uint time);
+    event ForumUpdated (bytes32 indexed forum, bytes32 indexed user, bytes32 newInfo, uint time);
+    event ForumTransferred (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed targetUser, uint time);
+    event PostCreated (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
+    event PostRemoved (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
     event UserVoted (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed contentId, uint time);
-    event PostLocked (bytes32 user, bytes32 indexed forum, bytes32 postId, uint postLockState, uint time);
-    event PostPinned (bytes32 indexed forum, bytes32 user, bytes32 postId, uint time);
-    event PostUnpinned (bytes32 indexed forum, bytes32 user, bytes32 postId, uint time);
-    event CommentCreated (bytes32 indexed postId, bytes32 indexed creator, bytes32 indexed targetId, bytes32 commentId, uint time);
-    event CommentDeleted (bytes32 indexed forumId, bytes32 user, bytes32 postId, bytes32 commentId, uint time);
-    event ReportUser (bytes32 targetUser, bytes32 reason, uint time);
-    event ReportForum (bytes32 forum, bytes32 reason, uint time);
-    event ReportPost (bytes32 indexed forum, bytes32 postId, bytes32 reason, uint time);
-    event ReportComment (bytes32 indexed forum, bytes32 postId, bytes32 commentId, bytes32 reason, uint time);
-    event UpdateFee (bytes32 user, string indexed feeType, uint newFee);
+    event PostLocked (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint postLockState, uint time);
+    event PostPinned (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
+    event PostUnpinned (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
+    event CommentCreated (bytes32 indexed postId, bytes32 indexed user, bytes32 indexed targetId, bytes32 commentId, uint time);
+    event CommentRemoved (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed targetUser, bytes32 postId, bytes32 commentId, uint time);
+    event ReportUser (bytes32 indexed targetUser, bytes32 reason, uint time);
+    event ReportForum (bytes32 indexed forum, bytes32 reason, uint time);
+    event ReportPost (bytes32 indexed forum, bytes32 indexed postId, bytes32 reason, uint time);
+    event ReportComment (bytes32 indexed forum, bytes32 indexed postId, bytes32 indexed commentId, bytes32 reason, uint time);
+    event UpdateFee (bytes32 indexed user, string indexed feeType, uint oldFee, uint newFee);
 
     mapping (bytes32 => Admin) public admins;
     mapping (bytes32 => bool) public banned;
@@ -470,20 +470,20 @@ contract Tartarus is Initializable {
         newForum.pinnedPosts = new bytes32[](5);
         forums[forumBytes] = newForum;
         adminBalance += msg.value;
-        emit ForumCreated(_user, forumBytes, now);
+        emit ForumCreated(forumBytes, _user, now);
     }
 
     function changeForumLock(bytes32 _user, bytes32 _forum, uint _postLockState, uint _commentLockState)
         public onlyUserVerified(_user) onlyAdminAuthorized(_user, 5) {
         forums[_forum].postLocked = _postLockState;
         forums[_forum].commentLocked = _commentLockState;
-        emit ForumLocked(_user, _forum, _postLockState, _commentLockState, now);
+        emit ForumLocked(_forum, _user, _postLockState, _commentLockState, now);
     }
 
     function updateForum(bytes32 _user, bytes32 _forum, bytes32 _forumInfo)
         public onlyUserVerified(_user) onlyForumExists(_forum) onlyModeratorAuthorized(_user, _forum, 2, 5) {
         forums[_forum].forumInfo = _forumInfo;
-        emit ForumUpdated(_user, _forum, _forumInfo, now);
+        emit ForumUpdated(_forum, _user, _forumInfo, now);
     }
 
     function transferForumOwnership(bytes32 _user, bytes32 _forum, bytes32 _targetUser)
@@ -511,10 +511,10 @@ contract Tartarus is Initializable {
     function changePostLock(bytes32 _user, bytes32 _forum, bytes32 _postId, uint _postLockState)
         public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) onlyModeratorAuthorized(_user, _forum, 5, 6) {
         forums[_forum].lockedPosts[_postId] = _postLockState;
-        emit PostLocked(_user, _forum, _postId, _postLockState, now);
+        emit PostLocked(_forum, _user, _postId, _postLockState, now);
     }
 
-    function deletePost(bytes32 _user, bytes32 _forum, bytes32 _postId)
+    function removePost(bytes32 _user, bytes32 _forum, bytes32 _postId)
         public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) {
         require(
             _user == forums[_forum].posts[_postId].creator ||
@@ -527,7 +527,7 @@ contract Tartarus is Initializable {
             "User does not have permission"
         );
         delete forums[_forum].posts[_postId].post;
-        emit PostDeleted(_forum, _user, _postId, now);
+        emit PostRemoved(_forum, _user, _postId, now);
     }
 
     function getPost(bytes32 _forum, bytes32 _postId)
@@ -578,7 +578,7 @@ contract Tartarus is Initializable {
         emit CommentCreated(_postId, _user, _targetId, commentId, now);
     }
 
-    function deleteComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _commentId)
+    function removeComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _commentId)
         public onlyUserVerified(_user) onlyForumExists(_forum) onlyCommentExists(_forum, _commentId) {
         require(
             _user == forums[_forum].comments[_commentId].creator ||
@@ -591,7 +591,7 @@ contract Tartarus is Initializable {
             "User does not have permission"
         );
         delete forums[_forum].comments[_commentId].comment;
-        emit CommentDeleted(_forum, _user, _postId, _commentId, now);
+        emit CommentRemoved(_forum, _user, forums[_forum].comments[_commentId].creator, _postId, _commentId, now);
     }
 
     function getComment(bytes32 _forum, bytes32 _commentId) public view returns (bytes32 comment, bytes32 creator) {
@@ -745,7 +745,7 @@ contract Tartarus is Initializable {
             "Target banned"
         );
         forums[_forum].banned[_targetUser] = true;
-        emit ModeratorBan(_user, _forum, _targetUser, now);
+        emit ModeratorBan(_forum, _user, _targetUser, now);
     }
 
     function moderatorUnban(bytes32 _user, bytes32 _targetUser, bytes32 _forum)
@@ -755,7 +755,7 @@ contract Tartarus is Initializable {
             "Target not banned"
         );
         forums[_forum].banned[_targetUser] = false;
-        emit ModeratorUnban(_user, _forum, _targetUser, now);
+        emit ModeratorUnban(_forum, _user, _targetUser, now);
     }
 
     function getAdmin(bytes32 _user)
@@ -959,27 +959,32 @@ contract Tartarus is Initializable {
     }
 
     function setCreateUserCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) onlyAdminAuthorized(_user, 0) {
+        uint oldCreateUserCost = createUserCost;
         createUserCost = _newCost;
-        emit UpdateFee(_user, "user", createUserCost);
+        emit UpdateFee(_user, "user", oldCreateUserCost, createUserCost);
     }
 
     function setCreateForumCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) onlyAdminAuthorized(_user, 0) {
+        uint oldCreateForumCost = createForumCost;
         createForumCost = _newCost;
-        emit UpdateFee(_user, "forum", createForumCost);
+        emit UpdateFee(_user, "forum", oldCreateForumCost, createForumCost);
     }
 
     function setCreatePostCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) onlyAdminAuthorized(_user, 0) {
+        uint oldCreatePostCost = createPostCost;
         createPostCost = _newCost;
-        emit UpdateFee(_user, "post", createPostCost);
+        emit UpdateFee(_user, "post", oldCreatePostCost, createPostCost);
     }
 
     function setCreateCommentCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) onlyAdminAuthorized(_user, 0) {
+        uint oldCreateCommentCost = createCommentCost;
         createCommentCost = _newCost;
-        emit UpdateFee(_user, "comment", createCommentCost);
+        emit UpdateFee(_user, "comment", oldCreateCommentCost, createCommentCost);
     }
 
     function setVoteCost(bytes32 _user, uint _newCost) public onlyUserVerified(_user) onlyAdminAuthorized(_user, 0) {
+        uint oldVoteCost = voteCost;
         voteCost = _newCost;
-        emit UpdateFee(_user, "vote", voteCost);
+        emit UpdateFee(_user, "vote", oldVoteCost, voteCost);
     }
 }

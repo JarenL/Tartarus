@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { MdClose } from 'react-icons/md';
-import { headerItem } from '../../shared/helpers';
-import { transition } from '../../shared/helpers';
+import { headerItem } from '../shared/helpers';
+import { transition } from '../shared/helpers';
 
 const Wrapper = styled.div`
   display: flex;

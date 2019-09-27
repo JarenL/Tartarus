@@ -282,6 +282,9 @@ class PostContent extends Component {
             postId={this.props.postId}
             type={this.props.type}
             canDelete={this.props.canDelete}
+            watched={this.props.watched}
+            handleWatch={this.props.handleWatch}
+            handleUnwatch={this.props.handleUnwatch}
             saved={this.props.saved}
             handleSave={this.props.handleSave}
             handleUnsave={this.props.handleUnsave}

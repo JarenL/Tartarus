@@ -306,6 +306,32 @@ const Main = () => {
         }}
       />
       <Route
+        path='/u/:user/watched'
+        render={({ match }) => {
+          return (
+            <>
+              <FilterWrapper>
+                <FilterContainer />
+              </FilterWrapper>
+              <CombinedListContainer user={match.params.user} watched={true} />
+            </>
+          );
+        }}
+      />
+      <Route
+        path='/u/:user/notifications'
+        render={({ match }) => {
+          return (
+            <>
+              <FilterWrapper>
+                <FilterContainer />
+              </FilterWrapper>
+              <CommentListContainer notifications={true} user={match.params.user} />
+            </>
+          );
+        }}
+      />
+      {/* <Route
         path='/u/:user/messages'
         render={({ match }) => {
           return (
@@ -317,7 +343,7 @@ const Main = () => {
             </>
           );
         }}
-      />
+      /> */}
       <Route
         path='/u/:user/message'
         render={({ match }) => {

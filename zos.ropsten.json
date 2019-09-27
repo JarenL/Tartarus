@@ -528,6 +528,13 @@
         "implementation": "0x1913e7d1a9ddD8c0027C6438EDF02870b5935932",
         "admin": "0x17aa743088A876310f057624d1133884C2A29e44",
         "kind": "Upgradeable"
+      },
+      {
+        "address": "0xf7226a6478cB98642Fc16B598fFE989A4f76ED6e",
+        "version": "0.2.0",
+        "implementation": "0x1913e7d1a9ddD8c0027C6438EDF02870b5935932",
+        "admin": "0x17aa743088A876310f057624d1133884C2A29e44",
+        "kind": "Upgradeable"
       }
     ]
   },

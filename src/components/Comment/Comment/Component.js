@@ -125,11 +125,11 @@ class Comment extends Component {
                   }
                   this.setState({
                     isModerator: await instance.isModerator.call(
-                      this.props.comment.args.creator,
+                      this.props.comment.args.user,
                       props
                     ),
                     isAdmin: await this.checkIsAdmin(
-                      this.props.comment.args.creator
+                      this.props.comment.args.user
                     ),
                     comment: commentData.comment,
                     comments: comments.length,
@@ -143,11 +143,11 @@ class Comment extends Component {
                   }
                   this.setState({
                     isModerator: await instance.isModerator.call(
-                      this.props.comment.args.creator,
+                      this.props.comment.args.user,
                       props
                     ),
                     isAdmin: await this.checkIsAdmin(
-                      this.props.comment.args.creator
+                      this.props.comment.args.user
                     ),
                     comment: <i>Deleted</i>,
                     comments: comments.length,
@@ -296,9 +296,9 @@ class Comment extends Component {
           <BorderWrapper>
             <CommentDetail
               creator={this.props.web3.utils.toAscii(
-                this.props.comment.args.creator
+                this.props.comment.args.user
               )}
-              creatorHex={this.props.comment.args.creator}
+              creatorHex={this.props.comment.args.user}
               isModerator={this.state.isModerator}
               isAdmin={this.state.isAdmin}
               time={this.state.time}
@@ -343,9 +343,9 @@ class Comment extends Component {
           <Wrapper>
             <CommentDetail
               creator={this.props.web3.utils.toAscii(
-                this.props.comment.args.creator
+                this.props.comment.args.user
               )}
-              creatorHex={this.props.comment.args.creator}
+              creatorHex={this.props.comment.args.user}
               isModerator={this.state.isModerator}
               isAdmin={this.state.isAdmin}
               handleParentHover={this.props.handleParentHover}

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import HeaderNavLink from '../NavLink';
 import HeaderUsernameText from './Text';
+import Badge from '@material-ui/core/Badge';
 
 const Wrapper = styled(HeaderNavLink)`
   // flex-shrink: 1;
@@ -10,9 +11,15 @@ const Wrapper = styled(HeaderNavLink)`
   min-width: 0;
 `;
 
+const StyledBadge = styled(Badge)`
+  color: ${props => props.theme.accent};
+`;
+
 const HeaderUsername = props => (
   <Wrapper to={`/u/${props.username}`}>
-    <HeaderUsernameText>{props.username}</HeaderUsernameText>
+    <StyledBadge badgeContent={props.notifications}>
+      <HeaderUsernameText>{props.username}</HeaderUsernameText>
+    </StyledBadge>
   </Wrapper>
 );
 

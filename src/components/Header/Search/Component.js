@@ -4,7 +4,7 @@ import { transition } from '../../shared/helpers';
 import styled from 'styled-components/macro';
 import SearchTextArea from './SearchTextArea';
 import SearchButton from './SearchButton';
-import CancelButton from './CancelButton';
+import CancelButton from '../../Buttons/CancelButton';
 import { Redirect } from 'react-router';
 
 const Wrapper = styled.div`

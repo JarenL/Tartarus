@@ -250,6 +250,18 @@ const Sidebar = () => {
         }}
       />
       <Route
+        path='/u/:user/watched'
+        render={({ match }) => {
+          return (
+            <SidebarContainer
+              key={match.url}
+              user={match.params.user}
+              page={'user'}
+            />
+          );
+        }}
+      />
+      <Route
         path='/u/:user/votes'
         render={({ match }) => {
           return (
@@ -262,6 +274,18 @@ const Sidebar = () => {
         }}
       />
       <Route
+        path='/u/:user/notifications'
+        render={({ match }) => {
+          return (
+            <SidebarContainer
+              key={match.url}
+              user={match.params.user}
+              page={'user'}
+            />
+          );
+        }}
+      />
+      {/* <Route
         path='/u/:user/messages'
         render={({ match }) => {
           return (
@@ -272,8 +296,8 @@ const Sidebar = () => {
             />
           );
         }}
-      />
-      <Route
+      /> */}
+      {/* <Route
         path='/u/:user/message'
         render={({ match }) => {
           return (
@@ -284,7 +308,7 @@ const Sidebar = () => {
             />
           );
         }}
-      />
+      /> */}
     </Switch>
   );
 };

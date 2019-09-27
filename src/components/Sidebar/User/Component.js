@@ -6,7 +6,7 @@ import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import UserHeader from './UserHeader';
 import authCategories from './AuthCategories';
-import categories from './ModeratorCategories';
+import categories from './Categories';
 import UserWithdraw from './UserWithdraw';
 import { withRouter } from 'react-router';
 
@@ -116,7 +116,7 @@ class UserSidebar extends Component {
       if (this.props.username !== this.props.user) {
         return (
           <Wrapper>
-            <UserMessageButton user={this.props.user} handleMessage={this.handleMessage} />
+            {/* <UserMessageButton user={this.props.user} handleMessage={this.handleMessage} /> */}
             <UserHeader user={this.props.user} userHex={this.state.userHex} />
             <UserList
               path={this.props.url}

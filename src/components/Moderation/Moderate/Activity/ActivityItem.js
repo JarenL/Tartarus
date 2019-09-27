@@ -162,7 +162,7 @@ const getEvent = props => {
         <EventWrapper>
           <div>
             <StyledLink
-              to={`/f/${props.web3.utils.toAscii(event.args.forumId)}/p/${
+              to={`/f/${props.web3.utils.toAscii(event.args.forum)}/p/${
                 event.args.postId
               }`}
             >

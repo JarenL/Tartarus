@@ -98,7 +98,6 @@ class CombinedList extends Component {
           post.args.time.c = c;
         });
 
-
         let gotPosts = await this.getPosts(savedPosts);
         let combinedList = savedComments.concat(gotPosts);
         combinedList.sort(
@@ -114,70 +113,111 @@ class CombinedList extends Component {
         });
       }
     } else {
-      tartarus
-        .at(this.props.tartarusAddress)
-        .then(instance => {
-          this.handlePostTime().then(starting => {
-            instance
-              .CommentCreated(
-                {
-                  creator: this.props.web3.utils.fromAscii(this.props.user)
-                },
-                { fromBlock: starting, toBlock: 'latest' }
-              )
-              .get((error, comments) => {
-                instance
-                  .PostCreated(
-                    {
-                      creator: this.props.web3.utils.fromAscii(this.props.user)
-                    },
-                    { fromBlock: starting, toBlock: 'latest' }
-                  )
-                  .get(async (error, posts) => {
-                    instance
-                      .UserVoted(
-                        {
-                          user: this.props.web3.utils.fromAscii(this.props.user)
-                        },
-                        {
-                          fromBlock: starting,
-                          toBlock: 'latest'
-                        }
-                      )
-                      .get(async (error, votes) => {
-                        await votes.forEach(function(vote) {
-                          vote.args.postId = vote.args.contentId;
-                          vote.args.creator = vote.args.user;
-                        });
-
-                        // await posts.forEach(function(post) {
-                        //   post.args.postId = post.args.contentId;
-                        //   post.args.creator = post.args.user;
-                        // });
-                        let gotPosts = await this.getPosts(posts);
-                        let votePosts = await this.getPosts(votes);
-                        let combinedList = comments.concat(gotPosts);
-                        combinedList = combinedList.concat(votePosts);
-                        combinedList.sort(
-                          (a, b) =>
-                            parseFloat(a.args.time.c[0]) -
-                            parseFloat(b.args.time.c[0])
-                        );
-                        console.log(combinedList);
-                        this.setState({
-                          combinedList: combinedList.reverse(),
-                          loading: false
-                        });
-                        console.log(posts);
-                        // await this.getPosts(posts);
-                      });
-                  });
-              });
+      if (this.props.watched) {
+        if (this.props.user === this.props.username) {
+          let watchedPosts = this.props.userSettings[this.props.username]
+            .watched.posts;
+          let watchedComments = this.props.userSettings[this.props.username]
+            .watched.comments;
+          await watchedComments.forEach(function(comment) {
+            let c = [];
+            c.push(comment.args.time);
+            comment.args.time = {};
+            comment.args.time.c = c;
           });
-        })
-        .catch(err => {
-          console.log('error');
-        });
+
+          await watchedPosts.forEach(function(post) {
+            let c = [];
+            c.push(post.args.time);
+            post.args.time = {};
+            post.args.time.c = c;
+          });
+
+          let gotPosts = await this.getPosts(watchedPosts);
+          let combinedList = watchedComments.concat(gotPosts);
+          combinedList.sort(
+            (a, b) =>
+              parseFloat(a.args.time.c[0]) - parseFloat(b.args.time.c[0])
+          );
+          this.setState({
+            combinedList: combinedList.reverse(),
+            loading: false
+          });
+        } else {
+          this.setState({
+            loading: false
+          });
+        }
+      } else {
+        tartarus
+          .at(this.props.tartarusAddress)
+          .then(instance => {
+            this.handlePostTime().then(starting => {
+              instance
+                .CommentCreated(
+                  {
+                    creator: this.props.web3.utils.fromAscii(this.props.user)
+                  },
+                  { fromBlock: starting, toBlock: 'latest' }
+                )
+                .get((error, comments) => {
+                  instance
+                    .PostCreated(
+                      {
+                        creator: this.props.web3.utils.fromAscii(
+                          this.props.user
+                        )
+                      },
+                      { fromBlock: starting, toBlock: 'latest' }
+                    )
+                    .get(async (error, posts) => {
+                      instance
+                        .UserVoted(
+                          {
+                            user: this.props.web3.utils.fromAscii(
+                              this.props.user
+                            )
+                          },
+                          {
+                            fromBlock: starting,
+                            toBlock: 'latest'
+                          }
+                        )
+                        .get(async (error, votes) => {
+                          await votes.forEach(function(vote) {
+                            vote.args.postId = vote.args.contentId;
+                            vote.args.creator = vote.args.user;
+                          });
+
+                          // await posts.forEach(function(post) {
+                          //   post.args.postId = post.args.contentId;
+                          //   post.args.creator = post.args.user;
+                          // });
+                          let gotPosts = await this.getPosts(posts);
+                          let votePosts = await this.getPosts(votes);
+                          let combinedList = comments.concat(gotPosts);
+                          combinedList = combinedList.concat(votePosts);
+                          combinedList.sort(
+                            (a, b) =>
+                              parseFloat(a.args.time.c[0]) -
+                              parseFloat(b.args.time.c[0])
+                          );
+                          console.log(combinedList);
+                          this.setState({
+                            combinedList: combinedList.reverse(),
+                            loading: false
+                          });
+                          console.log(posts);
+                          // await this.getPosts(posts);
+                        });
+                    });
+                });
+            });
+          })
+          .catch(err => {
+            console.log('error');
+          });
+      }
     }
   };
 

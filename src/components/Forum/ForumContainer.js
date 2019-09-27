@@ -22,20 +22,14 @@ class ForumContainer extends Component {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
-    this.props.web3.eth.getAccounts((error, accounts) => {
-      tartarus.at(this.props.tartarusAddress).then(instance => {
-        instance.forums
-          .call(this.props.forumName, {
-            from: accounts[0],
-            gasPrice: 20000000000
-          })
-          .then(forum => {
-            console.log(forum);
-            this.setState({
-              name: this.props.web3.utils.hexToAscii(forum[0]),
-              loading: false
-            });
-          });
+    console.log(this.props)
+    tartarus.at(this.props.tartarusAddress).then(instance => {
+      instance.forums.call(this.props.forumName).then(forum => {
+        console.log(forum);
+        this.setState({
+          name: this.props.web3.utils.hexToAscii(forum[0]),
+          loading: false
+        });
       });
     });
   }

@@ -7,7 +7,7 @@
   "name": "tartarus",
   "version": "0.2.0",
   "compiler": {
-    "manager": "truffle",
+    "manager": "zos",
     "solcVersion": "0.5.11",
     "compilerSettings": {
       "optimizer": {

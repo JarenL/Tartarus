@@ -89,7 +89,13 @@ class Header extends Component {
         <HeaderDarkButtonContainer />
         {this.props.username ? (
           <>
-            <HeaderUsername username={this.props.username} />
+            <HeaderUsername
+              notifications={
+                this.props.userSettings[this.props.username].notifications
+                  .length
+              }
+              username={this.props.username}
+            />
             <HeaderNavLink
               as='span'
               onClick={() => this.props.dispatch(userLogout())}

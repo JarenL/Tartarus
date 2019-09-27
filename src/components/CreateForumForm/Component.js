@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import Form from '../shared/form/Form';
+  import Form from '../shared/form/Form';
 import renderField from '../shared/form/renderField';
 import styled from 'styled-components/macro';
 import TartarusContract from '../../contracts/Tartarus.json';

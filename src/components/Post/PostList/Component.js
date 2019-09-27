@@ -358,7 +358,7 @@ class PostList extends React.Component {
               itemRenderer={this.renderPinnedItem.bind(this)}
               length={this.state.pinnedPosts.length}
               type='simple'
-            />{' '}
+            />
             <PinnedDivider />
           </>
         ) : null}

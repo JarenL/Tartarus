@@ -5,6 +5,7 @@ import CommentList from './Component';
 export const mapStateToProps = state => ({
   web3: state.web3,
   tartarusAddress: state.tartarus.tartarusAddress,
+  userSettings: state.user.userSettings,
   username: state.user.username,
   time: state.form.filter.values.time,
   type: state.form.filter.values.type

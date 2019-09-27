@@ -8,6 +8,7 @@ const mapDispatchToProps = { userLogout };
 
 const mapStateToProps = state => ({
   username: state.user.username,
+  userSettings: state.user.userSettings,
   web3: state.web3
 });
 
