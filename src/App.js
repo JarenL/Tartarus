@@ -22,6 +22,33 @@ import TartarusContract from './contracts/Tartarus.json';
 // const tartarusAddress = '0x3ca7832b2edd307b075903e2aac2ff04308ad001';
 const tartarusAddress = '0xf7226a6478cB98642Fc16B598fFE989A4f76ED6e';
 
+const passiveNotificationEvents = [
+  'AdminCreated',
+  'AdminUpdated',
+  'AdminRemoved',
+  'AdminPaid',
+  'AdminBan',
+  'AdminUnban',
+  'CommentCreated',
+  'CommentRemoved',
+  'ForumCreated',
+  'ForumLocked',
+  'ForumUpdated',
+  'ModeratorBan',
+  'ModeratorUnban',
+  'ModeratorCreated',
+  'ModeratorPaid',
+  'ModeratorRemoved',
+  'ModeratorUpdated',
+  'PostCreated',
+  'PostRemoved',
+  'PostLocked',
+  'UserCreated',
+  'UserUpdated',
+  'UserWithdraw',
+  'UserVoted'
+];
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +64,7 @@ class App extends Component {
         this.props.dispatch(initializeWeb3(results.web3));
         this.props.dispatch(setTartarusAddress(tartarusAddress));
         this.checkAdmin();
+        this.handleNotifications();
       })
       .catch(() => {
         console.log('Error finding web3.');
@@ -51,21 +79,341 @@ class App extends Component {
     let lastBlockNotified = Math.ceil(
       ((currentTime - lastNotified) / 86400000) * blocksInDay
     );
-    // console.log(lastBlockNotified);
+    console.log(lastBlockNotified);
     return props.number - lastBlockNotified;
   };
 
   getNotifications = async props => {
-    let notifications = await Promise.all(
-      props.map(event => this.getNotification(event))
+    // let activeNotifications = await Promise.all(
+    //   props.map(event => this.getActiveNotification(event))
+    // );
+    let activeNotifications = [];
+    console.log(activeNotifications);
+
+    let passiveNotifications = await Promise.all(
+      passiveNotificationEvents.map(event => this.getPassiveNotification(event))
     );
-    let removeNull = notifications.filter(item => {
-      return item !== undefined;
+
+    console.log(passiveNotifications);
+
+    let combinedNotifications = activeNotifications.concat(
+      passiveNotifications
+    );
+    console.log(combinedNotifications);
+    let removeNull = combinedNotifications.filter(item => {
+      return item !== undefined && item !== [];
     });
+    // combinedNotifications.sort((a, b) => (a.args.time > b.args.time ? 1 : -1));
+    console.log(removeNull);
     return removeNull;
   };
 
-  getNotification = async props => {
+  getPassiveNotification = async props => {
+    console.log('getPassiveNotifications');
+    const contract = require('truffle-contract');
+    const latestBlock = await this.props.web3.eth.getBlock('latest');
+    let startingBlock = await this.getNotificationTime(latestBlock);
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    console.log(props);
+    if (props === 'ForumCreated') {
+        console.log(this.props.username);
+        return new Promise((resolve, reject) => {
+          instance
+            .ForumCreated(
+              { user: this.props.web3.utils.fromAscii(this.props.username) },
+              {
+                fromBlock: 0,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, forums) => {
+              console.log(forums);
+
+              resolve(...forums);
+            });
+        });
+    }
+        
+    // switch (props) {
+      // case 'AdminBan':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .AdminBan(
+      //         {
+      //           targetUser: this.props.web3.utils.fromAscii(props.username)
+      //         },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, adminBan) => {
+      //         resolve(adminBan);
+      //       });
+      //   });
+      // case 'AdminCreated':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .AdminCreated(
+      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, adminCreated) => {
+      //         resolve(adminCreated);
+      //       });
+      //   });
+      // case 'AdminPaid':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .AdminPaid(
+      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, adminPaid) => {
+      //         resolve(adminPaid);
+      //       });
+      //   });
+      // case 'AdminUnban':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .AdminUnban(
+      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, adminUnban) => {
+      //         resolve(adminUnban);
+      //       });
+      //   });
+      // case 'CommentDeleted':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .CommentDeleted(
+      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, commentDeleted) => {
+      //         resolve(commentDeleted);
+      //       });
+      //   });
+      // case 'CommentCreated':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .AdminBan(
+      //         { user: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: 0,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, commentCreated) => {
+      //         resolve(commentCreated);
+      //       });
+      //   });
+      // case 'ForumCreated':
+      //   console.log(this.props.username);
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .ForumCreated(
+      //         { user: this.props.web3.utils.fromAscii(this.props.username) },
+      //         {
+      //           fromBlock: 0,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, forumCreated) => {
+      //         console.log(forumCreated);
+
+      //         resolve(...forumCreated);
+      //       });
+      //   });
+      // case 'ModeratorBan':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .ModeratorBan(
+      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, ModeratorBan) => {
+      //         resolve(ModeratorBan);
+      //       });
+      //   });
+      // case 'ModeratorCreated':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .ModeratorCreated(
+      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, moderatorCreated) => {
+      //         resolve(moderatorCreated);
+      //       });
+      //   });
+      // case 'ModeratorPaid':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .ModeratorPaid(
+      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, moderatorPaid) => {
+      //         resolve(moderatorPaid);
+      //       });
+      //   });
+      // case 'ModeratorRemoved':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .ModeratorRemoved(
+      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, moderatorRemoved) => {
+      //         resolve(moderatorRemoved);
+      //       });
+      //   });
+      // case 'ModeratorUnban':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .ModeratorUnban(
+      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, moderatorUnban) => {
+      //         resolve(moderatorUnban);
+      //       });
+      //   });
+      // case 'ModeratorUpdated':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .ModeratorUpdated(
+      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, moderatorUpdated) => {
+      //         resolve(moderatorUpdated);
+      //       });
+      //   });
+      // case 'PostCreated':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .PostCreated(
+      //         { user: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, postCreated) => {
+      //         resolve(postCreated);
+      //       });
+      //   });
+      // case 'PostRemoved':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .PostRemoved(
+      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, postDeleted) => {
+      //         resolve(postDeleted);
+      //       });
+      //   });
+      // case 'PostLocked':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .PostLocked(
+      //         { user: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, postLocked) => {
+      //         resolve(postLocked);
+      //       });
+      //   });
+      // case 'UserCreated':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .UserCreated(
+      //         { user: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, userCreated) => {
+      //         resolve(userCreated);
+      //       });
+      //   });
+      // case 'UserUpdated':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .UserUpdated(
+      //         { user: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, userUpdated) => {
+      //         resolve(userUpdated);
+      //       });
+      //   });
+      // case 'UserWithdraw':
+      //   return new Promise((resolve, reject) => {
+      //     instance
+      //       .UserWithdraw(
+      //         { user: this.props.web3.utils.fromAscii(props.username) },
+      //         {
+      //           fromBlock: startingBlock,
+      //           toBlock: 'latest'
+      //         }
+      //       )
+      //       .get((error, userWithdraw) => {
+      //         resolve(userWithdraw);
+      //       });
+      //   });
+    //   default:
+    //     return;
+    // }
+  };
+
+  getActiveNotification = async props => {
     console.log('getNotifications');
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
@@ -73,6 +421,8 @@ class App extends Component {
     let instance = await tartarus.at(this.props.tartarusAddress);
     const latestBlock = await this.props.web3.eth.getBlock('latest');
     let startingBlock = await this.getNotificationTime(latestBlock);
+    console.log(latestBlock);
+    console.log(startingBlock);
     if (props.event === 'PostCreated') {
       return new Promise((resolve, reject) => {
         instance
@@ -139,7 +489,6 @@ class App extends Component {
           this.props.dispatch(
             updateUserPermissions({ type: 'admin', permissions: isAdmin })
           );
-          // await this.handleNotifications();
           this.setState({
             loading: false
           });
@@ -162,7 +511,7 @@ class App extends Component {
                 <Route path='/signup' component={SignupFormContainer} />
                 <Route
                   path='/'
-                  onChange={this.handleNotifications()}
+                  // onChange={this.handleNotifications()}
                   component={Home}
                 />
               </Switch>

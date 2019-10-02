@@ -36,7 +36,6 @@ class UserSidebar extends Component {
   };
 
   instantiateContract() {
-    console.log(this.props);
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
@@ -48,7 +47,6 @@ class UserSidebar extends Component {
             toBlock: 'latest'
           })
           .then(user => {
-            console.log(user);
             this.setState({
               userBalance: this.props.web3.utils.fromWei(
                 user[3].toString(),
@@ -57,7 +55,6 @@ class UserSidebar extends Component {
               userHex: user[0],
               loading: false
             });
-            console.log(user);
           });
       });
     });
@@ -80,7 +77,6 @@ class UserSidebar extends Component {
       tartarus
         .at(this.props.tartarusAddress)
         .then(instance => {
-          console.log(accounts[0]);
           instance.userWithdraw
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),
@@ -109,7 +105,6 @@ class UserSidebar extends Component {
   };
 
   render() {
-    console.log(this.props);
     if (this.state.loading) {
       return <LoadingIndicatorSpinner />;
     } else {

@@ -3,6 +3,7 @@ import Empty from '../shared/Empty';
 import TartarusContract from '../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 import ForumList from '../Forum/ForumList';
+import ComingSoon from '../shared/ComingSoon';
 
 class SearchResults extends React.Component {
   constructor(props) {
@@ -22,11 +23,11 @@ class SearchResults extends React.Component {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
-    console.log(this.props)
+    console.log(this.props);
     tartarus
       .at(this.props.tartarusAddress)
       .then(instance => {
-        console.log(instance)
+        console.log(instance);
         instance
           .ForumCreated({}, { fromBlock: 0, toBlock: 'latest' })
           .get((error, forums) => {
@@ -45,7 +46,8 @@ class SearchResults extends React.Component {
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
     if (!this.state.forums || this.state.forums.length === 0) return <Empty />;
-    return <ForumList forums={this.state.forums} />;
+    // return <ForumList forums={this.state.forums} />;
+    return <ComingSoon />;
   }
 }
 

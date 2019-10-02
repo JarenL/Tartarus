@@ -4,7 +4,7 @@ import { transition } from '../../shared/helpers';
 import styled from 'styled-components/macro';
 import SearchTextArea from './SearchTextArea';
 import SearchButton from './SearchButton';
-import CancelButton from '../../Buttons/CancelButton';
+import CancelButton from './CancelButton';
 import { Redirect } from 'react-router';
 
 const Wrapper = styled.div`
@@ -85,10 +85,10 @@ class SearchBox extends Component {
         `/search/${this.props.form.search.values.search}`
       );
     }
-    this.handleClose();
+    this.handleCancel();
   };
 
-  handleClose = () => {
+  handleCancel = () => {
     this.setState({ showSearch: false });
     this.props.reset('search');
   };
@@ -96,15 +96,20 @@ class SearchBox extends Component {
   render() {
     return (
       <Wrapper>
-        <StyledForm loading={this.state.loading}>
+        {/* <StyledForm loading={this.state.loading}>
           <SearchTextArea name='search' onSubmit={this.handleSubmit} />
+        </StyledForm> */}
+        {/* {this.state.showSearch && ( */}
+        <StyledForm loading={this.state.loading}>
+          <SearchTextArea
+            name='search'
+            handleSubmit={this.handleSubmit}
+            handleCancel={this.handleCancel}
+            // currentQuery={this.props.form.search.values}
+          />
         </StyledForm>
-        {/* {this.state.showSearch && (
-          <StyledForm loading={this.state.loading}>
-            <SearchTextArea name='search' onSubmit={this.handleSubmit} />
-          </StyledForm>
-        )}
-        {this.state.showSearch ? (
+
+        {/* {this.props.form.search.values !== undefined ? (
           <CancelButton handleClose={this.handleClose} />
         ) : (
           <SearchButton handleShowSearch={this.handleShowSearch} />

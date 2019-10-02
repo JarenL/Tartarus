@@ -28,9 +28,6 @@ const Wrapper = styled.div`
 `;
 
 const Sidebar = props => {
-  console.log(props.page);
-  //create frontpage, user, forum, post sidebar component
-
   switch (props.page) {
     case 'forum':
       return (

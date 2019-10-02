@@ -2,6 +2,14 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { Field } from 'redux-form';
 import Input from '../../shared/form/Input';
+import CancelButton from './CancelButton';
+import SearchButton from './SearchButton';
+
+const SearchWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+`;
 
 const TextArea = styled(Input)`
   border: none;
@@ -20,7 +28,7 @@ class SearchTextArea extends React.Component {
   onKeyDown = e => {
     if (e.keyCode === 13) {
       e.preventDefault();
-      this.props.onSubmit();
+      this.props.handleSubmit();
     }
   };
 
@@ -35,7 +43,16 @@ class SearchTextArea extends React.Component {
   );
 
   render() {
-    return <Field name={this.props.name} component={this.renderField} />;
+    return (
+      <SearchWrapper>
+        <Field name={this.props.name} component={this.renderField} />
+        {this.props.currentQuery !== undefined ? (
+          <CancelButton handleCancel={this.props.handleCancel} />
+        ) : (
+          <SearchButton handleSubmit={this.props.handleSubmit} />
+        )}
+      </SearchWrapper>
+    );
   }
 }
 

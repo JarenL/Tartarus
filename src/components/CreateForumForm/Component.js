@@ -83,8 +83,8 @@ class CreateForumForm extends React.Component {
             // );
             instance.createForum
               .sendTransaction(
-                this.props.web3.utils.fromAscii(this.props.username),
                 this.props.form.createForum.values.forumName,
+                this.props.web3.utils.fromAscii(this.props.username),
                 props.forumInfo,
                 {
                   from: accounts[0],

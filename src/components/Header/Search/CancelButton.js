@@ -1,15 +1,14 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { MdClose } from 'react-icons/md';
-import { headerItem } from '../shared/helpers';
-import { transition } from '../shared/helpers';
+import { headerItem } from '../../shared/helpers';
+import { transition } from '../../shared/helpers';
 
 const Wrapper = styled.div`
   display: flex;
   height: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  margin: auto;
+  margin-right: 2px;
 `;
 
 const Clear = styled(MdClose)`
@@ -35,7 +34,7 @@ const Clear = styled(MdClose)`
 
 const CancelButton = props => (
   <Wrapper>
-    <Clear size={25} onClick={props.handleClose} />
+    <Clear size={25} onClick={() => props.handleCancel()} />
   </Wrapper>
 );
 

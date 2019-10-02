@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 import { headerItem } from '../shared/helpers';
+import TartarusLogo from './TartarusLogo.svg';
 
 const Logo = styled(Link)`
   ${headerItem};
@@ -18,6 +19,13 @@ const Logo = styled(Link)`
   }
 `;
 
-const HeaderLogo = () => <Logo to='/'>tartarus</Logo>;
+const HeaderLogo = () => {
+  return (
+    <Logo to='/'>
+      <img src={TartarusLogo} alt='My logo' width='32px' height='32px' />
+      tartarus
+    </Logo>
+  );
+};
 
 export default HeaderLogo;

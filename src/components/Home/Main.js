@@ -14,6 +14,7 @@ import CombinedListContainer from '../Combined/Container';
 import ComingSoon from '../shared/ComingSoon';
 import CreateForumFormContainer from '../CreateForumForm/Container';
 import AdminContainer from '../Moderation/Admin/Container';
+import NotificationsContainer from '../Notifications/Container';
 
 const MainWrapper = styled.main`
   flex: 1;
@@ -86,6 +87,18 @@ const Main = () => {
           <PostDetail
             forumName={match.params.forumName}
             postId={match.params.postId}
+          />
+        )}
+      />
+
+      <Route
+        exact
+        path='/f/:forumName/p/:postId/c/:commentId'
+        render={({ match }) => (
+          <PostDetail
+            forumName={match.params.forumName}
+            postId={match.params.postId}
+            commentId={match.params.commentId}
           />
         )}
       />
@@ -326,7 +339,7 @@ const Main = () => {
               <FilterWrapper>
                 <FilterContainer />
               </FilterWrapper>
-              <CommentListContainer notifications={true} user={match.params.user} />
+              <NotificationsContainer user={match.params.user} />
             </>
           );
         }}

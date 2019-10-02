@@ -2,10 +2,10 @@ import styled from 'styled-components/macro';
 import { MdClose } from 'react-icons/md';
 
 const CloseButton = styled(MdClose)`
+  vertical-align: sub;
   cursor: pointer;
   margin-right: 2px;
   margin-left: 2px;
-  color: #ffffff;
   &:last-child {
     margin-right: 0;
   }

@@ -86,12 +86,10 @@ class Comment extends Component {
       instance
         .getComment(props, this.props.comment.args.commentId)
         .then(comment => {
-          console.log(comment)
           if (
             comment[1] ===
             '0x0000000000000000000000000000000000000000000000000000000000000000'
           ) {
-            console.log("noo")
             this.setState({
               loading: false,
               exists: false
@@ -108,7 +106,6 @@ class Comment extends Component {
                 }
               )
               .get(async (error, comments) => {
-                console.log(comment)
                 if (
                   comment[0] !==
                   '0x0000000000000000000000000000000000000000000000000000000000000000'

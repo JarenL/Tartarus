@@ -7,9 +7,8 @@ import { transition } from '../../shared/helpers';
 const Wrapper = styled.div`
   display: flex;
   height: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  margin: auto;
+  margin-right: 2px;
 `;
 
 const Search = styled(MdSearch)`
@@ -37,7 +36,7 @@ const Search = styled(MdSearch)`
 
 const SearchButton = props => (
   <Wrapper>
-    <Search size={25} onClick={props.handleShowSearch} />
+    <Search size={25} onClick={props.handleSubmit} />
   </Wrapper>
 );
 

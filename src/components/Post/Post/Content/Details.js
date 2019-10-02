@@ -14,6 +14,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: auto;
+  margin-bottom: 4px;;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

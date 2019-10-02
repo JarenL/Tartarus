@@ -11,6 +11,6 @@ const mapStateToProps = state => ({
 
 const enhance = compose(connect(mapStateToProps));
 
-const NotificationsContainer = enhance(Post);
+const NotificationsContainer = enhance(Notifications);
 
 export default NotificationsContainer;

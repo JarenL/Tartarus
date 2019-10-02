@@ -111,6 +111,7 @@ class PostDetail extends Component {
         <CommentListContainer
           forumName={this.props.forumName}
           postId={this.props.postId}
+          commentId={this.props.commentId}
         />
       </Wrapper>
     );

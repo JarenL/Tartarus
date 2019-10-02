@@ -1,49 +1,73 @@
 import React from 'react';
-import Empty from '../../../shared/Empty';
-import TartarusContract from '../../../../contracts/Tartarus.json';
-import LoadingIndicatorSpinner from '../../../shared/LoadingIndicator/Spinner';
 import ReactList from 'react-list';
-import NotificationItem from './NotificationItem';
+import NotificationContainer from './Notification/Container';
+import NotAuthorized from '../shared/NotAuthorized';
+import Empty from '../shared/Empty';
+import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
+import { updateUserNotifications } from '../../redux/actions/actions';
 
 class Notifications extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userEvents: [],
-      loading: true
-    };
-    this.instantiateContract = this.instantiateContract.bind(this);
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     userEvents: [],
+  //     loading: true
+  //   };
+  // }
 
-  componentDidMount = () => {
-    this.instantiateContract();
+  handleClearNotification = props => {
+    console.log('remove notification');
+    console.log(props);
+    let newNotificationsArray = this.props.userSettings[
+      this.props.username
+    ].notifications.slice();
+    for (var i = 0; i < newNotificationsArray.length; i++) {
+      if (newNotificationsArray[i].event.transactionHash === props) {
+        newNotificationsArray.splice(i, 1);
+      }
+    }
+    let payload = {
+      username: this.props.username,
+      notifications: newNotificationsArray
+      // notifications: []
+    };
+    this.props.dispatch(updateUserNotifications(payload));
   };
+
+  handleClearAllNotifications = () => {};
 
   renderItem(index, key) {
     return (
-      <ActivityItem
+      <NotificationContainer
         key={key}
-        tartarusAddress={this.props.tartarusAddress}
-        event={this.state.moderatorEvents[index]}
-        web3={this.props.web3}
-        username={this.props.username}
+        event={this.props.userSettings[this.props.username].notifications[key]}
+        handleClearNotification={this.handleClearNotification}
       />
     );
   }
 
   render() {
-    console.log(this.state.userEvents);
-    if (this.state.loading) return <LoadingIndicatorSpinner />;
-    if (!this.state.userEvents || this.state.userEvents.length === 0) {
-      return <Empty />;
+    console.log('user notifications');
+    console.log(this.props.userSettings[this.props.username].notifications);
+    if (this.props.user !== this.props.username) {
+      return <NotAuthorized />;
     } else {
-      return (
-        <ReactList
-          itemRenderer={this.renderItem.bind(this)}
-          length={this.state.userEvents.length}
-          type='simple'
-        />
-      );
+      if (
+        !this.props.userSettings[this.props.username].notifications ||
+        this.props.userSettings[this.props.username].notifications.length === 0
+      ) {
+        return <Empty />;
+      } else {
+        return (
+          <ReactList
+            itemRenderer={this.renderItem.bind(this)}
+            length={
+              this.props.userSettings[this.props.username].notifications.length
+            }
+            type='simple'
+          />
+        );
+      }
     }
   }
 }

@@ -146,10 +146,27 @@ class CommentList extends Component {
             )
             .get((error, comments) => {
               console.log(comments);
-              this.setState({
-                comments: comments,
-                loading: false
-              });
+              if (this.props.commentId !== undefined) {
+                let directCommentIndex = comments
+                  .map(function(comment) {
+                    return comment.args.commentId;
+                  })
+                  .indexOf(this.props.commentId);
+                this.setState({
+                  directComment: comments[directCommentIndex],
+                  comments: comments,
+                  loading: false
+                });
+                if (this.state.directComment !== null) {
+                  console.log(this.state.directComment)
+                  this.handleFocus(this.state.directComment);
+                }
+              } else {
+                this.setState({
+                  comments: comments,
+                  loading: false
+                });
+              }
             });
         })
         .catch(err => {
@@ -177,6 +194,9 @@ class CommentList extends Component {
   };
 
   handleFocus = props => {
+    let directComment;
+    if (this.props.commentId === undefined) {
+    }
     if (this.state.focusedCommentsMap[props.args.commentId] !== undefined) {
       let newFocusedCommentsList = this.state.focusedCommentsList;
       let removedFocus = newFocusedCommentsList
@@ -294,6 +314,8 @@ class CommentList extends Component {
       />
     );
   }
+
+  renderDirectItem(index, key) {}
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;

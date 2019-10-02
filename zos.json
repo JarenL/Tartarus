@@ -1,8 +1,6 @@
 {
   "zosversion": "2.2",
-  "contracts": {
-    "Tartarus": "Tartarus"
-  },
+  "contracts": {},
   "dependencies": {},
   "name": "tartarus",
   "version": "0.2.0",
