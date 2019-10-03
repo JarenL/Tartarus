@@ -8,6 +8,7 @@ import { Field } from 'redux-form';
 import SubmitButton from '../Buttons/SubmitButton';
 import CommentButton from '../Buttons/CommentButton';
 import CancelButton from '../Buttons/CancelButton';
+import { uploadToast, confirmToast, errorToast, warningToast } from '../Notifications/Toasts/Toast';
 
 const services = require('../../services');
 
@@ -54,6 +55,7 @@ class CommentForm extends React.Component {
       this.props.history.push('/login');
     } else {
       if (this.props.form.createCommentReply.values !== undefined) {
+        uploadToast();
         this.setState({ loading: true });
         let commentObject = {
           comment: this.props.form.createCommentReply.values.comment
@@ -67,6 +69,7 @@ class CommentForm extends React.Component {
             .decode(ipfsHash)
             .slice(2)
             .toString('hex');
+        warningToast();
         this.submitCommentTransaction(base58);
       }
     }
@@ -99,12 +102,14 @@ class CommentForm extends React.Component {
             )
             .then(result => {
               this.props.reset('createCommentReply');
+              confirmToast();
               this.setState({
                 loading: false
               });
             })
             .catch(error => {
               console.log('error');
+              errorToast();
               this.setState({
                 loading: false
               });

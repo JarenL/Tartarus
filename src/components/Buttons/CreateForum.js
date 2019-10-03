@@ -8,6 +8,7 @@ const ForumButton = styled(Button)`
   margin: 4px;
   text-decoration: none;
   text-align: center;
+  background-color: ${props => props.theme.accent};
 `;
 
 const CreateForumButton = props => (

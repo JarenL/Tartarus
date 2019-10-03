@@ -244,10 +244,6 @@ class PostList extends React.Component {
                       }
                     )
                     .get(async (error, posts) => {
-                      await posts.forEach(function(post) {
-                        post.args.postId = post.args.contentId;
-                        post.args.creator = post.args.user;
-                      });
                       await this.getPosts(posts);
                     });
                 });
@@ -271,7 +267,7 @@ class PostList extends React.Component {
                 instance
                   .PostCreated(
                     {
-                      creator: this.props.web3.utils.fromAscii(this.props.user)
+                      user: this.props.web3.utils.fromAscii(this.props.user)
                     },
                     {
                       fromBlock: starting,
@@ -332,7 +328,7 @@ class PostList extends React.Component {
       return (
         <>
           <PostListItem key={key} post={this.state.posts[index].args} />
-          <PostDivider />
+          {/* <PostDivider /> */}
         </>
       );
     }
@@ -342,7 +338,7 @@ class PostList extends React.Component {
     return (
       <>
         <PostListItem key={key} post={this.state.pinnedPosts[index].args} />
-        <PostDivider />
+        {/* <PostDivider /> */}
       </>
     );
   }

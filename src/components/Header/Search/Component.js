@@ -79,11 +79,18 @@ class SearchBox extends Component {
   };
 
   handleSubmit = () => {
+    console.log(this.props);
     console.log('hello');
     if (this.props.form.search.values) {
-      this.props.history.push(
-        `/search/${this.props.form.search.values.search}`
-      );
+      if (this.props.match.params.forumName !== undefined) {
+        this.props.history.push(
+          `/f/${this.props.match.params.forumName}/search/${this.props.form.search.values.search}`
+        );
+      } else {
+        this.props.history.push(
+          `/search/${this.props.form.search.values.search}`
+        );
+      }
     }
     this.handleCancel();
   };

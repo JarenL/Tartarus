@@ -1,7 +1,6 @@
 const path = require('path');
-require('dotenv').config();
-const mnemonic = process.env.MNEMONIC;
 const HDWalletProvider = require('truffle-hdwallet-provider');
+require('dotenv').config();
 
 module.exports = {
   contracts_build_directory: path.join(__dirname, './src/contracts'),
@@ -14,22 +13,22 @@ module.exports = {
     ropsten: {
       provider: function() {
         return new HDWalletProvider(
-          mnemonic,
+          process.env.MNEMONIC,
           'https://ropsten.infura.io/v3/' + process.env.INFURA_API_KEY
         );
       },
-      network_id: '3',
+      network_id: 3,
       gas: 8000000,
       gasPrice: 10000000000
     },
     kovan: {
       provider: function() {
         return new HDWalletProvider(
-          mnemonic,
+          process.env.MNEMONIC,
           'https://kovan.infura.io/v3/' + process.env.INFURA_API_KEY
         );
       },
-      network_id: '42',
+      network_id: 42,
       gas: 4465030,
       gasPrice: 10000000000
     },

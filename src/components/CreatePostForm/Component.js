@@ -14,6 +14,7 @@ import styled from 'styled-components/macro';
 import CancelButton from '../Buttons/CancelButton';
 import SubmitButton from '../Buttons/SubmitButton';
 import { withRouter } from 'react-router-dom';
+import { uploadToast, warningToast, errorToast, confirmToast } from '../Notifications/Toasts/Toast';
 
 const {
   fileToTypedArray,
@@ -135,14 +136,16 @@ class CreatePostForm extends React.Component {
 
   handleSubmit = async () => {
     console.log('publish');
-    this.setState({
-      loading: true
-    });
     if (
       this.props.form.values.type === 'text' ||
       this.props.form.values.type === 'link'
     ) {
+
       if (this.props.form.values.title && this.props.form.values.post) {
+        this.setState({
+          loading: true
+        });
+        uploadToast();
         const postObject = {
           title: this.props.form.values.title,
           post: this.props.form.values.post,
@@ -159,15 +162,20 @@ class CreatePostForm extends React.Component {
             .decode(postIpfsHash)
             .slice(2)
             .toString('hex');
+        warningToast();
         this.submitPostTransaction(postBytes32);
       } else {
         this.setState({
           loading: false
         });
+        errorToast();
       }
     } else {
       console.log('upload');
       if (this.props.form.values.title && this.state.uploadIpfsHash) {
+        this.setState({
+          loading: true
+        });
         let postObject = {
           title: this.props.form.values.title,
           type: this.props.form.values.type,
@@ -181,11 +189,13 @@ class CreatePostForm extends React.Component {
             .decode(postIpfsHash)
             .slice(2)
             .toString('hex');
+        warningToast();
         this.submitPostTransaction(postBytes32);
       } else {
         this.setState({
           loading: false
         });
+        errorToast();
       }
     }
   };
@@ -232,12 +242,14 @@ class CreatePostForm extends React.Component {
             )
             .then(result => {
               this.props.reset('createPost');
+              confirmToast();
               this.setState({
                 loading: false
               });
             })
             .catch(error => {
               console.log('error');
+              errorToast();
               this.setState({
                 loading: false
               });

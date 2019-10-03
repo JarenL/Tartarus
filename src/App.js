@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from './theme';
+import styled from 'styled-components/macro';
 import getWeb3 from './services/web3/getWeb3';
 import { connect } from 'react-redux';
 import GlobalStyle from './globalStyle';
@@ -17,10 +18,13 @@ import {
 } from './redux/actions/actions';
 import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner';
 import TartarusContract from './contracts/Tartarus.json';
+import Empty from './components/shared/Empty';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.minimal.css';
 
 // const tartarusAddress = '0x4c905e8c4533cb6928abaa159ca7b45b22f4d086';
 // const tartarusAddress = '0x3ca7832b2edd307b075903e2aac2ff04308ad001';
-const tartarusAddress = '0xf7226a6478cB98642Fc16B598fFE989A4f76ED6e';
+const tartarusAddress = '0xB6111442C7C0eB92F0fDFee597A5f2c581e84cb7';
 
 const passiveNotificationEvents = [
   'AdminCreated',
@@ -49,6 +53,22 @@ const passiveNotificationEvents = [
   'UserVoted'
 ];
 
+const StyledToastContainer = styled(ToastContainer).attrs({
+  className: 'toast-container',
+  toastClassName: 'toast',
+  bodyClassName: 'body',
+  progressClassName: 'progress'
+})`
+  /* .toast-container */
+  .toast {
+    background-color: ${props => props.theme.foreground};
+    color: ${props => props.theme.mutedText};
+  }
+  button[aria-label='close'] {
+    display: none;
+  }
+`;
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -63,6 +83,7 @@ class App extends Component {
       .then(results => {
         this.props.dispatch(initializeWeb3(results.web3));
         this.props.dispatch(setTartarusAddress(tartarusAddress));
+        toast.configure();
         this.checkAdmin();
         this.handleNotifications();
       })
@@ -79,32 +100,32 @@ class App extends Component {
     let lastBlockNotified = Math.ceil(
       ((currentTime - lastNotified) / 86400000) * blocksInDay
     );
-    console.log(lastBlockNotified);
+    // console.log(lastBlockNotified);
     return props.number - lastBlockNotified;
   };
 
   getNotifications = async props => {
-    // let activeNotifications = await Promise.all(
-    //   props.map(event => this.getActiveNotification(event))
-    // );
-    let activeNotifications = [];
-    console.log(activeNotifications);
+    let activeNotifications = await Promise.all(
+      props.map(event => this.getActiveNotification(event))
+    );
+    // let activeNotifications = [];
+    // console.log(activeNotifications);
 
     let passiveNotifications = await Promise.all(
       passiveNotificationEvents.map(event => this.getPassiveNotification(event))
     );
 
-    console.log(passiveNotifications);
+    // console.log(passiveNotifications);
 
     let combinedNotifications = activeNotifications.concat(
       passiveNotifications
     );
-    console.log(combinedNotifications);
-    let removeNull = combinedNotifications.filter(item => {
+    // console.log(combinedNotifications);
+    let removeNull = combinedNotifications.flat().filter(item => {
       return item !== undefined && item !== [];
     });
     // combinedNotifications.sort((a, b) => (a.args.time > b.args.time ? 1 : -1));
-    console.log(removeNull);
+    // console.log(removeNull);
     return removeNull;
   };
 
@@ -116,99 +137,79 @@ class App extends Component {
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
     let instance = await tartarus.at(this.props.tartarusAddress);
-    console.log(props);
-    if (props === 'ForumCreated') {
-        console.log(this.props.username);
+    switch (props) {
+      case 'AdminBan':
         return new Promise((resolve, reject) => {
           instance
-            .ForumCreated(
-              { user: this.props.web3.utils.fromAscii(this.props.username) },
+            .AdminBan(
               {
-                fromBlock: 0,
+                targetUser: this.props.web3.utils.fromAscii(props.username)
+              },
+              {
+                fromBlock: startingBlock,
                 toBlock: 'latest'
               }
             )
-            .get((error, forums) => {
-              console.log(forums);
-
-              resolve(...forums);
+            .get((error, adminBan) => {
+              resolve(adminBan);
             });
         });
-    }
-        
-    // switch (props) {
-      // case 'AdminBan':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .AdminBan(
-      //         {
-      //           targetUser: this.props.web3.utils.fromAscii(props.username)
-      //         },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, adminBan) => {
-      //         resolve(adminBan);
-      //       });
-      //   });
-      // case 'AdminCreated':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .AdminCreated(
-      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, adminCreated) => {
-      //         resolve(adminCreated);
-      //       });
-      //   });
-      // case 'AdminPaid':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .AdminPaid(
-      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, adminPaid) => {
-      //         resolve(adminPaid);
-      //       });
-      //   });
-      // case 'AdminUnban':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .AdminUnban(
-      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, adminUnban) => {
-      //         resolve(adminUnban);
-      //       });
-      //   });
-      // case 'CommentDeleted':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .CommentDeleted(
-      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, commentDeleted) => {
-      //         resolve(commentDeleted);
-      //       });
-      //   });
+      case 'AdminCreated':
+        return new Promise((resolve, reject) => {
+          instance
+            .AdminCreated(
+              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, adminCreated) => {
+              resolve(adminCreated);
+            });
+        });
+      case 'AdminPaid':
+        return new Promise((resolve, reject) => {
+          instance
+            .AdminPaid(
+              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, adminPaid) => {
+              resolve(adminPaid);
+            });
+        });
+      case 'AdminUnban':
+        return new Promise((resolve, reject) => {
+          instance
+            .AdminUnban(
+              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, adminUnban) => {
+              resolve(adminUnban);
+            });
+        });
+      case 'CommentDeleted':
+        return new Promise((resolve, reject) => {
+          instance
+            .CommentDeleted(
+              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, commentDeleted) => {
+              resolve(commentDeleted);
+            });
+        });
       // case 'CommentCreated':
       //   return new Promise((resolve, reject) => {
       //     instance
@@ -223,107 +224,106 @@ class App extends Component {
       //         resolve(commentCreated);
       //       });
       //   });
-      // case 'ForumCreated':
-      //   console.log(this.props.username);
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .ForumCreated(
-      //         { user: this.props.web3.utils.fromAscii(this.props.username) },
-      //         {
-      //           fromBlock: 0,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, forumCreated) => {
-      //         console.log(forumCreated);
-
-      //         resolve(...forumCreated);
-      //       });
-      //   });
-      // case 'ModeratorBan':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .ModeratorBan(
-      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, ModeratorBan) => {
-      //         resolve(ModeratorBan);
-      //       });
-      //   });
-      // case 'ModeratorCreated':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .ModeratorCreated(
-      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, moderatorCreated) => {
-      //         resolve(moderatorCreated);
-      //       });
-      //   });
-      // case 'ModeratorPaid':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .ModeratorPaid(
-      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, moderatorPaid) => {
-      //         resolve(moderatorPaid);
-      //       });
-      //   });
-      // case 'ModeratorRemoved':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .ModeratorRemoved(
-      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, moderatorRemoved) => {
-      //         resolve(moderatorRemoved);
-      //       });
-      //   });
-      // case 'ModeratorUnban':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .ModeratorUnban(
-      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, moderatorUnban) => {
-      //         resolve(moderatorUnban);
-      //       });
-      //   });
-      // case 'ModeratorUpdated':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .ModeratorUpdated(
-      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, moderatorUpdated) => {
-      //         resolve(moderatorUpdated);
-      //       });
-      //   });
+      case 'ForumCreated':
+        console.log(this.props.username);
+        return new Promise((resolve, reject) => {
+          instance
+            .ForumCreated(
+              { user: this.props.web3.utils.fromAscii(this.props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, forums) => {
+              console.log(forums);
+              resolve(forums);
+            });
+        });
+      case 'ModeratorBan':
+        return new Promise((resolve, reject) => {
+          instance
+            .ModeratorBan(
+              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, ModeratorBan) => {
+              resolve(ModeratorBan);
+            });
+        });
+      case 'ModeratorUnban':
+        return new Promise((resolve, reject) => {
+          instance
+            .ModeratorUnban(
+              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, moderatorUnban) => {
+              resolve(moderatorUnban);
+            });
+        });
+      case 'ModeratorCreated':
+        return new Promise((resolve, reject) => {
+          instance
+            .ModeratorCreated(
+              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, moderatorCreated) => {
+              resolve(moderatorCreated);
+            });
+        });
+      case 'ModeratorPaid':
+        return new Promise((resolve, reject) => {
+          instance
+            .ModeratorPaid(
+              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, moderatorPaid) => {
+              resolve(moderatorPaid);
+            });
+        });
+      case 'ModeratorRemoved':
+        return new Promise((resolve, reject) => {
+          instance
+            .ModeratorRemoved(
+              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, moderatorRemoved) => {
+              resolve(moderatorRemoved);
+            });
+        });
+      case 'ModeratorUpdated':
+        return new Promise((resolve, reject) => {
+          instance
+            .ModeratorUpdated(
+              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, moderatorUpdated) => {
+              resolve(moderatorUpdated);
+            });
+        });
       // case 'PostCreated':
       //   return new Promise((resolve, reject) => {
       //     instance
@@ -338,79 +338,65 @@ class App extends Component {
       //         resolve(postCreated);
       //       });
       //   });
-      // case 'PostRemoved':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .PostRemoved(
-      //         { targetUser: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, postDeleted) => {
-      //         resolve(postDeleted);
-      //       });
-      //   });
-      // case 'PostLocked':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .PostLocked(
-      //         { user: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, postLocked) => {
-      //         resolve(postLocked);
-      //       });
-      //   });
-      // case 'UserCreated':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .UserCreated(
-      //         { user: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, userCreated) => {
-      //         resolve(userCreated);
-      //       });
-      //   });
-      // case 'UserUpdated':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .UserUpdated(
-      //         { user: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, userUpdated) => {
-      //         resolve(userUpdated);
-      //       });
-      //   });
-      // case 'UserWithdraw':
-      //   return new Promise((resolve, reject) => {
-      //     instance
-      //       .UserWithdraw(
-      //         { user: this.props.web3.utils.fromAscii(props.username) },
-      //         {
-      //           fromBlock: startingBlock,
-      //           toBlock: 'latest'
-      //         }
-      //       )
-      //       .get((error, userWithdraw) => {
-      //         resolve(userWithdraw);
-      //       });
-      //   });
-    //   default:
-    //     return;
-    // }
+      case 'PostRemoved':
+        return new Promise((resolve, reject) => {
+          instance
+            .PostRemoved(
+              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, postDeleted) => {
+              resolve(postDeleted);
+            });
+        });
+      case 'PostLocked':
+        return new Promise((resolve, reject) => {
+          instance
+            .PostLocked(
+              { user: this.props.web3.utils.fromAscii(props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, postLocked) => {
+              resolve(postLocked);
+            });
+        });
+      case 'UserUpdated':
+        return new Promise((resolve, reject) => {
+          instance
+            .UserUpdated(
+              { user: this.props.web3.utils.fromAscii(props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, userUpdated) => {
+              resolve(userUpdated);
+            });
+        });
+      case 'UserWithdraw':
+        return new Promise((resolve, reject) => {
+          instance
+            .UserWithdraw(
+              { user: this.props.web3.utils.fromAscii(props.username) },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, userWithdraw) => {
+              resolve(userWithdraw);
+            });
+        });
+      default:
+        return;
+    }
   };
 
   getActiveNotification = async props => {
@@ -470,6 +456,7 @@ class App extends Component {
           .notifications;
         let payload = {
           username: this.props.username,
+          // notifications: []
           notifications: newNotificationsArray.concat(newNotifications)
         };
         this.props.dispatch(updateUserNotifications(payload));
@@ -515,6 +502,7 @@ class App extends Component {
                   component={Home}
                 />
               </Switch>
+              <StyledToastContainer />
             </>
           </HashRouter>
         </ThemeProvider>

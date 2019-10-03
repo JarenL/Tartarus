@@ -99,7 +99,7 @@ class CommentList extends Component {
               instance
                 .CommentCreated(
                   {
-                    creator: this.props.web3.utils.fromAscii(this.props.user)
+                    user: this.props.web3.utils.fromAscii(this.props.user)
                   },
                   {
                     fromBlock: starting,
@@ -261,6 +261,8 @@ class CommentList extends Component {
   };
 
   handleScrollTo = props => {
+    console.log(props)
+    console.log(this.list)
     this.list.scrollTo(props);
   };
 
@@ -314,8 +316,6 @@ class CommentList extends Component {
       />
     );
   }
-
-  renderDirectItem(index, key) {}
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import CloseButton from '../../Buttons/CloseButton';
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,6 +36,12 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const ButtonWrapper = styled.div`
+  align-self: flex-end;
+  justify-content: center;
+  color: ${props => props.theme.mutedText};
+`;
+
 const ForumCreated = props => {
   return (
     <EventWrapper>
@@ -44,6 +51,16 @@ const ForumCreated = props => {
         <StyledLink to={`/f/${props.forum}`}>{props.forum}</StyledLink>
         {` ${moment(props.time).fromNow()}`}
       </div>
+      <ButtonWrapper>
+        <CloseButton
+          size={18}
+          onClick={() => props.handleClearNotification(props.transactionHash)}
+        />
+        {/* <DownButton
+              size={18}
+              onClick={() => this.props.toggleShowDetails()}
+            /> */}
+      </ButtonWrapper>
     </EventWrapper>
   );
 };

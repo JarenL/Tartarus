@@ -4,7 +4,8 @@ const constants = {
   upvote: '#FF4500',
   downvote: '#33a0ff',
   mod: '#3BCB56',
-  admin: '#ED001C'
+  admin: '#ED001C',
+  warning: '#FFB100'
 };
 
 const fontSize = {

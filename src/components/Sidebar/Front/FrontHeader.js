@@ -45,7 +45,7 @@ const FrontHeader = props => (
     </Header>
     <Description>
       {
-        'Tartarus is an open marketplace of ideas. Create, share, and discover content anonymously and uncensored!'
+        'Tartarus is the open marketplace of ideas. Create, share, and discover content anonymously and uncensored!'
       }
     </Description>
   </Wrapper>

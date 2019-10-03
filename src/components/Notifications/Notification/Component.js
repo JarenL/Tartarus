@@ -21,7 +21,7 @@ const Wrapper = styled.div`
 `;
 
 const getEvent = props => {
-  console.log(props);
+  // console.log(props);
   const event = props.event;
   switch (event.event) {
     case 'AdminCreated':
@@ -74,8 +74,15 @@ const getEvent = props => {
         />
       );
     case 'ForumCreated':
+      console.log(props);
       return (
-        <ForumCreated user={props.user} forum={props.forum} time={props.time} />
+        <ForumCreated
+          user={props.web3.utils.toAscii(event.args.user)}
+          forum={props.web3.utils.toAscii(event.args.forum)}
+          time={event.args.time * 1000}
+          transactionHash={event.args.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
       );
     case 'CommentCreated':
       return (
@@ -85,7 +92,7 @@ const getEvent = props => {
           commentId={event.args.commentId}
           forum={event.args.forum}
           time={event.args.time * 1000}
-          transactionHash={event.args.transactionHash}
+          transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
         />
       );

@@ -1,11 +1,13 @@
 {
   "zosversion": "2.2",
-  "contracts": {},
+  "contracts": {
+    "Tartarus": "Tartarus"
+  },
   "dependencies": {},
   "name": "tartarus",
   "version": "0.2.0",
   "compiler": {
-    "manager": "zos",
+    "manager": "openzeppelin",
     "solcVersion": "0.5.11",
     "compilerSettings": {
       "optimizer": {

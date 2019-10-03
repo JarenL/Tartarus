@@ -81,6 +81,18 @@ const Sidebar = () => {
           />
         )}
       />
+
+      <Route
+        exact
+        path='/f/:forumName/search/:search'
+        render={({ match }) => (
+          <SidebarContainer
+            key={match.url}
+            forumName={match.params.forumName}
+            page={'forum'}
+          />
+        )}
+      />
       <Route
         exact
         path='/f/:forumName/createPost'

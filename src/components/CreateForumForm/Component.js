@@ -6,6 +6,7 @@ import styled from 'styled-components/macro';
 import TartarusContract from '../../contracts/Tartarus.json';
 import CancelButton from '../Buttons/CancelButton';
 import SubmitButton from '../Buttons/SubmitButton';
+import { uploadToast, warningToast, errorToast, confirmToast } from '../Notifications/Toasts/Toast';
 const services = require('../../services');
 
 const Wrapper = styled.div`
@@ -28,6 +29,7 @@ class CreateForumForm extends React.Component {
     this.setState({
       loading: true
     });
+    uploadToast();
     let forumInfoObject = {
       description: this.props.form.createForum.values.forumDescription,
       rules: this.props.form.createForum.values.forumRules
@@ -40,6 +42,7 @@ class CreateForumForm extends React.Component {
         .decode(forumInfoIpfsHash)
         .slice(2)
         .toString('hex');
+    warningToast();
     this.createForum({
       forumInfo: forumInfoBytes32
     });
@@ -48,6 +51,7 @@ class CreateForumForm extends React.Component {
   handleCancel = () => {
     this.props.reset('createForum');
     this.props.history.goBack();
+    // errorToast();
   };
 
   createForum = props => {
@@ -83,8 +87,8 @@ class CreateForumForm extends React.Component {
             // );
             instance.createForum
               .sendTransaction(
-                this.props.form.createForum.values.forumName,
                 this.props.web3.utils.fromAscii(this.props.username),
+                this.props.form.createForum.values.forumName,
                 props.forumInfo,
                 {
                   from: accounts[0],
@@ -94,12 +98,14 @@ class CreateForumForm extends React.Component {
               )
               .then(result => {
                 this.props.reset('createForum');
+                confirmToast();
                 this.setState({
                   loading: false
                 });
               })
               .catch(error => {
                 console.log('error');
+                errorToast();
                 this.setState({
                   loading: false
                 });

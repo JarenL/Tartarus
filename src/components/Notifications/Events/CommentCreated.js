@@ -87,7 +87,7 @@ class CommentCreated extends Component {
     if (this.state.loading) {
       return <LoadingBubble />;
     } else {
-      console.log(this.state.forum);
+      console.log(this.props);
       return (
         <EventWrapper>
           <div>

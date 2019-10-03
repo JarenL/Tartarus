@@ -156,7 +156,7 @@ class CombinedList extends Component {
               instance
                 .CommentCreated(
                   {
-                    creator: this.props.web3.utils.fromAscii(this.props.user)
+                    user: this.props.web3.utils.fromAscii(this.props.user)
                   },
                   { fromBlock: starting, toBlock: 'latest' }
                 )
@@ -164,9 +164,7 @@ class CombinedList extends Component {
                   instance
                     .PostCreated(
                       {
-                        creator: this.props.web3.utils.fromAscii(
-                          this.props.user
-                        )
+                        user: this.props.web3.utils.fromAscii(this.props.user)
                       },
                       { fromBlock: starting, toBlock: 'latest' }
                     )
@@ -184,15 +182,6 @@ class CombinedList extends Component {
                           }
                         )
                         .get(async (error, votes) => {
-                          await votes.forEach(function(vote) {
-                            vote.args.postId = vote.args.contentId;
-                            vote.args.creator = vote.args.user;
-                          });
-
-                          // await posts.forEach(function(post) {
-                          //   post.args.postId = post.args.contentId;
-                          //   post.args.creator = post.args.user;
-                          // });
                           let gotPosts = await this.getPosts(posts);
                           let votePosts = await this.getPosts(votes);
                           let combinedList = comments.concat(gotPosts);

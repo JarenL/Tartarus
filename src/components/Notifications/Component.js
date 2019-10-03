@@ -18,11 +18,11 @@ class Notifications extends React.Component {
   handleClearNotification = props => {
     console.log('remove notification');
     console.log(props);
-    let newNotificationsArray = this.props.userSettings[
-      this.props.username
-    ].notifications.slice();
+    let newNotificationsArray = this.props.userSettings[this.props.username]
+      .notifications;
+    console.log(newNotificationsArray)
     for (var i = 0; i < newNotificationsArray.length; i++) {
-      if (newNotificationsArray[i].event.transactionHash === props) {
+      if (newNotificationsArray[i].transactionHash === props) {
         newNotificationsArray.splice(i, 1);
       }
     }
@@ -34,7 +34,13 @@ class Notifications extends React.Component {
     this.props.dispatch(updateUserNotifications(payload));
   };
 
-  handleClearAllNotifications = () => {};
+  handleClearAllNotifications = () => {
+    let payload = {
+      username: this.props.username,
+      notifications: []
+    };
+    this.props.dispatch(updateUserNotifications(payload));
+  };
 
   renderItem(index, key) {
     return (

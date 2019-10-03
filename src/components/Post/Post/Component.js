@@ -9,6 +9,11 @@ import PostContent from './Content/index.js';
 import PostVote from './Vote/Component.js';
 import { withRouter } from 'react-router';
 import Empty from '../../shared/Empty.js';
+import {
+  warningToast,
+  confirmToast,
+  errorToast
+} from '../../Notifications/Toasts/Toast.js';
 
 const services = require('../../../services');
 
@@ -16,6 +21,7 @@ const Wrapper = styled.div`
   display: flex;
   height: auto;
   background-color: ${props => props.theme.foreground};
+  border: 0.5px solid ${props => props.theme.foreground};
   &:hover {
     border: 0.5px solid ${props => props.theme.accent};
   }
@@ -311,30 +317,32 @@ class Post extends Component {
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
+      warningToast();
       const contract = require('truffle-contract');
       const tartarus = contract(TartarusContract);
       tartarus.setProvider(this.props.web3.currentProvider);
       this.props.web3.eth.getAccounts((error, accounts) => {
         tartarus.at(this.props.tartarusAddress).then(instance => {
-          instance.deletePost.sendTransaction(
-            this.props.web3.utils.fromAscii(this.props.username),
-            this.props.post.forum,
-            this.props.post.postId,
-            { from: accounts[0], gasPrice: 20000000000 }
-          );
-          // .then(result => {
-          //   this.setState({
-          //     loading: false
-          //   });
-          //   this.props.reset('createForum');
-          //   this.props.history.goBack();
-          // })
-          // .catch(error => {
-          //   console.log('error');
-          //   this.setState({
-          //     loading: false
-          //   });
-          // });
+          instance.removePost
+            .sendTransaction(
+              this.props.web3.utils.fromAscii(this.props.username),
+              this.props.post.forum,
+              this.props.post.postId,
+              { from: accounts[0], gasPrice: 20000000000 }
+            )
+            .then(result => {
+              this.setState({
+                loading: false
+              });
+              confirmToast();
+            })
+            .catch(error => {
+              console.log('error');
+              this.setState({
+                loading: false
+              });
+              errorToast();
+            });
         });
       });
     }
@@ -344,45 +352,49 @@ class Post extends Component {
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
-      this.setState({
-        voteLoading: true
-      });
+      // this.setState({
+      //   voteLoading: true
+      // });
+      warningToast();
       const contract = require('truffle-contract');
       const tartarus = contract(TartarusContract);
       tartarus.setProvider(this.props.web3.currentProvider);
       this.props.web3.eth.getAccounts((error, accounts) => {
         tartarus.at(this.props.tartarusAddress).then(instance => {
           instance.voteCost.call().then(async voteCost => {
-            let voteGas = await instance.upvote.estimateGas(
-              this.props.post.forum,
-              this.props.web3.utils.fromAscii(this.props.username),
-              this.props.post.postId,
-              { from: accounts[0], gasPrice: 20000000000, value: voteCost }
-            );
-            console.log('vote gas - ' + voteGas.toString());
-            let gasPrice = await this.props.web3.eth.getGasPrice();
-            let voteTest = voteGas * gasPrice;
-            console.log(
-              'create post eth cost - ' +
-                this.props.web3.utils.fromWei(voteTest.toString(), 'ether')
-            );
-            instance.upvote
+            // let voteGas = await instance.upvote.estimateGas(
+            //   this.props.post.forum,
+            //   this.props.web3.utils.fromAscii(this.props.username),
+            //   this.props.post.postId,
+            //   { from: accounts[0], gasPrice: 20000000000, value: voteCost }
+            // );
+            // console.log('vote gas - ' + voteGas.toString());
+            // let gasPrice = await this.props.web3.eth.getGasPrice();
+            // let voteTest = voteGas * gasPrice;
+            // console.log(
+            //   'create post eth cost - ' +
+            //     this.props.web3.utils.fromWei(voteTest.toString(), 'ether')
+            // );
+            instance.vote
               .sendTransaction(
                 this.props.post.forum,
                 this.props.web3.utils.fromAscii(this.props.username),
                 this.props.post.postId,
+                true,
                 { from: accounts[0], gasPrice: 20000000000, value: voteCost }
               )
               .then(result => {
-                this.setState({
-                  voteLoading: false
-                });
+                // this.setState({
+                //   voteLoading: false
+                // });
+                confirmToast();
               })
               .catch(error => {
                 console.log('error');
-                this.setState({
-                  voteLoading: false
-                });
+                // this.setState({
+                //   voteLoading: false
+                // });
+                errorToast();
               });
           });
         });
@@ -395,32 +407,36 @@ class Post extends Component {
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
-      this.setState({
-        voteLoading: true
-      });
+      // this.setState({
+      //   voteLoading: true
+      // });
+      warningToast();
       const contract = require('truffle-contract');
       const tartarus = contract(TartarusContract);
       tartarus.setProvider(this.props.web3.currentProvider);
       this.props.web3.eth.getAccounts((error, accounts) => {
         tartarus.at(this.props.tartarusAddress).then(instance => {
           instance.voteCost.call().then(voteCost => {
-            instance.downvote
+            instance.vote
               .sendTransaction(
                 this.props.post.forum,
                 this.props.web3.utils.fromAscii(this.props.username),
                 this.props.post.postId,
+                false,
                 { from: accounts[0], gasPrice: 20000000000, value: voteCost }
               )
               .then(result => {
-                this.setState({
-                  voteLoading: false
-                });
+                // this.setState({
+                //   voteLoading: false
+                // });
+                confirmToast();
               })
               .catch(error => {
                 console.log('error');
-                this.setState({
-                  voteLoading: false
-                });
+                // this.setState({
+                //   voteLoading: false
+                // });
+                errorToast();
               });
           });
         });

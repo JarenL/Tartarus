@@ -4,9 +4,9 @@ import PostContainer from '../Post/Container';
 
 const Item = styled.li`
   list-style-type: none;
-  // margin-bottom: 8px;
-  :not(:first-child) {
-    border-top: 1px solid ${props => props.theme.border};
+  margin-bottom: 8px;
+  @media (max-width: 768px) {
+    margin-bottom: 0px;
   }
 `;
 

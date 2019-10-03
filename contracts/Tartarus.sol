@@ -30,7 +30,7 @@ contract Tartarus is Initializable {
     event ForumTransferred (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed targetUser, uint time);
     event PostCreated (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
     event PostRemoved (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
-    event UserVoted (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed contentId, uint time);
+    event UserVoted (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
     event PostLocked (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint postLockState, uint time);
     event PostPinned (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
     event PostUnpinned (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
@@ -342,14 +342,16 @@ contract Tartarus is Initializable {
         }
     }
 
-    modifier onlyNotVoted(bytes32 _forum, bytes32 _user, bytes32 _contentId) {
-        _notVoted(_forum, _user, _contentId);
+    modifier onlyNotVoted(bytes32 _forum, bytes32 _user, bytes32 _postId) {
+        _notVoted(_forum, _user, _postId);
         _;
     }
 
-    function _notVoted(bytes32 _forum, bytes32 _user, bytes32 _contentId) internal view {
+    function _notVoted(bytes32 _forum, bytes32 _user, bytes32 _postId) internal view {
         require(
-            !forums[_forum].upvoted[_contentId][_user] && !forums[_forum].downvoted[_contentId][_user],
+            !forums[_forum].upvoted[_postId][_user] &&
+            !forums[_forum].downvoted[_postId][_user] &&
+            forums[_forum].posts[_postId].creator != _user,
             "User already voted"
         );
     }
@@ -436,9 +438,9 @@ contract Tartarus is Initializable {
         emit UserUpdated(_user, _userInfo, now);
     }
     
-    function getUserVoted(bytes32 _forum, bytes32 _user, bytes32 _contentId) public view returns (bool upvoted, bool downvoted) {
-        upvoted = forums[_forum].upvoted[_contentId][_user];
-        downvoted = forums[_forum].downvoted[_contentId][_user];
+    function getUserVoted(bytes32 _forum, bytes32 _user, bytes32 _postId) public view returns (bool upvoted, bool downvoted) {
+        upvoted = forums[_forum].upvoted[_postId][_user];
+        downvoted = forums[_forum].downvoted[_postId][_user];
     }
 
     function userWithdraw(bytes32 _user, address payable _withdrawAddress) external onlyUserVerified(_user) {
@@ -539,31 +541,27 @@ contract Tartarus is Initializable {
         comments = forums[_forum].commentCount[_postId];
         postLockState = forums[_forum].lockedPosts[_postId];
     }
-    
-    function getForumPinnedPosts(bytes32 _forum) public view returns (bytes32 post1, bytes32 post2, bytes32 post3, bytes32 post4, bytes32 post5) {
+
+    function getForumPinnedPosts(bytes32 _forum)
+        public view returns (bytes32 post1, bytes32 post2, bytes32 post3, bytes32 post4, bytes32 post5) {
         post1 = forums[_forum].pinnedPosts[0];
         post2 = forums[_forum].pinnedPosts[1];
         post3 = forums[_forum].pinnedPosts[2];
         post4 = forums[_forum].pinnedPosts[3];
         post5 = forums[_forum].pinnedPosts[4];
     }
-    
-    // perhaps combine up/down vote functions
 
-    function upvote(bytes32 _forum, bytes32 _user, bytes32 _contentId)
-        public payable onlyUserVerified(_user) onlyForumExists(_forum) onlyUserAuthorized(_user, _forum) onlyNotVoted(_forum, _user, _contentId) onlyFee(voteCost) {
-        forums[_forum].upvotes[_contentId] += 1;
-        forums[_forum].upvoted[_contentId][_user] = true;
-        payoutVote(_forum, _contentId, msg.value);
-        emit UserVoted(_forum, _user, _contentId, now);
-    }
-
-    function downvote(bytes32 _forum, bytes32 _user, bytes32 _contentId)
-        public payable onlyUserVerified(_user) onlyForumExists(_forum) onlyUserAuthorized(_user, _forum) onlyNotVoted(_forum, _user, _contentId) onlyFee(voteCost) {
-        forums[_forum].downvotes[_contentId] += 1;
-        forums[_forum].downvoted[_contentId][_user] = true;
-        payoutVote(_forum, _contentId, msg.value);
-        emit UserVoted(_forum, _user, _contentId, now);
+    function vote(bytes32 _forum, bytes32 _user, bytes32 _postId, bool _vote)
+        public payable onlyUserVerified(_user) onlyForumExists(_forum) onlyUserAuthorized(_user, _forum) onlyNotVoted(_forum, _user, _postId) onlyFee(voteCost) {
+        if (_vote) {
+            forums[_forum].upvotes[_postId] += 1;
+            forums[_forum].upvoted[_postId][_user] = true;
+        } else {
+            forums[_forum].downvotes[_postId] += 1;
+            forums[_forum].downvoted[_postId][_user] = true;
+        }
+        payoutVote(_forum, _postId, msg.value);
+        emit UserVoted(_forum, _user, _postId, now);
     }
 
     function createComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _comment, bytes32 _targetId)

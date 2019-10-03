@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import { transition } from '../../helpers';
 import FormWrapper from './Wrapper';
 import LoadingIndicatorSpinner from '../../LoadingIndicator/Spinner';
+import LoadingForm from '../../LoadingIndicator/LoadingForm';
 
 const StyledForm = styled.form`
   ${transition('filter')};
@@ -18,7 +19,7 @@ const StyledForm = styled.form`
 const Form = ({ className, wide, ...props }) => (
   <FormWrapper className={className} wide={wide}>
     <StyledForm {...props} />
-    {props.loading && <LoadingIndicatorSpinner />}
+    {props.loading && <LoadingForm />}
   </FormWrapper>
 );
 

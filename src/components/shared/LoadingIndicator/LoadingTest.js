@@ -12,10 +12,10 @@ const spin = keyframes`
 `;
 
 const LoadingTest = styled.div`
-  position: relative;
-  margin-top: 32px;
+  position: absolute;
+  // margin-top: 32px;
   top: 50%;
-  left: 50%;
+  left: 10%;
   animation: ${spin} 1s infinite linear;
   border: 0.25rem solid ${props => props.theme.accent + '4d'};
   border-top-color: ${props => props.theme.accent};

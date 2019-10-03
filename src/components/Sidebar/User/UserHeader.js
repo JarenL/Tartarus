@@ -18,9 +18,9 @@ const Header = styled.span`
 const HeaderText = styled.div`
   ${wideFont};
   ${overflow};
-  display: block;
+  width: 100%;
+  display: flex;
   font-size: 16px;
-  padding-left: 4px;
   align-items: center;
   justify-content: center;
   color: ${props => props.theme.mutedText};
@@ -31,7 +31,7 @@ const BlockieWrapper = styled.div`
 `;
 
 const UserHeader = props => {
-  console.log(props.userHex)
+  console.log(props.userHex);
   return (
     <Header>
       <HeaderText>{props.user}</HeaderText>

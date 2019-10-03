@@ -6,11 +6,12 @@ import CommentDetail from './Detail/Component';
 import { updateUserSaved } from '../../../redux/actions/actions';
 import CommentActions from './CommentActions';
 import CommentReplyFormContainer from '../../CreateCommentReplyForm/Container';
+import { confirmToast, warningToast } from '../../Notifications/Toasts/Toast';
 
 const Wrapper = styled.div`
   border-radius: 2px;
-  background-color: ${props => props.theme.inputBackground};
-  border: 0.5px solid ${props => props.theme.border};
+  background-color: ${props => props.theme.foreground};
+  border: 0.5px solid ${props => props.theme.foreground};
 
   @media (max-width: 768px) {
     border-left: none;
@@ -25,7 +26,7 @@ const Wrapper = styled.div`
 
 const BorderWrapper = styled.div`
   border-radius: 2px;
-  background-color: ${props => props.theme.inputBackground};
+  background-color: ${props => props.theme.foreground};
   border: 0.5px solid ${props => props.theme.accent};
 
   @media (max-width: 768px) {
@@ -252,12 +253,13 @@ class Comment extends Component {
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
+      warningToast();
       const contract = require('truffle-contract');
       const tartarus = contract(TartarusContract);
       tartarus.setProvider(this.props.web3.currentProvider);
       this.props.web3.eth.getAccounts((error, accounts) => {
         tartarus.at(this.props.tartarusAddress).then(instance => {
-          instance.deleteComment
+          instance.removeComment
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),
               this.props.web3.utils.fromAscii(this.props.forumName),
@@ -266,11 +268,7 @@ class Comment extends Component {
               { from: accounts[0], gasPrice: 20000000000 }
             )
             .then(result => {
-              // this.setState({
-              //   loading: false
-              // });
-              // this.props.reset('createForum');
-              // this.props.history.goBack();
+              confirmToast();
             })
             .catch(error => {
               console.log('error');

@@ -1,11 +1,11 @@
 {
   "contracts": {
     "Tartarus": {
-      "address": "0xa619EfeA12bA848e1F9dD7A16864AA0F005599B0",
-      "constructorCode": "608060405234801561001057600080fd5b50615e9c80620000216000396000f3fe",
-      "bodyBytecodeHash": "9162f91768fa2fb364f9da0794eecd655bc1ddaca642d7de225c1288ee50ff48",
-      "localBytecodeHash": "27959d3203e3a343d515eaefe2959146defcadcbb7f0eb78162a41bcc49cab08",
-      "deployedBytecodeHash": "27959d3203e3a343d515eaefe2959146defcadcbb7f0eb78162a41bcc49cab08",
+      "address": "0xfd910Fcbd8DbC48Da9309e9559862e556907A3DA",
+      "constructorCode": "608060405234801561001057600080fd5b50615d4980620000216000396000f3fe",
+      "bodyBytecodeHash": "32f4c84e60ae6eac47ddfe17711432ba7f30473053f28edc8fe54450744087d5",
+      "localBytecodeHash": "19a71458e23c5cf635b421640237f273fb3c1386d905ccd194939b05d9ee2010",
+      "deployedBytecodeHash": "19a71458e23c5cf635b421640237f273fb3c1386d905ccd194939b05d9ee2010",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -31,27 +31,27 @@
           "members": [
             {
               "label": "permissions",
-              "astId": 398,
+              "astId": 402,
               "type": "t_array:dyn<t_bool>",
-              "src": "4164:18:0"
+              "src": "4540:18:0"
             },
             {
               "label": "wage",
-              "astId": 400,
+              "astId": 404,
               "type": "t_uint256",
-              "src": "4192:9:0"
+              "src": "4568:9:0"
             },
             {
               "label": "lastPaid",
-              "astId": 402,
+              "astId": 406,
               "type": "t_uint256",
-              "src": "4211:13:0"
+              "src": "4587:13:0"
             },
             {
               "label": "listPointer",
-              "astId": 404,
+              "astId": 408,
               "type": "t_uint256",
-              "src": "4234:16:0"
+              "src": "4610:16:0"
             }
           ]
         },
@@ -81,27 +81,27 @@
           "members": [
             {
               "label": "username",
-              "astId": 388,
+              "astId": 392,
               "type": "t_bytes32",
-              "src": "3917:16:0"
+              "src": "4293:16:0"
             },
             {
               "label": "userInfo",
-              "astId": 390,
+              "astId": 394,
               "type": "t_bytes32",
-              "src": "3943:16:0"
+              "src": "4319:16:0"
             },
             {
               "label": "creator",
-              "astId": 392,
+              "astId": 396,
               "type": "t_address",
-              "src": "3969:15:0"
+              "src": "4345:15:0"
             },
             {
               "label": "userBalance",
-              "astId": 394,
+              "astId": 398,
               "type": "t_uint256",
-              "src": "3994:16:0"
+              "src": "4370:16:0"
             }
           ]
         },
@@ -128,117 +128,117 @@
           "members": [
             {
               "label": "name",
-              "astId": 417,
+              "astId": 421,
               "type": "t_bytes32",
-              "src": "4554:12:0"
+              "src": "4930:12:0"
             },
             {
               "label": "forumInfo",
-              "astId": 419,
+              "astId": 423,
               "type": "t_bytes32",
-              "src": "4576:17:0"
+              "src": "4952:17:0"
             },
             {
               "label": "owner",
-              "astId": 421,
+              "astId": 425,
               "type": "t_bytes32",
-              "src": "4603:13:0"
+              "src": "4979:13:0"
             },
             {
               "label": "totalModeratorWages",
-              "astId": 423,
+              "astId": 427,
               "type": "t_uint256",
-              "src": "4626:24:0"
+              "src": "5002:24:0"
             },
             {
               "label": "forumBalance",
-              "astId": 425,
+              "astId": 429,
               "type": "t_uint256",
-              "src": "4660:17:0"
+              "src": "5036:17:0"
             },
             {
               "label": "postLocked",
-              "astId": 427,
+              "astId": 431,
               "type": "t_uint256",
-              "src": "4687:15:0"
+              "src": "5063:15:0"
             },
             {
               "label": "commentLocked",
-              "astId": 429,
+              "astId": 433,
               "type": "t_uint256",
-              "src": "4712:18:0"
+              "src": "5088:18:0"
             },
             {
               "label": "pinnedPosts",
-              "astId": 432,
+              "astId": 436,
               "type": "t_array:dyn<t_bytes32>",
-              "src": "4740:21:0"
+              "src": "5116:21:0"
             },
             {
               "label": "moderatorList",
-              "astId": 435,
+              "astId": 439,
               "type": "t_array:dyn<t_bytes32>",
-              "src": "4771:23:0"
+              "src": "5147:23:0"
             },
             {
               "label": "moderators",
-              "astId": 439,
+              "astId": 443,
               "type": "t_mapping<t_struct<Tartarus.Moderator>>",
-              "src": "4804:40:0"
+              "src": "5180:40:0"
             },
             {
               "label": "banned",
-              "astId": 443,
+              "astId": 447,
               "type": "t_mapping<t_bool>",
-              "src": "4854:32:0"
+              "src": "5230:32:0"
             },
             {
               "label": "posts",
-              "astId": 447,
+              "astId": 451,
               "type": "t_mapping<t_struct<Tartarus.Post>>",
-              "src": "4896:30:0"
+              "src": "5272:30:0"
             },
             {
               "label": "comments",
-              "astId": 451,
+              "astId": 455,
               "type": "t_mapping<t_struct<Tartarus.Comment>>",
-              "src": "4936:36:0"
+              "src": "5312:36:0"
             },
             {
               "label": "upvotes",
-              "astId": 455,
+              "astId": 459,
               "type": "t_mapping<t_uint256>",
-              "src": "4982:32:0"
+              "src": "5358:32:0"
             },
             {
               "label": "downvotes",
-              "astId": 459,
+              "astId": 463,
               "type": "t_mapping<t_uint256>",
-              "src": "5024:34:0"
+              "src": "5400:34:0"
             },
             {
               "label": "commentCount",
-              "astId": 463,
+              "astId": 467,
               "type": "t_mapping<t_uint256>",
-              "src": "5068:37:0"
+              "src": "5444:37:0"
             },
             {
               "label": "lockedPosts",
-              "astId": 467,
+              "astId": 471,
               "type": "t_mapping<t_uint256>",
-              "src": "5115:36:0"
+              "src": "5491:36:0"
             },
             {
               "label": "upvoted",
-              "astId": 473,
+              "astId": 477,
               "type": "t_mapping<t_bool>",
-              "src": "5161:52:0"
+              "src": "5537:52:0"
             },
             {
               "label": "downvoted",
-              "astId": 479,
+              "astId": 483,
               "type": "t_mapping<t_bool>",
-              "src": "5223:54:0"
+              "src": "5599:54:0"
             }
           ]
         },
@@ -256,27 +256,27 @@
           "members": [
             {
               "label": "permissions",
-              "astId": 408,
+              "astId": 412,
               "type": "t_array:dyn<t_bool>",
-              "src": "4428:18:0"
+              "src": "4804:18:0"
             },
             {
               "label": "wage",
-              "astId": 410,
+              "astId": 414,
               "type": "t_uint256",
-              "src": "4456:9:0"
+              "src": "4832:9:0"
             },
             {
               "label": "lastPaid",
-              "astId": 412,
+              "astId": 416,
               "type": "t_uint256",
-              "src": "4475:13:0"
+              "src": "4851:13:0"
             },
             {
               "label": "listPointer",
-              "astId": 414,
+              "astId": 418,
               "type": "t_uint256",
-              "src": "4498:16:0"
+              "src": "4874:16:0"
             }
           ]
         },
@@ -293,15 +293,15 @@
           "members": [
             {
               "label": "post",
-              "astId": 482,
+              "astId": 486,
               "type": "t_bytes32",
-              "src": "5312:12:0"
+              "src": "5688:12:0"
             },
             {
               "label": "creator",
-              "astId": 484,
+              "astId": 488,
               "type": "t_bytes32",
-              "src": "5334:15:0"
+              "src": "5710:15:0"
             }
           ]
         },
@@ -318,15 +318,15 @@
           "members": [
             {
               "label": "comment",
-              "astId": 487,
+              "astId": 491,
               "type": "t_bytes32",
-              "src": "5387:15:0"
+              "src": "5763:15:0"
             },
             {
               "label": "creator",
-              "astId": 489,
+              "astId": 493,
               "type": "t_bytes32",
-              "src": "5412:15:0"
+              "src": "5788:15:0"
             }
           ]
         },
@@ -354,7 +354,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 4723,
+          "astId": 4759,
           "type": "t_bool",
           "src": "757:24:2"
         },
@@ -362,7 +362,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 4725,
+          "astId": 4761,
           "type": "t_bool",
           "src": "876:25:2"
         },
@@ -370,7 +370,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4781,
+          "astId": 4817,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:2"
         },
@@ -378,129 +378,129 @@
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "admins",
-          "astId": 349,
+          "astId": 353,
           "type": "t_mapping<t_struct<Tartarus.Admin>>",
-          "src": "3348:40:0"
+          "src": "3724:40:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "banned",
-          "astId": 353,
+          "astId": 357,
           "type": "t_mapping<t_bool>",
-          "src": "3394:39:0"
+          "src": "3770:39:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "users",
-          "astId": 357,
+          "astId": 361,
           "type": "t_mapping<t_struct<Tartarus.User>>",
-          "src": "3439:38:0"
+          "src": "3815:38:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "forums",
-          "astId": 361,
+          "astId": 365,
           "type": "t_mapping<t_struct<Tartarus.Forum>>",
-          "src": "3483:40:0"
+          "src": "3859:40:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "adminList",
-          "astId": 364,
+          "astId": 368,
           "type": "t_array:dyn<t_bytes32>",
-          "src": "3529:19:0"
+          "src": "3905:19:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "ownerAccount",
-          "astId": 366,
+          "astId": 370,
           "type": "t_bytes32",
-          "src": "3554:27:0"
+          "src": "3930:27:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "tartarusInfo",
-          "astId": 368,
+          "astId": 372,
           "type": "t_bytes32",
-          "src": "3587:27:0"
+          "src": "3963:27:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "adminBalance",
-          "astId": 370,
+          "astId": 374,
           "type": "t_uint256",
-          "src": "3620:24:0"
+          "src": "3996:24:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "adminWages",
-          "astId": 372,
+          "astId": 376,
           "type": "t_uint256",
-          "src": "3650:22:0"
+          "src": "4026:22:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "totalAdminWages",
-          "astId": 374,
+          "astId": 378,
           "type": "t_uint256",
-          "src": "3678:27:0"
+          "src": "4054:27:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "createUserCost",
-          "astId": 376,
+          "astId": 380,
           "type": "t_uint256",
-          "src": "3711:26:0"
+          "src": "4087:26:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "createForumCost",
-          "astId": 378,
+          "astId": 382,
           "type": "t_uint256",
-          "src": "3743:27:0"
+          "src": "4119:27:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "createPostCost",
-          "astId": 380,
+          "astId": 384,
           "type": "t_uint256",
-          "src": "3776:26:0"
+          "src": "4152:26:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "createCommentCost",
-          "astId": 382,
+          "astId": 386,
           "type": "t_uint256",
-          "src": "3808:29:0"
+          "src": "4184:29:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "voteCost",
-          "astId": 384,
+          "astId": 388,
           "type": "t_uint256",
-          "src": "3843:20:0"
+          "src": "4219:20:0"
         },
         {
           "contract": "Tartarus",
           "path": "contracts/Tartarus.sol",
           "label": "idNonce",
-          "astId": 386,
+          "astId": 390,
           "type": "t_uint256",
-          "src": "3869:19:0"
+          "src": "4245:19:0"
         }
       ],
       "warnings": {
@@ -514,25 +514,25 @@
             "contract": "Tartarus",
             "path": "contracts/Tartarus.sol",
             "label": "admins",
-            "astId": 349,
+            "astId": 353,
             "type": "t_mapping<t_struct<Tartarus.Admin>>",
-            "src": "3348:40:0"
+            "src": "3724:40:0"
           },
           {
             "contract": "Tartarus",
             "path": "contracts/Tartarus.sol",
             "label": "users",
-            "astId": 357,
+            "astId": 361,
             "type": "t_mapping<t_struct<Tartarus.User>>",
-            "src": "3439:38:0"
+            "src": "3815:38:0"
           },
           {
             "contract": "Tartarus",
             "path": "contracts/Tartarus.sol",
             "label": "forums",
-            "astId": 361,
+            "astId": 365,
             "type": "t_mapping<t_struct<Tartarus.Forum>>",
-            "src": "3483:40:0"
+            "src": "3859:40:0"
           }
         ],
         "storageDiff": []
@@ -567,6 +567,13 @@
         "address": "0xC136D6Cd45aC93a3fc81Dc2bc24bd3abD2F5f272",
         "version": "0.2.0",
         "implementation": "0xa619EfeA12bA848e1F9dD7A16864AA0F005599B0",
+        "admin": "0xfbbff56311c4872f8c4FF0748a0F34a6ad33138d",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0xDB721b51e0584DFA76442da2bE43C1cEd804A0dA",
+        "version": "0.2.0",
+        "implementation": "0xfd910Fcbd8DbC48Da9309e9559862e556907A3DA",
         "admin": "0xfbbff56311c4872f8c4FF0748a0F34a6ad33138d",
         "kind": "Upgradeable"
       }

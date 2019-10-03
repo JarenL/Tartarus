@@ -12,6 +12,7 @@ import CreateForumButton from '../../Buttons/CreateForum';
 import { withRouter } from 'react-router-dom';
 import LoadingTest from '../../shared/LoadingIndicator/LoadingTest.js';
 import SearchContainer from '../../Header/Search/SearchContainer.js';
+import AboutContainer from '../About/AboutContainer.js';
 
 const services = require('../../../services');
 
@@ -191,49 +192,50 @@ class ForumSidebar extends Component {
     //     </Wrapper>
     //   );
     // } else {
-      return (
-        <Wrapper>
-          <SearchContainer />
-          {this.state.exists ? (
-            <CreatePostButton createPostHandler={this.createPostHandler} />
-          ) : (
-            <CreateForumButton createForumHandler={this.createForumHandler} />
-          )}
-          <Subscribe
-            username={this.props.username}
-            userSettings={this.props.userSettings}
-            forumName={this.props.forumName}
-            subscribeHandler={this.subscribeHandler}
-            unsubscribeHandler={this.unsubscribeHandler}
-          />
-          <ForumHeader name={this.props.forumName} />
-          <Divider />
-          <ForumDescription
-            showDescription={this.state.showDescription}
-            toggleShowDescription={this.toggleShowDescription}
-            forumName={this.props.forumName}
-            description={this.state.description}
-          />
-          <Divider />
-          <ForumRules
-            showRules={this.state.showRules}
-            toggleShowRules={this.toggleShowRules}
-            rules={this.state.rules}
-          />
-          <Divider />
-          <ForumModerators
-            username={this.props.username}
-            forumName={this.props.forumName}
-            showModerators={this.state.showModerators}
-            toggleShowModerators={this.toggleShowModerators}
-            moderateHandler={this.moderateHandler}
-            moderators={this.state.moderators}
-            web3={this.props.web3}
-          />
-        </Wrapper>
-      );
-    }
-  // }
+    return (
+      <Wrapper>
+        <SearchContainer />
+        {this.state.exists ? (
+          <CreatePostButton createPostHandler={this.createPostHandler} />
+        ) : (
+          <CreateForumButton createForumHandler={this.createForumHandler} />
+        )}
+        <Subscribe
+          username={this.props.username}
+          userSettings={this.props.userSettings}
+          forumName={this.props.forumName}
+          subscribeHandler={this.subscribeHandler}
+          unsubscribeHandler={this.unsubscribeHandler}
+        />
+        <ForumHeader name={this.props.forumName} />
+        <Divider />
+        <ForumDescription
+          showDescription={this.state.showDescription}
+          toggleShowDescription={this.toggleShowDescription}
+          forumName={this.props.forumName}
+          description={this.state.description}
+        />
+        <Divider />
+        <ForumRules
+          showRules={this.state.showRules}
+          toggleShowRules={this.toggleShowRules}
+          rules={this.state.rules}
+        />
+        <Divider />
+        <ForumModerators
+          username={this.props.username}
+          forumName={this.props.forumName}
+          showModerators={this.state.showModerators}
+          toggleShowModerators={this.toggleShowModerators}
+          moderateHandler={this.moderateHandler}
+          moderators={this.state.moderators}
+          web3={this.props.web3}
+        />
+        <Divider />
+        <AboutContainer />
+      </Wrapper>
+    );
+  }
 }
 
 export default withRouter(ForumSidebar);

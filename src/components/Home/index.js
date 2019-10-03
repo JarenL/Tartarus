@@ -1,22 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { Route, Switch } from 'react-router-dom';
-import HomeMainSection from './Main';
-import PostListContainer from '../Post/PostList/Container';
-import SidebarContainer from '../Sidebar/Container';
-import PostDetail from '../Post/PostDetail/Container';
-import CreatePostFormContainer from '../CreatePostForm/Container';
-import SearchResultsContainer from '../Search/SearchResultsContainer';
-import ReportPostContainer from '../Report/Post/ReportPostContainer';
-import ReportCommentContainer from '../Report/Comment/ReportCommentContainer';
-import CommentListContainer from '../Comment/CommentList/Container';
-import ModerateContainer from '../Moderation/Moderate/Container';
-import FilterContainer from '../Header/Filter/FilterContainer';
 import DrawerContainer from '../Drawer/Container';
-import CombinedListContainer from '../Combined/Container';
-import ComingSoon from '../shared/ComingSoon';
-import CreateForumFormContainer from '../CreateForumForm/Container';
-import AdminContainer from '../Moderation/Admin/Container';
 import Main from './Main';
 import Sidebar from './Sidebar';
 
