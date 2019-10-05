@@ -19,9 +19,9 @@ const Wrapper = styled.div`
     border-radius: 0;
   }
 
-  &:hover {
-    border: 0.5px solid ${props => props.theme.accent};
-  }
+  // &:hover {
+  //   border: 0.5px solid ${props => props.theme.accent};
+  // }
 `;
 
 const BorderWrapper = styled.div`

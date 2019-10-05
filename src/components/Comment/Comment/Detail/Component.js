@@ -74,7 +74,8 @@ class CommentDetail extends React.Component {
         </UserWrapper>
         {this.props.postId !== this.props.targetId && !this.props.disabled ? (
           <ButtonWrapper
-            onClick={() => this.props.handleScroll(this.props.index)}
+            // onClick={() => this.props.handleScroll(this.props.index)}
+            onClick={() => this.props.handleScroll(this.props.targetId)}
             onMouseEnter={() =>
               this.props.handleParentHover(this.props.targetId)
             }

@@ -494,8 +494,7 @@ class App extends Component {
               <GlobalStyle />
               <Route component={HeaderContainer} />
               <Switch>
-                <Route path='/login' component={LoginFormContainer} />
-                <Route path='/signup' component={SignupFormContainer} />
+-                <Route path='/signup' component={SignupFormContainer} />
                 <Route
                   path='/'
                   // onChange={this.handleNotifications()}

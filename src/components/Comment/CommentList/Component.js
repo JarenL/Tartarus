@@ -158,7 +158,7 @@ class CommentList extends Component {
                   loading: false
                 });
                 if (this.state.directComment !== null) {
-                  console.log(this.state.directComment)
+                  console.log(this.state.directComment);
                   this.handleFocus(this.state.directComment);
                 }
               } else {
@@ -188,16 +188,15 @@ class CommentList extends Component {
   };
 
   handleParentHover = props => {
+    console.log(props);
     this.setState({
       parentHover: props
     });
   };
 
   handleFocus = props => {
-    let directComment;
-    if (this.props.commentId === undefined) {
-    }
     if (this.state.focusedCommentsMap[props.args.commentId] !== undefined) {
+      // remove focus
       let newFocusedCommentsList = this.state.focusedCommentsList;
       let removedFocus = newFocusedCommentsList
         .map(comment => {
@@ -235,6 +234,7 @@ class CommentList extends Component {
         focusedChildren: newFocusedChildren
       });
     } else {
+      // add focus
       let newFocusedCommentsList = this.state.focusedCommentsList;
       newFocusedCommentsList.push(props);
       let newFocusedChildren = this.state.comments.filter(comment => {
@@ -261,9 +261,16 @@ class CommentList extends Component {
   };
 
   handleScrollTo = props => {
-    console.log(props)
-    console.log(this.list)
-    this.list.scrollTo(props);
+    // console.log(props);
+    // console.log(this.list);
+    let parentIndex = this.state.comments
+      .map(function(e) {
+        console.log(e);
+        return e.args.commentId;
+      })
+      .indexOf(props);
+    // console.log(parentIndex);
+    this.list.scrollTo(parentIndex);
   };
 
   renderItem(index, key) {
@@ -292,9 +299,21 @@ class CommentList extends Component {
   }
 
   renderFocusedItem(index, key) {
-    let combinedList = this.state.focusedCommentsList.concat(
+    let lastIndex = this.state.comments
+      .map(comment => {
+        console.log(comment);
+        return comment.args.commentId;
+      })
+      .indexOf(this.state.focusedCommentsList[0].args.commentId);
+    let rootCommentList = this.state.comments.slice(0, lastIndex);
+    let combinedList = rootCommentList.concat(
+      this.state.focusedCommentsList,
       this.state.focusedChildren
     );
+    // console.log(this.state.focusedCommentsList);
+    // let combinedList = this.state.focusedCommentsList.concat(
+    //   this.state.focusedChildren
+    // );
     return (
       <CommentListItem
         index={index}
@@ -322,11 +341,18 @@ class CommentList extends Component {
     if (!this.state.comments || this.state.comments.length === 0)
       return <Empty />;
     if (this.state.focusedCommentsList.length > 0) {
+      let lastIndex = this.state.comments
+        .map(comment => {
+          console.log(comment);
+          return comment.args.commentId;
+        })
+        .indexOf(this.state.focusedCommentsList[0].args.commentId);
       return (
         <ReactList
           ref={c => (this.list = c)}
           itemRenderer={this.renderFocusedItem.bind(this)}
           length={
+            lastIndex +
             this.state.focusedCommentsList.length +
             this.state.focusedChildren.length
           }

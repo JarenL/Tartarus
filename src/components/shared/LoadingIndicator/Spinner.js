@@ -12,7 +12,7 @@ const spin = keyframes`
 `;
 
 const LoadingIndicatorSpinner = styled.div`
-  position: fixed;
+  position: relative;
   top: 50%;
   left: 50%;
   animation: ${spin} 1s infinite linear;

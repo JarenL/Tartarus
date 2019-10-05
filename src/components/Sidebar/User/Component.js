@@ -105,9 +105,9 @@ class UserSidebar extends Component {
   };
 
   render() {
-    if (this.state.loading) {
-      return <LoadingIndicatorSpinner />;
-    } else {
+    // if (this.state.loading) {
+    //   return <LoadingIndicatorSpinner />;
+    // } else {
       if (this.props.username !== this.props.user) {
         return (
           <Wrapper>
@@ -140,7 +140,7 @@ class UserSidebar extends Component {
         );
       }
     }
-  }
+  // }
 }
 
 export default withRouter(UserSidebar);
