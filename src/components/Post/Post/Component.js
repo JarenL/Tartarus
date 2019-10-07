@@ -14,18 +14,37 @@ import {
   confirmToast,
   errorToast
 } from '../../Notifications/Toasts/Toast.js';
+import PostType from './Type/Component.js';
+import VoteRatio from './Vote/VoteRatio.js';
 
 const services = require('../../../services');
 
 const Wrapper = styled.div`
   display: flex;
-  height: auto;
+  height: 100%;
   background-color: ${props => props.theme.foreground};
   border: 0.5px solid ${props => props.theme.foreground};
   &:hover {
     border: 0.5px solid ${props => props.theme.accent};
   }
 `;
+
+// const VoteRatio = styled.div`
+//   display: flex;
+//   height: auto;
+//   // width: 4px;
+//   // background-color: ${props => props.theme.accent};
+//   margin-top: 4px;
+//   margin-bottom: 4px;
+//   border-right: 2px solid;
+//   border-image: linear-gradient(
+//       to bottom,
+//       ${props => props.theme.upvote} ${props => props.upvoteRatio}%,
+//       ${props => props.theme.downvote}
+//         ${props => (props.upvoteRatio > 0 ? 100 - props.upvoteRatio : 0)}%
+//     )
+//     1;
+// `;
 
 class Post extends Component {
   constructor(props) {
@@ -39,6 +58,7 @@ class Post extends Component {
       loading: true,
       voteLoading: false,
       votes: null,
+      upvoteRatio: null,
       comments: null,
       exists: true,
       saved: false,
@@ -98,6 +118,8 @@ class Post extends Component {
                 this.props.post.forum
               );
 
+              console.log(post);
+
               this.setState({
                 isModerator: await this.checkIsModerator(post[1]),
                 isAdmin: await this.checkIsAdmin(post[1]),
@@ -106,8 +128,11 @@ class Post extends Component {
                 type: postData.type,
                 post: postData.post,
                 votes: post[2].c[0] - post[3].c[0],
+                upvoteRatio:
+                  (post[2].c[0] / (post[2].c[0] + post[3].c[0])) * 100,
                 comments: post[4].c[0],
                 canDelete: this.checkCanDelete(post),
+                canReport: this.checkCanReport(),
                 canPin: this.checkCanPin(),
                 canLock: this.checkCanLock(),
                 isLocked: post[5].c[0],
@@ -168,13 +193,18 @@ class Post extends Component {
   };
 
   checkCanDelete = props => {
-    // console.log(this.props.userPermissions.admin)
     return (
       this.props.username === this.props.web3.utils.toUtf8(props[1]) ||
       this.props.userPermissions.admin[0] ||
       this.props.userPermissions.admin[6] ||
       this.props.userPermissions.moderator[0] ||
       this.props.userPermissions.moderator[5]
+    );
+  };
+
+  checkCanReport = () => {
+    return (
+      this.props.username !== this.props.web3.utils.toUtf8(this.props.post.user)
     );
   };
 
@@ -569,13 +599,19 @@ class Post extends Component {
         <Wrapper>
           <PostVote
             votes={this.state.votes}
+            upvoteRatio={this.state.upvoteRatio}
             upvoted={this.state.upvoted}
             downvoted={this.state.downvoted}
             loading={this.state.voteLoading}
             handleUpvote={this.handleUpvote}
             handleDownvote={this.handleDownvote}
           />
+          {/* <PostType /> */}
+          {this.state.loading ? null : (
+            <VoteRatio upvoteRatio={this.state.upvoteRatio} />
+          )}
           <PostContent
+            dark={this.props.dark}
             isModerator={this.state.isModerator}
             isAdmin={this.state.isAdmin}
             loading={this.state.loading}
@@ -604,6 +640,7 @@ class Post extends Component {
             handleWatch={this.handleWatch}
             handleUnwatch={this.handleUnwatch}
             handleDelete={this.handleDelete}
+            canReport={this.state.canReport}
             handleReport={this.handleReport}
             forumPinned={this.state.forumPinned}
             adminPinned={this.state.adminPinned}

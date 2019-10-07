@@ -25,8 +25,7 @@ let confirm = () => {
 };
 
 export const dismissToast = () => {
-  toastId = null;
-  // toast.dismiss(toastId);
+  toast.dismiss(toastId);
 };
 
 export const uploadToast = () => {
@@ -77,7 +76,7 @@ export const confirmToast = () => {
     position: 'bottom-right',
     autoClose: 3000,
     hideProgressBar: true,
-    closeOnClick: true,
+    closeOnClick: false,
     pauseOnHover: false,
     draggable: false,
     transition: 'zoom'

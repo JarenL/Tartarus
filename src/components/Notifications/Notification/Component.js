@@ -80,7 +80,7 @@ const getEvent = props => {
           user={props.web3.utils.toAscii(event.args.user)}
           forum={props.web3.utils.toAscii(event.args.forum)}
           time={event.args.time * 1000}
-          transactionHash={event.args.transactionHash}
+          transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
         />
       );

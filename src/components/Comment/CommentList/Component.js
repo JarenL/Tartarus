@@ -160,6 +160,7 @@ class CommentList extends Component {
                 if (this.state.directComment !== null) {
                   console.log(this.state.directComment);
                   this.handleFocus(this.state.directComment);
+                  this.handleScrollTo(this.props.commentId);
                 }
               } else {
                 this.setState({
@@ -188,7 +189,6 @@ class CommentList extends Component {
   };
 
   handleParentHover = props => {
-    console.log(props);
     this.setState({
       parentHover: props
     });
@@ -294,6 +294,7 @@ class CommentList extends Component {
         handleReply={this.handleReply}
         handleFocus={this.handleFocus}
         disabled={this.props.disabled}
+        direct={this.props.direct}
       />
     );
   }
@@ -301,7 +302,6 @@ class CommentList extends Component {
   renderFocusedItem(index, key) {
     let lastIndex = this.state.comments
       .map(comment => {
-        console.log(comment);
         return comment.args.commentId;
       })
       .indexOf(this.state.focusedCommentsList[0].args.commentId);
@@ -343,7 +343,6 @@ class CommentList extends Component {
     if (this.state.focusedCommentsList.length > 0) {
       let lastIndex = this.state.comments
         .map(comment => {
-          console.log(comment);
           return comment.args.commentId;
         })
         .indexOf(this.state.focusedCommentsList[0].args.commentId);

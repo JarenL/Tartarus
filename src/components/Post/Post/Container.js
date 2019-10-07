@@ -7,7 +7,8 @@ const mapStateToProps = state => ({
   username: state.user.username,
   userSettings: state.user.userSettings,
   userPermissions: state.user.userPermissions,
-  tartarusAddress: state.tartarus.tartarusAddress
+  tartarusAddress: state.tartarus.tartarusAddress,
+  dark: state.theme.dark
 });
 
 const enhance = compose(connect(mapStateToProps));

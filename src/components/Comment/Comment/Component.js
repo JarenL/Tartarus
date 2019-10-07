@@ -3,7 +3,10 @@ import styled from 'styled-components/macro';
 import CommentContent from './Content';
 import TartarusContract from '../../../contracts/Tartarus.json';
 import CommentDetail from './Detail/Component';
-import { updateUserSaved } from '../../../redux/actions/actions';
+import {
+  updateUserSaved,
+  updateUserWatched
+} from '../../../redux/actions/actions';
 import CommentActions from './CommentActions';
 import CommentReplyFormContainer from '../../CreateCommentReplyForm/Container';
 import { confirmToast, warningToast } from '../../Notifications/Toasts/Toast';
@@ -11,7 +14,8 @@ import { confirmToast, warningToast } from '../../Notifications/Toasts/Toast';
 const Wrapper = styled.div`
   border-radius: 2px;
   background-color: ${props => props.theme.foreground};
-  border: 0.5px solid ${props => props.theme.foreground};
+  border: 0.5px solid ${props =>
+    props.highlight ? props.theme.accent : props.theme.foreground};
 
   @media (max-width: 768px) {
     border-left: none;
@@ -24,18 +28,6 @@ const Wrapper = styled.div`
   // }
 `;
 
-const BorderWrapper = styled.div`
-  border-radius: 2px;
-  background-color: ${props => props.theme.foreground};
-  border: 0.5px solid ${props => props.theme.accent};
-
-  @media (max-width: 768px) {
-    border-left: none;
-    border-right: none;
-    border-radius: 0;
-  }
-`;
-
 const services = require('../../../services');
 
 class Comment extends Component {
@@ -46,8 +38,10 @@ class Comment extends Component {
       comments: 0,
       time: null,
       saved: false,
+      watched: false,
       loading: true,
-      exists: true
+      exists: true,
+      forumName: null
     };
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -69,12 +63,18 @@ class Comment extends Component {
             }
           )
           .get((error, post) => {
+            this.setState({
+              forumName: this.props.web3.utils.toAscii(post[0].args.forum)
+            });
             this.instantiateContract(
               this.props.web3.utils.toAscii(post[0].args.forum)
             );
           });
       });
     } else {
+      this.setState({
+        forumName: this.props.forumName
+      });
       this.instantiateContract(this.props.forumName);
     }
   };
@@ -120,6 +120,7 @@ class Comment extends Component {
                   );
                   if (this.props.username !== null) {
                     this.checkSaved();
+                    this.checkWatched();
                   }
                   this.setState({
                     isModerator: await instance.isModerator.call(
@@ -203,6 +204,66 @@ class Comment extends Component {
     }
   };
 
+  checkWatched = () => {
+    const index = this.props.userSettings[
+      this.props.username
+    ].watched.comments.findIndex(
+      comment => comment.commentId === this.props.comment.args.commentId
+    );
+    if (index === -1) {
+      this.setState({
+        watched: false
+      });
+    } else {
+      this.setState({
+        watched: true
+      });
+    }
+  };
+
+  handleWatch = props => {
+    console.log('watch');
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      let newWatchedCommentsArray = this.props.userSettings[this.props.username]
+        .watched;
+      newWatchedCommentsArray.comments.push({
+        commentId: props,
+        args: this.props.comment.args,
+        event: 'CommentCreated'
+      });
+      let payload = {
+        username: this.props.username,
+        watched: newWatchedCommentsArray
+      };
+      this.props.dispatch(updateUserWatched(payload));
+      this.checkWatched();
+    }
+  };
+
+  handleUnwatch = props => {
+    console.log('unwatch');
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      let newWatched = this.props.userSettings[this.props.username].watched;
+      let newWatchedCommentsArray = newWatched.comments.slice();
+      for (var i = 0; i < newWatchedCommentsArray.length; i++) {
+        if (newWatchedCommentsArray[i].commentId === props) {
+          newWatchedCommentsArray.splice(i, 1);
+        }
+      }
+      newWatched.comments = newWatchedCommentsArray;
+      let payload = {
+        username: this.props.username,
+        watched: newWatched
+      };
+      this.props.dispatch(updateUserWatched(payload));
+      this.checkWatched();
+    }
+  };
+
   handleSave = props => {
     console.log('save');
     if (this.props.username === null) {
@@ -246,8 +307,6 @@ class Comment extends Component {
     }
   };
 
-  handleReport = () => {};
-
   handleDelete = () => {
     console.log('unsave');
     if (this.props.username === null) {
@@ -262,7 +321,7 @@ class Comment extends Component {
           instance.removeComment
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),
-              this.props.web3.utils.fromAscii(this.props.forumName),
+              this.props.web3.utils.fromAscii(this.state.forumName),
               this.props.comment.args.postId,
               this.props.comment.args.commentId,
               { from: accounts[0], gasPrice: 20000000000 }
@@ -283,106 +342,67 @@ class Comment extends Component {
 
   render() {
     if (this.state.exists) {
-      if (
-        this.props.focused ||
-        this.props.parentHover === this.props.comment.args.commentId
-      ) {
-        return (
-          <BorderWrapper>
-            <CommentDetail
-              creator={this.props.web3.utils.toAscii(
-                this.props.comment.args.user
-              )}
-              creatorHex={this.props.comment.args.user}
-              isModerator={this.state.isModerator}
-              isAdmin={this.state.isAdmin}
-              time={this.state.time}
-              saved={this.state.saved}
-              targetId={this.props.comment.args.targetId}
-              postId={this.props.comment.args.postId}
-              handleParentHover={this.props.handleParentHover}
-              disabled={this.props.disabled}
-            />
-            <CommentContent
-              loading={this.state.loading}
-              comment={this.state.comment}
-            />
-            <CommentActions
-              comment={this.props.comment}
-              forumName={this.props.forumName}
-              postId={this.props.comment.args.postId}
-              comments={this.state.comments}
-              focused={this.props.focused}
+      return (
+        <Wrapper
+          highlight={
+            this.props.focused ||
+            this.props.parentHover === this.props.comment.args.commentId
+          }
+        >
+          <CommentDetail
+            creator={this.props.web3.utils.toAscii(
+              this.props.comment.args.user
+            )}
+            creatorHex={this.props.comment.args.user}
+            isModerator={this.state.isModerator}
+            isAdmin={this.state.isAdmin}
+            handleParentHover={this.props.handleParentHover}
+            time={this.state.time}
+            saved={this.state.saved}
+            targetId={this.props.comment.args.targetId}
+            forumName={this.state.forumName}
+            commentId={this.props.comment.args.commentId}
+            postId={this.props.comment.args.postId}
+            index={this.props.index}
+            handleScroll={this.props.handleScroll}
+            disabled={this.props.disabled}
+            direct={this.props.direct}
+          />
+          <CommentContent
+            loading={this.state.loading}
+            comment={this.state.comment}
+            dark={this.props.dark}
+          />
+          <CommentActions
+            comment={this.props.comment}
+            forumName={this.state.forumName}
+            postId={this.props.comment.args.postId}
+            comments={this.state.comments}
+            focused={this.props.focused}
+            handleReply={this.props.handleReply}
+            handleSave={this.handleSave}
+            handleUnsave={this.handleUnsave}
+            saved={this.state.saved}
+            canDelete={this.state.canDelete}
+            handleDelete={this.handleDelete}
+            handleFocus={this.props.handleFocus}
+            disabled={this.props.disabled}
+            direct={this.props.direct}
+            watched={this.state.watched}
+            handleWatch={this.handleWatch}
+            handleUnwatch={this.handleUnwatch}
+          />
+          {this.props.currentComment === this.props.comment.args.commentId ? (
+            <CommentReplyFormContainer
               handleReply={this.props.handleReply}
-              handleSave={this.handleSave}
-              handleUnsave={this.handleUnsave}
-              saved={this.state.saved}
-              canDelete={this.state.canDelete}
-              handleDelete={this.handleDelete}
-              handleFocus={this.props.handleFocus}
-              disabled={this.props.disabled}
-            />
-            {this.props.currentComment === this.props.comment.args.commentId ? (
-              <CommentReplyFormContainer
-                handleReply={this.props.handleReply}
-                postId={this.props.comment.args.postId}
-                commentId={this.props.comment.args.commentId}
-                forumName={this.props.forumName}
-                targetId={this.props.comment.args.commentId}
-              />
-            ) : null}
-          </BorderWrapper>
-        );
-      } else {
-        return (
-          <Wrapper>
-            <CommentDetail
-              creator={this.props.web3.utils.toAscii(
-                this.props.comment.args.user
-              )}
-              creatorHex={this.props.comment.args.user}
-              isModerator={this.state.isModerator}
-              isAdmin={this.state.isAdmin}
-              handleParentHover={this.props.handleParentHover}
-              time={this.state.time}
-              saved={this.state.saved}
-              targetId={this.props.comment.args.targetId}
               postId={this.props.comment.args.postId}
-              index={this.props.index}
-              handleScroll={this.props.handleScroll}
-              disabled={this.props.disabled}
+              commentId={this.props.comment.args.commentId}
+              forumName={this.state.forumName}
+              targetId={this.props.comment.args.commentId}
             />
-            <CommentContent
-              loading={this.state.loading}
-              comment={this.state.comment}
-            />
-            <CommentActions
-              comment={this.props.comment}
-              forumName={this.props.forumName}
-              postId={this.props.comment.args.postId}
-              comments={this.state.comments}
-              focused={this.props.focused}
-              handleReply={this.props.handleReply}
-              handleSave={this.handleSave}
-              handleUnsave={this.handleUnsave}
-              saved={this.state.saved}
-              canDelete={this.state.canDelete}
-              handleDelete={this.handleDelete}
-              handleFocus={this.props.handleFocus}
-              disabled={this.props.disabled}
-            />
-            {this.props.currentComment === this.props.comment.args.commentId ? (
-              <CommentReplyFormContainer
-                handleReply={this.props.handleReply}
-                postId={this.props.comment.args.postId}
-                commentId={this.props.comment.args.commentId}
-                forumName={this.props.forumName}
-                targetId={this.props.comment.args.commentId}
-              />
-            ) : null}
-          </Wrapper>
-        );
-      }
+          ) : null}
+        </Wrapper>
+      );
     } else {
       return null;
     }

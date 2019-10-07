@@ -227,6 +227,7 @@ class App extends Component {
       case 'ForumCreated':
         console.log(this.props.username);
         return new Promise((resolve, reject) => {
+          console.log(startingBlock);
           instance
             .ForumCreated(
               { user: this.props.web3.utils.fromAscii(this.props.username) },
@@ -494,7 +495,8 @@ class App extends Component {
               <GlobalStyle />
               <Route component={HeaderContainer} />
               <Switch>
--                <Route path='/signup' component={SignupFormContainer} />
+                <Route path='/signup' component={SignupFormContainer} />
+                <Route path='/login' component={LoginFormContainer} />
                 <Route
                   path='/'
                   // onChange={this.handleNotifications()}

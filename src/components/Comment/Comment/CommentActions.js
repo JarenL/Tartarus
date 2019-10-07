@@ -9,6 +9,8 @@ import Comment from '../../Buttons/Comment';
 import { Link } from 'react-router-dom';
 import ChildArrow from '../../Buttons/ChildArrow';
 import UnfocusButton from '../../Buttons/Unfocus';
+import Watch from '../../Buttons/Watch';
+import Unwatch from '../../Buttons/Unwatch';
 
 const Wrapper = styled.div`
   display: flex;
@@ -96,13 +98,28 @@ const CommentActions = props => (
           <TextWrapper>{' Unsave'}</TextWrapper>
         </ButtonWrapper>
       )}
-      <LinkWrapper
+      {!props.watched ? (
+        <ButtonWrapper
+          onClick={() => props.handleWatch(props.comment.args.commentId)}
+        >
+          <Watch size={16} />
+          <TextWrapper>{'Watch'}</TextWrapper>
+        </ButtonWrapper>
+      ) : (
+        <ButtonWrapper
+          onClick={() => props.handleUnwatch(props.comment.args.commentId)}
+        >
+          <Unwatch size={16} />
+          <TextWrapper>{'Unwatch'}</TextWrapper>
+        </ButtonWrapper>
+      )}
+      {/* <LinkWrapper
         to={`/u/${props.comment.args.creator}/tip`}
         style={{ textDecoration: 'none' }}
       >
         <Tip size={16} />
         <TextWrapper>{'Tip'}</TextWrapper>
-      </LinkWrapper>
+      </LinkWrapper> */}
       {props.canDelete ? (
         <ButtonWrapper onClick={props.handleDelete}>
           <Delete size={16} />
@@ -110,9 +127,7 @@ const CommentActions = props => (
         </ButtonWrapper>
       ) : null}
       <LinkWrapper
-        to={`/f/${props.forumName}/p/${props.comment.args.postId}/c/${
-          props.comment.args.commentId
-        }/report`}
+        to={`/f/${props.forumName}/p/${props.comment.args.postId}/c/${props.comment.args.commentId}/report`}
         style={{ textDecoration: 'none' }}
       >
         <Report size={16} />

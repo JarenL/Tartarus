@@ -47,6 +47,7 @@ class UserSidebar extends Component {
             toBlock: 'latest'
           })
           .then(user => {
+            console.log(user);
             this.setState({
               userBalance: this.props.web3.utils.fromWei(
                 user[3].toString(),
@@ -105,9 +106,10 @@ class UserSidebar extends Component {
   };
 
   render() {
-    // if (this.state.loading) {
-    //   return <LoadingIndicatorSpinner />;
-    // } else {
+    if (this.state.loading) {
+      return <LoadingIndicatorSpinner />;
+    } else {
+      console.log(this.props);
       if (this.props.username !== this.props.user) {
         return (
           <Wrapper>
@@ -123,10 +125,8 @@ class UserSidebar extends Component {
       } else {
         return (
           <Wrapper>
-            {/* <UserHeader
-              user={this.props.user}
-              userHex={this.props.web3.utils.fromAscii(this.props.user)}
-            /> */}
+            <UserHeader user={this.props.user} userHex={this.state.userHex} />
+
             <UserWithdraw
               userBalance={this.state.userBalance}
               handleWithdraw={this.handleWithdraw}
@@ -140,7 +140,7 @@ class UserSidebar extends Component {
         );
       }
     }
-  // }
+  }
 }
 
 export default withRouter(UserSidebar);

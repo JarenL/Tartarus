@@ -80,9 +80,7 @@ const ForumModerators = props => (
         props.moderators.includes(
           usernameToBytes32(props.web3.utils.fromAscii(props.username))
         ) ? (
-          <StyledLink to={`${props.forumName}/moderate`}>
-            <ModerateButton size={18} />
-          </StyledLink>
+          <ModerateButton onClick={props.handleModerate} size={18} />
         ) : null}
         {props.showModerators ? (
           <UpButton size={18} onClick={props.toggleShowModerators} />

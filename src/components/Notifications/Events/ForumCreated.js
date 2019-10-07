@@ -43,6 +43,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const ForumCreated = props => {
+  console.log(props)
   return (
     <EventWrapper>
       <div>

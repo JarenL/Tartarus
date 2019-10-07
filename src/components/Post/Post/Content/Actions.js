@@ -118,20 +118,22 @@ const PostActions = props => (
         <TextWrapper>{'Unwatch'}</TextWrapper>
       </ButtonWrapper>
     )}
-    <ButtonWrapper>
+    {/* <ButtonWrapper>
       <Tip size={16} />
       <TextWrapper>{'Tip'}</TextWrapper>
-    </ButtonWrapper>
+    </ButtonWrapper> */}
     {props.canDelete ? (
       <ButtonWrapper onClick={props.handleDelete}>
         <Delete size={16} />
         <TextWrapper>{'Delete'}</TextWrapper>
       </ButtonWrapper>
     ) : null}
-    <ButtonWrapper onClick={props.handleReport}>
-      <Report size={16} />
-      <TextWrapper>{'Report'}</TextWrapper>
-    </ButtonWrapper>
+    {props.canReport ? (
+      <ButtonWrapper onClick={props.handleReport}>
+        <Report size={16} />
+        <TextWrapper>{'Report'}</TextWrapper>
+      </ButtonWrapper>
+    ) : null}
   </Wrapper>
 );
 

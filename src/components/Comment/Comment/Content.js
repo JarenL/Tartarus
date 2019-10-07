@@ -17,20 +17,15 @@ const Wrapper = styled.div`
   color: ${props => props.theme.mutedText};
 `;
 
-const textPlaceholder = (
-  <div className='text-placeholder'>
-    <TextRow color='#E0E0E0' />
-  </div>
-);
-
 const CommentContent = props => {
   return (
     <Wrapper>
       <ReactPlaceholder
         delay={1000}
+        color={props.dark ? '#1b1b1b' : '#f4f6f8'}
         showLoadingAnimation={true}
+        rows={2}
         ready={!props.loading}
-        customPlaceholder={textPlaceholder}
       >
         {ReactHtmlParser(props.comment)}
       </ReactPlaceholder>

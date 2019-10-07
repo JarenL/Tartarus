@@ -9,6 +9,7 @@ export const mapStateToProps = state => ({
   userPermissions: state.user.userPermissions,
   userSettings: state.user.userSettings,
   time: state.form.filter.values.time,
+  dark: state.theme.dark
 });
 
 const enhance = compose(connect(mapStateToProps));

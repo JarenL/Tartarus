@@ -3,6 +3,7 @@ const constants = {
   vote: '#b6b6b6',
   upvote: '#FF4500',
   downvote: '#33a0ff',
+  voteBlend: '#A26E74',
   mod: '#3BCB56',
   admin: '#ED001C',
   warning: '#FFB100'

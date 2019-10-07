@@ -6,6 +6,8 @@ import ParentArrow from '../../../Buttons/RightArrow';
 import { wideFont } from '../../../shared/helpers';
 import { overflow } from '../../../shared/helpers';
 import { link } from '../../../shared/helpers';
+import { Link } from 'react-router-dom';
+import RightButton from '../../../Buttons/RightButton';
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,6 +28,27 @@ const ButtonWrapper = styled.span`
   & > svg {
     margin-right: 5px;
   }
+  &:last-child {
+    margin-right: 0;
+  }
+  &:hover {
+    color: ${props => props.theme.accent};
+    & > svg {
+      color: ${props => props.theme.accent} !important;
+    }
+  }
+`;
+
+const LinkWrapper = styled(Link)`
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  color: ${props => props.theme.mutedText};
+  margin-right: 10px;
+  // & > svg {
+  //   margin-right: 3px;
+  //   margin-left: 5px;
+  // }
   &:last-child {
     margin-right: 0;
   }
@@ -84,6 +107,14 @@ class CommentDetail extends React.Component {
             <ParentArrow size={16} />
             {/* {this.props.targetId} */}
           </ButtonWrapper>
+        ) : null}
+        {this.props.direct ? (
+          <LinkWrapper
+            to={`/f/${this.props.forumName}/p/${this.props.postId}/c/${this.props.commentId}`}
+            style={{ textDecoration: 'none' }}
+          >
+            <RightButton size={16} />
+          </LinkWrapper>
         ) : null}
       </Wrapper>
     );

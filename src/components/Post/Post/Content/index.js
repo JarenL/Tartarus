@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  border-left: 1px solid ${props => props.theme.border};
+  // border-left: 1px solid ${props => props.theme.border};
   padding: 8px;
   min-width: 0;
   // min-width: 0;
@@ -231,11 +231,12 @@ class PostContent extends Component {
   };
 
   render() {
+    console.log(this.props)
     return (
       <Wrapper>
         <ReactPlaceholder
           delay={1000}
-          color='#E0E0E0'
+          color={this.props.dark ? '#1b1b1b' : '#f4f6f8'}
           showLoadingAnimation={true}
           rows={3}
           ready={!this.props.loading}
@@ -290,6 +291,7 @@ class PostContent extends Component {
             handleUnsave={this.props.handleUnsave}
             handleDelete={this.props.handleDelete}
             handleReport={this.props.handleReport}
+            canReport={this.props.canReport}
           />
           {this.state.preview &&
             renderEmbed({

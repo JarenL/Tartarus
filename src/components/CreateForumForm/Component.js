@@ -1,12 +1,18 @@
 import React from 'react';
 import { Field } from 'redux-form';
-  import Form from '../shared/form/Form';
+import Form from '../shared/form/Form';
 import renderField from '../shared/form/renderField';
 import styled from 'styled-components/macro';
 import TartarusContract from '../../contracts/Tartarus.json';
 import CancelButton from '../Buttons/CancelButton';
 import SubmitButton from '../Buttons/SubmitButton';
-import { uploadToast, warningToast, errorToast, confirmToast } from '../Notifications/Toasts/Toast';
+import {
+  uploadToast,
+  warningToast,
+  errorToast,
+  confirmToast,
+  dismissToast
+} from '../Notifications/Toasts/Toast';
 const services = require('../../services');
 
 const Wrapper = styled.div`
@@ -23,6 +29,10 @@ class CreateForumForm extends React.Component {
     this.state = {
       loading: false
     };
+  }
+
+  componentWillUnmount = () => {
+    dismissToast();
   }
 
   handleSubmit = async () => {

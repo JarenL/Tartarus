@@ -164,11 +164,11 @@ class ForumSidebar extends Component {
     }
   };
 
-  moderateHandler = () => {
+  handleModerate = () => {
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
-      this.props.history.push('/moderate');
+      this.props.history.push(`/f/${this.props.forumName}/moderate`);
     }
   };
 
@@ -227,7 +227,7 @@ class ForumSidebar extends Component {
           forumName={this.props.forumName}
           showModerators={this.state.showModerators}
           toggleShowModerators={this.toggleShowModerators}
-          moderateHandler={this.moderateHandler}
+          handleModerate={this.handleModerate}
           moderators={this.state.moderators}
           web3={this.props.web3}
         />

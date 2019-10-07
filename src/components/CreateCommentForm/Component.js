@@ -11,7 +11,8 @@ import {
   uploadToast,
   confirmToast,
   warningToast,
-  errorToast
+  errorToast,
+  dismissToast
 } from '../Notifications/Toasts/Toast';
 
 const services = require('../../services');
@@ -51,6 +52,10 @@ class CommentForm extends React.Component {
       loading: false,
       commenting: false
     };
+  }
+
+  componentWillUnmount = () => {
+    dismissToast();
   }
 
   handleComment = () => {

@@ -191,13 +191,10 @@ class CombinedList extends Component {
                               parseFloat(a.args.time.c[0]) -
                               parseFloat(b.args.time.c[0])
                           );
-                          console.log(combinedList);
                           this.setState({
                             combinedList: combinedList.reverse(),
                             loading: false
                           });
-                          console.log(posts);
-                          // await this.getPosts(posts);
                         });
                     });
                 });
@@ -222,6 +219,7 @@ class CombinedList extends Component {
           forumName={this.props.forumName}
           comment={this.state.combinedList[index]}
           disabled={true}
+          direct={true}
           // currentComment={this.state.currentComment}
           // focused={
           //   this.state.focusedCommentsMap[

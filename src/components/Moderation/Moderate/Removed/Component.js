@@ -30,7 +30,7 @@ class Removed extends React.Component {
       .at(this.props.tartarusAddress)
       .then(instance => {
         instance
-          .PostDeleted(
+          .PostRemoved(
             {
               forum: forumBytes
             },
@@ -39,10 +39,10 @@ class Removed extends React.Component {
               toBlock: 'latest'
             }
           )
-          .get((error, postsDeleted) => {
+          .get((error, postsRemoved) => {
             // console.log(usersBanned);
             instance
-              .CommentDeleted(
+              .CommentRemoved(
                 {
                   forum: forumBytes
                 },
@@ -51,10 +51,10 @@ class Removed extends React.Component {
                   toBlock: 'latest'
                 }
               )
-              .get((error, commentsDeleted) => {
+              .get((error, commentsRemoved) => {
                 let moderatorEventsArray = [].concat.apply(
                   [],
-                  [postsDeleted, commentsDeleted]
+                  [postsRemoved, commentsRemoved]
                 );
                 console.log(moderatorEventsArray);
                 moderatorEventsArray.sort((a, b) =>
@@ -86,7 +86,10 @@ class Removed extends React.Component {
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
-    if (!this.state.moderatorEvents || this.state.moderatorEvents.length === 0) {
+    if (
+      !this.state.moderatorEvents ||
+      this.state.moderatorEvents.length === 0
+    ) {
       return <Empty />;
     } else {
       return (

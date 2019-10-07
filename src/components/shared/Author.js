@@ -33,13 +33,12 @@ const StyledAdmin = styled(Link)`
 const UserWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-content: center;
+  // justify-content: center;
+  // align-content: center;
 `;
 
 const Blockie = styled.img`
   display: block;
-  margin-left: auto;
   margin-top: auto;
   margin-bottom: auto;
   margin-right: 3px;

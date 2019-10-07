@@ -313,6 +313,7 @@ const Main = () => {
                 key={match.url}
                 user={match.params.user}
                 disabled={true}
+                direct={true}
               />
             </>
           )}
