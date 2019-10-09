@@ -105,6 +105,7 @@ class App extends Component {
   };
 
   getNotifications = async props => {
+    console.log(props)
     let activeNotifications = await Promise.all(
       props.map(event => this.getActiveNotification(event))
     );
@@ -275,11 +276,12 @@ class App extends Component {
             .ModeratorCreated(
               { targetUser: this.props.web3.utils.fromAscii(props.username) },
               {
-                fromBlock: startingBlock,
+                fromBlock: 0,
                 toBlock: 'latest'
               }
             )
             .get((error, moderatorCreated) => {
+              console.log(moderatorCreated)
               resolve(moderatorCreated);
             });
         });
@@ -410,6 +412,7 @@ class App extends Component {
     let startingBlock = await this.getNotificationTime(latestBlock);
     console.log(latestBlock);
     console.log(startingBlock);
+    console.log(props)
     if (props.event === 'PostCreated') {
       return new Promise((resolve, reject) => {
         instance
@@ -428,7 +431,7 @@ class App extends Component {
       return new Promise((resolve, reject) => {
         instance
           .CommentCreated(
-            { targetId: props.commentId },
+            { postId: props.args.postId, targetId: props.commentId },
             {
               fromBlock: startingBlock,
               toBlock: 'latest'

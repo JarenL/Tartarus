@@ -32,7 +32,7 @@ class Reports extends React.Component {
         instance
           .ReportPost(
             {
-              _forum: forumBytes
+              forum: forumBytes
             },
             {
               fromBlock: 0,
@@ -52,9 +52,9 @@ class Reports extends React.Component {
                 }
               )
               .get((error, commentsReported) => {
-                let moderatorEventsArray = [].concat.apply(
-                  [],
-                  [postsReported, commentsReported]
+                console.log(commentsReported)
+                let moderatorEventsArray = postsReported.concat(
+                  commentsReported
                 );
                 console.log(moderatorEventsArray);
                 moderatorEventsArray.sort((a, b) =>
@@ -87,7 +87,10 @@ class Reports extends React.Component {
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
-    if (!this.state.moderatorEvents || this.state.moderatorEvents.length === 0) {
+    if (
+      !this.state.moderatorEvents ||
+      this.state.moderatorEvents.length === 0
+    ) {
       return <Empty />;
     } else {
       return (

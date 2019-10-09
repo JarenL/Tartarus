@@ -24,7 +24,7 @@ const CommentContent = props => {
         delay={1000}
         color={props.dark ? '#1b1b1b' : '#f4f6f8'}
         showLoadingAnimation={true}
-        rows={2}
+        rows={1}
         ready={!props.loading}
       >
         {ReactHtmlParser(props.comment)}

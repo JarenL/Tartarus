@@ -94,7 +94,6 @@ const accountsReducer = (state = initialState, action) => {
       };
 
     case UPDATE_USER_PERMISSIONS:
-      console.log(action.payload);
       return {
         ...state,
         userPermissions: {

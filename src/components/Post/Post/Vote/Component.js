@@ -3,13 +3,14 @@ import styled from 'styled-components/macro';
 import Upvote from '../../../Buttons/Upvote';
 import Downvote from '../../../Buttons/Downvote';
 import Loading from '../../../shared/LoadingIndicator/Loading';
+import VoteRatio from './VoteRatio';
 
-const Wrapper = styled.div`
+const VoteWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 30px;
+  width: 32px;
   padding: 4px;
   font-size: 12px;
   line-height: 25px;
@@ -18,12 +19,20 @@ const Wrapper = styled.div`
   color: ${props => props.theme.normalText};
 `;
 
-const UpvoteScoreWrapper = styled.span`
-  color: ${props => props.theme.upvote};
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 34px;
+  max-height: 90px;
 `;
 
-const DownvoteScoreWrapper = styled.span`
-  color: ${props => props.theme.downvote};
+const StyledScore = styled.span`
+  color: ${props =>
+    props.upvoted
+      ? props.theme.upvote
+      : props.downvoted
+      ? props.theme.downvote
+      : props.theme.mutedText};
 `;
 
 const PostVote = props => {
@@ -36,25 +45,22 @@ const PostVote = props => {
   } else {
     return (
       <Wrapper>
-        <Upvote
-          size={24}
-          upvoted={props.upvoted}
-          onClick={props.handleUpvote}
-        />
-        {props.upvoted || props.downvoted ? (
-          props.upvoted ? (
-            <UpvoteScoreWrapper>{props.votes}</UpvoteScoreWrapper>
-          ) : (
-            <DownvoteScoreWrapper>{props.votes}</DownvoteScoreWrapper>
-          )
-        ) : (
-          <span>{props.votes}</span>
-        )}
-        <Downvote
-          size={24}
-          downvoted={props.downvoted}
-          onClick={props.handleDownvote}
-        />
+        <VoteWrapper>
+          <Upvote
+            size={28}
+            upvoted={props.upvoted}
+            onClick={() => props.handleVote(true)}
+          />
+          <StyledScore downvoted={props.downvoted} upvoted={props.upvoted}>
+            {props.votes}
+          </StyledScore>
+          <Downvote
+            size={28}
+            downvoted={props.downvoted}
+            onClick={() => props.handleVote(false)}
+          />
+        </VoteWrapper>
+        <VoteRatio upvoteRatio={props.upvoteRatio} />
       </Wrapper>
     );
   }

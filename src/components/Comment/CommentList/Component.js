@@ -18,7 +18,9 @@ class CommentList extends Component {
       currentComment: null,
       focusedCommentsList: [],
       focusedCommentsMap: {},
-      focusedChildren: []
+      focusedChildren: [],
+      focusedChildrenMap: {},
+      commentDepth: 0
     };
   }
 
@@ -160,7 +162,6 @@ class CommentList extends Component {
                 if (this.state.directComment !== null) {
                   console.log(this.state.directComment);
                   this.handleFocus(this.state.directComment);
-                  this.handleScrollTo(this.props.commentId);
                 }
               } else {
                 this.setState({
@@ -194,180 +195,202 @@ class CommentList extends Component {
     });
   };
 
+  removeChildren = props => {
+    let newFocusedCommentsList = this.state.focusedCommentsList;
+    let removedFocus = newFocusedCommentsList
+      .map(comment => {
+        return comment.args.commentId;
+      })
+      .indexOf(props.args.commentId);
+    newFocusedCommentsList.splice(removedFocus, 1);
+  };
+
   handleFocus = props => {
     if (this.state.focusedCommentsMap[props.args.commentId] !== undefined) {
-      // remove focus
-      let newFocusedCommentsList = this.state.focusedCommentsList;
-      let removedFocus = newFocusedCommentsList
-        .map(comment => {
-          return comment.args.commentId;
-        })
-        .indexOf(props.args.commentId);
-      newFocusedCommentsList.splice(
-        removedFocus,
-        newFocusedCommentsList.length
+      // remove focus and remove focussed children
+      let removedMap = {};
+      let newFocusedCommentsList = this.state.focusedCommentsList.filter(
+        comment => {
+          if (comment.args.commentId === props.args.commentId) {
+            removedMap[comment.args.commentId] = true;
+            return false;
+          } else {
+            if (removedMap[comment.args.targetId]) {
+              removedMap[comment.args.commentId] = true;
+              return false;
+            } else {
+              return true;
+            }
+          }
+        }
       );
+
+      let newFocusedCommentsMap = newFocusedCommentsList.reduce(
+        (map, comment) => ((map[comment.args.commentId] = true), map),
+        {}
+      );
+
       let newFocusedChildren;
       if (newFocusedCommentsList.length !== 0) {
         newFocusedChildren = this.state.comments.filter(comment => {
-          if (
-            comment.args.targetId ===
-            newFocusedCommentsList[newFocusedCommentsList.length - 1].args
-              .commentId
-          ) {
-            return true;
-          } else {
-            return false;
-          }
+          return newFocusedCommentsMap[comment.args.targetId];
         });
       } else {
         newFocusedChildren = [];
       }
 
-      let newFocusedCommentsMap = newFocusedCommentsList.reduce(
+      let newFocusedChildrenMap = newFocusedChildren.reduce(
         (map, comment) => ((map[comment.args.commentId] = true), map),
         {}
       );
+
       this.setState({
         focusedCommentsList: newFocusedCommentsList,
         focusedCommentsMap: newFocusedCommentsMap,
-        focusedChildren: newFocusedChildren
+        focusedChildren: newFocusedChildren,
+        focusedChildrenMap: newFocusedChildrenMap
       });
     } else {
       // add focus
       let newFocusedCommentsList = this.state.focusedCommentsList;
       newFocusedCommentsList.push(props);
-      let newFocusedChildren = this.state.comments.filter(comment => {
-        if (
-          comment.args.targetId ===
-          newFocusedCommentsList[newFocusedCommentsList.length - 1].args
-            .commentId
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      });
+      newFocusedCommentsList.sort((a, b) =>
+        a.args.time > b.args.time ? 1 : -1
+      );
+
       let newFocusedCommentsMap = newFocusedCommentsList.reduce(
         (map, comment) => ((map[comment.args.commentId] = true), map),
         {}
       );
+
+      let newFocusedChildren = this.state.comments.filter(comment => {
+        return newFocusedCommentsMap[comment.args.targetId];
+      });
+
+      let newFocusedChildrenMap = newFocusedChildren.reduce(
+        (map, comment) => ((map[comment.args.commentId] = true), map),
+        {}
+      );
+
       this.setState({
         focusedCommentsList: newFocusedCommentsList,
         focusedCommentsMap: newFocusedCommentsMap,
-        focusedChildren: newFocusedChildren
+        focusedChildren: newFocusedChildren,
+        focusedChildrenMap: newFocusedChildrenMap
       });
     }
   };
 
   handleScrollTo = props => {
-    // console.log(props);
+    console.log(props);
     // console.log(this.list);
     let parentIndex = this.state.comments
       .map(function(e) {
-        console.log(e);
         return e.args.commentId;
       })
       .indexOf(props);
     // console.log(parentIndex);
     this.list.scrollTo(parentIndex);
+    // this.handleParentHover(props);
+  };
+
+  getChildren = props => {
+    let currentDepth = props.commentDepth;
+    return (
+      <>
+        <CommentListItem
+          // index={index}
+          handleScroll={this.handleScrollTo}
+          handleParentHover={this.handleParentHover}
+          parentHover={this.state.parentHover}
+          key={props.comment.args.commentId}
+          forumName={this.props.forumName}
+          comment={props.comment}
+          commentDepth={currentDepth}
+          currentComment={this.state.currentComment}
+          focused={this.state.focusedCommentsMap[props.comment.args.commentId]}
+          isChild={this.state.focusedChildrenMap[props.comment.args.commentId]}
+          handleReply={this.handleReply}
+          handleFocus={this.handleFocus}
+          disabled={this.props.disabled}
+          direct={this.props.direct}
+        />
+        {this.state.focusedChildren.map(comment => {
+          if (comment.args.targetId === props.comment.args.commentId) {
+            return this.getChildren({
+              comment: comment,
+              commentDepth: currentDepth + 1
+            });
+          }
+        })}
+      </>
+    );
   };
 
   renderItem(index, key) {
-    return (
-      <CommentListItem
-        index={index}
-        handleScroll={this.handleScrollTo}
-        handleParentHover={this.handleParentHover}
-        parentHover={this.state.parentHover}
-        key={this.state.comments[index].args.commentId}
-        forumName={this.props.forumName}
-        comment={this.state.comments[index]}
-        currentComment={this.state.currentComment}
-        focused={
-          this.state.focusedCommentsMap[
-            this.state.comments[index].args.commentId
-          ]
-            ? true
-            : false
-        }
-        handleReply={this.handleReply}
-        handleFocus={this.handleFocus}
-        disabled={this.props.disabled}
-        direct={this.props.direct}
-      />
-    );
-  }
-
-  renderFocusedItem(index, key) {
-    let lastIndex = this.state.comments
-      .map(comment => {
-        return comment.args.commentId;
-      })
-      .indexOf(this.state.focusedCommentsList[0].args.commentId);
-    let rootCommentList = this.state.comments.slice(0, lastIndex);
-    let combinedList = rootCommentList.concat(
-      this.state.focusedCommentsList,
-      this.state.focusedChildren
-    );
-    // console.log(this.state.focusedCommentsList);
-    // let combinedList = this.state.focusedCommentsList.concat(
-    //   this.state.focusedChildren
-    // );
-    return (
-      <CommentListItem
-        index={index}
-        handleParentHover={this.handleParentHover}
-        parentHover={this.state.parentHover}
-        handleScroll={this.handleScrollTo}
-        key={combinedList[index].args.commentId}
-        forumName={this.props.forumName}
-        comment={combinedList[index]}
-        currentComment={this.state.currentComment}
-        focused={
-          this.state.focusedCommentsMap[combinedList[index].args.commentId]
-            ? true
-            : false
-        }
-        handleReply={this.handleReply}
-        handleFocus={this.handleFocus}
-        disabled={this.props.disabled}
-      />
-    );
+    if (
+      this.state.focusedCommentsMap[this.state.comments[index].args.commentId]
+    ) {
+      // if (this.state.comments[index].args.commentId === this.props.commentId) {
+      //   console.log('tttttt')
+      //   this.handleScrollTo((this.state.comments[index].args.commentId))
+      // }
+      if (
+        !this.state.focusedChildrenMap[
+          this.state.comments[index].args.commentId
+        ]
+      ) {
+        return this.getChildren({
+          comment: this.state.comments[index],
+          commentDepth: 0
+        });
+      } else {
+        return null;
+      }
+    } else {
+      if (
+        !this.state.focusedChildrenMap[
+          this.state.comments[index].args.commentId
+        ]
+      ) {
+        return (
+          <CommentListItem
+            index={index}
+            handleScroll={this.handleScrollTo}
+            handleParentHover={this.handleParentHover}
+            parentHover={this.state.parentHover}
+            key={this.state.comments[index].args.commentId}
+            forumName={this.props.forumName}
+            comment={this.state.comments[index]}
+            currentComment={this.state.currentComment}
+            commentDepth={0}
+            focused={
+              this.state.focusedCommentsMap[
+                this.state.comments[index].args.commentId
+              ]
+            }
+            handleReply={this.handleReply}
+            handleFocus={this.handleFocus}
+            disabled={this.props.disabled}
+            direct={this.props.direct}
+          />
+        );
+      }
+    }
   }
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
     if (!this.state.comments || this.state.comments.length === 0)
       return <Empty />;
-    if (this.state.focusedCommentsList.length > 0) {
-      let lastIndex = this.state.comments
-        .map(comment => {
-          return comment.args.commentId;
-        })
-        .indexOf(this.state.focusedCommentsList[0].args.commentId);
-      return (
-        <ReactList
-          ref={c => (this.list = c)}
-          itemRenderer={this.renderFocusedItem.bind(this)}
-          length={
-            lastIndex +
-            this.state.focusedCommentsList.length +
-            this.state.focusedChildren.length
-          }
-          type='simple'
-        />
-      );
-    } else {
-      return (
-        <ReactList
-          ref={c => (this.list = c)}
-          itemRenderer={this.renderItem.bind(this)}
-          length={this.state.comments.length}
-          type='simple'
-        />
-      );
-    }
+    return (
+      <ReactList
+        ref={c => (this.list = c)}
+        itemRenderer={this.renderItem.bind(this)}
+        length={this.state.comments.length}
+        type='simple'
+      />
+    );
   }
 }
 

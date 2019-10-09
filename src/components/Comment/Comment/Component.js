@@ -14,9 +14,17 @@ import { confirmToast, warningToast } from '../../Notifications/Toasts/Toast';
 const Wrapper = styled.div`
   border-radius: 2px;
   background-color: ${props => props.theme.foreground};
+  margin-left: ${props =>
+    props.isChild ? `${props.commentDepth * 6}px` : '0px'};
+
   border: 0.5px solid ${props =>
     props.highlight ? props.theme.accent : props.theme.foreground};
 
+    border-left: 0.5px solid ${props =>
+      props.isChild || props.highlight
+        ? props.theme.accent
+        : props.theme.foreground};
+  
   @media (max-width: 768px) {
     border-left: none;
     border-right: none;
@@ -308,7 +316,7 @@ class Comment extends Component {
   };
 
   handleDelete = () => {
-    console.log('unsave');
+    console.log('delete');
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
@@ -348,11 +356,16 @@ class Comment extends Component {
             this.props.focused ||
             this.props.parentHover === this.props.comment.args.commentId
           }
+          isChild={this.props.isChild}
+          commentDepth={this.props.commentDepth}
+          // onClick={() => this.props.handleFocus(this.props.comment)}
         >
           <CommentDetail
             creator={this.props.web3.utils.toAscii(
               this.props.comment.args.user
             )}
+            loading={this.state.loading}
+            dark={this.props.dark}
             creatorHex={this.props.comment.args.user}
             isModerator={this.state.isModerator}
             isAdmin={this.state.isAdmin}
@@ -375,6 +388,8 @@ class Comment extends Component {
           />
           <CommentActions
             comment={this.props.comment}
+            loading={this.state.loading}
+            dark={this.props.dark}
             forumName={this.state.forumName}
             postId={this.props.comment.args.postId}
             comments={this.state.comments}

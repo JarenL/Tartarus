@@ -13,7 +13,8 @@ class CombinedList extends Component {
     super(props);
     this.state = {
       combinedList: [],
-      loading: true
+      loading: true,
+      currentComment: null
     };
   }
 
@@ -207,8 +208,22 @@ class CombinedList extends Component {
     }
   };
 
+  handleReply = props => {
+    console.log(props)
+    if (props === this.state.currentComment) {
+      this.setState({
+        currentComment: null
+      });
+    } else {
+      this.setState({
+        currentComment: props
+      });
+    }
+  };
+
   renderItem(index, key) {
     if (this.state.combinedList[index].event === 'CommentCreated') {
+      console.log(this.props.forumName)
       return (
         <CommentListItem
           index={index}
@@ -216,11 +231,12 @@ class CombinedList extends Component {
           // handleParentHover={this.handleParentHover}
           // parentHover={this.state.parentHover}
           key={this.state.combinedList[index].args.commentId}
-          forumName={this.props.forumName}
+          // forumName={this.props.forumName}
           comment={this.state.combinedList[index]}
           disabled={true}
           direct={true}
-          // currentComment={this.state.currentComment}
+          handleReply={this.handleReply}
+          currentComment={this.state.currentComment}
           // focused={
           //   this.state.focusedCommentsMap[
           //     this.state.comments[index].args.commentId

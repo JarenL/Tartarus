@@ -76,7 +76,7 @@ export const confirmToast = () => {
     position: 'bottom-right',
     autoClose: 3000,
     hideProgressBar: true,
-    closeOnClick: false,
+    closeOnClick: true,
     pauseOnHover: false,
     draggable: false,
     transition: 'zoom'

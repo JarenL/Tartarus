@@ -103,8 +103,8 @@ class ReportItem extends React.Component {
               ? this.state.post.args.creator
               : this.state.comment.args.creator,
             this.state.comment === null
-              ? this.props.event.args._forum
-              : this.props.event.args._forum,
+              ? this.props.event.args.forum
+              : this.props.event.args.forum,
             {
               from: accounts[0],
               gasPrice: 20000000000
@@ -255,7 +255,7 @@ class ReportItem extends React.Component {
           <div>
             <StyledLink
               to={`/f/${this.props.web3.utils.toAscii(
-                this.props.event.args._forum
+                this.props.event.args.forum
               )}/p/${this.props.event.args.postId}`}
             >
               {this.props.event.event === 'ReportPost' ? 'Post' : 'Comment'}

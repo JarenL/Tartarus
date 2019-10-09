@@ -101,7 +101,17 @@ class CommentCreated extends Component {
               {' Comment '}
             </StyledLink>
             {' on a '}
-            <StyledLink to={`/f/${this.state.forum}/p/${this.props.postId}`}>{' Post '}</StyledLink>
+            {this.props.postId === this.props.targetId ? (
+              <StyledLink to={`/f/${this.state.forum}/p/${this.props.postId}`}>
+                {' Post '}
+              </StyledLink>
+            ) : (
+              <StyledLink
+                to={`/f/${this.state.forum}/p/${this.props.postId}/c/${this.props.targetId}`}
+              >
+                {' Comment '}
+              </StyledLink>
+            )}
             {" you're watching "}
             {` ${moment(this.props.time).fromNow()}`}
           </div>

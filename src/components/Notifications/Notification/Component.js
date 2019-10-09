@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-// import ReportItem from '../Reports/ReportItem';
-// import UnbanButton from '../../../Buttons/Unban';
 import AdminCreated from '../Events/AdminCreated';
 import AdminUpdated from '../Events/AdminUpdated';
 import AdminRemoved from '../Events/AdminRemoved';
@@ -89,6 +87,7 @@ const getEvent = props => {
         <CommentCreated
           user={props.web3.utils.toAscii(event.args.user)}
           postId={event.args.postId}
+          targetId={event.args.targetId}
           commentId={event.args.commentId}
           forum={event.args.forum}
           time={event.args.time * 1000}

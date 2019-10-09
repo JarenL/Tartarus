@@ -13,8 +13,8 @@ const Wrapper = styled.div`
   // top: 60px;
   display: flex;
   flex-direction: column;
-  flex-basis: 240px;
-  width: 240px;
+  // flex-basis: 240px;
+  width: 100%;
   height: 100%;
   // margin-left: 24px;
   // border: 1px solid ${props => props.theme.border};

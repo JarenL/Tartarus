@@ -41,12 +41,12 @@ class DrawerHeader extends Component {
           </ButtonWrapper>
           <HeaderLogo />
         </Header>
-        {this.props.username !== null ? (
+        {/* {this.props.username !== null ? (
           <UserHeader
             user={this.props.username}
             userHex={this.props.userHex}
           />
-        ) : null}
+        ) : null} */}
       </>
     );
   }

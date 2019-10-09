@@ -8,6 +8,8 @@ import { overflow } from '../../../shared/helpers';
 import { link } from '../../../shared/helpers';
 import { Link } from 'react-router-dom';
 import RightButton from '../../../Buttons/RightButton';
+import ReactPlaceholder from 'react-placeholder';
+import 'react-placeholder/lib/reactPlaceholder.css';
 
 const Wrapper = styled.div`
   display: flex;
@@ -86,36 +88,44 @@ class CommentDetail extends React.Component {
   render() {
     return (
       <Wrapper>
-        <UserWrapper>
-          <Author
-            username={this.props.creator}
-            isModerator={this.props.isModerator}
-            isAdmin={this.props.isAdmin}
-            creatorHex={this.props.creatorHex}
-          />
-          <CommentDetailTimestamp created={this.props.time} />
-        </UserWrapper>
-        {this.props.postId !== this.props.targetId && !this.props.disabled ? (
-          <ButtonWrapper
-            // onClick={() => this.props.handleScroll(this.props.index)}
-            onClick={() => this.props.handleScroll(this.props.targetId)}
-            onMouseEnter={() =>
-              this.props.handleParentHover(this.props.targetId)
-            }
-            onMouseLeave={() => this.props.handleParentHover(null)}
-          >
-            <ParentArrow size={16} />
-            {/* {this.props.targetId} */}
-          </ButtonWrapper>
-        ) : null}
-        {this.props.direct ? (
-          <LinkWrapper
-            to={`/f/${this.props.forumName}/p/${this.props.postId}/c/${this.props.commentId}`}
-            style={{ textDecoration: 'none' }}
-          >
-            <RightButton size={16} />
-          </LinkWrapper>
-        ) : null}
+        <ReactPlaceholder
+          delay={1000}
+          color={this.props.dark ? '#1b1b1b' : '#f4f6f8'}
+          showLoadingAnimation={true}
+          rows={1}
+          ready={!this.props.loading}
+        >
+          <UserWrapper>
+            <Author
+              username={this.props.creator}
+              isModerator={this.props.isModerator}
+              isAdmin={this.props.isAdmin}
+              creatorHex={this.props.creatorHex}
+            />
+            <CommentDetailTimestamp created={this.props.time} />
+          </UserWrapper>
+          {this.props.postId !== this.props.targetId && !this.props.disabled ? (
+            <ButtonWrapper
+              // onClick={() => this.props.handleScroll(this.props.index)}
+              onClick={() => this.props.handleScroll(this.props.targetId)}
+              onMouseEnter={() =>
+                this.props.handleParentHover(this.props.targetId)
+              }
+              onMouseLeave={() => this.props.handleParentHover(null)}
+            >
+              <ParentArrow size={16} />
+              {/* {this.props.targetId} */}
+            </ButtonWrapper>
+          ) : null}
+          {this.props.direct ? (
+            <LinkWrapper
+              to={`/f/${this.props.forumName}/p/${this.props.postId}/c/${this.props.commentId}`}
+              style={{ textDecoration: 'none' }}
+            >
+              <RightButton size={16} />
+            </LinkWrapper>
+          ) : null}
+        </ReactPlaceholder>
       </Wrapper>
     );
   }

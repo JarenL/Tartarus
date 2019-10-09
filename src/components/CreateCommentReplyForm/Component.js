@@ -101,7 +101,7 @@ class CommentForm extends React.Component {
               }
             )
             .then(result => {
-              this.props.reset('createCommentReply');
+              this.props.resetForm();
               confirmToast();
               this.setState({
                 loading: false

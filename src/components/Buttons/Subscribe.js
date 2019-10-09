@@ -11,7 +11,6 @@ const SubscribeButton = styled(Button)`
 `;
 
 const Subscribe = props => {
-  console.log(props);
   if (props.username === null) {
     return (
       <SubscribeButton onClick={props.subscribeHandler}>

@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import { wideFont } from '../../shared/helpers';
 import { overflow } from '../../shared/helpers';
 import UserBlockie from './UserBlockie';
+import Watch from '../../Buttons/Watch';
 
 const Header = styled.span`
   ${wideFont};
@@ -23,8 +24,15 @@ const HeaderText = styled.div`
   font-size: 16px;
   align-items: center;
   justify-content: center;
+  // margin-left: 16px;
   color: ${props => props.theme.mutedText};
 `;
+
+// const ButtonWrapper = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: flex-end;
+// `;
 
 const BlockieWrapper = styled.div`
   align-self: flex-end;
@@ -34,7 +42,11 @@ const UserHeader = props => {
   console.log(props.userHex);
   return (
     <Header>
+      {/* <ButtonWrapper>
+      </ButtonWrapper> */}
+      <Watch size={32} />
       <HeaderText>{props.user}</HeaderText>
+
       <BlockieWrapper>
         <UserBlockie user={props.userHex} />
       </BlockieWrapper>

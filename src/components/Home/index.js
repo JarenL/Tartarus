@@ -34,7 +34,7 @@ const Divider = styled.div`
 const SidebarWrapper = styled.div`
   display: flex;
   width: 100%;
-  max-width: 240px;
+  max-width: 280px;
   @media (max-width: 768px) {
     display: none;
   }

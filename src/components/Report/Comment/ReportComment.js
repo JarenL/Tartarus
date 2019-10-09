@@ -55,7 +55,7 @@ class ReportComment extends React.Component {
 
   componentWillUnmount = () => {
     this.props.reset('report');
-  }
+  };
 
   instantiateContract() {
     const contract = require('truffle-contract');

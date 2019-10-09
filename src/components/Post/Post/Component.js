@@ -118,8 +118,6 @@ class Post extends Component {
                 this.props.post.forum
               );
 
-              console.log(post);
-
               this.setState({
                 isModerator: await this.checkIsModerator(post[1]),
                 isAdmin: await this.checkIsAdmin(post[1]),
@@ -378,7 +376,7 @@ class Post extends Component {
     }
   };
 
-  handleUpvote = () => {
+  handleVote = props => {
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
@@ -410,49 +408,7 @@ class Post extends Component {
                 this.props.post.forum,
                 this.props.web3.utils.fromAscii(this.props.username),
                 this.props.post.postId,
-                true,
-                { from: accounts[0], gasPrice: 20000000000, value: voteCost }
-              )
-              .then(result => {
-                // this.setState({
-                //   voteLoading: false
-                // });
-                confirmToast();
-              })
-              .catch(error => {
-                console.log('error');
-                // this.setState({
-                //   voteLoading: false
-                // });
-                errorToast();
-              });
-          });
-        });
-      });
-    }
-  };
-
-  handleDownvote = () => {
-    console.log('unsave');
-    if (this.props.username === null) {
-      this.props.history.push('/login');
-    } else {
-      // this.setState({
-      //   voteLoading: true
-      // });
-      warningToast();
-      const contract = require('truffle-contract');
-      const tartarus = contract(TartarusContract);
-      tartarus.setProvider(this.props.web3.currentProvider);
-      this.props.web3.eth.getAccounts((error, accounts) => {
-        tartarus.at(this.props.tartarusAddress).then(instance => {
-          instance.voteCost.call().then(voteCost => {
-            instance.vote
-              .sendTransaction(
-                this.props.post.forum,
-                this.props.web3.utils.fromAscii(this.props.username),
-                this.props.post.postId,
-                false,
+                props,
                 { from: accounts[0], gasPrice: 20000000000, value: voteCost }
               )
               .then(result => {
@@ -496,7 +452,6 @@ class Post extends Component {
         break;
       }
     }
-    console.log(pinnedPosts);
   };
 
   handleUnpin = async () => {
@@ -507,8 +462,6 @@ class Post extends Component {
     let instance = await tartarus.at(this.props.tartarusAddress);
     let pinnedPosts = await instance.getForumPinnedPosts(this.props.post.forum);
     for (let i = 0; i < pinnedPosts.length; i++) {
-      console.log(this.props.post.postId);
-      console.log(pinnedPosts[i]);
       if (pinnedPosts[i] === this.props.post.postId) {
         instance.unpinPost
           .sendTransaction(
@@ -523,7 +476,6 @@ class Post extends Component {
         break;
       }
     }
-    console.log(pinnedPosts);
   };
 
   handleReport = () => {
@@ -603,13 +555,12 @@ class Post extends Component {
             upvoted={this.state.upvoted}
             downvoted={this.state.downvoted}
             loading={this.state.voteLoading}
-            handleUpvote={this.handleUpvote}
-            handleDownvote={this.handleDownvote}
+            handleVote={this.handleVote}
           />
           {/* <PostType /> */}
-          {this.state.loading ? null : (
+          {/* {this.state.loading ? null : (
             <VoteRatio upvoteRatio={this.state.upvoteRatio} />
-          )}
+          )} */}
           <PostContent
             dark={this.props.dark}
             isModerator={this.state.isModerator}
