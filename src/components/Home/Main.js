@@ -19,7 +19,7 @@ import Empty from '../shared/Empty';
 
 const MainWrapper = styled.main`
   flex: 1;
-  margin-left: 24px;
+  // margin-left: 24px;
   // margin-right: 24px;
   min-width: 0;
   @media (max-width: 768px) {

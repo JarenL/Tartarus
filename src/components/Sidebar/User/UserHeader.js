@@ -4,6 +4,7 @@ import { wideFont } from '../../shared/helpers';
 import { overflow } from '../../shared/helpers';
 import UserBlockie from './UserBlockie';
 import Watch from '../../Buttons/Watch';
+import Unwatch from '../../Buttons/Unwatch';
 
 const Header = styled.span`
   ${wideFont};
@@ -39,12 +40,21 @@ const BlockieWrapper = styled.div`
 `;
 
 const UserHeader = props => {
-  console.log(props.userHex);
+  console.log(props);
   return (
     <Header>
       {/* <ButtonWrapper>
       </ButtonWrapper> */}
-      <Watch size={32} />
+      {props.showWatch ? (
+        props.watched ? (
+          <Unwatch
+            size={32}
+            onClick={() => props.handleUnwatch(props.userHex)}
+          />
+        ) : (
+          <Watch size={32} onClick={() => props.handleWatch(props.userHex)} />
+        )
+      ) : null}
       <HeaderText>{props.user}</HeaderText>
 
       <BlockieWrapper>

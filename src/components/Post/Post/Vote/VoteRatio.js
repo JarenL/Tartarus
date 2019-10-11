@@ -5,11 +5,11 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-self: center;
   justify-content: center;
   width: 1px;
-  height: auto;
-  margin-top: 16px;
-  margin-bottom: 16px;
+  height: 70%;
+  background-color: ${props => props.theme.mutedText};
 `;
 
 const UpvoteRatio = styled.div`
@@ -34,10 +34,11 @@ const RatioDivider = styled.div`
 `;
 
 const VoteRatio = props => {
+  console.log(props)
   return (
     <Wrapper>
       <UpvoteRatio upvoteRatio={props.upvoteRatio} />
-      {props.upvoteRatio > 0 ? <RatioDivider /> : null}
+      {/* {props.upvoteRatio > 0 ? <RatioDivider /> : null} */}
       <DownvoteRatio upvoteRatio={props.upvoteRatio} />
     </Wrapper>
   );

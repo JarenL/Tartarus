@@ -9,6 +9,7 @@ import authCategories from './AuthCategories';
 import categories from './Categories';
 import UserWithdraw from './UserWithdraw';
 import { withRouter } from 'react-router';
+import { updateUserWatched } from '../../../redux/actions/actions';
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,7 +24,9 @@ class UserSidebar extends Component {
     this.state = {
       loading: true,
       userHex: null,
-      userBalance: 0
+      userBalance: 0,
+      watched: false,
+      showWatch: false
     };
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -48,12 +51,16 @@ class UserSidebar extends Component {
           })
           .then(user => {
             console.log(user);
+            if (this.props.username !== null) {
+              this.checkWatched();
+            }
             this.setState({
               userBalance: this.props.web3.utils.fromWei(
                 user[3].toString(),
                 'ether'
               ),
               userHex: user[0],
+              showWatch: this.props.username !== this.props.user,
               loading: false
             });
           });
@@ -105,6 +112,66 @@ class UserSidebar extends Component {
     });
   };
 
+  checkWatched = () => {
+    const index = this.props.userSettings[
+      this.props.username
+    ].watched.users.findIndex(
+      user => this.props.web3.utils.toUtf8(user.userId) === this.props.user
+    );
+    if (index === -1) {
+      console.log('no watch');
+      this.setState({
+        watched: false
+      });
+    } else {
+      this.setState({
+        watched: true
+      });
+    }
+  };
+
+  handleWatch = props => {
+    console.log('watch');
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      let newWatchedUsersArray = this.props.userSettings[this.props.username]
+        .watched;
+      newWatchedUsersArray.users.push({
+        userId: props,
+        event: 'UserWatched'
+      });
+      let payload = {
+        username: this.props.username,
+        watched: newWatchedUsersArray
+      };
+      this.props.dispatch(updateUserWatched(payload));
+      this.checkWatched();
+    }
+  };
+
+  handleUnwatch = props => {
+    console.log('unwatch');
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      let newWatched = this.props.userSettings[this.props.username].watched;
+      let newWatchedUsersArray = newWatched.users.slice();
+      for (var i = 0; i < newWatchedUsersArray.length; i++) {
+        if (newWatchedUsersArray[i].userId === props) {
+          newWatchedUsersArray.splice(i, 1);
+        }
+      }
+      newWatched.users = newWatchedUsersArray;
+      let payload = {
+        username: this.props.username,
+        watched: newWatched
+      };
+      this.props.dispatch(updateUserWatched(payload));
+      this.checkWatched();
+    }
+  };
+
   render() {
     if (this.state.loading) {
       return <LoadingIndicatorSpinner />;
@@ -113,8 +180,15 @@ class UserSidebar extends Component {
       if (this.props.username !== this.props.user) {
         return (
           <Wrapper>
-            {/* <UserMessageButton user={this.props.user} handleMessage={this.handleMessage} /> */}
-            <UserHeader user={this.props.user} userHex={this.state.userHex} />
+            <UserMessageButton user={this.props.user} handleMessage={this.handleMessage} />
+            <UserHeader
+              user={this.props.user}
+              userHex={this.state.userHex}
+              showWatch={true}
+              watched={this.state.watched}
+              handleWatch={this.handleWatch}
+              handleUnwatch={this.handleUnwatch}
+            />
             <UserList
               path={this.props.url}
               user={this.props.user}
@@ -125,7 +199,13 @@ class UserSidebar extends Component {
       } else {
         return (
           <Wrapper>
-            <UserHeader user={this.props.user} userHex={this.state.userHex} />
+            <UserHeader
+              user={this.props.user}
+              showWatch={false}
+              handleWatch={this.handleWatch}
+              handleUnwatch={this.handleUnwatch}
+              userHex={this.state.userHex}
+            />
 
             <UserWithdraw
               userBalance={this.state.userBalance}

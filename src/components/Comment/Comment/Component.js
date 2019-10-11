@@ -10,6 +10,7 @@ import {
 import CommentActions from './CommentActions';
 import CommentReplyFormContainer from '../../CreateCommentReplyForm/Container';
 import { confirmToast, warningToast } from '../../Notifications/Toasts/Toast';
+import { withRouter } from 'react-router';
 
 const Wrapper = styled.div`
   border-radius: 2px;
@@ -424,4 +425,4 @@ class Comment extends Component {
   }
 }
 
-export default Comment;
+export default withRouter(Comment);

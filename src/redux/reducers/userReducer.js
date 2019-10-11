@@ -70,7 +70,8 @@ const accountsReducer = (state = initialState, action) => {
               },
               watched: {
                 posts: [],
-                comments: []
+                comments: [],
+                users: []
               },
               lastNotified: Date.now(),
               notifications: []
