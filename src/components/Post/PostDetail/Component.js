@@ -10,6 +10,7 @@ import { updateUserPermissions } from '../../../redux/actions/actions';
 
 const Wrapper = styled.div`
   // margin: 0px;
+  flex: 1;
   @media (max-width: 768px) {
     margin: 6px;
   }
@@ -97,6 +98,7 @@ class PostDetail extends Component {
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
+    // return <LoadingIndicatorSpinner />;
     if (!this.state.exists) return <Empty />;
     return (
       <Wrapper>

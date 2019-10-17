@@ -9,14 +9,6 @@ import { compose } from 'redux';
 import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingBubble from '../../shared/LoadingIndicator/Bubble';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  border: 1px solid ${props => props.theme.border};
-  background-color: ${props => props.theme.foreground};
-  // margin-top: 12px;
-`;
-
 const EventWrapper = styled.div`
   overflow-wrap: break-word;
   display: flex;

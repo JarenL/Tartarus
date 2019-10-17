@@ -1,5 +1,6 @@
 import styled from 'styled-components/macro';
 import { keyframes } from 'styled-components';
+import React from 'react';
 
 const spin = keyframes`
   0% {

@@ -174,13 +174,16 @@ class UserSidebar extends Component {
 
   render() {
     if (this.state.loading) {
-      return <LoadingIndicatorSpinner />;
+      return null;
     } else {
       console.log(this.props);
       if (this.props.username !== this.props.user) {
         return (
           <Wrapper>
-            <UserMessageButton user={this.props.user} handleMessage={this.handleMessage} />
+            <UserMessageButton
+              user={this.props.user}
+              handleMessage={this.handleMessage}
+            />
             <UserHeader
               user={this.props.user}
               userHex={this.state.userHex}

@@ -29,70 +29,42 @@ export const dismissToast = () => {
 };
 
 export const uploadToast = () => {
-  toastId = toast.info(upload(), {
+  toastId = toast(upload(), {
     position: 'bottom-right',
     autoClose: false,
     hideProgressBar: true,
-    closeOnClick: false,
-    pauseOnHover: true,
-    draggable: false,
-    transition: 'zoom'
+    closeOnClick: false
   });
 };
 
 export const warningToast = () => {
   if (!toast.isActive(toastId)) {
-    console.log(toastId)
-    toastId = toast.info(warning(), {
-      type: 'success',
+    console.log(toastId);
+    toastId = toast(warning(), {
       position: 'bottom-right',
-      autoClose: 3000,
       hideProgressBar: true,
       closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      transition: 'zoom'
+      autoClose: 3000
     });
+    console.log(toastId);
   } else {
-    console.log(toastId)
+    console.log(toastId);
     toast.update(toastId, {
-      render: warning(),
-      type: 'success',
-      position: 'bottom-right',
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      transition: 'zoom'
+      render: warning()
     });
   }
 };
 
 export const confirmToast = () => {
+  console.log(toastId);
   toast.update(toastId, {
-    render: confirm(),
-    type: 'success',
-    position: 'bottom-right',
-    autoClose: 3000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: false,
-    transition: 'zoom'
+    render: confirm()
   });
 };
 
 export const errorToast = () => {
+  console.log(toastId);
   toast.update(toastId, {
-    render: error(),
-    type: 'success',
-    position: 'bottom-right',
-    autoClose: 3000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: false,
-    transition: 'zoom'
+    render: error()
   });
 };

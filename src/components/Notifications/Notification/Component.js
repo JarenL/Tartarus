@@ -6,10 +6,19 @@ import AdminCreated from '../Events/AdminCreated';
 import AdminUpdated from '../Events/AdminUpdated';
 import AdminRemoved from '../Events/AdminRemoved';
 import AdminPaid from '../Events/AdminPaid';
-import UserBanned from '../Events/AdminBan';
 import AdminUnban from '../Events/AdminUnban';
 import CommentCreated from '../Events/CommentCreated';
 import ForumCreated from '../Events/ForumCreated';
+import AdminBan from '../Events/AdminBan';
+import CommentRemoved from '../Events/CommentRemoved';
+import ModeratorBan from '../Events/ModeratorBan';
+import ModeratorCreated from '../Events/ModeratorCreated';
+import ModeratorPaid from '../Events/ModeratorPaid';
+import ModeratorRemoved from '../Events/ModeratorRemoved';
+import ModeratorUnban from '../Events/ModeratorUnban';
+import PostRemoved from '../Events/PostRemoved';
+import UserCreated from '../Events/UserUpdated';
+import UserUpdated from '../Events/UserUpdated';
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,53 +31,65 @@ const getEvent = props => {
   // console.log(props);
   const event = props.event;
   switch (event.event) {
-    case 'AdminCreated':
-      return (
-        <AdminCreated
-          targetUser={props.targetUser}
-          user={props.user}
-          time={props.time}
-        />
-      );
-    case 'AdminUpdated':
-      return (
-        <AdminUpdated
-          targetUser={props.targetUser}
-          user={props.user}
-          time={props.time}
-        />
-      );
-    case 'AdminRemoved':
-      return (
-        <AdminRemoved
-          targetUser={props.targetUser}
-          user={props.user}
-          time={props.time}
-        />
-      );
-    case 'AdminPaid':
-      return (
-        <AdminPaid
-          targetUser={props.targetUser}
-          user={props.user}
-          time={props.time}
-          amount={props.amount}
-        />
-      );
     case 'AdminBan':
       return (
-        <UserBanned
-          targetUser={props.targetUser}
-          user={props.user}
-          time={props.time}
+        <AdminBan
+          user={props.web3.utils.toAscii(event.args.user)}
+          targetUser={props.web3.utils.toAscii(event.args.targetUser)}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
         />
       );
     case 'AdminUnban':
       return (
         <AdminUnban
-          targetUser={props.targetUser}
-          user={props.user}
-          time={props.time}
+          user={props.web3.utils.toAscii(event.args.user)}
+          targetUser={props.web3.utils.toAscii(event.args.targetUser)}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'AdminCreated':
+      return (
+        <AdminCreated
+          user={props.web3.utils.toAscii(event.args.user)}
+          targetUser={props.web3.utils.toAscii(event.args.targetUser)}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'AdminUpdated':
+      return (
+        <AdminUpdated
+          user={props.web3.utils.toAscii(event.args.user)}
+          targetUser={props.web3.utils.toAscii(event.args.targetUser)}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'AdminRemoved':
+      return (
+        <AdminRemoved
+          user={props.web3.utils.toAscii(event.args.user)}
+          targetUser={props.web3.utils.toAscii(event.args.targetUser)}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'AdminPaid':
+      return (
+        <AdminPaid
+          user={props.web3.utils.toAscii(event.args.user)}
+          targetUser={props.web3.utils.toAscii(event.args.targetUser)}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+          amount={event.args.amount}
         />
       );
     case 'ForumCreated':
@@ -91,6 +112,126 @@ const getEvent = props => {
           commentId={event.args.commentId}
           forum={event.args.forum}
           time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'CommentRemoved':
+      return (
+        <CommentRemoved
+          forum={event.args.forum}
+          user={props.web3.utils.toAscii(event.args.user)}
+          targetUser={props.web3.utils.toAscii(event.args.targetUser)}
+          postId={event.args.postId}
+          commentId={event.args.commentId}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'PostRemoved':
+      return (
+        <PostRemoved
+          forum={event.args.forum}
+          user={props.web3.utils.toAscii(event.args.user)}
+          targetUser={props.web3.utils.toAscii(event.args.targetUser)}
+          postId={event.args.postId}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'ModeratorBan':
+      return (
+        <ModeratorBan
+          user={props.web3.utils.toAscii(event.args.user)}
+          targetUser={props.web3.utils.toAscii(event.args.targetUser)}
+          forum={event.args.forum}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'ModeratorCreated':
+      return (
+        <ModeratorCreated
+          user={props.web3.utils.toAscii(event.args.user)}
+          targetUser={props.web3.utils.toAscii(event.args.targetUser)}
+          forum={event.args.forum}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'ModeratorPaid':
+      return (
+        <ModeratorPaid
+          user={props.web3.utils.toAscii(event.args.user)}
+          targetUser={props.web3.utils.toAscii(event.args.targetUser)}
+          forum={event.args.forum}
+          amount={event.args.amount}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'ModeratorRemoved':
+      return (
+        <ModeratorRemoved
+          user={props.web3.utils.toAscii(event.args.user)}
+          targetUser={props.web3.utils.toAscii(event.args.targetUser)}
+          forum={event.args.forum}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'ModeratorUnban':
+      return (
+        <ModeratorUnban
+          user={props.web3.utils.toAscii(event.args.user)}
+          targetUser={props.web3.utils.toAscii(event.args.targetUser)}
+          forum={event.args.forum}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'ModeratorUpdated':
+      return (
+        <ModeratorPaid
+          user={props.web3.utils.toAscii(event.args.user)}
+          targetUser={props.web3.utils.toAscii(event.args.targetUser)}
+          forum={event.args.forum}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'UserUpdated':
+      return (
+        <UserUpdated
+          user={props.web3.utils.toAscii(event.args.user)}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'UserCreated':
+      return (
+        <UserUpdated
+          user={props.web3.utils.toAscii(event.args.user)}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+        />
+      );
+    case 'UserWithdraw':
+      return (
+        <UserUpdated
+          user={props.web3.utils.toAscii(event.args.user)}
+          time={event.args.time * 1000}
+          amount={event.args.amount}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
         />

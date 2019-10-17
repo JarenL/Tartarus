@@ -72,7 +72,6 @@ class CommentForm extends React.Component {
   };
 
   handleSubmit = async () => {
-    uploadToast();
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
@@ -82,6 +81,7 @@ class CommentForm extends React.Component {
           comment: this.props.form.createComment.values.comment
         };
         console.log(commentObject);
+        uploadToast();
         const ipfsHash = await services.ipfs.uploadObject(commentObject);
         const bs58 = require('bs58');
         const base58 =

@@ -4,14 +4,6 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import CloseButton from '../../Buttons/CloseButton';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  border: 1px solid ${props => props.theme.border};
-  background-color: ${props => props.theme.foreground};
-  // margin-top: 12px;
-`;
-
 const EventWrapper = styled.div`
   overflow-wrap: break-word;
   display: flex;
@@ -42,15 +34,17 @@ const ButtonWrapper = styled.div`
   color: ${props => props.theme.mutedText};
 `;
 
-const AdminCreated = props => {
+const PostRemoved = props => {
   return (
     <EventWrapper>
       <div>
-        <StyledLink to={`/u/${props.targetUser}`}>
-          {props.targetUser}
+        <StyledLink to={`/f/${props.forum}/p/${props.postId}`}>
+          {' Post '}
         </StyledLink>
-        {' made admin by '}
+        {' removed by '}
         <StyledLink to={`/u/${props.user}`}>{props.user}</StyledLink>
+        {' from '}
+        <StyledLink to={`/f/${props.forum}`}>{props.forum}</StyledLink>
         {` ${moment(props.time).fromNow()}`}
       </div>
       <ButtonWrapper>
@@ -63,4 +57,4 @@ const AdminCreated = props => {
   );
 };
 
-export default AdminCreated;
+export default PostRemoved;
