@@ -42,7 +42,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
-          removable={event.removable}
+          removable={props.removable}
         />
       );
     case 'AdminUnban':
@@ -53,7 +53,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
-          removable={event.removable}
+          removable={props.removable}
         />
       );
     case 'AdminCreated':
@@ -64,7 +64,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
-          removable={event.removable}
+          removable={props.removable}
         />
       );
     case 'AdminUpdated':
@@ -75,7 +75,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
-          removable={event.removable}
+          removable={props.removable}
         />
       );
     case 'AdminRemoved':
@@ -86,7 +86,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
-          removable={event.removable}
+          removable={props.removable}
         />
       );
     case 'AdminPaid':
@@ -98,7 +98,7 @@ const getEvent = props => {
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
           amount={event.args.amount}
-          removable={event.removable}
+          removable={props.removable}
         />
       );
     case 'ForumCreated':
@@ -110,6 +110,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={props.removable}
         />
       );
     case 'CommentCreated':
@@ -125,6 +126,7 @@ const getEvent = props => {
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
           userWatched={event.userWatched}
+          removable={props.removable}
         />
       );
     case 'CommentRemoved':
@@ -138,6 +140,8 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={props.removable}
+
         />
       );
     case 'PostCreated':
@@ -153,6 +157,7 @@ const getEvent = props => {
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
           userWatched={event.userWatched}
+          removable={props.removable}
         />
       );
     case 'PostRemoved':
@@ -165,6 +170,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={props.removable}
         />
       );
     case 'ModeratorBan':
@@ -176,6 +182,8 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={props.removable}
+
         />
       );
     case 'ModeratorCreated':
@@ -187,6 +195,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={props.removable}
         />
       );
     case 'ModeratorPaid':
@@ -199,6 +208,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={props.removable}
         />
       );
     case 'ModeratorRemoved':
@@ -210,6 +220,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={props.removable}
         />
       );
     case 'ModeratorUnban':
@@ -221,6 +232,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={props.removable}
         />
       );
     case 'ModeratorUpdated':
@@ -232,6 +244,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={props.removable}
         />
       );
     case 'UserUpdated':
@@ -241,6 +254,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={props.removable}
         />
       );
     case 'UserCreated':
@@ -250,6 +264,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={props.removable}
         />
       );
     case 'UserWithdraw':
@@ -260,12 +275,9 @@ const getEvent = props => {
           amount={props.web3.utils.fromWei(event.args.amount, 'ether')}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={props.removable}
         />
       );
-      case 'ReportPost':
-          return (
-            <ReportC web3={props.web3} event={props.event} username={props.username} />
-          );
     default:
       return;
   }

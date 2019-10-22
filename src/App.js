@@ -26,7 +26,7 @@ import { Zoom } from 'react-toastify';
 
 // const tartarusAddress = '0x4c905e8c4533cb6928abaa159ca7b45b22f4d086';
 // const tartarusAddress = '0x3ca7832b2edd307b075903e2aac2ff04308ad001';
-const tartarusAddress = '0xB6111442C7C0eB92F0fDFee597A5f2c581e84cb7';
+const tartarusAddress = '0xcdAB661F0aa246350E2C420b30Bb0B1062Be4866';
 
 const passiveNotificationEvents = [
   'AdminCreated',

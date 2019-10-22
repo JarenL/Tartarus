@@ -48,6 +48,7 @@ class Notifications extends React.Component {
         key={key}
         event={this.props.userSettings[this.props.username].notifications[key]}
         handleClearNotification={this.handleClearNotification}
+        removable={this.props.removable}
       />
     );
   }

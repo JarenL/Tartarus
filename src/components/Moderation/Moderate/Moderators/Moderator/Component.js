@@ -50,39 +50,43 @@ const PermissionsWrapper = styled.span`
 const listPermissions = props => {
   let permissions = [];
   if (props[0]) {
-    permissions.push("Full")
+    permissions.push('Full');
   }
 
   if (props[1]) {
-    permissions.push("Access")
+    permissions.push('Access');
   }
 
   if (props[2]) {
-    permissions.push("Config")
+    permissions.push('Config');
   }
 
   if (props[3]) {
-    permissions.push("Mail")
+    permissions.push('Mail');
   }
 
   if (props[4]) {
-    permissions.push("Flair")
+    permissions.push('Flair');
   }
 
   if (props[5]) {
-    permissions.push("Posts")
+    permissions.push('Posts');
   }
 
   return permissions;
-}
+};
 
 const Moderator = props => {
   return (
     <Wrapper>
       <ModeratorWrapper>
         <div>
-          <StyledLink to={`/u/${props.moderator}`}>{props.moderator}</StyledLink>
-          <PermissionsWrapper>{listPermissions(props.permissions).join(", ")}</ PermissionsWrapper>
+          <StyledLink to={`/u/${props.moderator}`}>
+            {props.moderator}
+          </StyledLink>
+          <PermissionsWrapper>
+            {listPermissions(props.permissions).join(', ')}
+          </PermissionsWrapper>
         </div>
         <ButtonWrapper>
           {props.showDetails ? (

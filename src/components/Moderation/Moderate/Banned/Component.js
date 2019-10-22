@@ -3,15 +3,17 @@ import Empty from '../../../shared/Empty';
 import TartarusContract from '../../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../../shared/LoadingIndicator/Spinner';
 import ReactList from 'react-list';
-import ActivityItem from '../Activity/ActivityItem';
+import NotificationContainer from '../../../Notifications/Notification/Container';
 
 const blocksInDay = 5760;
+
+const moderatorBannedEvents = ['AdminBan', 'AdminUnban'];
 
 class Banned extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      moderatorEvents: [],
+      moderatorBannedEvents: [],
       loading: true
     };
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -21,117 +23,143 @@ class Banned extends React.Component {
     this.instantiateContract();
   };
 
-  instantiateContract = () => {
+  getActivityBlock = async () => {
+    const latest = await this.props.web3.eth.getBlock('latest');
+    switch (this.props.time) {
+      case 'day':
+        return latest.number - 1 * blocksInDay;
+      case 'week':
+        return latest.number - 7 * blocksInDay;
+      case 'month':
+        return latest.number - 30 * blocksInDay;
+      case 'year':
+        return latest.number - 365 * blocksInDay;
+      case 'all':
+        return 0;
+      default:
+        return 0;
+    }
+  };
+
+  getModeratorBannedActivity = async props => {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
-    const forumBytes = this.props.web3.utils.fromAscii(this.props.forumName);
     tartarus.setProvider(this.props.web3.currentProvider);
-    tartarus
-      .at(this.props.tartarusAddress)
-      .then(instance => {
-        instance
-          .ModeratorBan(
-            {
-              forum: forumBytes
-            },
-            {
-              fromBlock: 0,
-              toBlock: 'latest'
-            }
-          )
-          .get((error, usersBanned) => {
-            // console.log(usersBanned);
-            instance
-              .ModeratorUnban(
-                {
-                  forum: forumBytes
-                },
-                {
-                  fromBlock: 0,
-                  toBlock: 'latest'
-                }
-              )
-              .get((error, usersUnbanned) => {
-                let moderatorEventsArray = [].concat.apply(
-                  [],
-                  [usersBanned, usersUnbanned]
-                );
-                console.log(moderatorEventsArray);
-                moderatorEventsArray.sort((a, b) =>
-                  b.args.time.c[0] > a.args.time.c[0] ? 1 : -1
-                );
-                this.setState({
-                  moderatorEvents: moderatorEventsArray,
-                  loading: false
-                });
-              });
-          });
-      })
-      .catch(err => {
-        console.log('error');
-      });
+    let instance = await tartarus.at(this.props.tartarusAddress);
+    let startingBlock = await this.getActivityBlock();
+
+    switch (props) {
+      case 'ModeratorBan':
+        return new Promise((resolve, reject) => {
+          instance
+            .ModeratorBan(
+              {},
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, moderatorBan) => {
+              resolve(...moderatorBan);
+            });
+        });
+
+      case 'ModeratorUnban':
+        return new Promise((resolve, reject) => {
+          instance
+            .ModeratorUnban(
+              {},
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, moderatorUnban) => {
+              resolve(...moderatorUnban);
+            });
+        });
+      default:
+        return;
+    }
+  };
+
+  instantiateContract = async () => {
+    let moderatorActivity = await Promise.all(
+      moderatorBannedEvents.map(event => this.getModeratorBannedActivity(event))
+    );
+
+    let removeNull = moderatorActivity.flat().filter(item => {
+      return item !== undefined && item !== [];
+    });
+
+    this.setState({
+      moderatorBannedEvents: removeNull,
+      loading: false
+    });
+    console.log(moderatorActivity);
   };
 
   handleUnban = () => {
-    const contract = require('truffle-contract');
-    const tartarus = contract(TartarusContract);
-    tartarus.setProvider(this.props.web3.currentProvider);
-    this.props.web3.eth.getAccounts((error, accounts) => {
-      tartarus.at(this.props.event.address).then(instance => {
-        console.log(this.state);
-        console.log(this.props);
-        instance.moderatorBan
-          .sendTransaction(
-            this.props.web3.utils.fromAscii(this.props.username),
-            this.state.comment === null
-              ? this.state.post.args.creator
-              : this.state.comment.args.creator,
-            this.state.comment === null
-              ? this.props.event.args.forum
-              : this.props.event.args.forum,
-            {
-              from: accounts[0],
-              gasPrice: 20000000000
-            }
-          )
-          .then(result => {
-            console.log(result);
-            this.setState({
-              reportLoading: false
-            });
-            this.props.reset('report');
-          })
-          .catch(error => {
-            console.log('error');
-            this.setState({
-              reportLoading: false
-            });
-          });
-      });
-    });
+    // const contract = require('truffle-contract');
+    // const tartarus = contract(TartarusContract);
+    // tartarus.setProvider(this.props.web3.currentProvider);
+    // this.props.web3.eth.getAccounts((error, accounts) => {
+    //   tartarus.at(this.props.event.address).then(instance => {
+    //     console.log(this.state);
+    //     console.log(this.props);
+    //     instance.moderatorBan
+    //       .sendTransaction(
+    //         this.props.web3.utils.fromAscii(this.props.username),
+    //         this.state.comment === null
+    //           ? this.state.post.args.creator
+    //           : this.state.comment.args.creator,
+    //         this.state.comment === null
+    //           ? this.props.event.args.forum
+    //           : this.props.event.args.forum,
+    //         {
+    //           from: accounts[0],
+    //           gasPrice: 20000000000
+    //         }
+    //       )
+    //       .then(result => {
+    //         console.log(result);
+    //         this.setState({
+    //           reportLoading: false
+    //         });
+    //         this.props.reset('report');
+    //       })
+    //       .catch(error => {
+    //         console.log('error');
+    //         this.setState({
+    //           reportLoading: false
+    //         });
+    //       });
+    //   });
+    // });
   };
 
   renderItem(index, key) {
     console.log(this.props.forumName);
     return (
-      <ActivityItem
+      <NotificationContainer
         key={key}
-        forumName={this.props.forumName}
-        event={this.state.moderatorEvents[index]}
-        web3={this.props.web3}
+        event={this.state.moderatorBannedEvents[index]}
       />
     );
   }
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
-    if (!this.state.moderatorEvents || this.state.moderatorEvents.length === 0) {
+    if (
+      !this.state.moderatorBannedEvents ||
+      this.state.moderatorBannedEvents.length === 0
+    ) {
       return <Empty />;
     } else {
       return (
         <ReactList
           itemRenderer={this.renderItem.bind(this)}
-          length={this.state.moderatorEvents.length}
+          length={this.state.moderatorBannedEvents.length}
           type='simple'
         />
       );

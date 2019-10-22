@@ -30,7 +30,7 @@ export const dismissToast = () => {
 
 export const uploadToast = () => {
   toastId = toast(upload(), {
-    position: 'bottom-right',
+    position: 'bottom-center',
     autoClose: false,
     hideProgressBar: true,
     closeOnClick: false
@@ -41,7 +41,7 @@ export const warningToast = () => {
   if (!toast.isActive(toastId)) {
     console.log(toastId);
     toastId = toast(warning(), {
-      position: 'bottom-right',
+      position: 'bottom-center',
       hideProgressBar: true,
       closeOnClick: true,
       autoClose: 3000

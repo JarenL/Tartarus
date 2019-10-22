@@ -380,6 +380,7 @@ const Main = () => {
                 <NotificationsContainer
                   key={match.url}
                   user={match.params.user}
+                  removable={true}
                 />
               </>
             );

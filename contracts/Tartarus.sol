@@ -29,15 +29,14 @@ contract Tartarus is Initializable {
     event ForumUpdated (bytes32 indexed forum, bytes32 indexed user, bytes32 newInfo, uint time);
     event ForumTransferred (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed targetUser, uint time);
     event PostCreated (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
-    event PostRemoved (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
+    event PostRemoved (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed targetUser, bytes32 postId, uint time);
     event UserVoted (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
     event PostLocked (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint postLockState, uint time);
     event PostPinned (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
     event PostUnpinned (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
     event CommentCreated (bytes32 indexed postId, bytes32 indexed user, bytes32 indexed targetId, bytes32 commentId, uint time);
     event CommentRemoved (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed targetUser, bytes32 postId, bytes32 commentId, uint time);
-    event ReportUser (bytes32 indexed targetUser, bytes32 reason, uint time);
-    event ReportForum (bytes32 indexed forum, bytes32 reason, uint time);
+    event ReportAdmin (bytes32 indexed user, bytes32 reason, uint time);
     event ReportPost (bytes32 indexed forum, bytes32 indexed postId, bytes32 reason, uint time);
     event ReportComment (bytes32 indexed forum, bytes32 indexed postId, bytes32 indexed commentId, bytes32 reason, uint time);
     event UpdateFee (bytes32 indexed user, string indexed feeType, uint oldFee, uint newFee);
@@ -46,6 +45,7 @@ contract Tartarus is Initializable {
     mapping (bytes32 => bool) public banned;
     mapping (bytes32 => User) public users;
     mapping (bytes32 => Forum) public forums;
+    mapping (bytes32 => bool) reports;
     bytes32[] adminList;
     bytes32 public ownerAccount;
     bytes32 public tartarusInfo;
@@ -111,6 +111,7 @@ contract Tartarus is Initializable {
         mapping(bytes32 =>  bool) banned;
         mapping(bytes32 => Post) posts;
         mapping(bytes32 => Comment) comments;
+        mapping(bytes32 => bool) reports;
         mapping(bytes32 => uint) upvotes;
         mapping(bytes32 => uint) downvotes;
         mapping(bytes32 => uint) commentCount;
@@ -529,7 +530,7 @@ contract Tartarus is Initializable {
             "User does not have permission"
         );
         delete forums[_forum].posts[_postId].post;
-        emit PostRemoved(_forum, _user, _postId, now);
+        emit PostRemoved(_forum, _user, forums[_forum].posts[_postId].creator, _postId, now);
     }
 
     function getPost(bytes32 _forum, bytes32 _postId)
@@ -597,39 +598,22 @@ contract Tartarus is Initializable {
         creator = forums[_forum].comments[_commentId].creator;
     }
 
-    function reportUser(bytes32 _user, bytes32 _targetUser, bytes32 _reason)
-        public onlyUserVerified(_user) onlyUserExists(_targetUser) {
+    function reportAdmin(bytes32 _user, bytes32 _reason)
+        public onlyUserVerified(_user) {
         require(
             !banned[_user],
             "User banned"
         );
-        emit ReportUser(_targetUser, _reason, now);
-    }
-
-    function reportForum(bytes32 _user, bytes32 _forum, bytes32 _reason)
-        public onlyUserVerified(_user) onlyForumExists(_forum) {
-        require(
-            !banned[_user],
-            "User banned"
-        );
-        emit ReportForum(_forum, _reason, now);
+        emit ReportAdmin(_user, _reason, now);
     }
 
     function reportPost(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _reason)
-        public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) {
-        require(
-            !banned[_user],
-            "User banned"
-        );
+        public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) onlyUserAuthorized(_user, _forum) {
         emit ReportPost(_forum, _postId, _reason, now);
     }
 
     function reportComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _commentId, bytes32 _reason)
-        public onlyUserVerified(_user) onlyForumExists(_forum) onlyCommentExists(_forum, _commentId) {
-        require(
-            !banned[_user],
-            "User banned"
-        );
+        public onlyUserVerified(_user) onlyForumExists(_forum) onlyCommentExists(_forum, _commentId) onlyUserAuthorized(_user, _forum) {
         emit ReportComment(_forum, _postId, _commentId, _reason, now);
     }
 

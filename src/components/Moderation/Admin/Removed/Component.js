@@ -7,7 +7,7 @@ import NotificationContainer from '../../../Notifications/Notification/Container
 
 const blocksInDay = 5760;
 
-const moderatorRemovedEvents = ['PostRemoved', 'CommentRemoved'];
+const adminRemovedEvents = ['PostRemoved', 'CommentRemoved'];
 
 class Removed extends React.Component {
   constructor(props) {
@@ -55,7 +55,6 @@ class Removed extends React.Component {
     tartarus.setProvider(this.props.web3.currentProvider);
     let instance = await tartarus.at(this.props.tartarusAddress);
     let startingBlock = await this.getActivityBlock();
-    const forumBytes = this.props.web3.utils.fromAscii(this.props.forumName);
 
     switch (props) {
       case 'PostRemoved':

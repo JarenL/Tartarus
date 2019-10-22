@@ -12,6 +12,6 @@ const mapStateToProps = state => ({
 
 const enhance = compose(connect(mapStateToProps));
 
-const ReportContainer = enhance(Reports);
+const ReportContainer = enhance(Report);
 
 export default ReportContainer;
