@@ -52,16 +52,14 @@ const ForumCreated = props => {
         <StyledLink to={`/f/${props.forum}`}>{props.forum}</StyledLink>
         {` ${moment(props.time).fromNow()}`}
       </div>
-      <ButtonWrapper>
-        <CloseButton
-          size={18}
-          onClick={() => props.handleClearNotification(props.transactionHash)}
-        />
-        {/* <DownButton
-              size={18}
-              onClick={() => this.props.toggleShowDetails()}
-            /> */}
-      </ButtonWrapper>
+      {props.removable ? (
+        <ButtonWrapper>
+          <CloseButton
+            size={18}
+            onClick={() => props.handleClearNotification(props.transactionHash)}
+          />
+        </ButtonWrapper>
+      ) : null}
     </EventWrapper>
   );
 };

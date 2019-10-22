@@ -17,8 +17,11 @@ import ModeratorPaid from '../Events/ModeratorPaid';
 import ModeratorRemoved from '../Events/ModeratorRemoved';
 import ModeratorUnban from '../Events/ModeratorUnban';
 import PostRemoved from '../Events/PostRemoved';
-import UserCreated from '../Events/UserUpdated';
+import UserCreated from '../Events/UserCreated';
 import UserUpdated from '../Events/UserUpdated';
+import ModeratorUpdated from '../Events/ModeratorUpdated';
+import UserWithdraw from '../Events/UserWithdraw';
+import PostCreated from '../Events/PostCreated';
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,7 +31,7 @@ const Wrapper = styled.div`
 `;
 
 const getEvent = props => {
-  // console.log(props);
+  console.log(props);
   const event = props.event;
   switch (event.event) {
     case 'AdminBan':
@@ -39,6 +42,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={event.removable}
         />
       );
     case 'AdminUnban':
@@ -49,6 +53,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={event.removable}
         />
       );
     case 'AdminCreated':
@@ -59,6 +64,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={event.removable}
         />
       );
     case 'AdminUpdated':
@@ -69,6 +75,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={event.removable}
         />
       );
     case 'AdminRemoved':
@@ -79,6 +86,7 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          removable={event.removable}
         />
       );
     case 'AdminPaid':
@@ -90,6 +98,7 @@ const getEvent = props => {
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
           amount={event.args.amount}
+          removable={event.removable}
         />
       );
     case 'ForumCreated':
@@ -104,6 +113,7 @@ const getEvent = props => {
         />
       );
     case 'CommentCreated':
+      console.log(props);
       return (
         <CommentCreated
           user={props.web3.utils.toAscii(event.args.user)}
@@ -114,12 +124,13 @@ const getEvent = props => {
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
+          userWatched={event.userWatched}
         />
       );
     case 'CommentRemoved':
       return (
         <CommentRemoved
-          forum={event.args.forum}
+          forum={props.web3.utils.toAscii(event.args.forum)}
           user={props.web3.utils.toAscii(event.args.user)}
           targetUser={props.web3.utils.toAscii(event.args.targetUser)}
           postId={event.args.postId}
@@ -129,10 +140,25 @@ const getEvent = props => {
           handleClearNotification={props.handleClearNotification}
         />
       );
+    case 'PostCreated':
+      console.log(props);
+      return (
+        <PostCreated
+          user={props.web3.utils.toAscii(event.args.user)}
+          postId={event.args.postId}
+          targetId={event.args.targetId}
+          commentId={event.args.commentId}
+          forum={props.web3.utils.toAscii(event.args.forum)}
+          time={event.args.time * 1000}
+          transactionHash={event.transactionHash}
+          handleClearNotification={props.handleClearNotification}
+          userWatched={event.userWatched}
+        />
+      );
     case 'PostRemoved':
       return (
         <PostRemoved
-          forum={event.args.forum}
+          forum={props.web3.utils.toAscii(event.args.forum)}
           user={props.web3.utils.toAscii(event.args.user)}
           targetUser={props.web3.utils.toAscii(event.args.targetUser)}
           postId={event.args.postId}
@@ -146,7 +172,7 @@ const getEvent = props => {
         <ModeratorBan
           user={props.web3.utils.toAscii(event.args.user)}
           targetUser={props.web3.utils.toAscii(event.args.targetUser)}
-          forum={event.args.forum}
+          forum={props.web3.utils.toAscii(event.args.forum)}
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
@@ -157,7 +183,7 @@ const getEvent = props => {
         <ModeratorCreated
           user={props.web3.utils.toAscii(event.args.user)}
           targetUser={props.web3.utils.toAscii(event.args.targetUser)}
-          forum={event.args.forum}
+          forum={props.web3.utils.toAscii(event.args.forum)}
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
@@ -168,7 +194,7 @@ const getEvent = props => {
         <ModeratorPaid
           user={props.web3.utils.toAscii(event.args.user)}
           targetUser={props.web3.utils.toAscii(event.args.targetUser)}
-          forum={event.args.forum}
+          forum={props.web3.utils.toAscii(event.args.forum)}
           amount={event.args.amount}
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
@@ -180,7 +206,7 @@ const getEvent = props => {
         <ModeratorRemoved
           user={props.web3.utils.toAscii(event.args.user)}
           targetUser={props.web3.utils.toAscii(event.args.targetUser)}
-          forum={event.args.forum}
+          forum={props.web3.utils.toAscii(event.args.forum)}
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
@@ -191,7 +217,7 @@ const getEvent = props => {
         <ModeratorUnban
           user={props.web3.utils.toAscii(event.args.user)}
           targetUser={props.web3.utils.toAscii(event.args.targetUser)}
-          forum={event.args.forum}
+          forum={props.web3.utils.toAscii(event.args.forum)}
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
@@ -199,10 +225,10 @@ const getEvent = props => {
       );
     case 'ModeratorUpdated':
       return (
-        <ModeratorPaid
+        <ModeratorUpdated
           user={props.web3.utils.toAscii(event.args.user)}
           targetUser={props.web3.utils.toAscii(event.args.targetUser)}
-          forum={event.args.forum}
+          forum={props.web3.utils.toAscii(event.args.forum)}
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
@@ -219,7 +245,7 @@ const getEvent = props => {
       );
     case 'UserCreated':
       return (
-        <UserUpdated
+        <UserCreated
           user={props.web3.utils.toAscii(event.args.user)}
           time={event.args.time * 1000}
           transactionHash={event.transactionHash}
@@ -228,14 +254,18 @@ const getEvent = props => {
       );
     case 'UserWithdraw':
       return (
-        <UserUpdated
+        <UserWithdraw
           user={props.web3.utils.toAscii(event.args.user)}
           time={event.args.time * 1000}
-          amount={event.args.amount}
+          amount={props.web3.utils.fromWei(event.args.amount, 'ether')}
           transactionHash={event.transactionHash}
           handleClearNotification={props.handleClearNotification}
         />
       );
+      case 'ReportPost':
+          return (
+            <ReportC web3={props.web3} event={props.event} username={props.username} />
+          );
     default:
       return;
   }

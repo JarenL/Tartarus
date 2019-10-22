@@ -11,7 +11,7 @@ class Reports extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      moderatorEvents: [],
+      adminEvents: [],
       loading: true
     };
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -52,16 +52,16 @@ class Reports extends React.Component {
                 }
               )
               .get((error, commentsReported) => {
-                let moderatorEventsArray = [].concat.apply(
+                let adminEventsArray = [].concat.apply(
                   [],
                   [postsReported, commentsReported]
                 );
-                console.log(moderatorEventsArray);
-                moderatorEventsArray.sort((a, b) =>
+                console.log(adminEventsArray);
+                adminEventsArray.sort((a, b) =>
                   b.args.time.c[0] > a.args.time.c[0] ? 1 : -1
                 );
                 this.setState({
-                  moderatorEvents: moderatorEventsArray,
+                  adminEvents: adminEventsArray,
                   loading: false
                 });
               });
@@ -78,7 +78,7 @@ class Reports extends React.Component {
       <ActivityItem
         key={key}
         forumName={this.props.forumName}
-        event={this.state.moderatorEvents[index]}
+        event={this.state.adminEvents[index]}
         web3={this.props.web3}
         username={this.props.username}
       />
@@ -87,13 +87,13 @@ class Reports extends React.Component {
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
-    if (!this.state.moderatorEvents || this.state.moderatorEvents.length === 0) {
+    if (!this.state.adminEvents || this.state.adminEvents.length === 0) {
       return <Empty />;
     } else {
       return (
         <ReactList
           itemRenderer={this.renderItem.bind(this)}
-          length={this.state.moderatorEvents.length}
+          length={this.state.adminEvents.length}
           type='simple'
         />
       );

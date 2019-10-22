@@ -13,6 +13,7 @@ import InvalidIcon from '../shared/form/InvalidIcon';
 import { withRouter } from 'react-router-dom';
 import SubmitButton from '../Buttons/SubmitButton';
 import CancelButton from '../Buttons/CancelButton';
+import { warningToast, confirmToast, errorToast } from '../Notifications/Toasts/Toast';
 
 const Wrapper = styled.div`
   display: flex;
@@ -117,6 +118,7 @@ class CreateModeratorForm extends React.Component {
     this.setState({
       laoding: true
     });
+    warningToast();
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
@@ -141,12 +143,14 @@ class CreateModeratorForm extends React.Component {
             this.setState({
               loading: false
             });
+            confirmToast();
           })
           .catch(error => {
             console.log('error');
             this.setState({
               loading: false
             });
+            errorToast();
           });
       });
     });

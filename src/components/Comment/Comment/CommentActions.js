@@ -13,6 +13,7 @@ import Watch from '../../Buttons/Watch';
 import Unwatch from '../../Buttons/Unwatch';
 import ReactPlaceholder from 'react-placeholder';
 import 'react-placeholder/lib/reactPlaceholder.css';
+import BanButton from '../../Buttons/Ban';
 
 const Wrapper = styled.div`
   display: flex;
@@ -129,10 +130,16 @@ const CommentActions = props => (
         <Tip size={16} />
         <TextWrapper>{'Tip'}</TextWrapper>
       </LinkWrapper> */}
-        {props.canDelete ? (
+        {props.canDelete && !props.deleted ? (
           <ButtonWrapper onClick={props.handleDelete}>
             <Delete size={16} />
             <TextWrapper>{'Delete'}</TextWrapper>
+          </ButtonWrapper>
+        ) : null}
+        {props.canBan ? (
+          <ButtonWrapper onClick={props.handleBan}>
+            <BanButton size={16} />
+            <TextWrapper>{'Ban'}</TextWrapper>
           </ButtonWrapper>
         ) : null}
         <LinkWrapper

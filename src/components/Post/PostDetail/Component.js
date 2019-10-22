@@ -71,6 +71,7 @@ class PostDetail extends Component {
             }
           )
           .get((error, post) => {
+            console.log(post)
             if (
               post[0].args.creator ===
               '0x0000000000000000000000000000000000000000000000000000000000000000'

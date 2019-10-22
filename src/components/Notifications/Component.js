@@ -53,8 +53,8 @@ class Notifications extends React.Component {
   }
 
   render() {
-    console.log('user notifications');
-    console.log(this.props.userSettings[this.props.username].notifications);
+    // console.log('user notifications');
+    // console.log(this.props.userSettings[this.props.username].notifications);
     if (this.props.user !== this.props.username) {
       return <NotAuthorized />;
     } else {

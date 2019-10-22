@@ -291,6 +291,9 @@ class PostContent extends Component {
             handleDelete={this.props.handleDelete}
             handleReport={this.props.handleReport}
             canReport={this.props.canReport}
+            canBan={this.props.canBan}
+            handleBan={this.props.handleBan}
+            // handleUnban={this.props.handleUnban}
           />
           {this.state.preview &&
             renderEmbed({

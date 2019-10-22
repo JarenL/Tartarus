@@ -10,6 +10,7 @@ import Empty from '../../shared/Empty';
 import { withRouter } from 'react-router-dom';
 import SubmitButton from '../../Buttons/SubmitButton';
 import CancelButton from '../../Buttons/CancelButton';
+import { uploadToast, warningToast, confirmToast, errorToast } from '../../Notifications/Toasts/Toast';
 
 const PostWrapper = styled.div`
   border: 1px solid ${props => props.theme.error};
@@ -112,6 +113,7 @@ class ReportForm extends React.Component {
       reportLoading: true
     });
     if (this.props.form.report.values.reason !== undefined) {
+      uploadToast();
       let reportObject = {
         reason: this.props.form.report.values.reason
       };
@@ -133,6 +135,7 @@ class ReportForm extends React.Component {
 
   submitReportTransaction = props => {
     console.log(this.props);
+    warningToast();
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
@@ -155,6 +158,7 @@ class ReportForm extends React.Component {
               loading: false,
               reportLoading: false
             });
+            confirmToast();
             this.props.reset('report');
           })
           .catch(error => {
@@ -163,6 +167,7 @@ class ReportForm extends React.Component {
               loading: false,
               reportLoading: false
             });
+            errorToast();
           });
       });
     });

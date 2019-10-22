@@ -10,6 +10,7 @@ import InvalidIcon from '../shared/form/InvalidIcon';
 import CheckButton from '../Buttons/CheckButton';
 import CancelButton from '../Buttons/CancelButton';
 import SubmitButton from '../Buttons/SubmitButton';
+import { warningToast, confirmToast, errorToast } from '../Notifications/Toasts/Toast';
 
 const Wrapper = styled.div`
   display: flex;
@@ -115,6 +116,7 @@ class SignupForm extends React.Component {
     this.setState({
       loading: true
     });
+    warningToast();
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
@@ -146,6 +148,7 @@ class SignupForm extends React.Component {
               this.setState({
                 loading: false
               });
+              confirmToast();
               this.props.reset('signup');
             })
             .catch(error => {
@@ -153,6 +156,7 @@ class SignupForm extends React.Component {
               this.setState({
                 loading: false
               });
+              errorToast();
             });
         });
       });

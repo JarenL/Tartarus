@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
-import { MdNotInterested } from 'react-icons/md';
+import { MdMoreVert } from 'react-icons/md';
 
-const BanButton = styled(MdNotInterested)`
+const Options = styled(MdMoreVert)`
   vertical-align: sub;
   cursor: pointer;
   margin-right: 2px;
@@ -17,4 +17,4 @@ const BanButton = styled(MdNotInterested)`
   }
 `;
 
-export default BanButton;
+export default Options;

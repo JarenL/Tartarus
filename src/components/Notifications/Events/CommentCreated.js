@@ -104,7 +104,7 @@ class CommentCreated extends Component {
                 {' Comment '}
               </StyledLink>
             )}
-            {" you're watching "}
+            {!this.props.userWatched ? " you're watching " : null}
             {` ${moment(this.props.time).fromNow()}`}
           </div>
           <ButtonWrapper>

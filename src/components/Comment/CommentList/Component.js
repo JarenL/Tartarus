@@ -109,6 +109,7 @@ class CommentList extends Component {
                   }
                 )
                 .get((error, comments) => {
+                  console.log(comments)
                   this.setState({
                     comments: comments,
                     loading: false

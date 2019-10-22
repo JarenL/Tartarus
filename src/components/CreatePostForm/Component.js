@@ -14,7 +14,12 @@ import styled from 'styled-components/macro';
 import CancelButton from '../Buttons/CancelButton';
 import SubmitButton from '../Buttons/SubmitButton';
 import { withRouter } from 'react-router-dom';
-import { uploadToast, warningToast, errorToast, confirmToast } from '../Notifications/Toasts/Toast';
+import {
+  uploadToast,
+  warningToast,
+  errorToast,
+  confirmToast
+} from '../Notifications/Toasts/Toast';
 
 const {
   fileToTypedArray,
@@ -140,7 +145,6 @@ class CreatePostForm extends React.Component {
       this.props.form.values.type === 'text' ||
       this.props.form.values.type === 'link'
     ) {
-
       if (this.props.form.values.title && this.props.form.values.post) {
         this.setState({
           loading: true

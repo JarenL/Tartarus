@@ -53,12 +53,14 @@ const AdminCreated = props => {
         <StyledLink to={`/u/${props.user}`}>{props.user}</StyledLink>
         {` ${moment(props.time).fromNow()}`}
       </div>
-      <ButtonWrapper>
-        <CloseButton
-          size={18}
-          onClick={() => props.handleClearNotification(props.transactionHash)}
-        />
-      </ButtonWrapper>
+      {props.removable ? (
+        <ButtonWrapper>
+          <CloseButton
+            size={18}
+            onClick={() => props.handleClearNotification(props.transactionHash)}
+          />
+        </ButtonWrapper>
+      ) : null}
     </EventWrapper>
   );
 };

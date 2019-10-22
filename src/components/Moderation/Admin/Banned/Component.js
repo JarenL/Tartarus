@@ -3,15 +3,17 @@ import Empty from '../../../shared/Empty';
 import TartarusContract from '../../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../../shared/LoadingIndicator/Spinner';
 import ReactList from 'react-list';
-import ActivityItem from '../Activity/ActivityItem';
+import NotificationContainer from '../../../Notifications/Notification/Container';
 
 const blocksInDay = 5760;
+
+const adminBannedEvents = ['AdminBan', 'AdminUnban'];
 
 class Banned extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      adminEvents: [],
+      adminBannedEvents: [],
       loading: true
     };
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -21,38 +23,80 @@ class Banned extends React.Component {
     this.instantiateContract();
   };
 
-  instantiateContract = async () => {
+  getActivityBlock = async () => {
+    const latest = await this.props.web3.eth.getBlock('latest');
+    switch (this.props.time) {
+      case 'day':
+        return latest.number - 1 * blocksInDay;
+      case 'week':
+        return latest.number - 7 * blocksInDay;
+      case 'month':
+        return latest.number - 30 * blocksInDay;
+      case 'year':
+        return latest.number - 365 * blocksInDay;
+      case 'all':
+        return 0;
+      default:
+        return 0;
+    }
+  };
+
+  getAdminBannedActivity = async props => {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
     let instance = await tartarus.at(this.props.tartarusAddress);
-    instance
-      .AdminBan({
-        fromBlock: 0,
-        toBlock: 'latest'
-      })
-      .get((error, usersBanned) => {
-        // console.log(usersBanned);
-        instance
-          .AdminUnban({
-            fromBlock: 0,
-            toBlock: 'latest'
-          })
-          .get((error, usersUnbanned) => {
-            let adminEventsArray = [].concat.apply(
-              [],
-              [usersBanned, usersUnbanned]
-            );
-            console.log(adminEventsArray);
-            adminEventsArray.sort((a, b) =>
-              b.args.time.c[0] > a.args.time.c[0] ? 1 : -1
-            );
-            this.setState({
-              adminEvents: adminEventsArray,
-              loading: false
+    let startingBlock = await this.getActivityBlock();
+
+    switch (props) {
+      case 'AdminBan':
+        return new Promise((resolve, reject) => {
+          instance
+            .AdminBan(
+              {},
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, adminBan) => {
+              resolve(...adminBan);
             });
-          });
-      });
+        });
+
+      case 'AdminUnban':
+        return new Promise((resolve, reject) => {
+          instance
+            .AdminUnban(
+              {},
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, adminUnban) => {
+              resolve(...adminUnban);
+            });
+        });
+      default:
+        return;
+    }
+  };
+
+  instantiateContract = async () => {
+    let adminActivity = await Promise.all(
+      adminBannedEvents.map(event => this.getAdminBannedActivity(event))
+    );
+
+    let removeNull = adminActivity.flat().filter(item => {
+      return item !== undefined && item !== [];
+    });
+
+    this.setState({
+      adminActivityEvents: removeNull,
+      loading: false
+    });
+    console.log(adminActivity);
   };
 
   handleUnban = async () => {
@@ -92,10 +136,10 @@ class Banned extends React.Component {
 
   renderItem(index, key) {
     return (
-      <ActivityItem
+      <NotificationContainer
         key={key}
         event={this.state.adminEvents[index]}
-        web3={this.props.web3}
+        // web3={this.props.web3}
       />
     );
   }

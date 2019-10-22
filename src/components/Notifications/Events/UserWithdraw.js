@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import CloseButton from '../../Buttons/CloseButton';
+import Tip from '../../Buttons/Tip';
 
 const EventWrapper = styled.div`
   overflow-wrap: break-word;
@@ -18,7 +19,7 @@ const EventWrapper = styled.div`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  font-size: 15px;
+  font-size: 14px;
   color: ${props => props.theme.accent};
   &:hover {
     color: ${props => props.theme.normalText};
@@ -35,15 +36,24 @@ const ButtonWrapper = styled.div`
 `;
 
 const UserWithdraw = props => {
+  console.log(props.amount);
   return (
     <EventWrapper>
       <div>
         <StyledLink to={`/u/${props.user}`}>{props.user}</StyledLink>
         {' withdrew '}
         <StyledLink
-          to={`https://ropsten.etherscan.io/tx/${props.transactionHash}`}
+          to={`blank`}
+          target='_blank'
+          onClick={event => {
+            event.preventDefault();
+            window.open(
+              `https://ropsten.etherscan.io/tx/${props.transactionHash} `
+            );
+          }}
         >
           {props.amount}
+          <i class='fab fa-ethereum' />
         </StyledLink>
         {` ${moment(props.time).fromNow()}`}
       </div>

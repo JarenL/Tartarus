@@ -14,6 +14,7 @@ import Unsave from '../../../Buttons/Unsave';
 import Tip from '../../../Buttons/Tip';
 import Watch from '../../../Buttons/Watch';
 import Unwatch from '../../../Buttons/Unwatch';
+import BanButton from '../../../Buttons/Ban';
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,7 +33,7 @@ const ButtonWrapper = styled.div`
   flex-direction: row;
   cursor: pointer;
   color: ${props => props.theme.mutedText};
-  margin-right: 10px;
+  margin-right: 8px;
   // & > svg {
   //   margin-right: 3px;
   //   margin-left: 5px;
@@ -126,6 +127,12 @@ const PostActions = props => (
       <ButtonWrapper onClick={props.handleDelete}>
         <Delete size={16} />
         <TextWrapper>{'Delete'}</TextWrapper>
+      </ButtonWrapper>
+    ) : null}
+    {props.canBan ? (
+      <ButtonWrapper onClick={props.handleBan}>
+        <BanButton size={16} />
+        <TextWrapper>{'Ban'}</TextWrapper>
       </ButtonWrapper>
     ) : null}
     {props.canReport ? (

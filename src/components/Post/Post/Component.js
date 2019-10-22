@@ -65,6 +65,7 @@ class Post extends Component {
       watched: false,
       canReport: false,
       canDelete: false,
+      canBan: false,
       canPin: false,
       canLock: false,
       toggleTip: false,
@@ -133,6 +134,7 @@ class Post extends Component {
                   isNaN(upvoteRatio) ? 'NaN' : upvoteRatio,
                 comments: post[4].c[0],
                 canDelete: this.checkCanDelete(post),
+                canBan: this.checkCanBan(post),
                 canReport: this.checkCanReport(),
                 canPin: this.checkCanPin(),
                 canLock: this.checkCanLock(),
@@ -191,6 +193,15 @@ class Post extends Component {
           });
       });
     });
+  };
+
+  checkCanBan = props => {
+    return (
+      this.props.userPermissions.admin[0] ||
+      this.props.userPermissions.admin[1] ||
+      this.props.userPermissions.moderator[0] ||
+      this.props.userPermissions.moderator[1]
+    );
   };
 
   checkCanDelete = props => {
@@ -343,6 +354,76 @@ class Post extends Component {
       this.checkWatched();
     }
   };
+
+  handleBan = () => {
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      warningToast();
+      const contract = require('truffle-contract');
+      const tartarus = contract(TartarusContract);
+      tartarus.setProvider(this.props.web3.currentProvider);
+      this.props.web3.eth.getAccounts((error, accounts) => {
+        tartarus.at(this.props.tartarusAddress).then(instance => {
+          instance.moderatorBan
+            .sendTransaction(
+              this.props.web3.utils.fromAscii(this.props.username),
+              this.props.post.user,
+              this.props.post.forum,
+              { from: accounts[0], gasPrice: 20000000000 }
+            )
+            .then(result => {
+              // this.setState({
+              //   loading: false
+              // });
+              confirmToast();
+            })
+            .catch(error => {
+              console.log('error');
+              // this.setState({
+              //   loading: false
+              // });
+              errorToast();
+            });
+        });
+      });
+    }
+  };
+
+  // handleUnban = () => {
+  //   if (this.props.username === null) {
+  //     this.props.history.push('/login');
+  //   } else {
+  //     warningToast();
+  //     const contract = require('truffle-contract');
+  //     const tartarus = contract(TartarusContract);
+  //     tartarus.setProvider(this.props.web3.currentProvider);
+  //     this.props.web3.eth.getAccounts((error, accounts) => {
+  //       tartarus.at(this.props.tartarusAddress).then(instance => {
+  //         instance.moderatorUnban
+  //           .sendTransaction(
+  //             this.props.web3.utils.fromAscii(this.props.username),
+  //             this.props.post.user,
+  //             this.props.post.forum,
+  //             { from: accounts[0], gasPrice: 20000000000 }
+  //           )
+  //           .then(result => {
+  //             this.setState({
+  //               loading: false
+  //             });
+  //             confirmToast();
+  //           })
+  //           .catch(error => {
+  //             console.log('error');
+  //             this.setState({
+  //               loading: false
+  //             });
+  //             errorToast();
+  //           });
+  //       });
+  //     });
+  //   }
+  // };
 
   handleDelete = () => {
     if (this.props.username === null) {
@@ -590,6 +671,9 @@ class Post extends Component {
             saved={this.state.saved}
             handleSave={this.handleSave}
             handleUnsave={this.handleUnsave}
+            canBan={this.state.canBan}
+            handleBan={this.handleBan}
+            // handleUnban={this.handleUnban}
             watched={this.state.watched}
             handleWatch={this.handleWatch}
             handleUnwatch={this.handleUnwatch}

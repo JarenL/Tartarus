@@ -9,7 +9,11 @@ import {
 } from '../../../redux/actions/actions';
 import CommentActions from './CommentActions';
 import CommentReplyFormContainer from '../../CreateCommentReplyForm/Container';
-import { confirmToast, warningToast } from '../../Notifications/Toasts/Toast';
+import {
+  confirmToast,
+  warningToast,
+  errorToast
+} from '../../Notifications/Toasts/Toast';
 import { withRouter } from 'react-router';
 
 const Wrapper = styled.div`
@@ -50,6 +54,7 @@ class Comment extends Component {
       watched: false,
       loading: true,
       exists: true,
+      deleted: false,
       forumName: null
     };
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -116,6 +121,7 @@ class Comment extends Component {
                 }
               )
               .get(async (error, comments) => {
+                console.log(comment);
                 if (
                   comment[0] !==
                   '0x0000000000000000000000000000000000000000000000000000000000000000'
@@ -143,11 +149,13 @@ class Comment extends Component {
                     comments: comments.length,
                     loading: false,
                     time: this.props.comment.args.time.c[0] * 1000,
-                    canDelete: this.checkCanDelete(comment[1])
+                    canDelete: this.checkCanDelete(comment[1]),
+                    canBan: this.checkCanBan(comment[1])
                   });
                 } else {
                   if (this.props.username !== null) {
                     this.checkSaved();
+                    this.checkWatched();
                   }
                   this.setState({
                     isModerator: await instance.isModerator.call(
@@ -157,11 +165,13 @@ class Comment extends Component {
                     isAdmin: await this.checkIsAdmin(
                       this.props.comment.args.user
                     ),
-                    comment: <i>Deleted</i>,
+                    comment: 'Deleted',
+                    deleted: true,
                     comments: comments.length,
                     loading: false,
                     time: this.props.comment.args.time.c[0] * 1000,
-                    canDelete: this.checkCanDelete(comment[1])
+                    canDelete: this.checkCanDelete(comment[1]),
+                    canBan: this.checkCanBan(comment[1])
                   });
                 }
               });
@@ -349,6 +359,56 @@ class Comment extends Component {
     }
   };
 
+  checkIsBanned = () => {
+    // should check if user banned, update contract for this add getter
+  };
+
+  checkCanBan = props => {
+    return (
+      this.props.userPermissions.admin[0] ||
+      this.props.userPermissions.admin[1] ||
+      this.props.userPermissions.moderator[0] ||
+      this.props.userPermissions.moderator[1]
+    );
+  };
+
+  handleBan = () => {
+    if (this.props.username === null) {
+      this.props.history.push('/login');
+    } else {
+      console.log('ban');
+      warningToast();
+      const contract = require('truffle-contract');
+      const tartarus = contract(TartarusContract);
+      tartarus.setProvider(this.props.web3.currentProvider);
+      this.props.web3.eth.getAccounts((error, accounts) => {
+        tartarus.at(this.props.tartarusAddress).then(instance => {
+          console.log(this.props);
+          instance.moderatorBan
+            .sendTransaction(
+              this.props.web3.utils.fromAscii(this.props.username),
+              this.props.comment.args.user,
+              this.props.web3.utils.fromAscii(this.state.forumName),
+              { from: accounts[0], gasPrice: 20000000000 }
+            )
+            .then(result => {
+              // this.setState({
+              //   loading: false
+              // });
+              confirmToast();
+            })
+            .catch(error => {
+              console.log('error');
+              // this.setState({
+              //   loading: false
+              // });
+              errorToast();
+            });
+        });
+      });
+    }
+  };
+
   render() {
     if (this.state.exists) {
       return (
@@ -400,6 +460,7 @@ class Comment extends Component {
             handleUnsave={this.handleUnsave}
             saved={this.state.saved}
             canDelete={this.state.canDelete}
+            deleted={this.state.deleted}
             handleDelete={this.handleDelete}
             handleFocus={this.props.handleFocus}
             disabled={this.props.disabled}
@@ -407,6 +468,8 @@ class Comment extends Component {
             watched={this.state.watched}
             handleWatch={this.handleWatch}
             handleUnwatch={this.handleUnwatch}
+            canBan={this.state.canBan}
+            handleBan={this.handleBan}
           />
           {this.props.currentComment === this.props.comment.args.commentId ? (
             <CommentReplyFormContainer

@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import UpButton from '../../Buttons/UpButton';
-import DownButton from '../../Buttons/DownButton';
+import UpButton from '../../../../Buttons/UpButton';
+import DownButton from '../../../../Buttons/DownButton';
 import { Link } from 'react-router-dom';
-import Empty from '../../shared/Empty';
+import Empty from '../../../../shared/Empty';
 import moment from 'moment';
-import TartarusContract from '../../../contracts/Tartarus.json';
-import PostContainer from '../../Post/Post/Container';
-import CommentContainer from '../../Comment/Comment/Container';
-import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
-import BanButton from '../../Buttons/Ban';
+import TartarusContract from '../../../../contracts/Tartarus.json';
+import PostContainer from '../../../../Post/Post/Container';
+import CommentContainer from '../../../../Comment/Comment/Container';
+import LoadingIndicatorSpinner from '../../../../shared/LoadingIndicator/Spinner';
+import BanButton from '../../../../Buttons/Ban';
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,6 +18,17 @@ const Wrapper = styled.div`
   // border: 1px solid ${props => props.theme.border};
   background-color: ${props => props.theme.foreground};
   // margin-top: 12px;
+`;
+
+const ReasonWrapper = styled.div`
+  // margin: 8px -8px;
+  overflow-wrap: break-word;
+  border-left: none;
+  padding: 8px;
+  // paddingt: 8px;
+  font-size: 12px;
+  background-color: ${props => props.theme.inputBackground};
+  color: ${props => props.theme.mutedText};
 `;
 
 const ReportWrapper = styled.div`
@@ -63,7 +74,9 @@ const CommentWrapper = styled.div`
   width: 100%;
 `;
 
-class ReportItem extends React.Component {
+const services = require('../../../../../services');
+
+class Report extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -73,6 +86,7 @@ class ReportItem extends React.Component {
       commentExists: true,
       postExists: true,
       exists: true,
+      reason: null,
       loading: true
     };
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -81,51 +95,6 @@ class ReportItem extends React.Component {
   componentDidMount() {
     this.instantiateContract();
   }
-
-  toggleShowDetails = () => {
-    this.setState({
-      showDetails: !this.state.showDetails
-    });
-  };
-
-  handleBan = () => {
-    const contract = require('truffle-contract');
-    const tartarus = contract(TartarusContract);
-    tartarus.setProvider(this.props.web3.currentProvider);
-    this.props.web3.eth.getAccounts((error, accounts) => {
-      tartarus.at(this.props.event.address).then(instance => {
-        console.log(this.state);
-        console.log(this.props);
-        instance.moderatorBan
-          .sendTransaction(
-            this.props.web3.utils.fromAscii(this.props.username),
-            this.state.comment === null
-              ? this.state.post.args.creator
-              : this.state.comment.args.creator,
-            this.state.comment === null
-              ? this.props.event.args._forum
-              : this.props.event.args._forum,
-            {
-              from: accounts[0],
-              gasPrice: 20000000000
-            }
-          )
-          .then(result => {
-            console.log(result);
-            this.setState({
-              reportLoading: false
-            });
-            this.props.reset('report');
-          })
-          .catch(error => {
-            console.log('error');
-            this.setState({
-              reportLoading: false
-            });
-          });
-      });
-    });
-  };
 
   instantiateContract() {
     if (this.props.event.event === 'ReportPost') {
@@ -143,7 +112,7 @@ class ReportItem extends React.Component {
               toBlock: 'latest'
             }
           )
-          .get((error, post) => {
+          .get(async (error, post) => {
             console.log(post);
             if (
               post.length === 0 ||
@@ -155,6 +124,12 @@ class ReportItem extends React.Component {
                 loading: false
               });
             } else {
+              const bs58 = require('bs58');
+              const reasonHex = '1220' + this.props.event.args.reason.slice(2);
+              const reasonBytes32 = Buffer.from(reasonHex, 'hex');
+              const reasonIpfsHash = bs58.encode(reasonBytes32);
+              let reasonData = await services.ipfs.getJson(reasonIpfsHash);
+              console.log(reasonData);
               instance
                 .CommentCreated(
                   {
@@ -169,7 +144,8 @@ class ReportItem extends React.Component {
                   this.setState({
                     comments: comments,
                     post: post[0],
-                    loading: false
+                    loading: false,
+                    reason: reasonData.reason
                   });
                   console.log(comments);
                 });
@@ -215,8 +191,16 @@ class ReportItem extends React.Component {
                       toBlock: 'latest'
                     }
                   )
-                  .get((error, comments) => {
+                  .get(async (error, comments) => {
                     console.log(comments);
+                    const bs58 = require('bs58');
+                    const reasonHex =
+                      '1220' + this.props.event.args.reason.slice(2);
+                    const reasonBytes32 = Buffer.from(reasonHex, 'hex');
+                    const reasonIpfsHash = bs58.encode(reasonBytes32);
+                    let reasonData = await services.ipfs.getJson(
+                      reasonIpfsHash
+                    );
                     const comment =
                       comments[
                         comments
@@ -235,7 +219,8 @@ class ReportItem extends React.Component {
                       this.setState({
                         post: post[0],
                         comment: comment,
-                        loading: false
+                        loading: false,
+                        reason: reasonData.reason
                       });
                     }
                   });
@@ -246,6 +231,51 @@ class ReportItem extends React.Component {
     }
   }
 
+  toggleShowDetails = () => {
+    this.setState({
+      showDetails: !this.state.showDetails
+    });
+  };
+
+  handleBan = () => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    this.props.web3.eth.getAccounts((error, accounts) => {
+      tartarus.at(this.props.event.address).then(instance => {
+        console.log(this.state);
+        console.log(this.props);
+        instance.moderatorBan
+          .sendTransaction(
+            this.props.web3.utils.fromAscii(this.props.username),
+            this.state.comment === null
+              ? this.state.post.args.creator
+              : this.state.comment.args.creator,
+            this.state.comment === null
+              ? this.props.event.args.forum
+              : this.props.event.args.forum,
+            {
+              from: accounts[0],
+              gasPrice: 20000000000
+            }
+          )
+          .then(result => {
+            console.log(result);
+            this.setState({
+              reportLoading: false
+            });
+            this.props.reset('report');
+          })
+          .catch(error => {
+            console.log('error');
+            this.setState({
+              reportLoading: false
+            });
+          });
+      });
+    });
+  };
+
   render() {
     console.log(this.props);
     console.log(this.state);
@@ -255,7 +285,7 @@ class ReportItem extends React.Component {
           <div>
             <StyledLink
               to={`/f/${this.props.web3.utils.toAscii(
-                this.props.event.args._forum
+                this.props.event.args.forum
               )}/p/${this.props.event.args.postId}`}
             >
               {this.props.event.event === 'ReportPost' ? 'Post' : 'Comment'}
@@ -265,7 +295,7 @@ class ReportItem extends React.Component {
           </div>
           {this.state.showDetails ? (
             <ButtonWrapper>
-              <BanButton size={18} onClick={() => this.handleBan()} />
+              {/* <BanButton size={18} onClick={() => this.handleBan()} /> */}
               <UpButton size={18} onClick={() => this.toggleShowDetails()} />
             </ButtonWrapper>
           ) : (
@@ -278,12 +308,14 @@ class ReportItem extends React.Component {
           this.props.event.event === 'ReportPost' ? (
             <PostWrapper>
               <PostContainer post={this.state.post.args} showFullPost={false} />
+              <ReasonWrapper>{this.state.reason}</ReasonWrapper>
             </PostWrapper>
           ) : this.state.loading ? (
             <LoadingIndicatorSpinner />
           ) : true ? (
             <CommentWrapper>
               <CommentContainer comment={this.state.comment} disabled={true} />
+              <ReasonWrapper>{this.state.reason}</ReasonWrapper>
             </CommentWrapper>
           ) : (
             <Empty />
@@ -294,4 +326,4 @@ class ReportItem extends React.Component {
   }
 }
 
-export default ReportItem;
+export default Report;

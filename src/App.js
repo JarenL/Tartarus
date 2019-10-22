@@ -89,10 +89,18 @@ class App extends Component {
     return props.number - lastBlockNotified;
   };
 
-  getNotifications = async props => {
-    console.log(props);
+  getNotifications = async () => {
+    let watchedPosts = this.props.userSettings[this.props.username].watched
+      .posts;
+    let watchedComments = this.props.userSettings[this.props.username].watched
+      .comments;
+    let watchedUsers = this.props.userSettings[this.props.username].watched
+      .users;
+    let combinedEventList = watchedPosts.concat(watchedComments, watchedUsers);
+    console.log(combinedEventList);
+
     let activeNotifications = await Promise.all(
-      props.map(event => this.getActiveNotification(event))
+      combinedEventList.map(event => this.getActiveNotification(event))
     );
     // let activeNotifications = [];
     // console.log(activeNotifications);
@@ -112,6 +120,7 @@ class App extends Component {
     });
     // combinedNotifications.sort((a, b) => (a.args.time > b.args.time ? 1 : -1));
     // console.log(removeNull);
+    console.log(removeNull);
     return removeNull;
   };
 
@@ -125,24 +134,27 @@ class App extends Component {
     let instance = await tartarus.at(this.props.tartarusAddress);
     switch (props) {
       case 'UserCreated':
+        console.log('userCreated');
         return new Promise((resolve, reject) => {
           instance
             .UserCreated(
-              { user: this.props.web3.utils.fromAscii(props.username) },
+              { user: this.props.web3.utils.fromAscii(this.props.username) },
               {
-                fromBlock: 0,
+                fromBlock: startingBlock,
                 toBlock: 'latest'
               }
             )
             .get((error, userCreated) => {
+              console.log('testtt');
+              console.log(userCreated);
               resolve(userCreated);
             });
         });
       case 'UserUpdated':
         return new Promise((resolve, reject) => {
           instance
-            .UserCreated(
-              { user: this.props.web3.utils.fromAscii(props.username) },
+            .UserUpdated(
+              { user: this.props.web3.utils.fromAscii(this.props.username) },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -155,8 +167,8 @@ class App extends Component {
       case 'UserWithdraw':
         return new Promise((resolve, reject) => {
           instance
-            .UserCreated(
-              { user: this.props.web3.utils.fromAscii(props.username) },
+            .UserWithdraw(
+              { user: this.props.web3.utils.fromAscii(this.props.username) },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -170,7 +182,9 @@ class App extends Component {
         return new Promise((resolve, reject) => {
           instance
             .AdminCreated(
-              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                targetUser: this.props.web3.utils.fromAscii(this.props.username)
+              },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -184,7 +198,9 @@ class App extends Component {
         return new Promise((resolve, reject) => {
           instance
             .AdminUpdated(
-              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                targetUser: this.props.web3.utils.fromAscii(this.props.username)
+              },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -199,7 +215,9 @@ class App extends Component {
         return new Promise((resolve, reject) => {
           instance
             .AdminRemoved(
-              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                targetUser: this.props.web3.utils.fromAscii(this.props.username)
+              },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -214,7 +232,7 @@ class App extends Component {
           instance
             .AdminBan(
               {
-                targetUser: this.props.web3.utils.fromAscii(props.username)
+                targetUser: this.props.web3.utils.fromAscii(this.props.username)
               },
               {
                 fromBlock: startingBlock,
@@ -230,7 +248,9 @@ class App extends Component {
         return new Promise((resolve, reject) => {
           instance
             .AdminUnban(
-              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                targetUser: this.props.web3.utils.fromAscii(this.props.username)
+              },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -244,7 +264,9 @@ class App extends Component {
         return new Promise((resolve, reject) => {
           instance
             .AdminPaid(
-              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                targetUser: this.props.web3.utils.fromAscii(this.props.username)
+              },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -258,7 +280,9 @@ class App extends Component {
         return new Promise((resolve, reject) => {
           instance
             .CommentRemoved(
-              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                targetUser: this.props.web3.utils.fromAscii(this.props.username)
+              },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -289,7 +313,9 @@ class App extends Component {
         return new Promise((resolve, reject) => {
           instance
             .ModeratorBan(
-              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                targetUser: this.props.web3.utils.fromAscii(this.props.username)
+              },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -303,7 +329,9 @@ class App extends Component {
         return new Promise((resolve, reject) => {
           instance
             .ModeratorUnban(
-              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                targetUser: this.props.web3.utils.fromAscii(this.props.username)
+              },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -317,7 +345,9 @@ class App extends Component {
         return new Promise((resolve, reject) => {
           instance
             .ModeratorCreated(
-              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                targetUser: this.props.web3.utils.fromAscii(this.props.username)
+              },
               {
                 fromBlock: 0,
                 toBlock: 'latest'
@@ -332,7 +362,9 @@ class App extends Component {
         return new Promise((resolve, reject) => {
           instance
             .ModeratorPaid(
-              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                targetUser: this.props.web3.utils.fromAscii(this.props.username)
+              },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -346,7 +378,9 @@ class App extends Component {
         return new Promise((resolve, reject) => {
           instance
             .ModeratorRemoved(
-              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                targetUser: this.props.web3.utils.fromAscii(this.props.username)
+              },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -360,7 +394,9 @@ class App extends Component {
         return new Promise((resolve, reject) => {
           instance
             .ModeratorUpdated(
-              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                targetUser: this.props.web3.utils.fromAscii(this.props.username)
+              },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -374,7 +410,9 @@ class App extends Component {
         return new Promise((resolve, reject) => {
           instance
             .PostRemoved(
-              { targetUser: this.props.web3.utils.fromAscii(props.username) },
+              {
+                targetUser: this.props.web3.utils.fromAscii(this.props.username)
+              },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -388,7 +426,7 @@ class App extends Component {
         return new Promise((resolve, reject) => {
           instance
             .PostLocked(
-              { user: this.props.web3.utils.fromAscii(props.username) },
+              { user: this.props.web3.utils.fromAscii(this.props.username) },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -396,34 +434,6 @@ class App extends Component {
             )
             .get((error, postLocked) => {
               resolve(postLocked);
-            });
-        });
-      case 'UserUpdated':
-        return new Promise((resolve, reject) => {
-          instance
-            .UserUpdated(
-              { user: this.props.web3.utils.fromAscii(props.username) },
-              {
-                fromBlock: startingBlock,
-                toBlock: 'latest'
-              }
-            )
-            .get((error, userUpdated) => {
-              resolve(userUpdated);
-            });
-        });
-      case 'UserWithdraw':
-        return new Promise((resolve, reject) => {
-          instance
-            .UserWithdraw(
-              { user: this.props.web3.utils.fromAscii(props.username) },
-              {
-                fromBlock: startingBlock,
-                toBlock: 'latest'
-              }
-            )
-            .get((error, userWithdraw) => {
-              resolve(userWithdraw);
             });
         });
       default:
@@ -442,46 +452,77 @@ class App extends Component {
     console.log(latestBlock);
     console.log(startingBlock);
     console.log(props);
-    if (props.event === 'PostCreated') {
-      return new Promise((resolve, reject) => {
-        instance
-          .CommentCreated(
-            { targetId: props.postId },
-            {
-              fromBlock: startingBlock,
-              toBlock: 'latest'
-            }
-          )
-          .get((error, comments) => {
-            resolve(...comments);
-          });
-      });
-    } else {
-      return new Promise((resolve, reject) => {
-        instance
-          .CommentCreated(
-            { postId: props.args.postId, targetId: props.commentId },
-            {
-              fromBlock: startingBlock,
-              toBlock: 'latest'
-            }
-          )
-          .get((error, comments) => {
-            resolve(...comments);
-          });
-      });
+    switch (props.event) {
+      case 'PostCreated':
+        return new Promise((resolve, reject) => {
+          instance
+            .CommentCreated(
+              { targetId: props.postId },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, comments) => {
+              resolve(...comments);
+            });
+        });
+      case 'CommentCreated':
+        return new Promise((resolve, reject) => {
+          instance
+            .CommentCreated(
+              { postId: props.args.postId, targetId: props.commentId },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, comments) => {
+              resolve(...comments);
+            });
+        });
+
+      default:
+        console.log(props);
+        // let userPosts = [];
+        let userComments = [];
+        return new Promise((resolve, reject) => {
+          instance
+            .CommentCreated(
+              { user: props.userId },
+              {
+                fromBlock: startingBlock,
+                toBlock: 'latest'
+              }
+            )
+            .get((error, comments) => {
+              instance
+                .PostCreated(
+                  { user: props.userId },
+                  {
+                    fromBlock: startingBlock,
+                    toBlock: 'latest'
+                  }
+                )
+                .get((error, posts) => {
+                  userComments = comments;
+                  userComments.concat(posts);
+                  console.log(userComments);
+                  userComments.map(comment => {
+                    comment.userWatched = true;
+                  });
+                  console.log(userComments);
+                  resolve(...userComments);
+                });
+            });
+        });
     }
   };
 
   handleNotifications = async () => {
     if (this.props.username !== null && this.props.username !== undefined) {
       console.log('notificati');
-      let watchedPosts = this.props.userSettings[this.props.username].watched
-        .posts;
-      let watchedComments = this.props.userSettings[this.props.username].watched
-        .comments;
-      let combinedList = watchedPosts.concat(watchedComments);
-      let newNotifications = await this.getNotifications(combinedList);
+      let newNotifications = await this.getNotifications();
       console.log(newNotifications.length);
       if (newNotifications.length > 0) {
         console.log('test');

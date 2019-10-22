@@ -10,6 +10,7 @@ import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 import { withRouter } from 'react-router-dom';
 import SubmitButton from '../Buttons/SubmitButton';
 import CancelButton from '../Buttons/CancelButton';
+import { warningToast, confirmToast, errorToast } from '../Notifications/Toasts/Toast';
 
 const Wrapper = styled.div`
   display: flex;
@@ -118,6 +119,7 @@ class CreateAdminForm extends React.Component {
     tartarus.setProvider(this.props.web3.currentProvider);
     let accounts = await this.props.web3.eth.getAccounts();
     let instance = await tartarus.at(this.props.tartarusAddress);
+    warningToast();
     instance.createAdmin
       .sendTransaction(
         this.props.web3.utils.fromAscii(this.props.username),
@@ -136,12 +138,14 @@ class CreateAdminForm extends React.Component {
         this.setState({
           loading: false
         });
+        confirmToast();
       })
       .catch(error => {
         console.log('error');
         this.setState({
           loading: false
         });
+        errorToast();
       });
   };
 

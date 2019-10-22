@@ -11,6 +11,7 @@ import CommentContainer from '../../Comment/Comment/Container';
 import { withRouter } from 'react-router-dom';
 import SubmitButton from '../../Buttons/SubmitButton';
 import CancelButton from '../../Buttons/CancelButton';
+import { uploadToast, warningToast, confirmToast, errorToast } from '../../Notifications/Toasts/Toast';
 
 const PostWrapper = styled.div`
   border: 1px solid ${props => props.theme.border};
@@ -139,6 +140,7 @@ class ReportComment extends React.Component {
     });
     console.log('upload');
     if (this.props.form.report.values.reason !== undefined) {
+      uploadToast();
       let reportObject = {
         reason: this.props.form.report.values.reason
       };
@@ -160,6 +162,7 @@ class ReportComment extends React.Component {
 
   submitReportTransaction = props => {
     console.log(props);
+    warningToast();
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
@@ -182,6 +185,7 @@ class ReportComment extends React.Component {
             this.setState({
               reportLoading: false
             });
+            confirmToast();
             this.props.reset('report');
           })
           .catch(error => {
@@ -189,6 +193,7 @@ class ReportComment extends React.Component {
             this.setState({
               reportLoading: false
             });
+            errorToast();
           });
       });
     });

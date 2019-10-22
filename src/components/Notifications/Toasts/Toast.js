@@ -50,7 +50,9 @@ export const warningToast = () => {
   } else {
     console.log(toastId);
     toast.update(toastId, {
-      render: warning()
+      render: warning(),
+      closeOnClick: true,
+      autoClose: 3000
     });
   }
 };

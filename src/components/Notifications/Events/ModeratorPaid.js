@@ -53,12 +53,14 @@ const ModeratorPaid = props => {
         <StyledLink to={`/f/${props.forum}`}>{props.forum}</StyledLink>
         {` ${moment(props.time).fromNow()}`}
       </div>
-      <ButtonWrapper>
-        <CloseButton
-          size={18}
-          onClick={() => props.handleClearNotification(props.transactionHash)}
-        />
-      </ButtonWrapper>
+      {props.removable ? (
+        <ButtonWrapper>
+          <CloseButton
+            size={18}
+            onClick={() => props.handleClearNotification(props.transactionHash)}
+          />
+        </ButtonWrapper>
+      ) : null}
     </EventWrapper>
   );
 };

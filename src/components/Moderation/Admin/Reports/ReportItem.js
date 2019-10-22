@@ -11,6 +11,8 @@ import CommentContainer from '../../../Comment/Comment/Container';
 import LoadingIndicatorSpinner from '../../../shared/LoadingIndicator/Spinner';
 import BanButton from '../../../Buttons/Ban';
 
+const services = require('../../../../services');
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,6 +32,17 @@ const ReportWrapper = styled.div`
   background-color: ${props => props.theme.inputBackground};
   color: ${props => props.theme.normalText};
   justify-content: space-between;
+`;
+
+const ReasonWrapper = styled.div`
+  // margin: 8px -8px;
+  overflow-wrap: break-word;
+  border-left: none;
+  padding: 8px;
+  // paddingt: 8px;
+  font-size: 12px;
+  background-color: ${props => props.theme.inputBackground};
+  color: ${props => props.theme.mutedText};
 `;
 
 const StyledLink = styled(Link)`
@@ -72,6 +85,7 @@ class ReportItem extends React.Component {
       comment: null,
       commentExists: true,
       postExists: true,
+      reason: null,
       exists: true,
       loading: true
     };
@@ -81,51 +95,6 @@ class ReportItem extends React.Component {
   componentDidMount() {
     this.instantiateContract();
   }
-
-  toggleShowDetails = () => {
-    this.setState({
-      showDetails: !this.state.showDetails
-    });
-  };
-
-  handleBan = () => {
-    const contract = require('truffle-contract');
-    const tartarus = contract(TartarusContract);
-    tartarus.setProvider(this.props.web3.currentProvider);
-    this.props.web3.eth.getAccounts((error, accounts) => {
-      tartarus.at(this.props.event.address).then(instance => {
-        console.log(this.state);
-        console.log(this.props);
-        instance.moderatorBan
-          .sendTransaction(
-            this.props.web3.utils.fromAscii(this.props.username),
-            this.state.comment === null
-              ? this.state.post.args.creator
-              : this.state.comment.args.creator,
-            this.state.comment === null
-              ? this.props.event.args._forum
-              : this.props.event.args._forum,
-            {
-              from: accounts[0],
-              gasPrice: 20000000000
-            }
-          )
-          .then(result => {
-            console.log(result);
-            this.setState({
-              reportLoading: false
-            });
-            this.props.reset('report');
-          })
-          .catch(error => {
-            console.log('error');
-            this.setState({
-              reportLoading: false
-            });
-          });
-      });
-    });
-  };
 
   instantiateContract() {
     if (this.props.event.event === 'ReportPost') {
@@ -143,7 +112,7 @@ class ReportItem extends React.Component {
               toBlock: 'latest'
             }
           )
-          .get((error, post) => {
+          .get(async (error, post) => {
             console.log(post);
             if (
               post.length === 0 ||
@@ -155,6 +124,11 @@ class ReportItem extends React.Component {
                 loading: false
               });
             } else {
+              const bs58 = require('bs58');
+              const reasonHex = '1220' + this.props.event.args.reason.slice(2);
+              const reasonBytes32 = Buffer.from(reasonHex, 'hex');
+              const reasonIpfsHash = bs58.encode(reasonBytes32);
+              let reasonData = await services.ipfs.getJson(reasonIpfsHash);
               instance
                 .CommentCreated(
                   {
@@ -169,7 +143,8 @@ class ReportItem extends React.Component {
                   this.setState({
                     comments: comments,
                     post: post[0],
-                    loading: false
+                    loading: false,
+                    reason: reasonData.reason
                   });
                   console.log(comments);
                 });
@@ -215,8 +190,12 @@ class ReportItem extends React.Component {
                       toBlock: 'latest'
                     }
                   )
-                  .get((error, comments) => {
-                    console.log(comments);
+                  .get(async (error, comments) => {
+                    const bs58 = require('bs58');
+                    const reasonHex = '1220' + this.props.event.args.reason.slice(2);
+                    const reasonBytes32 = Buffer.from(reasonHex, 'hex');
+                    const reasonIpfsHash = bs58.encode(reasonBytes32);
+                    let reasonData = await services.ipfs.getJson(reasonIpfsHash);
                     const comment =
                       comments[
                         comments
@@ -235,7 +214,8 @@ class ReportItem extends React.Component {
                       this.setState({
                         post: post[0],
                         comment: comment,
-                        loading: false
+                        loading: false,
+                        reason: reasonData.reason
                       });
                     }
                   });
@@ -245,6 +225,51 @@ class ReportItem extends React.Component {
       });
     }
   }
+
+  toggleShowDetails = () => {
+    this.setState({
+      showDetails: !this.state.showDetails
+    });
+  };
+
+  handleBan = () => {
+    const contract = require('truffle-contract');
+    const tartarus = contract(TartarusContract);
+    tartarus.setProvider(this.props.web3.currentProvider);
+    this.props.web3.eth.getAccounts((error, accounts) => {
+      tartarus.at(this.props.event.address).then(instance => {
+        console.log(this.state);
+        console.log(this.props);
+        instance.moderatorBan
+          .sendTransaction(
+            this.props.web3.utils.fromAscii(this.props.username),
+            this.state.comment === null
+              ? this.state.post.args.user
+              : this.state.comment.args.user,
+            this.state.comment === null
+              ? this.props.event.args.forum
+              : this.props.event.args.forum,
+            {
+              from: accounts[0],
+              gasPrice: 20000000000
+            }
+          )
+          .then(result => {
+            console.log(result);
+            this.setState({
+              reportLoading: false
+            });
+            this.props.reset('report');
+          })
+          .catch(error => {
+            console.log('error');
+            this.setState({
+              reportLoading: false
+            });
+          });
+      });
+    });
+  };
 
   render() {
     console.log(this.props);
@@ -283,6 +308,7 @@ class ReportItem extends React.Component {
           this.props.event.event === 'ReportPost' ? (
             <PostWrapper>
               <PostContainer post={this.state.post.args} showFullPost={false} />
+              <ReasonWrapper>{this.state.reason}</ReasonWrapper>
             </PostWrapper>
           ) : // <Empty />
           this.state.loading ? (
@@ -290,6 +316,7 @@ class ReportItem extends React.Component {
           ) : true ? (
             <CommentWrapper>
               <CommentContainer comment={this.state.comment} disabled={true} />
+              <ReasonWrapper>{this.state.reason}</ReasonWrapper>
             </CommentWrapper>
           ) : (
             <Empty />

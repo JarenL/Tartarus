@@ -34,7 +34,6 @@ const RatioDivider = styled.div`
 `;
 
 const VoteRatio = props => {
-  console.log(props)
   return (
     <Wrapper>
       <UpvoteRatio upvoteRatio={props.upvoteRatio} />

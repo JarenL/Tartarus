@@ -104,25 +104,25 @@ class CommentForm extends React.Component {
       tartarus.at(this.props.tartarusAddress).then(instance => {
         instance.createCommentCost.call().then(async createCommentCost => {
           console.log(this.props);
-          let createCommentGas = await instance.createComment.estimateGas(
-            this.props.web3.utils.fromAscii(this.props.username),
-            this.props.web3.utils.fromAscii(this.props.forumName),
-            this.props.postId,
-            ipfsHash,
-            this.props.targetId,
-            {
-              from: accounts[0],
-              gasPrice: 20000000000,
-              value: createCommentCost
-            }
-          );
-          console.log('create comment gas - ' + createCommentGas.toString());
-          let gasPrice = await this.props.web3.eth.getGasPrice();
-          let commentTest = createCommentGas * gasPrice;
-          console.log(
-            'create comment eth cost - ' +
-              this.props.web3.utils.fromWei(commentTest.toString(), 'ether')
-          );
+          // let createCommentGas = await instance.createComment.estimateGas(
+          //   this.props.web3.utils.fromAscii(this.props.username),
+          //   this.props.web3.utils.fromAscii(this.props.forumName),
+          //   this.props.postId,
+          //   ipfsHash,
+          //   this.props.targetId,
+          //   {
+          //     from: accounts[0],
+          //     gasPrice: 20000000000,
+          //     value: createCommentCost
+          //   }
+          // );
+          // console.log('create comment gas - ' + createCommentGas.toString());
+          // let gasPrice = await this.props.web3.eth.getGasPrice();
+          // let commentTest = createCommentGas * gasPrice;
+          // console.log(
+          //   'create comment eth cost - ' +
+          //     this.props.web3.utils.fromWei(commentTest.toString(), 'ether')
+          // );
           instance.createComment
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),
