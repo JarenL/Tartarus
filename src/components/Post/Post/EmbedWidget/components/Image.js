@@ -8,7 +8,12 @@ const styles = {
     paddingTop: '6px',
     // transform: 'translateX(-50%)',
     // marginLeft: '50%',
-    animation: 'fadeIn ease 0.5s'
+    animation: 'fadeIn ease 0.5s',
+    width: '100%',
+    // Without height undefined it won't work
+    height: undefined,
+    // figure out your image aspect ratio
+    // aspectRatio: 135 / 76,
   }
 };
 

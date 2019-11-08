@@ -36,6 +36,7 @@ contract Tartarus is Initializable {
     event PostUnpinned (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed postId, uint time);
     event CommentCreated (bytes32 indexed postId, bytes32 indexed user, bytes32 indexed targetId, bytes32 commentId, uint time);
     event CommentRemoved (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed targetUser, bytes32 postId, bytes32 commentId, uint time);
+    event CommentLocked (bytes32 indexed forum, bytes32 indexed user, bytes32 indexed commentId, uint commentLockState, uint time);
     event ReportAdmin (bytes32 indexed user, bytes32 reason, uint time);
     event ReportPost (bytes32 indexed forum, bytes32 indexed postId, bytes32 reason, uint time);
     event ReportComment (bytes32 indexed forum, bytes32 indexed postId, bytes32 indexed commentId, bytes32 reason, uint time);
@@ -45,7 +46,6 @@ contract Tartarus is Initializable {
     mapping (bytes32 => bool) public banned;
     mapping (bytes32 => User) public users;
     mapping (bytes32 => Forum) public forums;
-    mapping (bytes32 => bool) reports;
     bytes32[] adminList;
     bytes32 public ownerAccount;
     bytes32 public tartarusInfo;
@@ -111,11 +111,11 @@ contract Tartarus is Initializable {
         mapping(bytes32 =>  bool) banned;
         mapping(bytes32 => Post) posts;
         mapping(bytes32 => Comment) comments;
-        mapping(bytes32 => bool) reports;
         mapping(bytes32 => uint) upvotes;
         mapping(bytes32 => uint) downvotes;
         mapping(bytes32 => uint) commentCount;
         mapping(bytes32 => uint) lockedPosts;
+        mapping(bytes32 => uint) lockedComments;
         mapping(bytes32 => mapping(bytes32 => bool)) upvoted;
         mapping(bytes32 => mapping(bytes32 => bool)) downvoted;
     }
@@ -270,28 +270,6 @@ contract Tartarus is Initializable {
         );
     }
 
-    modifier onlyForumUnlocked(bytes32 _forum, bytes32 _user) {
-        _forumUnlocked(_forum, _user);
-        _;
-    }
-
-    function _forumUnlocked(bytes32 _forum, bytes32 _user) internal view {
-        if (forums[_forum].postLocked == 1) {
-            require(
-                isModerator(_user, _forum) ||
-                isAdmin(_user),
-                "Forum locked to user"
-            );
-        }
-
-        if (forums[_forum].postLocked == 2) {
-            require(
-                isAdmin(_user),
-                "Forum locked to user"
-            );
-        }
-    }
-
     modifier onlyPostExists(bytes32 _forum, bytes32 _postId) {
         _postExists(_forum, _postId);
         _;
@@ -304,25 +282,47 @@ contract Tartarus is Initializable {
         );
     }
 
-    modifier onlyPostUnlocked(bytes32 _forum, bytes32 _postId, bytes32 _user) {
-        _postUnlocked(_forum, _postId, _user);
+    modifier onlyPostAllowed(bytes32 _forum, bytes32 _user) {
+        _postAllowed(_forum, _user);
         _;
     }
 
-    function _postUnlocked(bytes32 _forum, bytes32 _postId, bytes32 _user) internal view {
+    function _postAllowed(bytes32 _forum, bytes32 _user) internal view {
+        if (forums[_forum].postLocked == 1) {
+            require(
+                isModerator(_user, _forum) ||
+                isAdmin(_user),
+                "Posting locked to user"
+            );
+        }
+
+        if (forums[_forum].postLocked == 2) {
+            require(
+                isAdmin(_user),
+                "Posting locked to user"
+            );
+        }
+    }
+
+    modifier onlyCommentAllowed(bytes32 _forum, bytes32 _targetId, bytes32 _user) {
+        _commentAllowed(_forum, _targetId, _user);
+        _;
+    }
+
+    function _commentAllowed(bytes32 _forum, bytes32 _targetId, bytes32 _user) internal view {
         if (forums[_forum].commentLocked == 0) {
-            if (forums[_forum].lockedPosts[_postId] == 1) {
+            if (forums[_forum].lockedPosts[_targetId] == 1 || forums[_forum].lockedComments[_targetId] == 1) {
                 require(
                     isModerator(_user, _forum) ||
                     isAdmin(_user),
-                    "Post locked to user"
+                    "Commenting locked to user"
                 );
             }
 
-            if (forums[_forum].lockedPosts[_postId] == 2) {
+            if (forums[_forum].lockedPosts[_targetId] == 2 || forums[_forum].lockedComments[_targetId] == 2) {
                 require(
                     isAdmin(_user),
-                    "Post locked to user"
+                    "Commenting locked to user"
                 );
             }
         }
@@ -331,14 +331,14 @@ contract Tartarus is Initializable {
             require(
                 isModerator(_user, _forum) ||
                 isAdmin(_user),
-                "Post locked to user"
+                "Commenting locked to user"
             );
         }
 
         if (forums[_forum].commentLocked == 2) {
             require(
                 isAdmin(_user),
-                "Post locked to user"
+                "Commenting locked to user"
             );
         }
     }
@@ -476,11 +476,28 @@ contract Tartarus is Initializable {
         emit ForumCreated(forumBytes, _user, now);
     }
 
-    function changeForumLock(bytes32 _user, bytes32 _forum, uint _postLockState, uint _commentLockState)
-        public onlyUserVerified(_user) onlyAdminAuthorized(_user, 5) {
+    function changeForumPostLock(bytes32 _user, bytes32 _forum, uint _postLockState)
+        public onlyUserVerified(_user) onlyModeratorAuthorized(_user, _forum, 0, 5) {
+        if (forums[_forum].postLocked == 2) {
+            require(
+                isAdmin(_user),
+                "User does not have permission"
+            );
+        }
         forums[_forum].postLocked = _postLockState;
+        emit ForumLocked(_forum, _user, _postLockState, forums[_forum].commentLocked, now);
+    }
+
+    function changeForumCommentLock(bytes32 _user, bytes32 _forum, uint _commentLockState)
+        public onlyUserVerified(_user) onlyModeratorAuthorized(_user, _forum, 0, 5) {
+        if (forums[_forum].commentLocked == 2) {
+            require(
+                isAdmin(_user),
+                "User does not have permission"
+            );
+        }
         forums[_forum].commentLocked = _commentLockState;
-        emit ForumLocked(_forum, _user, _postLockState, _commentLockState, now);
+        emit ForumLocked(_forum, _user, forums[_forum].postLocked, _commentLockState, now);
     }
 
     function updateForum(bytes32 _user, bytes32 _forum, bytes32 _forumInfo)
@@ -501,7 +518,7 @@ contract Tartarus is Initializable {
     }
 
     function createPost(bytes32 _user, bytes32 _forum, bytes32 _post)
-        public payable onlyUserVerified(_user) onlyForumExists(_forum) onlyForumUnlocked(_forum, _user) onlyUserAuthorized(_user, _forum) onlyFee(createPostCost) {
+        public payable onlyUserVerified(_user) onlyForumExists(_forum) onlyPostAllowed(_forum, _user) onlyUserAuthorized(_user, _forum) onlyFee(createPostCost) {
         bytes32 postId = generateId();
         Post memory newPost;
         newPost.post = _post;
@@ -513,6 +530,12 @@ contract Tartarus is Initializable {
 
     function changePostLock(bytes32 _user, bytes32 _forum, bytes32 _postId, uint _postLockState)
         public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) onlyModeratorAuthorized(_user, _forum, 5, 6) {
+        if (forums[_forum].lockedPosts[_postId] == 2) {
+            require(
+                isAdmin(_user),
+                "User does not have permission"
+            );
+        }
         forums[_forum].lockedPosts[_postId] = _postLockState;
         emit PostLocked(_forum, _user, _postId, _postLockState, now);
     }
@@ -566,7 +589,7 @@ contract Tartarus is Initializable {
     }
 
     function createComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _comment, bytes32 _targetId)
-        public payable onlyUserVerified(_user) onlyUserAuthorized(_user, _forum) onlyPostUnlocked(_forum, _postId, _user) onlyFee(createCommentCost) {
+        public payable onlyUserVerified(_user) onlyUserAuthorized(_user, _forum) onlyCommentAllowed(_forum, _targetId, _user) onlyFee(createCommentCost) {
         bytes32 commentId = generateId();
         Comment memory newComment;
         newComment.comment = _comment;
@@ -575,6 +598,18 @@ contract Tartarus is Initializable {
         forums[_forum].commentCount[_postId] += 1;
         payoutComment(_forum, _postId, _targetId, msg.value);
         emit CommentCreated(_postId, _user, _targetId, commentId, now);
+    }
+    
+    function changeCommentLock(bytes32 _user, bytes32 _forum, bytes32 _commentId, uint _commentLockState)
+        public onlyUserVerified(_user) onlyForumExists(_forum) onlyModeratorAuthorized(_user, _forum, 5, 6) {
+        if (forums[_forum].lockedComments[_commentId] == 2) {
+            require(
+                isAdmin(_user),
+                "User does not have permission"
+            );
+        }
+        forums[_forum].lockedComments[_commentId] = _commentLockState;
+        emit CommentLocked(_forum, _user, _commentId, _commentLockState, now);
     }
 
     function removeComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _commentId)
@@ -593,9 +628,10 @@ contract Tartarus is Initializable {
         emit CommentRemoved(_forum, _user, forums[_forum].comments[_commentId].creator, _postId, _commentId, now);
     }
 
-    function getComment(bytes32 _forum, bytes32 _commentId) public view returns (bytes32 comment, bytes32 creator) {
+    function getComment(bytes32 _forum, bytes32 _commentId) public view returns (bytes32 comment, bytes32 creator, uint commentLockState) {
         comment = forums[_forum].comments[_commentId].comment;
         creator = forums[_forum].comments[_commentId].creator;
+        commentLockState = forums[_forum].lockedComments[_commentId];
     }
 
     function reportAdmin(bytes32 _user, bytes32 _reason)

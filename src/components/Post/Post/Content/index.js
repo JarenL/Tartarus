@@ -15,7 +15,6 @@ import TextPreview from './TextPreview';
 import PostContentDetail from './Details';
 import ReactPlaceholder from 'react-placeholder';
 import 'react-placeholder/lib/reactPlaceholder.css';
-// import ContentLoader from 'react-content-loader';
 
 const isIPFS = require('is-ipfs');
 

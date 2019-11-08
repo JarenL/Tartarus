@@ -26,7 +26,7 @@ import { Zoom } from 'react-toastify';
 
 // const tartarusAddress = '0x4c905e8c4533cb6928abaa159ca7b45b22f4d086';
 // const tartarusAddress = '0x3ca7832b2edd307b075903e2aac2ff04308ad001';
-const tartarusAddress = '0xcdAB661F0aa246350E2C420b30Bb0B1062Be4866';
+const tartarusAddress = '0xa43957A39A29B3B92243249D42682DE1A5158296';
 
 const passiveNotificationEvents = [
   'AdminCreated',
@@ -118,8 +118,10 @@ class App extends Component {
     let removeNull = combinedNotifications.flat().filter(item => {
       return item !== undefined && item !== [];
     });
-    // combinedNotifications.sort((a, b) => (a.args.time > b.args.time ? 1 : -1));
-    // console.log(removeNull);
+    // removeNull.sort((a, b) => b.args.time < a.args.time);
+    // removeNull.sort((a, b) => (b.args.time.c[0] > a.args.time.c[0] ? 1 : -1));
+
+    console.log(removeNull);
     console.log(removeNull);
     return removeNull;
   };
@@ -449,8 +451,8 @@ class App extends Component {
     let instance = await tartarus.at(this.props.tartarusAddress);
     const latestBlock = await this.props.web3.eth.getBlock('latest');
     let startingBlock = await this.getNotificationTime(latestBlock);
-    console.log(latestBlock);
-    console.log(startingBlock);
+    // console.log(latestBlock);
+    // console.log(startingBlock);
     console.log(props);
     switch (props.event) {
       case 'PostCreated':
@@ -464,11 +466,13 @@ class App extends Component {
               }
             )
             .get((error, comments) => {
+              console.log(comments);
               resolve(...comments);
             });
         });
       case 'CommentCreated':
         return new Promise((resolve, reject) => {
+          console.log(props);
           instance
             .CommentCreated(
               { postId: props.args.postId, targetId: props.commentId },
@@ -523,15 +527,25 @@ class App extends Component {
     if (this.props.username !== null && this.props.username !== undefined) {
       console.log('notificati');
       let newNotifications = await this.getNotifications();
+      console.log(newNotifications);
       console.log(newNotifications.length);
       if (newNotifications.length > 0) {
         console.log('test');
-        let newNotificationsArray = this.props.userSettings[this.props.username]
-          .notifications;
+        console.log(newNotifications);
+        let newNotificationsArray = [
+          ...this.props.userSettings[this.props.username].notifications,
+          ...newNotifications
+        ];
+        // console.log(newNotificationsArray)
+        // newNotificationsArray.concat(newNotifications);
+        newNotificationsArray.sort((a, b) =>
+          a.args.time < b.args.time ? 1 : -1
+        );
+        // console.log(newNotificationsArray.concat(newNotifications));
         let payload = {
           username: this.props.username,
           // notifications: []
-          notifications: newNotificationsArray.concat(newNotifications)
+          notifications: newNotificationsArray
         };
         this.props.dispatch(updateUserNotifications(payload));
       }

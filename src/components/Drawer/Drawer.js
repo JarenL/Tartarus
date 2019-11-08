@@ -36,6 +36,7 @@ const placements = {
 //Styled Components
 const DrawerWrapper = styled.div`
   display: block;
+  transition: width 2s;
   width: ${props =>
     props.position !== 'top' && props.position !== 'bottom' && props.size
       ? props.size

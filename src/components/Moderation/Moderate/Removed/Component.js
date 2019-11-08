@@ -62,7 +62,7 @@ class Removed extends React.Component {
         return new Promise((resolve, reject) => {
           instance
             .PostRemoved(
-              { forum: forumBytes, user: props },
+              { forum: forumBytes, user: props, targetUser: !props },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -77,7 +77,7 @@ class Removed extends React.Component {
         return new Promise((resolve, reject) => {
           instance
             .CommentRemoved(
-              { forum: forumBytes, user: props },
+              { forum: forumBytes, user: props, targetUser: !props },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -99,7 +99,7 @@ class Removed extends React.Component {
     const forumBytes = this.props.web3.utils.fromAscii(this.props.forumName);
     tartarus.setProvider(this.props.web3.currentProvider);
     const instance = await tartarus.at(this.props.tartarusAddress);
-    const moderators = await instance.getModerators(forumBytes).call();
+    const moderators = await instance.getAdmins.call();
     let moderatorRemovedActivity = await Promise.all(
       moderators.map(moderator => this.getRemovedActivity(moderator))
     );

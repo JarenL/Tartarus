@@ -5,6 +5,8 @@ import Error from './Error';
 import Upload from './Upload';
 import Warning from './Warning';
 import 'react-toastify/dist/ReactToastify.css';
+import LoginSuccess from './LoginSuccess';
+import LoginFail from './LoginFail';
 
 let toastId = null;
 
@@ -24,8 +26,34 @@ let confirm = () => {
   return <Confirm />;
 };
 
+let loginSucces = () => {
+  return <LoginSuccess />
+}
+
+let loginFail = () => {
+  return <LoginFail />
+}
+
 export const dismissToast = () => {
   toast.dismiss(toastId);
+};
+
+export const loginSuccessToast = () => {
+  toastId = toast(loginSucces(), {
+    position: 'bottom-center',
+    autoClose: 2000,
+    hideProgressBar: true,
+    closeOnClick: true
+  });
+};
+
+export const loginFailToast = () => {
+  toastId = toast(loginFail(), {
+    position: 'bottom-center',
+    autoClose: 2000,
+    hideProgressBar: true,
+    closeOnClick: true
+  });
 };
 
 export const uploadToast = () => {

@@ -10,12 +10,13 @@ import categories from './Categories';
 import UserWithdraw from './UserWithdraw';
 import { withRouter } from 'react-router';
 import { updateUserWatched } from '../../../redux/actions/actions';
+import Divider from '../Divider';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 240px;
-  background-color: ${props => props.theme.foreground};
+  // background-color: ${props => props.theme.foreground};
 `;
 
 class UserSidebar extends Component {
@@ -192,6 +193,7 @@ class UserSidebar extends Component {
               handleWatch={this.handleWatch}
               handleUnwatch={this.handleUnwatch}
             />
+            <Divider />
             <UserList
               path={this.props.url}
               user={this.props.user}
@@ -209,11 +211,11 @@ class UserSidebar extends Component {
               handleUnwatch={this.handleUnwatch}
               userHex={this.state.userHex}
             />
-
             <UserWithdraw
               userBalance={this.state.userBalance}
               handleWithdraw={this.handleWithdraw}
             />
+            <Divider />
             <UserList
               path={this.props.url}
               user={this.props.user}

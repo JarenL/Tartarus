@@ -8,6 +8,7 @@ import { userLogin, updateUserPermissions } from '../../redux/actions/actions';
 import styled from 'styled-components/macro';
 import CancelButton from '../Buttons/CancelButton';
 import SubmitButton from '../Buttons/SubmitButton';
+import { loginFailToast, loginSuccessToast } from '../Notifications/Toasts/Toast';
 
 const Wrapper = styled.div`
   display: flex;
@@ -87,11 +88,13 @@ class LoginForm extends React.Component {
           this.setState({
             loading: false
           });
+          loginSuccessToast();
         });
     } else {
       this.setState({
         loading: false
       });
+      loginFailToast();
     }
 
     this.redirectIfLoggedIn();

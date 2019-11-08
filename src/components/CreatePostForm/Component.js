@@ -91,6 +91,21 @@ class CreatePostForm extends React.Component {
     this.setState({ isDragging: false });
   };
 
+  handleUpload = async e => {
+    console.log(e);
+    this.setState({
+      isDragging: false,
+      isPreviewing: true
+      // upload: 'loading:Uploading'
+    });
+
+    // const { dataTransfer } = e;
+    // const file = dataTransfer.items[0].getAsFile();
+    await this.handleIpfsFile(e.target.files[0]);
+    // e.target.value = null;
+    // clearDataTransfer(e);
+  };
+
   handleUploadDrop = async e => {
     e.preventDefault();
 
@@ -300,24 +315,34 @@ class CreatePostForm extends React.Component {
         {this.props.form.values.type === 'upload' &&
           !this.state.uploadLoading &&
           !this.state.uploadIpfsHash && (
-            <Typography
-              className={classnames(
-                classes.upload,
-                !this.state.isDragging && classes.uploadNotDragging,
-                this.state.isDragging && classes.uploadDragging
-              )}
-              onDragEnter={this.handleUploadDragEnter.bind(this)}
-              onDragOver={this.handleUploadDragOver.bind(this)}
-              onDragLeave={this.handleUploadDragLeave.bind(this)}
-              onDrop={this.handleUploadDrop.bind(this)}
-              contentEditable
-              suppressContentEditableWarning
-              variant='title'
-              component='div'
-              onInput={this.blockRegularTypingInUploadInput.bind(this)}
-            >
-              {dangerouslySetUploadMessage}
-            </Typography>
+            <>
+              <Typography
+                className={classnames(
+                  classes.upload,
+                  !this.state.isDragging && classes.uploadNotDragging,
+                  this.state.isDragging && classes.uploadDragging
+                )}
+                onDragEnter={this.handleUploadDragEnter.bind(this)}
+                onDragOver={this.handleUploadDragOver.bind(this)}
+                onDragLeave={this.handleUploadDragLeave.bind(this)}
+                onDrop={this.handleUploadDrop.bind(this)}
+                contentEditable
+                suppressContentEditableWarning
+                variant='title'
+                component='div'
+                onInput={this.blockRegularTypingInUploadInput.bind(this)}
+                onClick={e => this.myInput.click()}
+              >
+                {dangerouslySetUploadMessage}
+                <input
+                  id='myInput'
+                  type='file'
+                  ref={ref => (this.myInput = ref)}
+                  onChange={e => this.handleUpload(e)}
+                  style={{ display: 'none' }}
+                />
+              </Typography>
+            </>
           )}
         {this.props.form.values.type === 'upload' &&
           !this.state.uploadLoading &&

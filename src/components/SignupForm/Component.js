@@ -123,21 +123,21 @@ class SignupForm extends React.Component {
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
         instance.createUserCost.call().then(async createUserCost => {
-          let createUserGas = await instance.createUser.estimateGas(
-            this.props.form.signup.values.username,
-            {
-              from: accounts[0],
-              gasPrice: 20000000000,
-              value: createUserCost
-            }
-          );
-          console.log('create user gas - ' + createUserGas.toString());
-          let gasPrice = await this.props.web3.eth.getGasPrice();
-          let createUserTest = createUserGas * gasPrice;
-          console.log(
-            'create user eth cost - ' +
-              this.props.web3.utils.fromWei(createUserTest.toString(), 'ether')
-          );
+          // let createUserGas = await instance.createUser.estimateGas(
+          //   this.props.form.signup.values.username,
+          //   {
+          //     from: accounts[0],
+          //     gasPrice: 20000000000,
+          //     value: createUserCost
+          //   }
+          // );
+          // console.log('create user gas - ' + createUserGas.toString());
+          // let gasPrice = await this.props.web3.eth.getGasPrice();
+          // let createUserTest = createUserGas * gasPrice;
+          // console.log(
+          //   'create user eth cost - ' +
+          //     this.props.web3.utils.fromWei(createUserTest.toString(), 'ether')
+          // );
           instance.createUser
             .sendTransaction(this.props.form.signup.values.username, {
               from: accounts[0],

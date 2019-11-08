@@ -9,54 +9,48 @@ import Unwatch from '../../Buttons/Unwatch';
 const Header = styled.span`
   ${wideFont};
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 4px;
+  padding: 8px;
   color: ${props => props.theme.mutedText};
   background-color: ${props => props.theme.foreground};
-  // border-bottom: 1px solid ${props => props.theme.border};
+  border-bottom: 1px solid ${props => props.theme.border};
 `;
 
 const HeaderText = styled.div`
   ${wideFont};
   ${overflow};
-  width: 100%;
   display: flex;
   font-size: 16px;
-  align-items: center;
-  justify-content: center;
-  // margin-left: 16px;
   color: ${props => props.theme.mutedText};
 `;
 
-// const ButtonWrapper = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: flex-end;
-// `;
-
 const BlockieWrapper = styled.div`
-  align-self: flex-end;
+  justify-self: flex-end;
+`;
+
+const ButtonWrapper = styled.div`
+  justify-self: flex-start;
 `;
 
 const UserHeader = props => {
-  console.log(props);
   return (
     <Header>
-      {/* <ButtonWrapper>
-      </ButtonWrapper> */}
-      {props.showWatch ? (
-        props.watched ? (
-          <Unwatch
-            size={32}
-            onClick={() => props.handleUnwatch(props.userHex)}
-          />
-        ) : (
-          <Watch size={32} onClick={() => props.handleWatch(props.userHex)} />
-        )
-      ) : null}
-      <HeaderText>{props.user}</HeaderText>
+      <ButtonWrapper>
+        {props.showWatch ? (
+          props.watched ? (
+            <Unwatch
+              size={24}
+              onClick={() => props.handleUnwatch(props.userHex)}
+            />
+          ) : (
+            <Watch size={24} onClick={() => props.handleWatch(props.userHex)} />
+          )
+        ) : null}
+      </ButtonWrapper>
 
+      <HeaderText>{props.user}</HeaderText>
       <BlockieWrapper>
         <UserBlockie user={props.userHex} />
       </BlockieWrapper>

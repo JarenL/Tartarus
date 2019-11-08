@@ -13,7 +13,7 @@ class Removed extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      moderatorRemovedEvents: [],
+      adminRemovedEvents: [],
       loading: true
     };
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -43,7 +43,7 @@ class Removed extends React.Component {
 
   getRemovedActivity = async props => {
     let removedActivity = await Promise.all(
-      moderatorRemovedEvents.map(event => this.getRemoved(event))
+      adminRemovedEvents.map(event => this.getRemoved(event))
     );
     // resolve(...removedActivity);
     return removedActivity;
@@ -61,7 +61,7 @@ class Removed extends React.Component {
         return new Promise((resolve, reject) => {
           instance
             .PostRemoved(
-              { forum: forumBytes, user: props },
+              { user: props, targetUser: !props },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -76,7 +76,7 @@ class Removed extends React.Component {
         return new Promise((resolve, reject) => {
           instance
             .CommentRemoved(
-              { forum: forumBytes, user: props },
+              { user: props, targetUser: !props },
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -98,18 +98,18 @@ class Removed extends React.Component {
     const forumBytes = this.props.web3.utils.fromAscii(this.props.forumName);
     tartarus.setProvider(this.props.web3.currentProvider);
     const instance = await tartarus.at(this.props.tartarusAddress);
-    const moderators = await instance.getModerators(forumBytes).call();
-    let moderatorRemovedActivity = await Promise.all(
-      moderators.map(moderator => this.getRemovedActivity(moderator))
+    const admins = await instance.getAdmins(forumBytes).call();
+    let adminRemovedActivity = await Promise.all(
+      admins.map(admin => this.getRemovedActivity(admin))
     );
 
-    let removeNull = moderatorRemovedActivity.flat().filter(item => {
+    let removeNull = adminRemovedActivity.flat().filter(item => {
       return item !== undefined && item !== [];
     });
 
     removeNull.sort((a, b) => (b.args.time.c[0] > a.args.time.c[0] ? 1 : -1));
     this.setState({
-      moderatorRemovedEvents: removeNull,
+      adminRemovedEvents: removeNull,
       loading: false
     });
   };
@@ -120,7 +120,7 @@ class Removed extends React.Component {
       <NotificationContainer
         key={key}
         forumName={this.props.forumName}
-        event={this.state.moderatorRemovedEvents[index]}
+        event={this.state.adminRemovedEvents[index]}
         removable={false}
       />
     );
@@ -129,15 +129,15 @@ class Removed extends React.Component {
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
     if (
-      !this.state.moderatorRemovedEvents ||
-      this.state.moderatorRemovedEvents.length === 0
+      !this.state.adminRemovedEvents ||
+      this.state.adminRemovedEvents.length === 0
     ) {
       return <Empty />;
     } else {
       return (
         <ReactList
           itemRenderer={this.renderItem.bind(this)}
-          length={this.state.moderatorRemovedEvents.length}
+          length={this.state.adminRemovedEvents.length}
           type='simple'
         />
       );
