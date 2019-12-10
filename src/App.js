@@ -23,7 +23,8 @@ import { toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.minimal.css';
 import StyledToastContainer from './components/Notifications/Toasts/ToastContainer';
 import { Zoom } from 'react-toastify';
-import Landing from '../landing/src/index';
+import Landing from './components/Landing';
+// import { Landing } from 'landing';
 
 // const tartarusAddress = '0x4c905e8c4533cb6928abaa159ca7b45b22f4d086';
 // const tartarusAddress = '0x3ca7832b2edd307b075903e2aac2ff04308ad001';
@@ -589,8 +590,9 @@ class App extends Component {
                   path='/'
                   // onChange={this.handleNotifications()}
                   // component={Home}
-                  component={Landing}
-
+                  render={() => {
+                    return <Landing night={this.props.dark} isAnimationDone={true} />;
+                  }}
                 />
               </Switch>
               {/* <StyledToastContainer transition={Zoom} /> */}

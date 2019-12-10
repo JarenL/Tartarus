@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { usePose, useVisiblePose } from './utils/hooks';
+import { usePose, useVisiblePose } from '../utils/hooks';
 // import { devAndProd } from 'utils/dev-prod';
-import sequence from './utils/sequence';
+import sequence from '../utils/sequence';
 
 const useIntroAnimation = (showInDev = true, isAnimationDone) => {
   // poses
@@ -30,13 +30,13 @@ const useIntroAnimation = (showInDev = true, isAnimationDone) => {
         // 200,
         // () => {
         //   setMenubarPose(true);
-        isAnimationDone.setTrue()
+        // isAnimationDone.setTrue()
       ]);
     } else {
       setHomePose('normal');
       // setFabPose(true);
       // setMenubarPose(true);
-      isAnimationDone.setTrue();
+      // isAnimationDone.setTrue();
     }
   }, []);
 

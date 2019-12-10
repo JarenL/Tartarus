@@ -13,8 +13,11 @@ function Background({ show, startLoadingLight, night }) {
   return (
     show && (
       <Fragment>
-        {startLoadingLight && <S.Desert show={!night} src={desert} />}
+        {/* {startLoadingLight && <S.Desert show={!night} src={desert} />}
+        <S.Desert show={night && desertLoaded} onLoad={() => setDesertLoad(true)} src={desertDark} /> */}
+        {<S.Desert show={!night} src={desert} />}
         <S.Desert show={night && desertLoaded} onLoad={() => setDesertLoad(true)} src={desertDark} />
+      
       </Fragment>
     )
   );

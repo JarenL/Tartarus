@@ -1,16 +1,16 @@
 import styled from 'styled-components';
-import flex from 'styles/flex';
+import flex from './styles/flex';
 // import WindowShell from 'components/Window';
 import pose from 'react-pose';
 
-import { applyTheme, getThemeColor, hover, when, whenNot } from 'styles/mixins';
+import { applyTheme, getThemeColor, hover, when, whenNot } from './styles/mixins';
 import {
   breakpoints,
   isHorizontal,
   smaller,
   smallerHeight
-} from 'styles/responsive';
-import { ELEMENTS, zIndexFor } from 'styles/zindex';
+} from './styles/responsive';
+import { ELEMENTS, zIndexFor } from './styles/zindex';
 
 export const Text = styled.div(getThemeColor('text'));
 

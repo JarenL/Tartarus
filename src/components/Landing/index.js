@@ -8,11 +8,11 @@ import React, { useRef, useState } from 'react';
 
 //styles
 import * as S from './styles';
-import * as A from 'styles/shared-components';
+import * as A from './styles/shared-components';
 
 //components
 // import Messages from 'components/Messages';
-import DayNightSwitch from 'components/DayNightSwitch';
+import DayNightSwitch from './DayNightSwitch';
 // import MenuBar from 'components/MenuBar';
 // import Compose from 'components/Compose';
 // import ToggleCount from 'components/ToggleCount';
@@ -23,20 +23,24 @@ import logo from './images/tartarus.png';
 
 //hooks
 import {
-  useGoogleAnalytics,
+  // useGoogleAnalytics,
   useHovered,
   useToggleBodyClass,
   useFindElementCenter,
   useMousePosition,
-  useCanHover,
-  useClock
-} from 'utils/hooks';
+  useCanHover
+  // useClock
+} from './utils/hooks';
 
-import useIntroAnimation from './use-intro-animation';
+import useIntroAnimation from './styles/use-intro-animation';
+import { ThemeProvider } from 'styled-components';
+import themes from './styles/themes';
 
-import 'focus-visible';
+// import 'focus-visible';
 // import DownloadModal from '../DownloadModal';
-import { useBoolean } from 'react-hanger';
+// import { useBoolean } from 'react-hanger';
+// import { ThemeProvider } from 'styled-components';
+// import themes from './themes';
 
 //env
 const { REACT_APP_ANALYTICS_ID, REACT_APP_DOWNLOAD_LINK } = process.env;
@@ -47,7 +51,7 @@ const redirectDownload = () => {
   }
 };
 
-function Home({ isAnimationDone, night }) {
+function Landing({ isAnimationDone, night }) {
   redirectDownload();
 
   const [composeIsOpen, setComposeOpen] = useState(false);
@@ -63,22 +67,26 @@ function Home({ isAnimationDone, night }) {
 
   //custom hooks
   const isInSizzy = window.__sizzy;
-  const { fabPose, menuBarPose, messagesPose, homePose } = useIntroAnimation(!isInSizzy, isAnimationDone);
+  const { fabPose, menuBarPose, messagesPose, homePose } = useIntroAnimation(
+    !isInSizzy,
+    isAnimationDone
+  );
   const canHover = useCanHover();
   const isHoveringMessages = useHovered();
   const isHoveringCompose = useHovered();
   const windowCenter = useFindElementCenter(messagesWindowRef);
   const { y: mouseY } = useMousePosition(isHoveringCompose.value);
-  const clock = useClock();
-  const showModal = useBoolean(false);
+  // const clock = useClock();
+  // const showModal = useBoolean(false);
 
   // side effects
-  useGoogleAnalytics(REACT_APP_ANALYTICS_ID, isAnimationDone.value);
+  // useGoogleAnalytics(REACT_APP_ANALYTICS_ID, isAnimationDone.value);
   useToggleBodyClass(isAnimationDone.value, ['scroll', 'no-scroll']);
 
   // computed
   const isNotHoveringMenuBar = mouseY === null || mouseY >= 25;
-  const showComposeWindow = composeIsOpen || (isHoveringCompose.value && isNotHoveringMenuBar);
+  const showComposeWindow =
+    composeIsOpen || (isHoveringCompose.value && isNotHoveringMenuBar);
   const isBig = window.innerWidth > 450;
 
   // methods
@@ -95,12 +103,17 @@ function Home({ isAnimationDone, night }) {
   };
 
   return (
-    <S.Home>
-      {/* {showModal.value && <DownloadModal onClose={showModal.setFalse} />} */}
-      <S.MainSection>
-        <Background night={night.value} startLoadingLight={isAnimationDone.value} show={isBig} />
+    <ThemeProvider theme={themes[night.value ? 'dark' : 'light']}>
+      <S.Home>
+        {/* {showModal.value && <DownloadModal onClose={showModal.setFalse} />} */}
+        <S.MainSection>
+          <Background
+            night={night.value}
+            startLoadingLight={isAnimationDone.value}
+            show={isBig}
+          />
 
-        {/* <MenuBar
+          {/* <MenuBar
           className="menubar"
           pose={menuBarPose}
           selected={showComposeWindow}
@@ -109,7 +122,7 @@ function Home({ isAnimationDone, night }) {
           icons={[faWifi, clock, faVolumeUp, '100%', faBatteryFull]}
         /> */}
 
-        {/* <Compose
+          {/* <Compose
           {...isHoveringCompose.bind}
           text={text}
           setText={setText}
@@ -118,9 +131,14 @@ function Home({ isAnimationDone, night }) {
           visible={showComposeWindow}
         /> */}
 
-        <S.Content ref={contentRef}>
-          <S.WindowBox ref={messagesWindowRef} initialPose="hidden" pose={homePose} {...windowCenter}>
-            {/* <S.Window night={night.value} hovering={isHoveringMessages.value}>
+          <S.Content ref={contentRef}>
+            <S.WindowBox
+              ref={messagesWindowRef}
+              initialPose='hidden'
+              pose={homePose}
+              {...windowCenter}
+            >
+              {/* <S.Window night={night.value} hovering={isHoveringMessages.value}>
               <Messages
                 messagesPose={messagesPose}
                 fabPose={fabPose}
@@ -128,49 +146,56 @@ function Home({ isAnimationDone, night }) {
                 onToggleNight={onToggleNight}
               />
             </S.Window> */}
-          </S.WindowBox>
-
-          <A.Space huge />
-
-          <S.TextContent isAnimationDone={isAnimationDone.value} pose={homePose}>
-            <S.Title> 
-            <S.Logo src={logo} />
-              tartarus 
-              </S.Title>
+            </S.WindowBox>
 
             <A.Space huge />
-            <S.Subtitle>
-              <span>
-                Focus on <A.Hover {...isHoveringMessages.bind}>messages</A.Hover> and{' '}
-                <A.Hover
-                  {...(canHover ? isHoveringCompose.bind : { onClick: () => setComposeOpen(true) })}
-                  className="tweeting"
-                >
-                  tweeting
-                </A.Hover>
-              </span>
-              <br />
-              <span>The timeline can wait.</span>
-            </S.Subtitle>
 
-            <A.Space />
+            <S.TextContent
+              isAnimationDone={isAnimationDone.value}
+              pose={homePose}
+            >
+              <S.Title>
+                <S.Logo src={logo} />
+                tartarus
+              </S.Title>
 
-            {/* <DownloadButton onClick={showModal.setTrue} startLoading={isAnimationDone.value} /> */}
+              <A.Space huge />
+              <S.Subtitle>
+                <span>
+                  Focus on{' '}
+                  <A.Hover {...isHoveringMessages.bind}>messages</A.Hover> and{' '}
+                  <A.Hover
+                    {...(canHover
+                      ? isHoveringCompose.bind
+                      : { onClick: () => setComposeOpen(true) })}
+                    className='tweeting'
+                  >
+                    tweeting
+                  </A.Hover>
+                </span>
+                <br />
+                <span>The timeline can wait.</span>
+              </S.Subtitle>
 
-            {/* <A.Space /> */}
+              <A.Space />
 
-            {/* <S.Platforms>Supports macOS, Windows, and Linux</S.Platforms> */}
+              {/* <DownloadButton onClick={showModal.setTrue} startLoading={isAnimationDone.value} /> */}
 
-            {/* <A.Space /> */}
+              {/* <A.Space /> */}
 
-            <DayNightSwitch value={night.value} onChange={onToggleNight} />
-            {/* <ToggleCount onTweet={tweetProgress} count={toggleCount} /> */}
-          </S.TextContent>
-        </S.Content>
-      </S.MainSection>
-      {/* <Footer composeIsOpen={composeIsOpen} menuBarPose={menuBarPose} /> */}
-    </S.Home>
+              {/* <S.Platforms>Supports macOS, Windows, and Linux</S.Platforms> */}
+
+              {/* <A.Space /> */}
+
+              <DayNightSwitch value={night.value} onChange={onToggleNight} />
+              {/* <ToggleCount onTweet={tweetProgress} count={toggleCount} /> */}
+            </S.TextContent>
+          </S.Content>
+        </S.MainSection>
+        {/* <Footer composeIsOpen={composeIsOpen} menuBarPose={menuBarPose} /> */}
+      </S.Home>
+    </ThemeProvider>
   );
 }
 
-export default Home;
+export default Landing;

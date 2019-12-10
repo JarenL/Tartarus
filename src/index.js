@@ -8,6 +8,9 @@ import { persistor, store } from './redux/store/store';
 import './style.css';
 import './config/moment';
 import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner.js';
+// import Landing from './components/Landing';
+// import { ThemeProvider } from 'styled-components';
+// import themes from './components/Landing/themes';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -17,5 +20,8 @@ ReactDOM.render(
       </PersistGate>
     </Web3Provider>
   </Provider>,
+  // <ThemeProvider theme={themes["dark"]}>
+  //   <Landing night={true} isAnimationDone={true} />
+  // </ThemeProvider>,
   document.getElementById('root')
 );
