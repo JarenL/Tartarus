@@ -38,3 +38,6 @@ build/
 # truffle
 .node-xmlhttprequest-*
 .zos.session
+
+# search typescript build artifact
+bundle.js

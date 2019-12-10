@@ -114,7 +114,8 @@ function onLoad() {
     //     document.getElementById("app").style.visibility = ""
     // }
     // loadMeta('/ipfs/QmeoYDCCYUu4398SUFMckmrPnXPVkknZaMYkSsS8B2aMeW')
-    loadMeta('https://raw.githubusercontent.com/tensojka/ipfsearch-webapp/master/meta.json');
+    //loadMeta('https://raw.githubusercontent.com/tensojka/ipfsearch-webapp/master/meta.json');
+    loadMeta('https://ipfs.infura.io/ipfs/QmcMkXkR2EqUrAXQqpb9HE8e4UKgU4aa13fW7L8JDgsPuR');
 }
 async function loadMeta(metaURL) {
     let response;
@@ -203,7 +204,7 @@ async function checkIfIpfsGateway(gatewayURL) {
 function searchTriggered() {
     // let searchbox = <HTMLInputElement>document.getElementById("searchbox")
     // let querytokens = searchbox.value.split(" ")
-    let querytokens = ['dog'];
+    let querytokens = ['text'];
     querytokens = querytokens.map(querytoken => {
         return stemmer(querytoken);
     });

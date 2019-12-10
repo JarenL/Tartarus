@@ -43,6 +43,8 @@ let appendPostToIndex = async props => {
     if (postData !== null) {
       // console.log(postData)
       let postTitle = postData.title;
+      console.debug("posttitle:")
+      console.debug(postTitle)
       let postType = postData.type;
       let postPost = postData.post;
       let postCreator = provider.utils.toUtf8(props[1]);
@@ -76,8 +78,8 @@ let main = async () => {
     ipfsMini.addJSON(metaFile, (err, result) => {
       console.log(metaFile)
       console.log(err, result);
-    });    
-    // QmeoYDCCYUu4398SUFMckmrPnXPVkknZaMYkSsS8B2aMeW
+    });  
+    // https://ipfs.infura.io/ipfs/QmcMkXkR2EqUrAXQqpb9HE8e4UKgU4aa13fW7L8JDgsPuR
   })
 };
 
