@@ -187,7 +187,7 @@ function Landing({ isAnimationDone, night }) {
 
               {/* <A.Space /> */}
 
-              <DayNightSwitch value={night.value} onChange={onToggleNight} />
+              {/* <DayNightSwitch value={night.value} onChange={onToggleNight} /> */}
               {/* <ToggleCount onTweet={tweetProgress} count={toggleCount} /> */}
             </S.TextContent>
           </S.Content>

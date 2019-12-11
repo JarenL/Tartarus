@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
 
 var inxFetcher = new IndexFetcher()
 var invinxFetcher = new InvertedIndexFetcher()
@@ -14,8 +14,8 @@ function onLoad(){
     // }else{
     //     document.getElementById("app").style.visibility = ""
     // }
-    // loadMeta('/ipfs/QmeoYDCCYUu4398SUFMckmrPnXPVkknZaMYkSsS8B2aMeW')
-    loadMeta('https://raw.githubusercontent.com/tensojka/ipfsearch-webapp/master/meta.json');
+    loadMeta('/ipfs/QmeoYDCCYUu4398SUFMckmrPnXPVkknZaMYkSsS8B2aMeW')
+    // loadMeta('https://raw.githubusercontent.com/tensojka/ipfsearch-webapp/master/meta.json');
 }
 
 async function loadMeta(metaURL : string) : Promise<void>{
