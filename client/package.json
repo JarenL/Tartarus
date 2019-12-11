@@ -1,7 +1,7 @@
 {
   "homepage": "./",
-  "name": "tartarus",
-  "version": "0.2.0",
+  "name": "tartarus-client",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.3",
@@ -13,7 +13,7 @@
     "ipfs-http-client": "^32.0.1",
     "ipfsearch-index": "^2.5.5",
     "is-ipfs": "^0.6.0",
-    "landing": "file:./landing",
+    "tartarus-landing": "file:../landing",
     "moment": "^2.24.0",
     "prettier-bytes": "^1.0.4",
     "react": "^16.11.0",

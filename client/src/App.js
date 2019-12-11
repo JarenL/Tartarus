@@ -23,7 +23,8 @@ import { toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.minimal.css';
 import StyledToastContainer from './components/Notifications/Toasts/ToastContainer';
 import { Zoom } from 'react-toastify';
-import Landing from './components/Landing/index';
+// import Landing from './components/Landing/index';
+import { Landing } from '../node_modules/tartarus-landing/src/index';
 // import { Landing } from 'landing';
 
 // const tartarusAddress = '0x4c905e8c4533cb6928abaa159ca7b45b22f4d086';
