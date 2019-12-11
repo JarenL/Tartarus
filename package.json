@@ -1,0 +1,22 @@
+{
+  "name": "tartarus",
+  "version": "1.0.0",
+  "description": "tartarus monorepo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JarenL/Tartarus.git"
+  },
+  "author": "Jaren Lynch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JarenL/Tartarus/issues"
+  },
+  "homepage": "https://github.com/JarenL/Tartarus#readme",
+  "devDependencies": {
+    "lerna": "^3.19.0"
+  }
+}

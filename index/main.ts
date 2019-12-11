@@ -9,7 +9,7 @@ const ipfsMini = new IPFSMini({ host: 'ipfs.infura.io', port: 5001, protocol: 'h
 
 let count = 0;
 
-let TartarusContract = require('../src/contracts/Tartarus.json');
+let TartarusContract = require('../client/src/contracts/Tartarus.json');
 let tartarusAddress = '0xa43957A39A29B3B92243249D42682DE1A5158296';
 let provider = new web3(new web3.providers.HttpProvider("https://ropsten.infura.io/v3/bdeb06c1bd2e4458aedfd3ada2fa4366"));
 var instance = new provider.eth.Contract(TartarusContract.abi, tartarusAddress);
