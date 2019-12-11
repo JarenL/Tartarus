@@ -1,0 +1,1 @@
+export { default as TartarusContract } from './build/contracts/Tartarus.json';
