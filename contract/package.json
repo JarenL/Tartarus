@@ -1,0 +1,25 @@
+{
+  "name": "tartarus-contract",
+  "version": "1.0.0",
+  "description": "package for tartarus smart contract",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JarenL/Tartarus.git"
+  },
+  "author": "Jaren Lynch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JarenL/Tartarus/issues"
+  },
+  "homepage": "https://github.com/JarenL/Tartarus#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "openzeppelin-eth": "^2.2.0",
+    "truffle-hdwallet-provider": "^1.0.17",
+    "zos-lib": "^2.4.2"
+  }
+}

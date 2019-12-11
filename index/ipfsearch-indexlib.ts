@@ -99,7 +99,7 @@ function replaceAll(str : string, find : string, replace : string) : string{
 }
 
 
-import * as stemmer from "./porterstemmer.js"
+import * as stemmer from "./porterstemmer.js.js.js"
 /**
  * Tokenizes a text, filters out stopwords and stems the tokens.
  * shouldn't really be an export function, but for tests, it has to...
