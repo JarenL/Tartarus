@@ -1,4 +1,4 @@
-// const fetch = require('node-fetch');
+const fetch = require('node-fetch');
 
 var inxFetcher = new IndexFetcher()
 var invinxFetcher = new InvertedIndexFetcher()
@@ -14,8 +14,8 @@ function onLoad(){
     // }else{
     //     document.getElementById("app").style.visibility = ""
     // }
-    loadMeta('/ipfs/QmeoYDCCYUu4398SUFMckmrPnXPVkknZaMYkSsS8B2aMeW')
-    // loadMeta('https://raw.githubusercontent.com/tensojka/ipfsearch-webapp/master/meta.json');
+    // loadMeta('/ipfs/QmeoYDCCYUu4398SUFMckmrPnXPVkknZaMYkSsS8B2aMeW')
+    loadMeta('https://ipfs.infura.io/ipfs/QmdsRvook85vwFqX3tJrV4XLjK2RUL6rLqMbnbYuf483c7')
 }
 
 async function loadMeta(metaURL : string) : Promise<void>{
@@ -107,8 +107,9 @@ async function checkIfIpfsGateway(gatewayURL : string) : Promise<boolean>{
 
 function searchTriggered(){
     // let searchbox = <HTMLInputElement>document.getElementById("searchbox")
-    // let querytokens = searchbox.value.split(" ")
-    let querytokens = ['dog'];
+    let searchQuery = "pink helvetica"
+    let querytokens = searchQuery.split(" ")
+    // let querytokens = ['test'];
     querytokens = querytokens.map(querytoken => {
         return stemmer(querytoken)
     });
@@ -181,6 +182,7 @@ function searchFor(query : string){
         fetchAllDocumentsById(resultIdsToFetch).then((results) => {
             // passProgressToResultpage(0.95)
             // passResultToResultpage(results)
+            
             //fetch all results, not just the first NUMRESULTS
             resultIds = resultIds.slice(0,1000)
             fetchAllDocumentsById(resultIds).then((results) => {

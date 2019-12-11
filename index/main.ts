@@ -10,7 +10,7 @@ const ipfsMini = new IPFSMini({ host: 'ipfs.infura.io', port: 5001, protocol: 'h
 let count = 0;
 
 let TartarusContract = require('../src/contracts/Tartarus.json');
-let tartarusAddress = '0xbc1E42cc34Dcac1Cfe2367D696d075Dc7874EE1a';
+let tartarusAddress = '0xa43957A39A29B3B92243249D42682DE1A5158296';
 let provider = new web3(new web3.providers.HttpProvider("https://ropsten.infura.io/v3/bdeb06c1bd2e4458aedfd3ada2fa4366"));
 var instance = new provider.eth.Contract(TartarusContract.abi, tartarusAddress);
 let indexer = new ipfsearch.Indexer();
@@ -43,6 +43,8 @@ let appendPostToIndex = async props => {
     if (postData !== null) {
       // console.log(postData)
       let postTitle = postData.title;
+      console.debug("posttitle:")
+      console.debug(postTitle)
       let postType = postData.type;
       let postPost = postData.post;
       let postCreator = provider.utils.toUtf8(props[1]);
@@ -76,8 +78,8 @@ let main = async () => {
     ipfsMini.addJSON(metaFile, (err, result) => {
       console.log(metaFile)
       console.log(err, result);
-    });    
-    // QmeoYDCCYUu4398SUFMckmrPnXPVkknZaMYkSsS8B2aMeW
+    });  
+    // https://ipfs.infura.io/ipfs/QmcMkXkR2EqUrAXQqpb9HE8e4UKgU4aa13fW7L8JDgsPuR
   })
 };
 

@@ -15,16 +15,15 @@ class IndexFetcher {
      * Fetch shard and incorporate it into the index.
      */
     async fetchShard(shardid: number) : Promise<void>{
-        console.log("hello")
         if(this.shardsFetched.has(shardid)){
-            console.debug("not needing to fetch shard "+shardid)
+            console.debug("not needing to fetch shard "+ shardid)
             return
         }
         console.debug("started fetching inx shard " + shardid)
-        console.log('----' + meta.inxURLBase)
+        // console.log('----' + meta.inxURLBase)
         this.shardsFetched.set(shardid, false)
         let shard = await loadIndexFromURL(meta.inxURLBase + shardid.toString())  
-        console.log(shard)  
+        // console.log(shard)  
         for(let i of shard.keys()){
             if(!inxFetcher.combinedIndex.has(i)){
                 inxFetcher.combinedIndex.set(i, <Document>shard.get(i))

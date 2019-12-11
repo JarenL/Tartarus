@@ -1,5 +1,3 @@
-const fetch = require('node-fetch');
-
 class IndexFetcher {
     constructor() {
         this.combinedIndex = new Map();
@@ -12,16 +10,15 @@ class IndexFetcher {
      * Fetch shard and incorporate it into the index.
      */
     async fetchShard(shardid) {
-        console.log("hello");
         if (this.shardsFetched.has(shardid)) {
             console.debug("not needing to fetch shard " + shardid);
             return;
         }
         console.debug("started fetching inx shard " + shardid);
-        console.log('----' + meta.inxURLBase);
+        // console.log('----' + meta.inxURLBase)
         this.shardsFetched.set(shardid, false);
         let shard = await loadIndexFromURL(meta.inxURLBase + shardid.toString());
-        console.log(shard);
+        // console.log(shard)  
         for (let i of shard.keys()) {
             if (!inxFetcher.combinedIndex.has(i)) {
                 inxFetcher.combinedIndex.set(i, shard.get(i));
@@ -101,7 +98,7 @@ class InvertedIndexFetcher extends IndexFetcher {
             return needle;
     }
 }
-// const fetch = require('node-fetch');
+const fetch = require('node-fetch');
 var inxFetcher = new IndexFetcher();
 var invinxFetcher = new InvertedIndexFetcher();
 var meta;
@@ -115,8 +112,8 @@ function onLoad() {
     // }else{
     //     document.getElementById("app").style.visibility = ""
     // }
-    loadMeta('/ipfs/QmeoYDCCYUu4398SUFMckmrPnXPVkknZaMYkSsS8B2aMeW');
-    // loadMeta('https://raw.githubusercontent.com/tensojka/ipfsearch-webapp/master/meta.json');
+    // loadMeta('/ipfs/QmeoYDCCYUu4398SUFMckmrPnXPVkknZaMYkSsS8B2aMeW')
+    loadMeta('https://ipfs.infura.io/ipfs/QmdsRvook85vwFqX3tJrV4XLjK2RUL6rLqMbnbYuf483c7');
 }
 async function loadMeta(metaURL) {
     let response;
@@ -204,8 +201,9 @@ async function checkIfIpfsGateway(gatewayURL) {
 }
 function searchTriggered() {
     // let searchbox = <HTMLInputElement>document.getElementById("searchbox")
-    // let querytokens = searchbox.value.split(" ")
-    let querytokens = ['dog'];
+    let searchQuery = "pink helvetica";
+    let querytokens = searchQuery.split(" ");
+    // let querytokens = ['test'];
     querytokens = querytokens.map(querytoken => {
         return stemmer(querytoken);
     });
