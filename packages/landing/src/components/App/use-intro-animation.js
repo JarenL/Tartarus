@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { usePose, useVisiblePose } from 'utils/hooks';
-import { devAndProd } from 'utils/dev-prod';
-import sequence from 'utils/sequence';
+import { usePose, useVisiblePose } from '../../utils/hooks';
+import { devAndProd } from '../../utils/dev-prod';
+import sequence from '../../utils/sequence';
 
 const useIntroAnimation = (showInDev = true, isAnimationDone) => {
   // poses

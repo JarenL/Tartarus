@@ -1,28 +1,28 @@
 import styled from 'styled-components';
-import flex from 'styles/flex';
+import flex from '../../styles/flex';
 // import WindowShell from 'components/Window';
 import pose from 'react-pose';
 
-import { applyTheme, getThemeColor, hover, when, whenNot } from 'styles/mixins';
+import { applyTheme, getThemeColor, hover, when, whenNot } from '../../styles/mixins';
 import {
   breakpoints,
   isHorizontal,
   smaller,
   smallerHeight
-} from 'styles/responsive';
-import { ELEMENTS, zIndexFor } from 'styles/zindex';
+} from '../../styles/responsive';
+import { ELEMENTS, zIndexFor } from '../../styles/zindex';
 
 export const Text = styled.div(getThemeColor('text'));
 
 export const Logo = styled.img({
   borderRadius: '100%',
-  width: 50,
-  height: 50,
+  width: 70,
+  height: 70,
   // maxHeight: 50,
   // maxWidth: 50,
   marginRight: 12,
-  minWidth: 50,
-  minHeight: 50
+  minWidth: 70,
+  minHeight: 70
 });
 
 export const WindowBox = styled(

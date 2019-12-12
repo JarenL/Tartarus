@@ -1,24 +1,24 @@
 import React, { useRef, useState } from 'react';
 
 //icons (imported as svg using babel plugin)
-import faBatteryFull from '../../icons/bat-charge.svg';
-import faVolumeUp from '../../icons/volume-up.svg';
-import faWifi from '../../icons/wifi.svg';
-import faFeather from '../../icons/feather.svg';
+// import faBatteryFull from '../../icons/bat-charge.svg';
+// import faVolumeUp from '../../icons/volume-up.svg';
+// import faWifi from '../../icons/wifi.svg';
+// import faFeather from '../../icons/feather.svg';
 
 //styles
 import * as S from './styles';
-import * as A from 'styles/shared-components';
+import * as A from '../../styles/shared-components';
 
 //components
-import Messages from 'components/Messages';
-import DayNightSwitch from 'components/DayNightSwitch';
-import MenuBar from 'components/MenuBar';
-import Compose from 'components/Compose';
-import ToggleCount from 'components/ToggleCount';
-import DownloadButton from 'components/DownloadButton';
-import Background from 'components/Background';
-import Footer from 'components/Footer';
+// import Messages from '../Messages';
+import DayNightSwitch from '../DayNightSwitch';
+// import MenuBar from '../MenuBar';
+// import Compose from '../Compose';
+// import ToggleCount from '../ToggleCount';
+// import DownloadButton from '../DownloadButton';
+import Background from '../Background';
+// import Footer from '../Footer';
 import logo from '../../images/tartarus.png';
 
 //hooks
@@ -30,12 +30,12 @@ import {
   useMousePosition,
   useCanHover,
   useClock
-} from 'utils/hooks';
+} from '../../utils/hooks';
 
 import useIntroAnimation from './use-intro-animation';
 
 import 'focus-visible';
-import DownloadModal from '../DownloadModal';
+// import DownloadModal from '../DownloadModal';
 import { useBoolean } from 'react-hanger';
 
 //env
@@ -109,14 +109,14 @@ function Home({ isAnimationDone, night }) {
           icons={[faWifi, clock, faVolumeUp, '100%', faBatteryFull]}
         /> */}
 
-        <Compose
+        {/* <Compose
           {...isHoveringCompose.bind}
           text={text}
           setText={setText}
           setComposeOpen={setComposeOpen}
           composeIsOpen={composeIsOpen}
           visible={showComposeWindow}
-        />
+        /> */}
 
         <S.Content ref={contentRef}>
           <S.WindowBox ref={messagesWindowRef} initialPose="hidden" pose={homePose} {...windowCenter}>
@@ -136,21 +136,35 @@ function Home({ isAnimationDone, night }) {
             <S.Title> 
             <S.Logo src={logo} />
               tartarus 
-              </S.Title>
+            </S.Title>
 
             <A.Space huge />
             <S.Subtitle>
               <span>
-                Focus on <A.Hover {...isHoveringMessages.bind}>messages</A.Hover> and{' '}
-                <A.Hover
+                Create.
+              </span>
+              <br />
+              <span>
+                Discuss.
+              </span>
+              <br />
+              <span>
+                Uninhibited.
+              </span>
+              <br />
+              <br />
+              <span>
+                Welcome to the marketplace of ideas.
+                {/* Focus on <A.Hover {...isHoveringMessages.bind}>messages</A.Hover> and{' '} */}
+                {/* <A.Hover
                   {...(canHover ? isHoveringCompose.bind : { onClick: () => setComposeOpen(true) })}
                   className="tweeting"
                 >
                   tweeting
-                </A.Hover>
+                </A.Hover> */}
               </span>
-              <br />
-              <span>The timeline can wait.</span>
+
+              {/* <span>The timeline can wait.</span> */}
             </S.Subtitle>
 
             <A.Space />

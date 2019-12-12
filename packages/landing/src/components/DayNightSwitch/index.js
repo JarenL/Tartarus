@@ -6,7 +6,7 @@ import faMoon from '../../icons/moon-inv.svg';
 
 //glamorous
 import * as S from './styles';
-import { onEnterAndClick } from 'utils/utils';
+import { onEnterAndClick } from '../../utils/utils';
 
 function DayNightSwitch({ value, onChange }) {
   return (
@@ -27,7 +27,7 @@ function DayNightSwitch({ value, onChange }) {
               <S.Star index={6} size={2} x={22} y={14} />
             </S.Stars>
             <S.Circle>
-              <S.Moon icon={faMoon} />
+              {/* <S.Moon icon={faMoon} /> */}
             </S.Circle>
           </S.DayNightSwitch>
         </S.Wrapper>

@@ -11,8 +11,8 @@ import * as L from 'layout-styled-components';
 import * as A from 'styles/shared-components';
 
 //components
-import ProductList from 'components/ProductList';
-import Checkbox from 'components/Checkbox';
+import ProductList from '../ProductList';
+import Checkbox from '../Checkbox';
 
 //lazy
 const Confetti = lazy(() => import('react-dom-confetti'));

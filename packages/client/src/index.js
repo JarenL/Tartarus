@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App.js';
+import App from './App';
 import { Provider } from 'react-redux';
 import { Web3Provider } from 'react-web3';
 import { PersistGate } from 'redux-persist/lib/integration/react';
@@ -11,8 +11,10 @@ import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinne
 // import Landing from './components/Landing';
 // import { ThemeProvider } from 'styled-components';
 // import themes from './components/Landing/themes';
+// import Landing from 'tartarus-landing/src/components/Root';
 
 ReactDOM.render(
+  // <Landing />,
   <Provider store={store}>
     <Web3Provider>
       <PersistGate loading={<LoadingIndicatorSpinner />} persistor={persistor}>

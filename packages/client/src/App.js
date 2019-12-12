@@ -1,32 +1,28 @@
 import React, { Component } from 'react';
-import { ThemeProvider } from 'styled-components';
-import theme from './theme';
-import styled from 'styled-components/macro';
-import getWeb3 from './services/web3/getWeb3';
 import { connect } from 'react-redux';
-import GlobalStyle from './globalStyle';
 import { HashRouter, Route, Switch } from 'react-router-dom';
+import { toast, Zoom } from 'react-toastify';
+import { ThemeProvider } from 'styled-components';
 import HeaderContainer from './components/Header/Container';
 import Home from './components/Home';
 import LoginFormContainer from './components/LoginForm/Container';
+// import 'react-toastify/dist/ReactToastify.minimal.css';
+import StyledToastContainer from './components/Notifications/Toasts/ToastContainer';
+import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner';
 import SignupFormContainer from './components/SignupForm/Container';
+import TartarusContract from './contracts/Tartarus.json';
+import GlobalStyle from './globalStyle';
 import {
   initializeWeb3,
   setTartarusAddress,
-  updateUserPermissions,
-  updateUserNotifications
+  updateUserNotifications,
+  updateUserPermissions
 } from './redux/actions/actions';
-import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner';
-import TartarusContract from './contracts/Tartarus.json';
-import Empty from './components/shared/Empty';
-import { toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.minimal.css';
-import StyledToastContainer from './components/Notifications/Toasts/ToastContainer';
-import { Zoom } from 'react-toastify';
-// import Landing from './components/Landing/index';
-// import { Landing } from 'tartarus-landing/src/index';
+import getWeb3 from './services/web3/getWeb3';
+import './style.css';
+import theme from './theme';
 
-let Landing = require('tartarus-landing');
+// let Landing = require('tartarus-landing');
 // let test = La
 
 // const tartarusAddress = '0x4c905e8c4533cb6928abaa159ca7b45b22f4d086';
@@ -585,20 +581,23 @@ class App extends Component {
           <HashRouter>
             <>
               <GlobalStyle />
-              {/* <Route component={HeaderContainer} /> */}
+              <Route component={HeaderContainer} />
               <Switch>
                 <Route path='/signup' component={SignupFormContainer} />
                 <Route path='/login' component={LoginFormContainer} />
+                {/* <Route
+                  exact
+                  path='/welcome'
+                  // onChange={this.handleNotifications()}
+                  component={Landing}
+                /> */}
                 <Route
                   path='/'
                   // onChange={this.handleNotifications()}
-                  // component={Landing}
-                  render={() => {
-                    return <Landing />;
-                  }}
+                  component={Home}
                 />
               </Switch>
-              {/* <StyledToastContainer transition={Zoom} /> */}
+              <StyledToastContainer transition={Zoom} />
             </>
           </HashRouter>
         </ThemeProvider>

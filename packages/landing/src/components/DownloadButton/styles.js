@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import flex from 'styles/flex';
-import { applyTheme, getThemeColor, hover, when } from 'styles/mixins';
+import flex from '../../styles/flex';
+import { applyTheme, getThemeColor, hover, when } from '../../styles/mixins';
 
 //components
-import Icon from 'icons/Icon';
+import Icon from '../../icons/Icon';
 
 export const Button = styled.button(
   {

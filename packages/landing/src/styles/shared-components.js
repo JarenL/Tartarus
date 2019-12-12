@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Horizontal as $Horizontal, Vertical as $Vertical } from './flex-components';
-import { getThemeColor, hover, whenTheme } from 'styles/mixins';
+import { getThemeColor, hover, whenTheme } from './mixins';
 
 export const Horizontal = $Horizontal;
 export const Vertical = $Vertical;

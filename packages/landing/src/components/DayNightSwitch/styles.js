@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import FontAwesomeIcon from 'icons/Icon.js';
-import flex from 'styles/flex';
-import { hover, fixedSize } from 'styles/mixins';
+import FontAwesomeIcon from '../../icons/Icon.js';
+import flex from '../../styles/flex';
+import { hover, fixedSize } from '../../styles/mixins';
 
 const width = 70;
 const circleWidth = 27;
@@ -35,15 +35,15 @@ export const DayNightSwitch = styled.div(
   },
   ({ theme }) => ({
     ...(theme.clicked && {
-      backgroundColor: '#595dde',
+      backgroundColor: '#33a0ff',
       '&:hover': {
-        backgroundColor: '#5559cc'
+        backgroundColor: '#1890ff'
       }
     }),
     ...(!theme.clicked && {
-      backgroundColor: '#80c7cb',
+      backgroundColor: '#1890ff',
       '&:hover': {
-        backgroundColor: '#79bfc3'
+        backgroundColor: '#33a0ff'
       }
     })
   })
@@ -115,11 +115,16 @@ export const Circle = styled.div(
         }
       }),
       ...(!theme.clicked && {
+        // transform: `translateX(${translateX}px)`,
+        // backgroundColor: '#fddf75',
+        // border: '3px solid #d6b05eb5',
+        // '&:hover': {
+        //   backgroundColor: '#fff0bb'
         transform: `translateX(${translateX}px)`,
-        backgroundColor: '#fddf75',
-        border: '3px solid #d6b05eb5',
+        backgroundColor: 'rgba(255,255,255,0.4)',
+        border: '2px solid rgba(255,255,255,0.9)',
         '&:hover': {
-          backgroundColor: '#fff0bb'
+          backgroundColor: 'rgba(255,255,255,0.3)'
         }
       })
     };

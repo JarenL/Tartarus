@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { ELEMENTS, zIndexFor } from 'styles/zindex';
-import { when } from 'styles/mixins';
+import { ELEMENTS, zIndexFor } from '../../styles/zindex';
+import { when } from '../../styles/mixins';
 
 export const Desert = styled.img(
   {

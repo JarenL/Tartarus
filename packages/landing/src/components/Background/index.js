@@ -4,8 +4,8 @@ import React, { Fragment, useState } from 'react';
 import * as S from './styles';
 
 //images
-import desert from 'images/desert-light.svg';
-import desertDark from 'images/desert-dark.svg';
+import desert from '../../images/desert-light.svg';
+import desertDark from '../../images/desert-dark.svg';
 
 function Background({ show, startLoadingLight, night }) {
   const [desertLoaded, setDesertLoad] = useState(false);
