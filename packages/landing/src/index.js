@@ -1,7 +1,7 @@
 // import React from 'react';
-// import ReactDOM from 'tartarus-landing/src/node_modules/react-dom';
-// import Root from 'tartarus-landing/src/node_modules/components/Root';
+// import ReactDOM from 'react-dom';
+// import Root from './components/Root';
 
-export * from "./components/Root";
+export { default as Landing } from "./components/Root";
 
 // ReactDOM.render(<Root />, document.getElementById('root'));

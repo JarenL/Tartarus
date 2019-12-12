@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-import TartarusContract from '../../../contracts/Tartarus.json.js';
+import TartarusContract from '../../../contracts/Tartarus.json';
 import {
   updateUserSaved,
   updateUserWatched
 } from '../../../redux/actions/actions';
 import styled from 'styled-components/macro';
-import PostContent from './Content/index.js.js';
-import PostVote from './Vote/Component.js.js';
+import PostContent from './Content/index.js';
+import PostVote from './Vote/Component.js';
 import { withRouter } from 'react-router';
-import Empty from '../../shared/Empty.js.js';
+import Empty from '../../shared/Empty.js';
 import {
   warningToast,
   confirmToast,
   errorToast
-} from '../../Notifications/Toasts/Toast.js.js';
-import PostType from './Type/Component.js.js';
-import VoteRatio from './Vote/VoteRatio.js.js';
+} from '../../Notifications/Toasts/Toast.js';
+import PostType from './Type/Component.js';
+import VoteRatio from './Vote/VoteRatio.js';
 
 const services = require('../../../services');
 

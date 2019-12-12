@@ -17,15 +17,17 @@ import {
   updateUserNotifications
 } from './redux/actions/actions';
 import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner';
-import TartarusContract from './contracts/Tartarus.json.js';
+import TartarusContract from './contracts/Tartarus.json';
 import Empty from './components/shared/Empty';
 import { toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.minimal.css';
 import StyledToastContainer from './components/Notifications/Toasts/ToastContainer';
 import { Zoom } from 'react-toastify';
 // import Landing from './components/Landing/index';
-import { Landing } from 'tartarus-landing/src';
-// import { Landing } from 'landing';
+// import { Landing } from 'tartarus-landing/src/index';
+
+let Landing = require('tartarus-landing');
+// let test = La
 
 // const tartarusAddress = '0x4c905e8c4533cb6928abaa159ca7b45b22f4d086';
 // const tartarusAddress = '0x3ca7832b2edd307b075903e2aac2ff04308ad001';
@@ -590,9 +592,9 @@ class App extends Component {
                 <Route
                   path='/'
                   // onChange={this.handleNotifications()}
-                  // component={Home}
+                  // component={Landing}
                   render={() => {
-                    return <Landing night={this.props.dark} isAnimationDone={true} />;
+                    return <Landing />;
                   }}
                 />
               </Switch>

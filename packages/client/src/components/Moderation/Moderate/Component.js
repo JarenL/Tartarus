@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 // import { Route, Switch } from 'react-router-dom';
 import Empty from '../../shared/Empty';
 import ModeratorsContainer from './Moderators/Container';
-import TartarusContract from '../../../contracts/Tartarus.json.js';
+import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import CreateModeratorFormContainer from '../../CreateModeratorForm/Container';
 import NotAuthorized from '../../shared/NotAuthorized';

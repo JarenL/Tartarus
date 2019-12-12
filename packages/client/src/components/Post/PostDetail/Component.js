@@ -4,7 +4,7 @@ import Empty from '../../shared/Empty';
 import styled from 'styled-components/macro';
 import CommentFormContainer from '../../CreateCommentForm/Container';
 import CommentListContainer from '../../Comment/CommentList/Container';
-import TartarusContract from '../../../contracts/Tartarus.json.js';
+import TartarusContract from '../../../contracts/Tartarus.json';
 import PostContainer from '../Post/Container';
 import { updateUserPermissions } from '../../../redux/actions/actions';
 

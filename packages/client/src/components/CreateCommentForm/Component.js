@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import Form from '../shared/form/Form';
-import TartarusContract from '../../contracts/Tartarus.json.js';
+import TartarusContract from '../../contracts/Tartarus.json';
 import Editor from '../shared/form/Editor';
 import { Field } from 'redux-form';
 import CancelButton from '../Buttons/CancelButton';

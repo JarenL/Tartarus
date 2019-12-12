@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components/macro';
 import CommentContent from './Content';
-import TartarusContract from '../../../contracts/Tartarus.json.js';
+import TartarusContract from '../../../contracts/Tartarus.json';
 import CommentDetail from './Detail/Component';
 import {
   updateUserSaved,

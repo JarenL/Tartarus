@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import ReactList from 'react-list';
-import TartarusContract from '../../contracts/Tartarus.json.js';
+import TartarusContract from '../../contracts/Tartarus.json';
 import PostListItem from '../Post/PostList/Item';
 import Empty from '../shared/Empty';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
-import CommentListItem from '../Comment/CommentList/Item.js.js';
+import CommentListItem from '../Comment/CommentList/Item.js';
 
 const blocksInDay = 5760;
 

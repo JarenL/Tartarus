@@ -5,7 +5,7 @@ import DownButton from '../../../../Buttons/DownButton';
 import { Link } from 'react-router-dom';
 import Empty from '../../../../shared/Empty';
 import moment from 'moment';
-import TartarusContract from '../../../../../contracts/Tartarus.json.js';
+import TartarusContract from '../../../../../contracts/Tartarus.json';
 import PostContainer from '../../../../Post/Post/Container';
 import CommentContainer from '../../../../Comment/Comment/Container';
 import LoadingIndicatorSpinner from '../../../../shared/LoadingIndicator/Spinner';

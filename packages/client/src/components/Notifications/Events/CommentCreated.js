@@ -6,7 +6,7 @@ import DownButton from '../../Buttons/DownButton';
 import CloseButton from '../../Buttons/CloseButton';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import TartarusContract from '../../../contracts/Tartarus.json.js';
+import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingBubble from '../../shared/LoadingIndicator/Bubble';
 
 const EventWrapper = styled.div`

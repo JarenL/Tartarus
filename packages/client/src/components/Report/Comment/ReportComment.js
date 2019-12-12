@@ -4,7 +4,7 @@ import Form from '../../shared/form/Form';
 import renderField from '../../shared/form/renderField';
 import styled from 'styled-components/macro';
 import PostContainer from '../../Post/Post/Container';
-import TartarusContract from '../../../contracts/Tartarus.json.js';
+import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import Empty from '../../shared/Empty';
 import CommentContainer from '../../Comment/Comment/Container';

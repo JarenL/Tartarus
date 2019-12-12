@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import renderField from '../../../../../shared/form/renderField';
 import styled from 'styled-components/macro';
-import TartarusContract from '../../../../../../contracts/Tartarus.json.js';
+import TartarusContract from '../../../../../../contracts/Tartarus.json';
 import Checkbox from '../../../../../shared/form/Checkbox/Checkbox';
 import Label from '../../../../../shared/form/Label';
 import { transition } from '../../../../../shared/helpers';

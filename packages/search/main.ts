@@ -15,7 +15,7 @@ function onLoad(){
     //     document.getElementById("app").style.visibility = ""
     // }
     // loadMeta('/ipfs/QmeoYDCCYUu4398SUFMckmrPnXPVkknZaMYkSsS8B2aMeW')
-    loadMeta('https://ipfs.infura.io/ipfs/QmdsRvook85vwFqX3tJrV4XLjK2RUL6rLqMbnbYuf483c7')
+    loadMeta('https://ipfs.infura.io/ipfs/QmSBGbJNjXU8uNYjXAkRAwrk87yksD59vaTudcm7dGFfKy')
 }
 
 async function loadMeta(metaURL : string) : Promise<void>{

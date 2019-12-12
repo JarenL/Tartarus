@@ -36,7 +36,6 @@ let appendPostToIndex = async props => {
   const postHex = '1220' + props[0].slice(2);
     const postBytes32 = Buffer.from(postHex, 'hex');
     const postIpfsHash = bs58.encode(postBytes32); 
-    console.log('hello')
     let postData = await ipfsMini.catJSON(postIpfsHash);
     console.log(postData)
     // console.log(postData)

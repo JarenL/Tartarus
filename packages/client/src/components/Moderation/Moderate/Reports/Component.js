@@ -1,6 +1,6 @@
 import React from 'react';
 import Empty from '../../../shared/Empty';
-import TartarusContract from '../../../../contracts/Tartarus.json.js';
+import TartarusContract from '../../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../../shared/LoadingIndicator/Spinner';
 import ReactList from 'react-list';
 import ReportContainer from './Report/Container';

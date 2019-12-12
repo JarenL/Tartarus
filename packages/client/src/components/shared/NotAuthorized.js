@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { smallFont } from './helpers';
+import { smallFont } from '../shared/helpers';
 
 const Wrapper = styled.div`
   ${smallFont};

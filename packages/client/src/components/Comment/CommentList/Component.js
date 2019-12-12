@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactList from 'react-list';
 import CommentListItem from './Item';
-import TartarusContract from '../../../contracts/Tartarus.json.js';
+import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import { updateUserPermissions } from '../../../redux/actions/actions';
 import Empty from '../../shared/Empty';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components/macro';
 import UserList from './UserList';
 import UserMessageButton from '../../Buttons/UserMessageButton';
-import TartarusContract from '../../../contracts/Tartarus.json.js';
+import TartarusContract from '../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
 import UserHeader from './UserHeader';
 import authCategories from './AuthCategories';

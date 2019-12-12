@@ -1,5 +1,5 @@
 import React from 'react';
-import TartarusContract from '../../../../../contracts/Tartarus.json.js';
+import TartarusContract from '../../../../../contracts/Tartarus.json';
 import Moderator from './Component';
 import LoadingBubble from '../../../../shared/LoadingIndicator/Bubble';
 import { connect } from 'react-redux';

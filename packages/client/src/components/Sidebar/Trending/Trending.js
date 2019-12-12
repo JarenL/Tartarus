@@ -3,8 +3,8 @@ import styled from 'styled-components/macro';
 import { wideFont } from '../../shared/helpers';
 import { overflow } from '../../shared/helpers';
 import TrendingList from './TrendingList';
-import TartarusContract from '../../../contracts/Tartarus.json.js';
-import LoadingTest from '../../shared/LoadingIndicator/LoadingTest.js.js';
+import TartarusContract from '../../../contracts/Tartarus.json';
+import LoadingTest from '../../shared/LoadingIndicator/LoadingTest.js';
 import TrendingButton from '../../Buttons/Trending';
 
 const Wrapper = styled.div`

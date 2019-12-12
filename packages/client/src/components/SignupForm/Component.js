@@ -3,7 +3,7 @@ import { Field } from 'redux-form';
 import Form from '../shared/form/Form';
 import renderField from '../shared/form/renderField';
 import { usernameValidator } from '../../services/validators';
-import TartarusContract from '../../contracts/Tartarus.json.js';
+import TartarusContract from '../../contracts/Tartarus.json';
 import styled from 'styled-components/macro';
 import ValidIcon from '../shared/form/ValidIcon';
 import InvalidIcon from '../shared/form/InvalidIcon';

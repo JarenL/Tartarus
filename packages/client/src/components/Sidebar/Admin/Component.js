@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import TartarusContract from '../../../contracts/Tartarus.json.js';
+import TartarusContract from '../../../contracts/Tartarus.json';
 import styled from 'styled-components/macro';
 import { withRouter } from 'react-router-dom';
-import LoadingTest from '../../shared/LoadingIndicator/LoadingTest.js.js';
+import LoadingTest from '../../shared/LoadingIndicator/LoadingTest.js';
 import AdminList from './AdminList';
 import AdminHeader from './AdminHeader';
-import NotAuthorized from '../../shared/NotAuthorized.js.js';
-import Divider from '../Divider.js.js';
+import NotAuthorized from '../../shared/NotAuthorized.js';
+import Divider from '../Divider.js';
 
 const Wrapper = styled.div`
   display: flex;

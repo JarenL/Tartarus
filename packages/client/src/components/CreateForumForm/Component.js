@@ -3,7 +3,7 @@ import { Field } from 'redux-form';
 import Form from '../shared/form/Form';
 import renderField from '../shared/form/renderField';
 import styled from 'styled-components/macro';
-import TartarusContract from '../../contracts/Tartarus.json.js';
+import TartarusContract from '../../contracts/Tartarus.json';
 import CancelButton from '../Buttons/CancelButton';
 import SubmitButton from '../Buttons/SubmitButton';
 import {

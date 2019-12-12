@@ -1,7 +1,7 @@
 {
   "name": "tartarus-contract",
   "version": "1.0.0",
-  "description": "package for tartarus contrac",
+  "description": "package for tartarus contract",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

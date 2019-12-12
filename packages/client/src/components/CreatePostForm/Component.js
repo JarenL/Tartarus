@@ -4,7 +4,7 @@ import categories from '../../categories';
 import Form from '../shared/form/Form';
 import renderField from '../shared/form/renderField';
 import Typography from '@material-ui/core/Typography';
-import TartarusContract from '../../contracts/Tartarus.json.js';
+import TartarusContract from '../../contracts/Tartarus.json';
 import classnames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';

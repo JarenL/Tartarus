@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import TartarusContract from '../../../contracts/Tartarus.json.js';
+import TartarusContract from '../../../contracts/Tartarus.json';
 import styled from 'styled-components/macro';
 import ForumHeader from './ForumHeader';
-import ForumRules from './ForumRules.js.js';
-import ForumModerators from './ForumModerators.js.js';
-import ForumDescription from './ForumDescription.js.js';
+import ForumRules from './ForumRules.js';
+import ForumModerators from './ForumModerators.js';
+import ForumDescription from './ForumDescription.js';
 import { updateUserSubscriptions } from '../../../redux/actions/actions';
 import Subscribe from '../../Buttons/Subscribe';
 import CreatePostButton from '../../Buttons/CreatePost';
 import CreateForumButton from '../../Buttons/CreateForum';
 import { withRouter } from 'react-router-dom';
-import LoadingTest from '../../shared/LoadingIndicator/LoadingTest.js.js';
-import SearchContainer from '../../Header/Search/SearchContainer.js.js';
-import AboutContainer from '../About/AboutContainer.js.js';
+import LoadingTest from '../../shared/LoadingIndicator/LoadingTest.js';
+import SearchContainer from '../../Header/Search/SearchContainer.js';
+import AboutContainer from '../About/AboutContainer.js';
 
 const services = require('../../../services');
 

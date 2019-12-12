@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TartarusContract from '../../contracts/Tartarus.json.js';
+import TartarusContract from '../../contracts/Tartarus.json';
 import Forum from './Forum';
-import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner.js.js';
+import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner.js';
 
 class ForumContainer extends Component {
   constructor(props) {
