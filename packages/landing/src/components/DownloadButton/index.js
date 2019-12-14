@@ -15,7 +15,7 @@ function DownloadButton({ onClick }) {
         }
       }}
     >
-      <span>Download</span>
+      <span>Enter</span>
     </S.Button>
   );
 }

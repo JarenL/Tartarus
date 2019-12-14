@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/JarenL/Tartarus#readme",
   "devDependencies": {
-    "babel-loader-lerna-cra": "^0.1.3",
     "lerna": "^3.19.0"
   },
-  "babel-loader-lerna-cra": {
-    "imports": "packages/landing/src",
-    "apps":  "packages/client"
-}
+  "scripts": {
+    "bootstrap": "lerna bootstrap --hoist",
+    "pretest": "eslint packages",
+    "test": "jest"
+  }
 }

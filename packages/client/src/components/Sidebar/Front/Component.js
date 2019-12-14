@@ -118,7 +118,7 @@ class FrontSidebar extends Component {
         <Wrapper>
           <SearchContainer />
           <CreateForumButton createForumHandler={this.createForumHandler} />
-          {this.props.username === null ? <FrontHeader /> : null}
+          {/* {this.props.username === null ? <FrontHeader /> : null} */}
           {/* <Divider /> */}
           <TrendingContainer />
           <Divider />

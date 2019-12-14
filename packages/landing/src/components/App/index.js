@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 
 //icons (imported as svg using babel plugin)
 // import faBatteryFull from '../../icons/bat-charge.svg';
@@ -7,19 +7,19 @@ import React, { useRef, useState } from 'react';
 // import faFeather from '../../icons/feather.svg';
 
 //styles
-import * as S from './styles';
-import * as A from '../../styles/shared-components';
+import * as S from "./styles";
+import * as A from "../../styles/shared-components";
 
 //components
 // import Messages from '../Messages';
-import DayNightSwitch from '../DayNightSwitch';
+import DayNightSwitch from "../DayNightSwitch";
 // import MenuBar from '../MenuBar';
 // import Compose from '../Compose';
 // import ToggleCount from '../ToggleCount';
-// import DownloadButton from '../DownloadButton';
-import Background from '../Background';
+import DownloadButton from '../DownloadButton';
+import Background from "../Background";
 // import Footer from '../Footer';
-import logo from '../../images/tartarus.png';
+import logo from "../../images/tartarus.png";
 
 //hooks
 import {
@@ -30,24 +30,24 @@ import {
   useMousePosition,
   useCanHover,
   useClock
-} from '../../utils/hooks';
+} from "../../utils/hooks";
 
-import useIntroAnimation from './use-intro-animation';
+import useIntroAnimation from "./use-intro-animation";
 
-import 'focus-visible';
+import "focus-visible";
 // import DownloadModal from '../DownloadModal';
-import { useBoolean } from 'react-hanger';
+import { useBoolean } from "react-hanger";
 
 //env
 const { REACT_APP_ANALYTICS_ID, REACT_APP_DOWNLOAD_LINK } = process.env;
 
 const redirectDownload = () => {
-  if (window.location.href.includes('get-app')) {
+  if (window.location.href.includes("get-app")) {
     window.location.replace(REACT_APP_DOWNLOAD_LINK);
   }
 };
 
-function Home({ isAnimationDone, night }) {
+function Home({ isAnimationDone, night, noWeb3, noAccount, welcomeClick }) {
   redirectDownload();
 
   const [composeIsOpen, setComposeOpen] = useState(false);
@@ -63,7 +63,10 @@ function Home({ isAnimationDone, night }) {
 
   //custom hooks
   const isInSizzy = window.__sizzy;
-  const { fabPose, menuBarPose, messagesPose, homePose } = useIntroAnimation(!isInSizzy, isAnimationDone);
+  const { fabPose, menuBarPose, messagesPose, homePose } = useIntroAnimation(
+    !isInSizzy,
+    isAnimationDone
+  );
   const canHover = useCanHover();
   const isHoveringMessages = useHovered();
   const isHoveringCompose = useHovered();
@@ -74,11 +77,12 @@ function Home({ isAnimationDone, night }) {
 
   // side effects
   useGoogleAnalytics(REACT_APP_ANALYTICS_ID, isAnimationDone.value);
-  useToggleBodyClass(isAnimationDone.value, ['scroll', 'no-scroll']);
+  useToggleBodyClass(isAnimationDone.value, ["scroll", "no-scroll"]);
 
   // computed
   const isNotHoveringMenuBar = mouseY === null || mouseY >= 25;
-  const showComposeWindow = composeIsOpen || (isHoveringCompose.value && isNotHoveringMenuBar);
+  const showComposeWindow =
+    composeIsOpen || (isHoveringCompose.value && isNotHoveringMenuBar);
   const isBig = window.innerWidth > 450;
 
   // methods
@@ -96,9 +100,13 @@ function Home({ isAnimationDone, night }) {
 
   return (
     <S.Home>
-      {showModal.value && <DownloadModal onClose={showModal.setFalse} />}
+      {/* {showModal.value && <DownloadModal onClose={showModal.setFalse} />} */}
       <S.MainSection>
-        <Background night={night.value} startLoadingLight={isAnimationDone.value} show={isBig} />
+        <Background
+          night={night}
+          startLoadingLight={isAnimationDone.value}
+          show={isBig}
+        />
 
         {/* <MenuBar
           className="menubar"
@@ -119,7 +127,12 @@ function Home({ isAnimationDone, night }) {
         /> */}
 
         <S.Content ref={contentRef}>
-          <S.WindowBox ref={messagesWindowRef} initialPose="hidden" pose={homePose} {...windowCenter}>
+          <S.WindowBox
+            ref={messagesWindowRef}
+            initialPose="hidden"
+            pose={homePose}
+            {...windowCenter}
+          >
             {/* <S.Window night={night.value} hovering={isHoveringMessages.value}>
               <Messages
                 messagesPose={messagesPose}
@@ -130,29 +143,31 @@ function Home({ isAnimationDone, night }) {
             </S.Window> */}
           </S.WindowBox>
 
-          <A.Space huge />
+          {/* <A.Space huge /> */}
 
-          <S.TextContent isAnimationDone={isAnimationDone.value} pose={homePose}>
-            <S.Title> 
-            <S.Logo src={logo} />
-              tartarus 
+          <S.TextContent
+            isAnimationDone={isAnimationDone.value}
+            pose={homePose}
+          >
+            <S.Title>
+              <S.Logo src={logo} />
+              <S.TitleText>tartarus</S.TitleText>
             </S.Title>
 
             <A.Space huge />
             <S.Subtitle>
+              {/* <span>
+                Create. Discuss. Uninhibited.
+
+              </span> */}
+              {/* <br />
               <span>
-                Create.
               </span>
               <br />
               <span>
-                Discuss.
               </span>
-              <br />
-              <span>
-                Uninhibited.
-              </span>
-              <br />
-              <br />
+              <br /> */}
+              {/* <br /> */}
               <span>
                 Welcome to the marketplace of ideas.
                 {/* Focus on <A.Hover {...isHoveringMessages.bind}>messages</A.Hover> and{' '} */}
@@ -162,6 +177,9 @@ function Home({ isAnimationDone, night }) {
                 >
                   tweeting
                 </A.Hover> */}
+                <A.Space />
+                {noWeb3 ? "No web3 detected. Please use a web3 compatible Browser or extension." : null}
+                <A.Space />
               </span>
 
               {/* <span>The timeline can wait.</span> */}
@@ -169,7 +187,7 @@ function Home({ isAnimationDone, night }) {
 
             <A.Space />
 
-            {/* <DownloadButton onClick={showModal.setTrue} startLoading={isAnimationDone.value} /> */}
+              {noWeb3 ? null : <DownloadButton startLoading={isAnimationDone.value} onClick={welcomeClick} /> }
 
             {/* <A.Space /> */}
 
@@ -177,7 +195,7 @@ function Home({ isAnimationDone, night }) {
 
             {/* <A.Space /> */}
 
-            <DayNightSwitch value={night.value} onChange={onToggleNight} />
+            {/* <DayNightSwitch value={night.value} onChange={onToggleNight} /> */}
             {/* <ToggleCount onTweet={tweetProgress} count={toggleCount} /> */}
           </S.TextContent>
         </S.Content>

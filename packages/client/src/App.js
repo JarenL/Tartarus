@@ -21,8 +21,12 @@ import {
 import getWeb3 from './services/web3/getWeb3';
 import './style.css';
 import theme from './theme';
+import { Landing } from 'tartarus-landing';
+import { withRouter } from 'react-router';
 
-// let Landing = require('tartarus-landing');
+// import { Landing } from 'tartarus-landing';
+
+// let Landing = require('tartarus-landing/src/components/Root');
 // let test = La
 
 // const tartarusAddress = '0x4c905e8c4533cb6928abaa159ca7b45b22f4d086';
@@ -69,12 +73,24 @@ class App extends Component {
       .then(results => {
         this.props.dispatch(initializeWeb3(results.web3));
         this.props.dispatch(setTartarusAddress(tartarusAddress));
+        console.log(results.web3);
+        console.log(this.props.web3);
+        if (results.web3 === null) {
+          this.setState({
+            loading: false
+          });
+        } else {
+          this.checkAdmin();
+          this.handleNotifications();
+        }
         toast.configure();
-        this.checkAdmin();
-        this.handleNotifications();
       })
       .catch(() => {
         console.log('Error finding web3.');
+        // toast.configure();
+        // this.setState({
+        //   loading: false
+        // });
       });
   }
 
@@ -578,28 +594,24 @@ class App extends Component {
     } else {
       return (
         <ThemeProvider theme={theme(this.props.dark)}>
-          <HashRouter>
-            <>
-              <GlobalStyle />
-              <Route component={HeaderContainer} />
-              <Switch>
-                <Route path='/signup' component={SignupFormContainer} />
-                <Route path='/login' component={LoginFormContainer} />
-                {/* <Route
-                  exact
-                  path='/welcome'
-                  // onChange={this.handleNotifications()}
-                  component={Landing}
-                /> */}
-                <Route
-                  path='/'
-                  // onChange={this.handleNotifications()}
-                  component={Home}
-                />
-              </Switch>
-              <StyledToastContainer transition={Zoom} />
-            </>
-          </HashRouter>
+          <GlobalStyle />
+          <Route component={HeaderContainer} />
+          <Switch>
+            <Route path='/signup' component={SignupFormContainer} />
+            <Route path='/login' component={LoginFormContainer} />
+            <Route
+              exact
+              path='/welcome'
+              // onChange={this.handleNotifications()}
+              component={() => <Landing theme={this.props.dark} onClick={() => this.props.history.push("/")} />}
+            />
+            <Route
+              path='/'
+              // onChange={this.handleNotifications()}
+              component={Home}
+            />
+          </Switch>
+          <StyledToastContainer transition={Zoom} />
         </ThemeProvider>
       );
     }
@@ -616,6 +628,6 @@ function mapStateToProps(state) {
   };
 }
 
-const AppContainer = connect(mapStateToProps)(App);
+const AppContainer = withRouter(connect(mapStateToProps)(App));
 
 export default AppContainer;

@@ -21,6 +21,7 @@ const userPersistConfig = {
 
 const initialState = {
   username: null,
+  lastVisited: null,
   userSettings: [],
   userPermissions: {
     admin: [false, false, false, false, false, false, false, 0, 0],

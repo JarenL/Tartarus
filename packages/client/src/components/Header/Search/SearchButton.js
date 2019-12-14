@@ -14,8 +14,8 @@ const Wrapper = styled.div`
 const Search = styled(MdSearch)`
   // ${headerItem};
   cursor: pointer;
-  width: 20px;
-  height: 20px;
+  // width: 20px;
+  // height: 20px;
   & path {
     ${transition('fill')};
 
@@ -36,7 +36,7 @@ const Search = styled(MdSearch)`
 
 const SearchButton = props => (
   <Wrapper>
-    <Search size={25} onClick={props.handleSubmit} />
+    <Search size={20} onClick={props.handleSubmit} />
   </Wrapper>
 );
 

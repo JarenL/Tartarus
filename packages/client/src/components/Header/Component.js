@@ -15,6 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import DrawerButton from '../Buttons/DrawerButton';
+import { Route, Switch } from 'react-router-dom';
 
 const Wrapper = styled.header`
   position: sticky;
@@ -71,44 +72,101 @@ class Header extends Component {
     const { classes } = this.props;
     return (
       <Wrapper>
-        <IconWrapper>
-          <IconButton
-            className={classes.menuButton}
-            color='inherit'
-            aria-label='Open drawer'
-            onClick={this.handleDrawerToggle}
-          >
-            <DrawerButton />
-          </IconButton>
-        </IconWrapper>
-        <HeaderLogo />
-        <FilterWrapper>
-          <FilterContainer />
-        </FilterWrapper>
-        {/* <SearchContainer /> */}
-        <HeaderDarkButtonContainer />
-        {this.props.username ? (
-          <>
-            <HeaderUsername
-              notifications={
-                this.props.userSettings[this.props.username].notifications
-                  .length
-              }
-              username={this.props.username}
-            />
-            <HeaderNavLink
-              as='span'
-              onClick={() => this.props.dispatch(userLogout())}
-            >
-              log out
-            </HeaderNavLink>
-          </>
-        ) : (
-          <>
-            <HeaderNavLink to='/login'>log in</HeaderNavLink>
-            <HeaderNavLink to='/signup'>sign up</HeaderNavLink>
-          </>
-        )}
+        <Switch>
+          <Route
+            exact
+            path='/welcome'
+            // onChange={this.handleNotifications()}
+            component={() => {
+              return (
+                <>
+                  <IconWrapper>
+                    <IconButton
+                      className={classes.menuButton}
+                      color='inherit'
+                      aria-label='Open drawer'
+                      onClick={this.handleDrawerToggle}
+                    >
+                      <DrawerButton />
+                    </IconButton>
+                  </IconWrapper>
+                  <HeaderLogo />
+                  <HeaderDarkButtonContainer />
+                  {this.props.username ? (
+                    <>
+                      <HeaderUsername
+                        notifications={
+                          this.props.userSettings[this.props.username]
+                            .notifications.length
+                        }
+                        username={this.props.username}
+                      />
+                      <HeaderNavLink
+                        as='span'
+                        onClick={() => this.props.dispatch(userLogout())}
+                      >
+                        log out
+                      </HeaderNavLink>
+                    </>
+                  ) : (
+                    <>
+                      <HeaderNavLink to='/login'>log in</HeaderNavLink>
+                      <HeaderNavLink to='/signup'>sign up</HeaderNavLink>
+                    </>
+                  )}
+                </>
+              );
+            }}
+          />
+          <Route
+            path='/'
+            // onChange={this.handleNotifications()}
+            component={() => {
+              return (
+                <>
+                  <IconWrapper>
+                    <IconButton
+                      className={classes.menuButton}
+                      color='inherit'
+                      aria-label='Open drawer'
+                      onClick={this.handleDrawerToggle}
+                    >
+                      <DrawerButton />
+                    </IconButton>
+                  </IconWrapper>
+                  <HeaderLogo />
+                  <FilterWrapper>
+                    <FilterContainer />
+                  </FilterWrapper>
+                  {/* <SearchContainer /> */}
+                  <HeaderDarkButtonContainer />
+                  {this.props.username ? (
+                    <>
+                      <HeaderUsername
+                        notifications={
+                          this.props.userSettings[this.props.username]
+                            .notifications.length
+                        }
+                        username={this.props.username}
+                      />
+                      <HeaderNavLink
+                        as='span'
+                        onClick={() => this.props.dispatch(userLogout())}
+                      >
+                        log out
+                      </HeaderNavLink>
+                    </>
+                  ) : (
+                    <>
+                      <HeaderNavLink to='/login'>log in</HeaderNavLink>
+                      <HeaderNavLink to='/signup'>sign up</HeaderNavLink>
+                    </>
+                  )}
+                </>
+              );
+            }}
+          />
+        </Switch>
       </Wrapper>
     );
   }

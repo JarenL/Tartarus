@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import flex from 'styles/flex';
+import flex from '../../styles/flex';
 import pose from 'react-pose';
-import { ELEMENTS, zIndexFor } from 'styles/zindex';
-import { smaller, smallerHeight } from 'styles/responsive';
+import { ELEMENTS, zIndexFor } from '../../styles/zindex';
+import { smaller, smallerHeight } from '../../styles/responsive';
 
 export const Links = styled.div({
   ...flex.horizontal,

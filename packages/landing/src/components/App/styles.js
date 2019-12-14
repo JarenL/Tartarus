@@ -88,13 +88,26 @@ export const Subtitle = styled(Text)({
 //   })
 // );
 
-export const Title = styled(Text)({
+export const Title = styled.div({
+  display: 'flex',
+  flexDirection: 'row',
+  // justifyContent: 'center',
+  // alignContent: 'center'
+  // fontWeight: 500,
+  // fontSize: 55,
+  // lineHeight: '50px',
+  // transition: 'all 250ms linear',
+  // cursor: 'default'
+});
+
+export const TitleText = styled(Text)({
   fontWeight: 500,
   fontSize: 55,
-  lineHeight: '50px',
+  // lineHeight: '50px',
   transition: 'all 250ms linear',
   cursor: 'default'
 });
+ 
 
 export const MainSection = styled.div({
   position: 'relative',

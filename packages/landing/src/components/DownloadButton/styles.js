@@ -17,7 +17,7 @@ export const Button = styled.button(
     padding: 15,
     width: '100%',
     transition: 'all 150ms linear',
-    boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.2)'
+    boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)'
   },
   applyTheme('button'),
   when('disabled', {
@@ -27,7 +27,8 @@ export const Button = styled.button(
   ({ theme }) => ({
     ...(!theme.disabled && {
       ...hover({
-        background: theme.button.backgroundHover
+        // background: theme.button.backgroundHover
+        background: '#33a0ff'
       })
     })
   })

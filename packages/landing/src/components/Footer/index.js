@@ -1,7 +1,7 @@
 import React from 'react';
 
 import * as S from './styles';
-import * as A from 'styles/shared-components';
+import * as A from '../../styles/shared-components';
 
 const Footer = ({ composeIsOpen, menuBarPose }) => {
   return (

@@ -7,14 +7,14 @@ import { useToggleBodyClass } from '../utils/hooks';
 import { hot } from 'react-hot-loader/root';
 import { isDev } from '../utils/dev-prod';
 
-const Root = () => {
-  const isAnimationDone = useBoolean(false);
+const Root = props => {
+  const isAnimationDone = useBoolean(true);
   const night = useBoolean(true);
-  useToggleBodyClass(night, ['dark', 'light']);
+  // useToggleBodyClass(night, ['dark', 'light']);
 
   return (
-    <ThemeProvider theme={themes[night.value ? 'dark' : 'light']}>
-      <App night={night} isAnimationDone={isAnimationDone} />
+    <ThemeProvider theme={themes[props.theme ? 'dark' : 'light']}>
+      <App night={props.theme} isAnimationDone={isAnimationDone} noWeb3={props.noWeb3} noAccount={props.noAccount} welcomeClick={props.onClick} />
     </ThemeProvider>
   );
 };

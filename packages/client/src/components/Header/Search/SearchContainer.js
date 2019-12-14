@@ -13,10 +13,7 @@ const mapStateToProps = state => ({
 
 const enhance = compose(
   reduxForm({ form: 'search' }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 );
 
 const SearchContainer = enhance(SearchBox);
