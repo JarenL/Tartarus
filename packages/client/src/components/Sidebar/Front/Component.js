@@ -114,24 +114,24 @@ class FrontSidebar extends Component {
     //     </Wrapper>
     //   );
     // } else {
-      return (
-        <Wrapper>
-          <SearchContainer />
-          <CreateForumButton createForumHandler={this.createForumHandler} />
-          {/* {this.props.username === null ? <FrontHeader /> : null} */}
-          {/* <Divider /> */}
-          <TrendingContainer />
-          <Divider />
-          <TartarusAdmins
-            username={this.props.username}
-            showAdmins={this.state.showAdmins}
-            toggleShowAdmins={this.toggleShowAdmins}
-            admins={this.state.admins}
-            web3={this.props.web3}
-          />
-        </Wrapper>
-      );
-    }
+    return (
+      <Wrapper>
+        <SearchContainer />
+        <CreateForumButton createForumHandler={this.createForumHandler} />
+        {/* {this.props.username === null ? <FrontHeader /> : null} */}
+        {/* <Divider /> */}
+        <TrendingContainer />
+        <Divider />
+        <TartarusAdmins
+          username={this.props.username}
+          showAdmins={this.state.showAdmins}
+          toggleShowAdmins={this.toggleShowAdmins}
+          admins={this.state.admins}
+          web3={this.props.web3}
+        />
+      </Wrapper>
+    );
+  }
   // }
 }
 

@@ -2,15 +2,19 @@ import React from 'react';
 import Empty from '../shared/Empty';
 import TartarusContract from '../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
-import ForumList from '../Forum/ForumList';
-import ComingSoon from '../shared/ComingSoon';
+import PostListItem from '../Post/PostList/Item';
+import ReactList from 'react-list';
+
+const search = require('ipfsearch-webapp/bundle.js');
 
 class SearchResults extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       forums: [],
-      loading: true
+      loading: true,
+      searchResults: []
+      // posts: []
     };
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -19,35 +23,58 @@ class SearchResults extends React.Component {
     this.instantiateContract();
   };
 
-  instantiateContract() {
+  getQuery = () => {
+    return new Promise((resolve, reject) => {
+      resolve(search.search(this.props.search));
+    });
+  };
+
+  instantiateContract = async () => {
+    // console.log(this.props)
+    // console.log(await search.search(this.props.search));
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
-    console.log(this.props);
-    tartarus
-      .at(this.props.tartarusAddress)
-      .then(instance => {
-        console.log(instance);
+    let instance = await tartarus.at(this.props.tartarusAddress);
+
+    let posts = [];
+    let getPosts = new Promise((resolve, reject) => {
+      [this.getQuery()].map((post, index) => {
         instance
-          .ForumCreated({}, { fromBlock: 0, toBlock: 'latest' })
-          .get((error, forums) => {
-            console.log(forums);
-            this.setState({
-              forums: forums,
-              loading: false
-            });
+          .PostCreated({ postId: post.id }, { fromBlock: 0, toBlock: 'latest' })
+          .get((error, result) => {
+            console.log(result);
+            posts.push(result[0]);
+            resolve();
           });
-      })
-      .catch(err => {
-        console.log('error');
       });
+    });
+    getPosts.then(() => {
+      this.setState({
+        searchResults: posts,
+        loading: false
+      });
+    });
+    // console.log(pinnedPosts);
+  };
+
+  renderItem(index, key) {
+    return (
+      <PostListItem key={key} post={this.state.searchResults[index].args} />
+    );
   }
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
-    if (!this.state.forums || this.state.forums.length === 0) return <Empty />;
-    // return <ForumList forums={this.state.forums} />;
-    return <ComingSoon />;
+    if (!this.state.searchResults || this.state.searchResults.length === 0)
+      return <Empty />;
+    return (
+      <ReactList
+        itemRenderer={this.renderItem.bind(this)}
+        length={this.state.searchResults.length}
+        type='simple'
+      />
+    );
   }
 }
 

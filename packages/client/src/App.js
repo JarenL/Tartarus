@@ -10,7 +10,7 @@ import LoginFormContainer from './components/LoginForm/Container';
 import StyledToastContainer from './components/Notifications/Toasts/ToastContainer';
 import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner';
 import SignupFormContainer from './components/SignupForm/Container';
-import TartarusContract from './contracts/Tartarus.json';
+// import TartarusContract from './contracts/Tartarus.json';
 import GlobalStyle from './globalStyle';
 import {
   initializeWeb3,
@@ -23,41 +23,14 @@ import './style.css';
 import theme from './theme';
 import { Landing } from 'tartarus-landing';
 import { withRouter } from 'react-router';
+import { TartarusContract, TartarusProxie } from 'tartarus-contract';
+import passiveNotificationEvents from './components/Notifications/passiveNotificationEvents';
 
-// import { Landing } from 'tartarus-landing';
-
-// let Landing = require('tartarus-landing/src/components/Root');
-// let test = La
-
-// const tartarusAddress = '0x4c905e8c4533cb6928abaa159ca7b45b22f4d086';
-// const tartarusAddress = '0x3ca7832b2edd307b075903e2aac2ff04308ad001';
-const tartarusAddress = '0xa43957A39A29B3B92243249D42682DE1A5158296';
-
-const passiveNotificationEvents = [
-  'AdminCreated',
-  'AdminUpdated',
-  'AdminRemoved',
-  'AdminPaid',
-  'AdminBan',
-  'AdminUnban',
-  'CommentCreated',
-  'CommentRemoved',
-  'ForumCreated',
-  'ForumLocked',
-  'ForumUpdated',
-  'ModeratorBan',
-  'ModeratorUnban',
-  'ModeratorCreated',
-  'ModeratorPaid',
-  'ModeratorRemoved',
-  'ModeratorUpdated',
-  'PostCreated',
-  'PostRemoved',
-  'UserCreated',
-  'UserUpdated',
-  'UserWithdraw',
-  'UserVoted'
-];
+const getTartarusAddress = () => {
+  return TartarusProxie.proxies['tartarus/Tartarus'][
+    TartarusProxie.proxies['tartarus/Tartarus'].length - 1
+  ].address;
+};
 
 class App extends Component {
   constructor(props) {
@@ -72,7 +45,7 @@ class App extends Component {
     getWeb3
       .then(results => {
         this.props.dispatch(initializeWeb3(results.web3));
-        this.props.dispatch(setTartarusAddress(tartarusAddress));
+        this.props.dispatch(setTartarusAddress(getTartarusAddress()));
         console.log(results.web3);
         console.log(this.props.web3);
         if (results.web3 === null) {
@@ -603,7 +576,12 @@ class App extends Component {
               exact
               path='/welcome'
               // onChange={this.handleNotifications()}
-              component={() => <Landing theme={this.props.dark} onClick={() => this.props.history.push("/")} />}
+              component={() => (
+                <Landing
+                  theme={this.props.dark}
+                  onClick={() => this.props.history.push('/')}
+                />
+              )}
             />
             <Route
               path='/'

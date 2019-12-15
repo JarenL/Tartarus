@@ -64,7 +64,11 @@ const Main = () => {
           exact
           path='/search/:search'
           render={({ match }) => (
-            <SearchResultsContainer search={match.params.search} />
+            <SearchResultsContainer
+              search={match.params.search}
+              forumName={match.params.forumName}
+              key={match.url}
+            />
           )}
         />
 

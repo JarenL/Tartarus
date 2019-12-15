@@ -1,13 +1,11 @@
 import * as ipfsearch from "./ipfsearch-indexlib"
-
+const fs = require('fs');
 const web3 = require('web3');
 const bs58 = require('bs58');
 const IPFS = require('ipfs-http-client');
 const IPFSMini = require('ipfs-mini');
 const ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
 const ipfsMini = new IPFSMini({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
-
-let count = 0;
 
 let TartarusContract = require('../client/src/contracts/Tartarus.json');
 let tartarusAddress = '0xa43957A39A29B3B92243249D42682DE1A5158296';
@@ -22,7 +20,7 @@ let getPosts = async props => {
 };
 
 let getPost = async props => {
-  console.log(props)
+  // console.log(props)
   return await instance.methods.getPost(props.returnValues.forum, props.returnValues.postId).call();
 
 };
@@ -32,28 +30,35 @@ let appendPostsToIndex = async props => {
 }
 
 let appendPostToIndex = async props => {
-  count++;
   const postHex = '1220' + props[0].slice(2);
     const postBytes32 = Buffer.from(postHex, 'hex');
     const postIpfsHash = bs58.encode(postBytes32); 
     let postData = await ipfsMini.catJSON(postIpfsHash);
-    console.log(postData)
-    // console.log(postData)
+    // console.log(props)
     if (postData !== null) {
-      // console.log(postData)
       let postTitle = postData.title;
-      console.debug("posttitle:")
-      console.debug(postTitle)
-      let postType = postData.type;
+      // console.debug("posttitle:")
+      // console.debug(postTitle)
+      // let postType = postData.type;
       let postPost = postData.post;
-      let postCreator = provider.utils.toUtf8(props[1]);
-      // console.log(postCreator)
-      // console.log(indexer)
-      indexer.addToIndex(new ipfsearch.Document(postIpfsHash, postTitle + " " + postType + " " + postPost + " " + postCreator))
-      console.log(indexer)        
-      // indexer.addToIndex(new ipfsearch.Document(postIpfsHash, postCreator))        
-    }  
+      // let postCreator = provider.utils.toUtf8(props[1]);
+      // let postJSON = {
+      //   'postIpfsHash': postIpfsHash,
+      //   'postTitle': postTitle,
+      //   'postType': postType,
+      //   'postId': props[0],
+      //   'postContent': postPost,
+      //   'postCreator': postCreator
+      // }
 
+      // console.log(postJSON)
+      // console.log(JSON.stringify(postJSON));
+      // console.log(new ipfsearch.Document(postIpfsHash, JSON.stringify(postJSON));
+
+      // indexer.addToIndex(new ipfsearch.Document(postIpfsHash, JSON.stringify(postJSON)));
+      // indexer.addToIndex(new ipfsearch.Document(postIpfs÷Hash, JSON.stringify(postJSON)));
+      indexer.addToIndex(new ipfsearch.Document(props[0], postTitle + " " + postPost))
+    }  
 }
 
 let main = async () => {
@@ -61,13 +66,10 @@ let main = async () => {
     fromBlock: 0,
     toBlock: "latest"
   });
-  // console.log(posts.length)
-  // console.log(1)
+
   await getPosts(posts); 
-  // console.log(3)
-  // console.log(count)
+
   indexer.persist("assets/inv/", "assets/inx/","Jaren Lynch","Tartarus Index", "", 1000)
-  console.log(indexer)
   ipfs.addFromFs('./assets', { recursive: true }, (err, assetsResult) => {
     console.log(assetsResult)
     let metaFile = require('./assets/inx/.meta.json')
@@ -75,8 +77,13 @@ let main = async () => {
     metaFile.invURLBase = '/ipfs/' + assetsResult[4].hash + '/inv/';
     if (err) { throw err }
     ipfsMini.addJSON(metaFile, (err, result) => {
-      console.log(metaFile)
-      console.log(err, result);
+      // console.log(metaFile)
+      let indexAddress = JSON.stringify({ "index-address" : result });
+      fs.writeFile('index-address.json', indexAddress, function(err) {
+        // Deal with possible error here.
+        console.log(err, result);
+      });
+
     });  
     // https://ipfs.infura.io/ipfs/QmcMkXkR2EqUrAXQqpb9HE8e4UKgU4aa13fW7L8JDgsPuR
   })

@@ -4,7 +4,8 @@ import SearchResults from './SearchResults';
 
 const mapStateToProps = state => ({
   web3: state.web3,
-  tartarusAddress: state.tartarus.tartarusAddress
+  tartarusAddress: state.tartarus.tartarusAddress,
+  username: state.user.username,
 });
 
 const enhance = compose(

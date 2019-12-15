@@ -1,3 +1,6 @@
+// import * as IndexAddress from 'ipfsearch-index';
+const IndexAddress = require('ipfsearch-index/index-address.json');
+
 const fetch = require('node-fetch');
 
 var inxFetcher = new IndexFetcher()
@@ -7,7 +10,7 @@ var app : any
 let ipfsGatewayURL : string
 const NUMRESULTS = 30
 
-function onLoad(){
+function search(searchString : string){
     // let params = new URLSearchParams(location.search);
     // if(params.get("index")){
     //     loadMeta(params.get("index")).then(function(){document.getElementById("app").style.visibility = ""})
@@ -15,10 +18,11 @@ function onLoad(){
     //     document.getElementById("app").style.visibility = ""
     // }
     // loadMeta('/ipfs/QmeoYDCCYUu4398SUFMckmrPnXPVkknZaMYkSsS8B2aMeW')
-    loadMeta('https://ipfs.infura.io/ipfs/QmZBF5n2UzYvEiBrNZas2o3kESTbBJLCdKZw2SgxWX8nQL')
+    console.log(IndexAddress['index-address']);
+    return loadMeta('https://ipfs.infura.io/ipfs/' + IndexAddress['index-address'], searchString);
 }
 
-async function loadMeta(metaURL : string) : Promise<void>{
+async function loadMeta(metaURL : string, searchString : string) : Promise<void>{
     let response
     if(metaURL.startsWith("/ipfs/") || metaURL.startsWith("/ipns/")){
         response = await fetch((await getIpfsGatewayUrlPrefix()) + metaURL)
@@ -41,7 +45,7 @@ async function loadMeta(metaURL : string) : Promise<void>{
 
     console.log(meta)
     console.log("meta fetched")
-    searchTriggered();
+    return searchTriggered(searchString);
     // app.showmeta = false
     // app.showsearchbox = true
     // app.indexAuthor = meta.author
@@ -105,9 +109,9 @@ async function checkIfIpfsGateway(gatewayURL : string) : Promise<boolean>{
     }
 }
 
-function searchTriggered(){
+function searchTriggered(searchString : string){
     // let searchbox = <HTMLInputElement>document.getElementById("searchbox")
-    let searchQuery = "pink helvetica"
+    let searchQuery = searchString
     let querytokens = searchQuery.split(" ")
     // let querytokens = ['test'];
     querytokens = querytokens.map(querytoken => {
@@ -188,7 +192,8 @@ function searchFor(query : string){
             fetchAllDocumentsById(resultIds).then((results) => {
                 console.log(results)
                 // passProgressToResultpage(1)
-                passResultToResultpage(results)
+                return results;
+                // passResultToResultpage(results)
             })
         })
     })
@@ -293,4 +298,6 @@ interface metaFormat {
     resultPage?:string
 }
 
-onLoad();
+// export { search as Search }
+
+// search("pink helvetica");
