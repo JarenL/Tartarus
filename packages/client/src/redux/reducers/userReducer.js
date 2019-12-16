@@ -5,6 +5,7 @@ import {
   UPDATE_USER_WATCHED,
   UPDATE_USER_NOTIFIED,
   UPDATE_USER_PERMISSIONS,
+  UPDATE_USER_LAST_VISITED,
   USER_LOGIN,
   USER_LOGOUT,
   UPDATE_USER_NOTIFICATIONS
@@ -16,12 +17,12 @@ import storage from 'redux-persist/lib/storage';
 const userPersistConfig = {
   key: 'accounts',
   storage: storage,
-  whitelist: ['userSettings', 'username', 'userPermissions']
+  whitelist: ['userSettings', 'username', 'userPermissions', 'lastVisited']
 };
 
 const initialState = {
   username: null,
-  lastVisited: null,
+  lastVisited: 0,
   userSettings: [],
   userPermissions: {
     admin: [false, false, false, false, false, false, false, 0, 0],
@@ -159,6 +160,12 @@ const accountsReducer = (state = initialState, action) => {
             lastNotified: Date.now()
           }
         }
+      };
+    case UPDATE_USER_LAST_VISITED:
+      console.log(action);
+      return {
+        ...state,
+        lastVisited: Date.now()
       };
     default:
       return {

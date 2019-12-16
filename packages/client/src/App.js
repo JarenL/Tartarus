@@ -16,7 +16,8 @@ import {
   initializeWeb3,
   setTartarusAddress,
   updateUserNotifications,
-  updateUserPermissions
+  updateUserPermissions,
+  updateUserLastVisited
 } from './redux/actions/actions';
 import getWeb3 from './services/web3/getWeb3';
 import './style.css';
@@ -542,6 +543,11 @@ class App extends Component {
     }
   };
 
+  handleWelcomeClick = () => {
+    this.props.history.push('/');
+    this.props.dispatch(updateUserLastVisited());
+  };
+
   checkAdmin = () => {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
@@ -579,9 +585,34 @@ class App extends Component {
               component={() => (
                 <Landing
                   theme={this.props.dark}
-                  onClick={() => this.props.history.push('/')}
+                  onClick={() => this.handleWelcomeClick()}
                 />
               )}
+            />
+            <Route
+              exact
+              path='/'
+              // onChange={this.handleNotifications()}
+              component={() => {
+                console.log(this.props.lastVisited);
+                if (
+                  Date.now() - 7 * 24 * 60 * 60 * 1000 >
+                    this.props.lastVisited &&
+                  this.props.username === null
+                ) {
+                  this.props.history.push('/welcome');
+                  return null;
+
+                  // return (
+                  //   <Landing
+                  //     theme={this.props.dark}
+                  //     onClick={() => this.handleWelcomeClick()}
+                  //   />
+                  // );
+                } else {
+                  return <Home />;
+                }
+              }}
             />
             <Route
               path='/'
@@ -601,6 +632,7 @@ function mapStateToProps(state) {
     web3: state.web3,
     dark: state.theme.dark,
     username: state.user.username,
+    lastVisited: state.user.lastVisited,
     tartarusAddress: state.tartarus.tartarusAddress,
     userSettings: state.user.userSettings
   };

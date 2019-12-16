@@ -18,11 +18,13 @@ function search(searchString : string){
     //     document.getElementById("app").style.visibility = ""
     // }
     // loadMeta('/ipfs/QmeoYDCCYUu4398SUFMckmrPnXPVkknZaMYkSsS8B2aMeW')
-    console.log(IndexAddress['index-address']);
+    // console.log(IndexAddress['index-address']);
+    // let test = loadMeta('https://ipfs.infura.io/ipfs/' + IndexAddress['index-address'], searchString);
+    // console.log(test);
     return loadMeta('https://ipfs.infura.io/ipfs/' + IndexAddress['index-address'], searchString);
 }
 
-async function loadMeta(metaURL : string, searchString : string) : Promise<void>{
+async function loadMeta(metaURL : string, searchString : string) {
     let response
     if(metaURL.startsWith("/ipfs/") || metaURL.startsWith("/ipns/")){
         response = await fetch((await getIpfsGatewayUrlPrefix()) + metaURL)
@@ -43,8 +45,8 @@ async function loadMeta(metaURL : string, searchString : string) : Promise<void>
         meta.inxURLBase = (await getIpfsGatewayUrlPrefix()) + meta.inxURLBase
     }
 
-    console.log(meta)
-    console.log("meta fetched")
+    // console.log(meta)
+    // console.log("meta fetched")
     return searchTriggered(searchString);
     // app.showmeta = false
     // app.showsearchbox = true
@@ -118,10 +120,10 @@ function searchTriggered(searchString : string){
         return stemmer(querytoken)
     });
     console.debug("searching for: "+querytokens.join(" "))
-    searchFor(querytokens.join(" "))
+    return searchFor(querytokens.join(" "))
 }
 
-function searchFor(query : string){
+async function searchFor(query : string){
     // passProgressToResultpage(0)
     let runningFetches : Array<Promise<void>>= []
     let tokenizedquery = tokenize(query)
@@ -136,66 +138,108 @@ function searchFor(query : string){
             // passProgressToResultpage(0.5 * invFetched/invToFetch)
         })
     })
-    Promise.all(runningFetches).then(() => {
-        let candidates = getAllCandidates(tokenizedquery, invinxFetcher.combinedInvIndex)
-        console.log("candidates prefilter: " + candidates.size)
-        console.log(candidates)
-        candidates = filterCandidates(candidates, tokenizedquery.length)
-        console.log("candidates postfilter: " + candidates.size)
-        // passProgressToResultpage(0.6)
-        let resultIds : Array<string>
-        resultIds = []
-        /**
-         * Have we already found the most relevant candidate (=matches all tokens in query)?
-         */
-        let foundIdealCandidate : boolean
-        for(let key of candidates.keys()){
-            if(candidates.get(key) == tokenizedquery.length){
-                foundIdealCandidate = true
+    await Promise.all(runningFetches);
+    let candidates = getAllCandidates(tokenizedquery, invinxFetcher.combinedInvIndex);
+    console.log("candidates prefilter: " + candidates.size);
+    // console.log(candidates)
+    candidates = filterCandidates(candidates, tokenizedquery.length);
+    console.log("candidates postfilter: " + candidates.size);
+    // passProgressToResultpage(0.6)
+    let resultIds;
+    resultIds = [];
+    /**
+     * Have we already found the most relevant candidate (=matches all tokens in query)?
+     */
+    let foundIdealCandidate;
+    for (let key of candidates.keys()) {
+        if (candidates.get(key) == tokenizedquery.length) {
+            foundIdealCandidate = true;
+        }
+        resultIds.push(key);
+    }
+    console.debug(candidates);
+    if (foundIdealCandidate) {
+        console.info("Found an ideal candidate in prefetch sorting&filtering. Filtering out all non-ideal candidates...");
+        resultIds = resultIds.filter((resultId) => {
+            if (candidates.get(resultId) != tokenizedquery.length) {
+                return false;
             }
-            resultIds.push(key)
-        }
-        console.debug(candidates)
-        if(foundIdealCandidate){
-            console.info("Found an ideal candidate in prefetch sorting&filtering. Filtering out all non-ideal candidates...")
-            resultIds = resultIds.filter((resultId) => {
-                if(candidates.get(resultId) != tokenizedquery.length){
-                    return false
-                }else{
-                    return true
-                }
-            })
-        }else{ //sort them by relevance
-            resultIds = resultIds.sort((a,b) => {
-                let ascore = candidates.get(a)
-                let bscore = candidates.get(b)
-                if(ascore > bscore){
-                    return -1
-                }else if(ascore > bscore){
-                    return 1
-                }else{
-                    return 0
-                }
-            })
-        }
-        console.log(resultIds)
-        console.debug("resultIds after prefetch sorting & filtering: ")
-        console.debug(resultIds)
-        let resultIdsToFetch = resultIds.slice(0, NUMRESULTS)
-        passProgressToResultpage(0.7)
-        fetchAllDocumentsById(resultIdsToFetch).then((results) => {
-            // passProgressToResultpage(0.95)
+            else {
+                return true;
+            }
+        });
+    }
+    else { //sort them by relevance
+        resultIds = resultIds.sort((a, b) => {
+            let ascore = candidates.get(a);
+            let bscore = candidates.get(b);
+            if (ascore > bscore) {
+                return -1;
+            }
+            else if (ascore > bscore) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        });
+    }
+
+    // Promise.all(runningFetches).then(() => {
+    //     let candidates = getAllCandidates(tokenizedquery, invinxFetcher.combinedInvIndex)
+    //     console.log("candidates prefilter: " + candidates.size)
+    //     // console.log(candidates)
+    //     candidates = filterCandidates(candidates, tokenizedquery.length)
+    //     console.log("candidates postfilter: " + candidates.size)
+    //     // passProgressToResultpage(0.6)
+    //     let resultIds : Array<string>
+    //     resultIds = []
+    //     /**
+    //      * Have we already found the most relevant candidate (=matches all tokens in query)?
+    //      */
+    //     let foundIdealCandidate : boolean
+    //     for(let key of candidates.keys()){
+    //         if(candidates.get(key) == tokenizedquery.length){
+    //             foundIdealCandidate = true
+    //         }
+    //         resultIds.push(key)
+    //     }
+    //     console.debug(candidates)
+    //     if(foundIdealCandidate){
+    //         console.info("Found an ideal candidate in prefetch sorting&filtering. Filtering out all non-ideal candidates...")
+    //         resultIds = resultIds.filter((resultId) => {
+    //             if(candidates.get(resultId) != tokenizedquery.length){
+    //                 return false
+    //             }else{
+    //                 return true
+    //             }
+    //         })
+    //     }else{ //sort them by relevance
+    //         resultIds = resultIds.sort((a,b) => {
+    //             let ascore = candidates.get(a)
+    //             let bscore = candidates.get(b)
+    //             if(ascore > bscore){
+    //                 return -1
+    //             }else if(ascore > bscore){
+    //                 return 1
+    //             }else{
+    //                 return 0
+    //             }
+    //         })
+    //     }
+        // console.log(resultIds)
+    console.debug("resultIds after prefetch sorting & filtering: ")
+    console.debug(resultIds)
+    resultIds = resultIds.slice(0, 1000);
+    return new Promise((resolve, reject) => {
+        fetchAllDocumentsById(resultIds).then((results) => {
+            console.log(results);
+            // passProgressToResultpage(1)
+            // searchResult = results;
+            // return "hello";
+            resolve(results);
             // passResultToResultpage(results)
-            
-            //fetch all results, not just the first NUMRESULTS
-            resultIds = resultIds.slice(0,1000)
-            fetchAllDocumentsById(resultIds).then((results) => {
-                console.log(results)
-                // passProgressToResultpage(1)
-                return results;
-                // passResultToResultpage(results)
-            })
-        })
+        });
     })
 }
 

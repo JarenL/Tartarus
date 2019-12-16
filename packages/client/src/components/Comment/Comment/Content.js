@@ -18,6 +18,7 @@ const Wrapper = styled.div`
 `;
 
 const CommentContent = props => {
+  console.log(ReactHtmlParser(props.comment))
   return (
     <Wrapper>
       <ReactPlaceholder

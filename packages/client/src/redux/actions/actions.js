@@ -11,6 +11,7 @@ export const UPDATE_USER_WATCHED = 'UPDATE_USER_WATCHED';
 export const UPDATE_USER_NOTIFIED = 'UPDATE_USER_NOTIFIED';
 export const UPDATE_USER_NOTIFICATIONS = 'UPDATE_USER_NOTIFICATIONS';
 export const UPDATE_USER_PERMISSIONS = 'UPDATE_USER_PERMISSIOSN';
+export const UPDATE_USER_LAST_VISITED = 'UPDATE_USER_LAST_VISITED';
 export const INITIALIZE_USER_SETTINGS = 'INITIALIZE_USER_SETTINGS';
 export const TOGGLE_DARK_THEME = 'TOGGLE_DARK_THEME';
 export const USER_LOGOUT = 'USER_LOGOUT';
@@ -99,6 +100,12 @@ export function updateUserPermissions(userPermissions) {
   return {
     type: UPDATE_USER_PERMISSIONS,
     payload: userPermissions
+  };
+}
+
+export function updateUserLastVisited() {
+  return {
+    type: UPDATE_USER_LAST_VISITED,
   };
 }
 

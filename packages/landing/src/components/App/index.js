@@ -181,22 +181,14 @@ function Home({ isAnimationDone, night, noWeb3, noAccount, welcomeClick }) {
                 {noWeb3 ? "No web3 detected. Please use a web3 compatible Browser or extension." : null}
                 <A.Space />
               </span>
+              {noWeb3 ? null : <DownloadButton startLoading={isAnimationDone.value} onClick={welcomeClick} /> }
+
 
               {/* <span>The timeline can wait.</span> */}
             </S.Subtitle>
 
             <A.Space />
 
-              {noWeb3 ? null : <DownloadButton startLoading={isAnimationDone.value} onClick={welcomeClick} /> }
-
-            {/* <A.Space /> */}
-
-            {/* <S.Platforms>Supports macOS, Windows, and Linux</S.Platforms> */}
-
-            {/* <A.Space /> */}
-
-            {/* <DayNightSwitch value={night.value} onChange={onToggleNight} /> */}
-            {/* <ToggleCount onTweet={tweetProgress} count={toggleCount} /> */}
           </S.TextContent>
         </S.Content>
       </S.MainSection>

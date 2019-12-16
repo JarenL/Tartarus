@@ -15,50 +15,62 @@ let indexer = new ipfsearch.Indexer();
 
 
 let getPosts = async props => {
-  let posts = await Promise.all(props.map(post => getPost(post)));
-  await appendPostsToIndex(posts);
-};
-
-let getPost = async props => {
   // console.log(props)
-  return await instance.methods.getPost(props.returnValues.forum, props.returnValues.postId).call();
-
+  // let posts = await Promise.all(props.map(post => getPost(post)));
+  await appendPostsToIndex(props);
 };
+
+// let getPost = async props => {
+//   // console.log(props)
+//   console.log(props)
+//   console.log('----getPost-----')
+//   console.log(props.returnValues.postId)
+//   return await instance.methods.getPost(props.returnValues.forum, props.returnValues.postId).call();
+
+// };
 
 let appendPostsToIndex = async props => {
+  // console.log(props)
   await Promise.all(props.map(post => appendPostToIndex(post)));
 }
 
 let appendPostToIndex = async props => {
-  const postHex = '1220' + props[0].slice(2);
-    const postBytes32 = Buffer.from(postHex, 'hex');
-    const postIpfsHash = bs58.encode(postBytes32); 
-    let postData = await ipfsMini.catJSON(postIpfsHash);
-    // console.log(props)
-    if (postData !== null) {
-      let postTitle = postData.title;
-      // console.debug("posttitle:")
-      // console.debug(postTitle)
-      // let postType = postData.type;
-      let postPost = postData.post;
-      // let postCreator = provider.utils.toUtf8(props[1]);
-      // let postJSON = {
-      //   'postIpfsHash': postIpfsHash,
-      //   'postTitle': postTitle,
-      //   'postType': postType,
-      //   'postId': props[0],
-      //   'postContent': postPost,
-      //   'postCreator': postCreator
-      // }
+  // console.log(props)
+  // console.log(postData)
+  let postData = await instance.methods.getPost(props.returnValues.forum, props.returnValues.postId).call();
+  console.log(props)
+  console.log(postData)
+  console.log(props.returnValues.postId);
+  const postHex = '1220' + postData[0].slice(2);
+  const postBytes32 = Buffer.from(postHex, 'hex');
+  const postIpfsHash = bs58.encode(postBytes32); 
+  let postIpfsData = await ipfsMini.catJSON(postIpfsHash);
+  // console.log(props)
+  if (postIpfsData !== null) {
+    let postTitle = postIpfsData.title;
+    // console.debug("posttitle:")
+    // console.debug(postTitle)
+    // let postType = postData.type;
+    let postPost = postIpfsData.post;
+    // let postCreator = provider.utils.toUtf8(props[1]);
+    // let postJSON = {
+    //   'postIpfsHash': postIpfsHash,
+    //   'postTitle': postTitle,
+    //   'postType': postType,
+    //   'postId': props[0],
+    //   'postContent': postPost,
+    //   'postCreator': postCreator
+    // }
 
-      // console.log(postJSON)
-      // console.log(JSON.stringify(postJSON));
-      // console.log(new ipfsearch.Document(postIpfsHash, JSON.stringify(postJSON));
+    // console.log(postJSON)
+    // console.log(JSON.stringify(postJSON));
+    // console.log(new ipfsearch.Document(postIpfsHash, JSON.stringify(postJSON));
 
-      // indexer.addToIndex(new ipfsearch.Document(postIpfsHash, JSON.stringify(postJSON)));
-      // indexer.addToIndex(new ipfsearch.Document(postIpfs÷Hash, JSON.stringify(postJSON)));
-      indexer.addToIndex(new ipfsearch.Document(props[0], postTitle + " " + postPost))
-    }  
+    // indexer.addToIndex(new ipfsearch.Document(postIpfsHash, JSON.stringify(postJSON)));
+    // indexer.addToIndex(new ipfsearch.Document(postIpfs÷Hash, JSON.stringify(postJSON)));
+    console.log(postTitle + " " + postPost)
+    indexer.addToIndex(new ipfsearch.Document(props.returnValues.postId, postTitle + " " + postPost))
+  }  
 }
 
 let main = async () => {
@@ -66,6 +78,8 @@ let main = async () => {
     fromBlock: 0,
     toBlock: "latest"
   });
+  // console.log('----main-----')
+  // console.log(posts)
 
   await getPosts(posts); 
 

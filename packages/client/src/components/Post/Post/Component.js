@@ -119,8 +119,8 @@ class Post extends Component {
                 this.props.post.forum
               );
 
-              const upvoteRatio = post[2].c[0] / (post[2].c[0] + post[3].c[0]) * 100;
-
+              const upvoteRatio =
+                (post[2].c[0] / (post[2].c[0] + post[3].c[0])) * 100;
 
               this.setState({
                 isModerator: await this.checkIsModerator(post[1]),
@@ -130,8 +130,7 @@ class Post extends Component {
                 type: postData.type,
                 post: postData.post,
                 votes: post[2].c[0] - post[3].c[0],
-                upvoteRatio:
-                  isNaN(upvoteRatio) ? 'NaN' : upvoteRatio,
+                upvoteRatio: isNaN(upvoteRatio) ? 'NaN' : upvoteRatio,
                 comments: post[4].c[0],
                 canDelete: this.checkCanDelete(post),
                 canBan: this.checkCanBan(post),
@@ -632,7 +631,10 @@ class Post extends Component {
       }
     } else {
       return (
-        <Wrapper>
+        <Wrapper
+          forumPinned={this.state.forumPinned}
+          adminPinned={this.state.adminPinned}
+        >
           <PostVote
             votes={this.state.votes}
             upvoteRatio={this.state.upvoteRatio}

@@ -11,7 +11,6 @@ class SearchResults extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      forums: [],
       loading: true,
       searchResults: []
       // posts: []
@@ -23,11 +22,13 @@ class SearchResults extends React.Component {
     this.instantiateContract();
   };
 
-  getQuery = () => {
-    return new Promise((resolve, reject) => {
-      resolve(search.search(this.props.search));
-    });
-  };
+  // getSearchResults = async () => {
+  //   return new Promise((resolve, reject) => {
+  //     // let test = search.search(this.props.search);
+  //     // console.log(test);
+  //     resolve(search.search(this.props.search));
+  //   });
+  // };
 
   instantiateContract = async () => {
     // console.log(this.props)
@@ -36,25 +37,49 @@ class SearchResults extends React.Component {
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
     let instance = await tartarus.at(this.props.tartarusAddress);
-
-    let posts = [];
-    let getPosts = new Promise((resolve, reject) => {
-      [this.getQuery()].map((post, index) => {
-        instance
-          .PostCreated({ postId: post.id }, { fromBlock: 0, toBlock: 'latest' })
-          .get((error, result) => {
-            console.log(result);
-            posts.push(result[0]);
-            resolve();
-          });
-      });
+    let query = await search.search(this.props.search);
+    console.log(query);
+    // let posts = [];
+    let posts = await Promise.all(
+      query.map(post => {
+        return new Promise((resolve, reject) => {
+          instance
+            .PostCreated(
+              { postId: post.id },
+              { fromBlock: 0, toBlock: 'latest' }
+            )
+            .get((error, result) => {
+              console.log(result);
+              // posts.push(result[0]);
+              resolve(...result);
+            });
+        });
+      })
+    );
+    console.log(posts)
+    this.setState({
+      searchResults: posts,
+      loading: false
     });
-    getPosts.then(() => {
-      this.setState({
-        searchResults: posts,
-        loading: false
-      });
-    });
+    // let getPosts = new Promise((resolve, reject) => {
+    //   query.forEach((post, index) => {
+    //     console.log(post)
+    //     instance
+    //       .PostCreated({ postId: post.id }, { fromBlock: 0, toBlock: 'latest' })
+    //       .get((error, result) => {
+    //         console.log(result);
+    //         posts.push(result[0]);
+    //         resolve();
+    //       });
+    //   });
+    // });
+    // getPosts.then(() => {
+    //   console.log(posts);
+    //   this.setState({
+    //     searchResults: posts,
+    //     loading: false
+    //   });
+    // });
     // console.log(pinnedPosts);
   };
 
