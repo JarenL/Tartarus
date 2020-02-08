@@ -194,7 +194,7 @@ class ForumSidebar extends Component {
     // } else {
     return (
       <Wrapper>
-        <SearchContainer />
+        {/* <SearchContainer /> */}
         {this.state.exists ? (
           <CreatePostButton createPostHandler={this.createPostHandler} />
         ) : (

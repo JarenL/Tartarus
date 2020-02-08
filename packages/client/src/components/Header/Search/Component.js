@@ -3,17 +3,17 @@ import Form from '../../shared/form/Form';
 import { transition } from '../../shared/helpers';
 import styled from 'styled-components/macro';
 import SearchTextArea from './SearchTextArea';
-import SearchButton from './SearchButton';
-import CancelButton from './CancelButton';
-import { Redirect } from 'react-router';
 
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  // margin-right: 1.25%;
+  margin-left: auto;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  // @media (max-width: 768px) {
+  //   width: 80%;
+  // }
 `;
 
 const StyledForm = styled(Form)`

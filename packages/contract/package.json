@@ -7,12 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "dotenv": "^8.0.0",
+    "dotenv": "8.2.0",
     "eslint-plugin-prettier": "^3.1.0",
-    "openzeppelin-eth": "^2.2.0",
     "prettier": "^1.18.2",
-    "truffle-hdwallet-provider": "^1.0.17",
-    "zos-lib": "^2.4.2"
+    "truffle-hdwallet-provider": "^1.0.17"
   },
   "repository": {
     "type": "git",
@@ -23,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/JarenL/Tartarus/issues"
   },
-  "homepage": "https://github.com/JarenL/Tartarus#readme"
+  "homepage": "https://github.com/JarenL/Tartarus#readme",
+  "dependencies": {
+    "@openzeppelin/cli": "2.6.0"
+  }
 }

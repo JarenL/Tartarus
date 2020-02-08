@@ -231,6 +231,7 @@ class CreatePostForm extends React.Component {
     this.props.web3.eth.getAccounts((error, accounts) => {
       tartarus.at(this.props.tartarusAddress).then(instance => {
         instance.createPostCost.call().then(async createPostCost => {
+          console.log(this.props.web3.utils.fromAscii(this.props.username))
           let createPostGas = await instance.createPost.estimateGas(
             this.props.web3.utils.fromAscii(this.props.username),
             this.props.web3.utils.fromAscii(this.props.forumName),

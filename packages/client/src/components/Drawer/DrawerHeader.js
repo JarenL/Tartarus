@@ -20,6 +20,14 @@ const Header = styled.div`
   }
 `;
 
+const StyledLogo = styled(HeaderLogo)`
+  @media (max-width: 768px) {
+    display: flex;
+    padding: 0 8px 0 16px;
+    font-size: 19px;
+  }
+`;
+
 const ButtonWrapper = styled.div`
   display: flex;
 `;
@@ -39,7 +47,7 @@ class DrawerHeader extends Component {
               <DrawerClose />
             </IconButton>
           </ButtonWrapper>
-          <HeaderLogo />
+          <StyledLogo />
         </Header>
         {/* {this.props.username !== null ? (
           <UserHeader

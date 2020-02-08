@@ -4,12 +4,11 @@ import HeaderLogo from './Logo';
 import HeaderDarkButtonContainer from './DarkButton/Container';
 import HeaderUsername from './Username';
 import HeaderNavLink from './NavLink';
-import { userLogout } from '../../redux/actions/actions';
+import { userLogout, setDrawerState } from '../../redux/actions/actions';
 import SearchContainer from './Search/SearchContainer';
 import FilterContainer from './Filter/FilterContainer';
 import CategoryMenu from './CategoryMenu/Container';
 import Drawer from '../Drawer/Component';
-import { setDrawerState } from '../../redux/actions/actions';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import PropTypes from 'prop-types';
@@ -43,10 +42,20 @@ const Wrapper = styled.header`
 const FilterWrapper = styled.div`
   display: flex;
   // margin-right: 1.5%;
-  width: 100%;
-  margin-right: auto;
+  width: 45%;
+  margin-left: auto;
   @media (max-width: 768px) {
     display: none;
+  }
+`;
+
+const SearchWrapper = styled.div`
+  display: flex;
+  // margin-right: 1.5%;
+  width: 30%;
+  margin-left: auto;
+  @media (max-width: 768px) {
+    width: 100%;
   }
 `;
 
@@ -138,7 +147,9 @@ class Header extends Component {
                   <FilterWrapper>
                     <FilterContainer />
                   </FilterWrapper>
-                  {/* <SearchContainer /> */}
+                  <SearchWrapper>
+                    <SearchContainer />
+                  </SearchWrapper>
                   <HeaderDarkButtonContainer />
                   {this.props.username ? (
                     <>

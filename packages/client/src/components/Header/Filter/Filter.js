@@ -27,13 +27,13 @@ const FormWrapper = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: auto;
-  width: 55%;
+  width: 60%;
 `;
 
 const StyledForm = styled(Form)`
   padding: 0px;
   width: 100%;
-  margin-left: 8px;
+  margin-left: 4px;
   background-color: ${props => props.theme.foreground};
   font-size: 12px;
   color: ${props => props.theme.normalText};

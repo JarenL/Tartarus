@@ -1,19 +1,19 @@
 {
-  "zosversion": "2.2",
+  "manifestVersion": "2.2",
   "contracts": {
     "Tartarus": "Tartarus"
   },
   "dependencies": {},
-  "name": "tartarus",
-  "version": "0.2.0",
+  "name": "tartarus-contract",
+  "version": "1.0.0",
   "compiler": {
-    "manager": "openzeppelin",
-    "solcVersion": "0.5.11",
+    "manager": "truffle",
     "compilerSettings": {
       "optimizer": {
-        "enabled": true,
+        "enabled": false,
         "runs": "200"
       }
     }
-  }
+  },
+  "telemetryOptIn": false
 }

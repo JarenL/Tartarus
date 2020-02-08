@@ -57,9 +57,8 @@ const UserLock = styled(LockButton)`
 `;
 
 const PostContentDetail = props => {
-  console.log(props);
   return (
-    <Wrapper>
+    <Wrapper id={"details"}>
       <Link to={`/f/${props.forumName}`} style={{ textDecoration: 'none' }}>
         /f/{props.forumName}
       </Link>

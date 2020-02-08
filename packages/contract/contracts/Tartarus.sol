@@ -1,10 +1,7 @@
 pragma solidity ^0.5.0;
 
 // Import base Initializable contract
-import "zos-lib/contracts/Initializable.sol";
-
-// Import interface and library from OpenZeppelin contracts
-import "openzeppelin-eth/contracts/math/SafeMath.sol";
+import "@openzeppelin/upgrades/contracts/Initializable.sol";
 
 contract Tartarus is Initializable {
     event TartarusPaid (uint amount, uint time);
@@ -212,7 +209,6 @@ contract Tartarus is Initializable {
         } else {
             return ownerAccount == _user;
         }
-        
     }
 
     modifier onlyAdminAuthorized(bytes32 _user, uint _permissionIndex) {
@@ -304,6 +300,24 @@ contract Tartarus is Initializable {
         }
     }
 
+    modifier onlyCanRemovePost(bytes32 _user, bytes32 _forum, bytes32 _postId) {
+        _canRemovePost(_user, _forum, _postId);
+        _;
+    }
+
+    function _canRemovePost(bytes32 _user, bytes32 _forum, bytes32 _postId) internal view {
+        require(
+            _user == forums[_forum].posts[_postId].creator ||
+            forums[_forum].owner == _user ||
+            forums[_forum].moderators[_user].permissions[0] ||
+            forums[_forum].moderators[_user].permissions[5] ||
+            ownerAccount == _user ||
+            admins[_user].permissions[0] ||
+            admins[_user].permissions[6],
+            "User does not have permission"
+        );
+    }
+
     modifier onlyCommentAllowed(bytes32 _forum, bytes32 _targetId, bytes32 _user) {
         _commentAllowed(_forum, _targetId, _user);
         _;
@@ -341,6 +355,25 @@ contract Tartarus is Initializable {
                 "Commenting locked to user"
             );
         }
+    }
+
+    modifier onlyCanRemoveComment(bytes32 _user, bytes32 _forum, bytes32 _commentId) {
+        _canRemoveComment(_user, _forum, _commentId);
+        _;
+    }
+
+
+    function _canRemoveComment(bytes32 _user, bytes32 _forum, bytes32 _commentId) internal view {
+        require(
+            _user == forums[_forum].comments[_commentId].creator ||
+            forums[_forum].owner == _user ||
+            forums[_forum].moderators[_user].permissions[0] ||
+            forums[_forum].moderators[_user].permissions[5] ||
+            ownerAccount == _user ||
+            admins[_user].permissions[0] ||
+            admins[_user].permissions[6],
+            "User does not have permission"
+        );
     }
 
     modifier onlyNotVoted(bytes32 _forum, bytes32 _user, bytes32 _postId) {
@@ -541,17 +574,7 @@ contract Tartarus is Initializable {
     }
 
     function removePost(bytes32 _user, bytes32 _forum, bytes32 _postId)
-        public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) {
-        require(
-            _user == forums[_forum].posts[_postId].creator ||
-            forums[_forum].owner == _user ||
-            forums[_forum].moderators[_user].permissions[0] ||
-            forums[_forum].moderators[_user].permissions[5] ||
-            ownerAccount == _user ||
-            admins[_user].permissions[0] ||
-            admins[_user].permissions[6],
-            "User does not have permission"
-        );
+        public onlyUserVerified(_user) onlyForumExists(_forum) onlyPostExists(_forum, _postId) onlyCanRemovePost(_user, _forum, _postId) {
         delete forums[_forum].posts[_postId].post;
         emit PostRemoved(_forum, _user, forums[_forum].posts[_postId].creator, _postId, now);
     }
@@ -613,17 +636,7 @@ contract Tartarus is Initializable {
     }
 
     function removeComment(bytes32 _user, bytes32 _forum, bytes32 _postId, bytes32 _commentId)
-        public onlyUserVerified(_user) onlyForumExists(_forum) onlyCommentExists(_forum, _commentId) {
-        require(
-            _user == forums[_forum].comments[_commentId].creator ||
-            forums[_forum].owner == _user ||
-            forums[_forum].moderators[_user].permissions[0] ||
-            forums[_forum].moderators[_user].permissions[5] ||
-            ownerAccount == _user ||
-            admins[_user].permissions[0] ||
-            admins[_user].permissions[6],
-            "User does not have permission"
-        );
+        public onlyUserVerified(_user) onlyForumExists(_forum) onlyCommentExists(_forum, _commentId) onlyCanRemoveComment(_user, _forum, _commentId) {
         delete forums[_forum].comments[_commentId].comment;
         emit CommentRemoved(_forum, _user, forums[_forum].comments[_commentId].creator, _postId, _commentId, now);
     }

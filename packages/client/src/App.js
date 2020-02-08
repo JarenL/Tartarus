@@ -28,8 +28,8 @@ import { TartarusContract, TartarusProxie } from 'tartarus-contract';
 import passiveNotificationEvents from './components/Notifications/passiveNotificationEvents';
 
 const getTartarusAddress = () => {
-  return TartarusProxie.proxies['tartarus/Tartarus'][
-    TartarusProxie.proxies['tartarus/Tartarus'].length - 1
+  return TartarusProxie.proxies['tartarus-contract/Tartarus'][
+    TartarusProxie.proxies['tartarus-contract/Tartarus'].length - 1
   ].address;
 };
 
@@ -593,7 +593,7 @@ class App extends Component {
               exact
               path='/'
               // onChange={this.handleNotifications()}
-              component={() => {
+              render={({ match }) => {
                 console.log(this.props.lastVisited);
                 if (
                   Date.now() - 7 * 24 * 60 * 60 * 1000 >
@@ -610,14 +610,16 @@ class App extends Component {
                   //   />
                   // );
                 } else {
-                  return <Home />;
+                  return <Home key={match.url} />;
                 }
               }}
             />
             <Route
               path='/'
               // onChange={this.handleNotifications()}
-              component={Home}
+              render={({ match }) => {
+                return <Home key={match.url} />;
+              }}
             />
           </Switch>
           <StyledToastContainer transition={Zoom} />

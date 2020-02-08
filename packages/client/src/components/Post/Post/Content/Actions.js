@@ -82,7 +82,7 @@ const CommentCountWrapper = styled.div`
 `;
 
 const PostActions = props => (
-  <Wrapper>
+  <Wrapper id={"actions"}>
     <ButtonWrapper>
       {!props.preview ? (
         <More size={16} onClick={props.handlePreview} />

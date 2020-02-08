@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 `;
 
 const PostContentFullText = props => (
-  <Wrapper>{ReactHtmlParser(props.post)}</Wrapper>
+  <Wrapper id={"full"}>{ReactHtmlParser(props.post)}</Wrapper>
 );
 
 export default PostContentFullText;

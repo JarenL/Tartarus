@@ -32,7 +32,7 @@ const Wrapper = styled.div`
 
 const PostContentTitle = props => (
   // <Wrapper full={props.full}>{renderTitle(props)}</Wrapper>
-  <Wrapper full={props.full}>
+  <Wrapper full={props.full} id={'title'}>
     <Link to={`/f/${props.forumName}/p/${props.postId}`}>{props.title}</Link>
   </Wrapper>
 );

@@ -9,15 +9,16 @@ const TartarusLogo = require('../assets/TartarusLogo.svg');
 const Logo = styled(Link)`
   ${headerItem};
 
-  margin-right: auto;
+  margin-right: 8px;
   font-size: 24px;
   font-weight: 500;
   color: ${props => props.theme.normalText};
   text-decoration: none;
+  padding: 0;
 
-  @media (max-width: 425px) {
-    padding: 0 8px 0 16px;
-    font-size: 19px;
+  @media (max-width: 768px) {
+    // padding: 0 8px 0 16px;
+    font-size: 20px;
   }
 `;
 

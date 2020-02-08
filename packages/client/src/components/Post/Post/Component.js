@@ -23,7 +23,13 @@ const Wrapper = styled.div`
   display: flex;
   height: 100%;
   background-color: ${props => props.theme.foreground};
-  border: 0.5px solid ${props => props.theme.foreground};
+  border: 0.5px solid
+    ${props =>
+      props.adminPinned
+        ? props.theme.admin
+        : props.forumPinned
+        ? props.theme.mod
+        : props.theme.foreground};
   &:hover {
     border: 0.5px solid ${props => props.theme.accent};
   }
@@ -73,7 +79,9 @@ class Post extends Component {
       upvoted: false,
       downvoted: false,
       isModerator: false,
-      isAdmin: false
+      isAdmin: false,
+      forumPinned: false,
+      adminPinned: false
     };
     this.instantiateContract = this.instantiateContract.bind(this);
   }
@@ -121,7 +129,6 @@ class Post extends Component {
 
               const upvoteRatio =
                 (post[2].c[0] / (post[2].c[0] + post[3].c[0])) * 100;
-
               this.setState({
                 isModerator: await this.checkIsModerator(post[1]),
                 isAdmin: await this.checkIsAdmin(post[1]),
@@ -220,7 +227,6 @@ class Post extends Component {
   };
 
   checkCanPin = () => {
-    // console.log(this.props.userPermissions.admin)
     return (
       this.props.userPermissions.admin[0] ||
       this.props.userPermissions.admin[6] ||
@@ -337,7 +343,7 @@ class Post extends Component {
     if (this.props.username === null) {
       this.props.history.push('/login');
     } else {
-      let newWatched = this.props.userSettings[this.props.username].saved;
+      let newWatched = this.props.userSettings[this.props.username].watched;
       let newWatchedPostsArray = newWatched.posts.slice();
       for (var i = 0; i < newWatchedPostsArray.length; i++) {
         if (newWatchedPostsArray[i].postId === props) {
@@ -434,6 +440,10 @@ class Post extends Component {
       tartarus.setProvider(this.props.web3.currentProvider);
       this.props.web3.eth.getAccounts((error, accounts) => {
         tartarus.at(this.props.tartarusAddress).then(instance => {
+          console.log(this.props.web3.utils.fromAscii(this.props.username))
+          console.log(this.props.post.forum)
+          console.log(this.props.post.postId)
+          console.log(this.props.tartarusAddress)
           instance.removePost
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),
@@ -442,16 +452,10 @@ class Post extends Component {
               { from: accounts[0], gasPrice: 20000000000 }
             )
             .then(result => {
-              this.setState({
-                loading: false
-              });
               confirmToast();
             })
             .catch(error => {
               console.log('error');
-              this.setState({
-                loading: false
-              });
               errorToast();
             });
         });
@@ -614,12 +618,20 @@ class Post extends Component {
       });
   };
 
-  handleClick = () => {
-    this.props.history.push(
-      `/f/${this.props.web3.utils.toAscii(this.props.post.forum)}/p/${
-        this.props.post.postId
-      }`
-    );
+  handleClick = event => {
+    event.preventDefault();
+    if (
+      event.target.id === 'title' ||
+      event.target.id === 'preview' ||
+      event.target.id === 'actions' ||
+      event.target.id === 'details'
+    ) {
+      this.props.history.push(
+        `/f/${this.props.web3.utils.toAscii(this.props.post.forum)}/p/${
+          this.props.post.postId
+        }`
+      );
+    }
   };
 
   render() {
@@ -632,8 +644,10 @@ class Post extends Component {
     } else {
       return (
         <Wrapper
+          onClick={this.handleClick}
           forumPinned={this.state.forumPinned}
           adminPinned={this.state.adminPinned}
+          id={'test'}
         >
           <PostVote
             votes={this.state.votes}

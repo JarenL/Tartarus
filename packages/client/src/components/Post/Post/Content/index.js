@@ -71,9 +71,9 @@ const renderContent = props => {
       );
     case 'text':
       if (props.preview) {
-        return <PostContentFullText post={props.post} />;
+        return <PostContentFullText id={'fullText'} post={props.post} />;
       } else {
-        return <TextPreview>{ReactHtmlParser(props.post)}</TextPreview>;
+        return <TextPreview id={'preview'}>{ReactHtmlParser(props.post)}</TextPreview>;
       }
     default:
       break;
