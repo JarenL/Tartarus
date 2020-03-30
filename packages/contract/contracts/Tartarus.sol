@@ -307,14 +307,14 @@ contract Tartarus is Initializable {
 
     function _canRemovePost(bytes32 _user, bytes32 _forum, bytes32 _postId) internal view {
         require(
+            _user == ownerAccount ||
             _user == forums[_forum].posts[_postId].creator ||
             forums[_forum].owner == _user ||
             forums[_forum].moderators[_user].permissions[0] ||
             forums[_forum].moderators[_user].permissions[5] ||
-            ownerAccount == _user ||
             admins[_user].permissions[0] ||
             admins[_user].permissions[6],
-            "User does not have permission"
+            "User not authorized"
         );
     }
 
@@ -365,14 +365,14 @@ contract Tartarus is Initializable {
 
     function _canRemoveComment(bytes32 _user, bytes32 _forum, bytes32 _commentId) internal view {
         require(
+            _user == ownerAccount ||
             _user == forums[_forum].comments[_commentId].creator ||
             forums[_forum].owner == _user ||
             forums[_forum].moderators[_user].permissions[0] ||
             forums[_forum].moderators[_user].permissions[5] ||
-            ownerAccount == _user ||
             admins[_user].permissions[0] ||
             admins[_user].permissions[6],
-            "User does not have permission"
+            "User not authorized"
         );
     }
 

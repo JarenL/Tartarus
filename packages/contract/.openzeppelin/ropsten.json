@@ -1,11 +1,11 @@
 {
   "contracts": {
     "Tartarus": {
-      "address": "0x75d9ae318259066f5C14Ea6c07D76A616282175f",
-      "constructorCode": "608060405234801561001057600080fd5b50615e1180620000216000396000f3fe",
-      "bodyBytecodeHash": "da5ee6763f3bcb019220a1341381376f9d0dc1394379b003ca5af27ff10cf0b0",
-      "localBytecodeHash": "a59266364df33112a1b6c23491e31f92f8ea03619944065dbbf5f013085653cb",
-      "deployedBytecodeHash": "a59266364df33112a1b6c23491e31f92f8ea03619944065dbbf5f013085653cb",
+      "address": "0xc2dD0E3547Fc9796FecE2BfdeA50D6EA742bd639",
+      "constructorCode": "608060405234801561001057600080fd5b50615e2e80620000216000396000f3fe",
+      "bodyBytecodeHash": "60ebea6727e1c7d3c20d26e639f806fd8090b327cf63c08fb54e03dad6ff05b3",
+      "localBytecodeHash": "0183af2ef0c1ff5d8043ae56616233d758a68d899eee5978931cba11b782f899",
+      "deployedBytecodeHash": "0183af2ef0c1ff5d8043ae56616233d758a68d899eee5978931cba11b782f899",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -547,21 +547,19 @@
   },
   "solidityLibs": {},
   "proxies": {
-    "tartarus/Tartarus": [
-      {
-        "address": "0x6E1F566BEF15C77237c7bca7ae328000955D51D5",
-        "version": "0.2.0",
-        "implementation": "0x2B1Dbc77130Fad4289D2100A81C4712B640E3cAA",
-        "admin": "0xe5D8EdC98b9aD8191e1FfEF6FE357f41b4491E7A",
-        "kind": "Upgradeable"
-      }
-    ],
     "tartarus-contract/Tartarus": [
       {
-        "address": "0xF0a8EB3dF6DfFF3B9F079CDFfA385Ce172ea4B9e",
+        "address": "0x9acF3d96D7B3765008D152f1be83bE0c36885371",
         "version": "1.0.0",
-        "implementation": "0x75d9ae318259066f5C14Ea6c07D76A616282175f",
-        "admin": "0xe5D8EdC98b9aD8191e1FfEF6FE357f41b4491E7A",
+        "implementation": "0xeb41aD73F33Eb5736006AC9fb757A52b376ca031",
+        "admin": "0xbaD2B82885eC3990fC7100ABf105FaF51197f8a9",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0xb288f32717C1e4F290b592A1a3496d6562e25Eda",
+        "version": "1.0.0",
+        "implementation": "0xc2dD0E3547Fc9796FecE2BfdeA50D6EA742bd639",
+        "admin": "0xbaD2B82885eC3990fC7100ABf105FaF51197f8a9",
         "kind": "Upgradeable"
       }
     ]
@@ -569,6 +567,6 @@
   "manifestVersion": "2.2",
   "version": "1.0.0",
   "proxyAdmin": {
-    "address": "0xe5D8EdC98b9aD8191e1FfEF6FE357f41b4491E7A"
+    "address": "0xbaD2B82885eC3990fC7100ABf105FaF51197f8a9"
   }
 }

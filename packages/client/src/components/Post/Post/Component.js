@@ -440,10 +440,9 @@ class Post extends Component {
       tartarus.setProvider(this.props.web3.currentProvider);
       this.props.web3.eth.getAccounts((error, accounts) => {
         tartarus.at(this.props.tartarusAddress).then(instance => {
-          console.log(this.props.web3.utils.fromAscii(this.props.username))
+          console.log(this.props.web3.utils.fromUtf8(this.props.username))
           console.log(this.props.post.forum)
           console.log(this.props.post.postId)
-          console.log(this.props.tartarusAddress)
           instance.removePost
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),
@@ -455,7 +454,7 @@ class Post extends Component {
               confirmToast();
             })
             .catch(error => {
-              console.log('error');
+              console.log(error);
               errorToast();
             });
         });
