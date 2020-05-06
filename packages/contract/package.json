@@ -1,10 +1,16 @@
 {
-  "name": "tartarus",
+  "name": "tartarus-contract",
   "version": "1.0.0",
-  "description": "tartarus monorepo",
-  "private": true,
+  "description": "package for tartarus contract",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "dotenv": "8.2.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.18.2",
+    "truffle-hdwallet-provider": "^1.0.17"
   },
   "repository": {
     "type": "git",
@@ -16,12 +22,7 @@
     "url": "https://github.com/JarenL/Tartarus/issues"
   },
   "homepage": "https://github.com/JarenL/Tartarus#readme",
-  "devDependencies": {
-    "lerna": "^3.19.0"
-  },
-  "scripts": {
-    "bootstrap": "lerna bootstrap --hoist",
-    "pretest": "eslint packages",
-    "test": "jest"
+  "dependencies": {
+    "@openzeppelin/cli": "2.6.0"
   }
 }
