@@ -1,0 +1,1 @@
+export { default as IndexSearch } from './bundle.js';

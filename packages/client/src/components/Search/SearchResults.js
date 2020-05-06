@@ -5,7 +5,7 @@ import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 import PostListItem from '../Post/PostList/Item';
 import ReactList from 'react-list';
 
-const search = require('ipfsearch-webapp/bundle.js');
+const search = require('ipfsearch-webapp');
 
 class SearchResults extends React.Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class SearchResults extends React.Component {
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
     let instance = await tartarus.at(this.props.tartarusAddress);
-    let query = await search.search(this.props.search);
+    let query = await search.IndexSearch(this.props.search);
     console.log(query);
     // let posts = [];
     let posts = await Promise.all(
