@@ -22,6 +22,7 @@ What things you need to run this application:
 * [zos](https://docs.openzeppelin.com/openzeppelin/index.html) 
 * [React](https://reactjs.org/) 
 * [Redux](https://redux.js.org/)
+* [IPFS] (https://www.ipfs.com/)
 
 ## Authors
 
