@@ -10,7 +10,11 @@ import InvalidIcon from '../shared/form/InvalidIcon';
 import CheckButton from '../Buttons/CheckButton';
 import CancelButton from '../Buttons/CancelButton';
 import SubmitButton from '../Buttons/SubmitButton';
-import { warningToast, confirmToast, errorToast } from '../Notifications/Toasts/Toast';
+import {
+  warningToast,
+  confirmToast,
+  errorToast
+} from '../Notifications/Toasts/Toast';
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,6 +40,10 @@ const IconWrapper = styled.div`
   align-items: center;
   // margin-left: 4px;
   // margin-top: 2px;
+`;
+
+const InfoWrapper = styled.div`
+  color: ${props => props.theme.normalText};
 `;
 
 class SignupForm extends React.Component {
@@ -184,6 +192,9 @@ class SignupForm extends React.Component {
             </IconWrapper>
           ) : null}
         </FieldWrapper>
+        <InfoWrapper>
+          Alphanumeric, lowercase, 3-21 characters, underscore(_) and dash (-) allowed.
+        </InfoWrapper>
         <Wrapper>
           {this.state.available ? (
             <SubmitButton />

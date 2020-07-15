@@ -13,7 +13,6 @@
     "ipfs-http-client": "^33.1.1",
     "ipfsearch-webapp": "^1.0.0",
     "is-ipfs": "^0.6.0",
-    "landing": "^0.0.1",
     "moment": "^2.24.0",
     "prettier-bytes": "^1.0.4",
     "react": "^16.12.0",

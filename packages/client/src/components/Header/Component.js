@@ -25,7 +25,7 @@ const Wrapper = styled.header`
   margin-bottom: 24px;
   box-shadow: 0 4px 12px ${props => props.theme.shadow};
   border-bottom: 1px solid ${props => props.theme.border};
-  height: 48px;
+  height: 54px;
   padding: 0 10vw;
   background-color: ${props => props.theme.foreground};
   user-select: none;

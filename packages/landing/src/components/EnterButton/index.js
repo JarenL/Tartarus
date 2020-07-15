@@ -3,7 +3,7 @@ import React from 'react';
 //styles
 import * as S from './styles';
 
-function DownloadButton({ onClick }) {
+function EnterButton({ onClick }) {
   return (
     <S.Button
       onClick={onClick}
@@ -20,4 +20,4 @@ function DownloadButton({ onClick }) {
   );
 }
 
-export default DownloadButton;
+export default EnterButton;

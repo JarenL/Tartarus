@@ -27,8 +27,8 @@ export const Button = styled.button(
   ({ theme }) => ({
     ...(!theme.disabled && {
       ...hover({
-        // background: theme.button.backgroundHover
-        background: '#33a0ff'
+        background: theme.lightAccent
+        
       })
     })
   })

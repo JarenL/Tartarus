@@ -1,10 +1,6 @@
-/* craco.config.js */
-
 const path = require('path');
 const fs = require('fs');
 const cracoBabelLoader = require('craco-babel-loader');
-
-const { override, addWebpackAlias } = require('customize-cra');
 
 // Handle relative paths to sibling packages
 const appDirectory = fs.realpathSync(process.cwd());

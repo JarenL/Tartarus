@@ -1,27 +1,11 @@
 import React, { useRef, useState } from "react";
-
-//icons (imported as svg using babel plugin)
-// import faBatteryFull from '../../icons/bat-charge.svg';
-// import faVolumeUp from '../../icons/volume-up.svg';
-// import faWifi from '../../icons/wifi.svg';
-// import faFeather from '../../icons/feather.svg';
-
-//styles
 import * as S from "./styles";
 import * as A from "../../styles/shared-components";
-
-//components
-// import Messages from '../Messages';
-import DayNightSwitch from "../DayNightSwitch";
-// import MenuBar from '../MenuBar';
-// import Compose from '../Compose';
-// import ToggleCount from '../ToggleCount';
-import DownloadButton from '../DownloadButton';
+import EnterButton from "../EnterButton";
 import Background from "../Background";
-// import Footer from '../Footer';
 import logo from "../../images/tartarus.png";
+import About from "../About";
 
-//hooks
 import {
   useGoogleAnalytics,
   useHovered,
@@ -29,13 +13,12 @@ import {
   useFindElementCenter,
   useMousePosition,
   useCanHover,
-  useClock
+  useClock,
 } from "../../utils/hooks";
 
 import useIntroAnimation from "./use-intro-animation";
 
 import "focus-visible";
-// import DownloadModal from '../DownloadModal';
 import { useBoolean } from "react-hanger";
 
 //env
@@ -91,108 +74,61 @@ function Home({ isAnimationDone, night, noWeb3, noAccount, welcomeClick }) {
     setToggleCount(toggleCount + 1);
   };
 
-  const tweetProgress = () => {
-    setText(
-      `I'm having too much fun with the day/night switch on twizzle.app 🤦️ ${toggleCount} times so far! 😂️`
-    );
-    setComposeOpen(true);
-  };
-
   return (
     <S.Home>
-      {/* {showModal.value && <DownloadModal onClose={showModal.setFalse} />} */}
       <S.MainSection>
         <Background
           night={night}
           startLoadingLight={isAnimationDone.value}
           show={isBig}
         />
+        <S.MainSection>
+          <S.Content ref={contentRef}>
+            <S.WindowBox
+              ref={messagesWindowRef}
+              initialPose="hidden"
+              pose={homePose}
+              {...windowCenter}
+            ></S.WindowBox>
 
-        {/* <MenuBar
-          className="menubar"
-          pose={menuBarPose}
-          selected={showComposeWindow}
-          onClick={() => setComposeOpen(v => !v)}
-          mainIcon={faFeather}
-          icons={[faWifi, clock, faVolumeUp, '100%', faBatteryFull]}
-        /> */}
+            <S.TextContent
+              isAnimationDone={isAnimationDone.value}
+              pose={homePose}
+            >
+              <S.Title>
+                <S.Logo src={logo} />
+                <S.TitleText>tartaros</S.TitleText>
+              </S.Title>
 
-        {/* <Compose
-          {...isHoveringCompose.bind}
-          text={text}
-          setText={setText}
-          setComposeOpen={setComposeOpen}
-          composeIsOpen={composeIsOpen}
-          visible={showComposeWindow}
-        /> */}
+              {/* <A.Space huge /> */}
+              <S.Subtitle>
+                <span>
+                  Welcome to the marketplace of ideas.
+                  <A.Space />
+                  {noWeb3
+                    ? "No web3 detected. Please use a web3 compatible Browser or extension."
+                    : null}
+                  <A.Space />
+                </span>
+                {noWeb3 ? null : (
+                  <EnterButton
+                    startLoading={isAnimationDone.value}
+                    onClick={welcomeClick}
+                  />
+                )}
+              </S.Subtitle>
 
-        <S.Content ref={contentRef}>
-          <S.WindowBox
-            ref={messagesWindowRef}
-            initialPose="hidden"
-            pose={homePose}
-            {...windowCenter}
-          >
-            {/* <S.Window night={night.value} hovering={isHoveringMessages.value}>
-              <Messages
-                messagesPose={messagesPose}
-                fabPose={fabPose}
-                night={night.value}
-                onToggleNight={onToggleNight}
-              />
-            </S.Window> */}
-          </S.WindowBox>
-
-          {/* <A.Space huge /> */}
-
-          <S.TextContent
-            isAnimationDone={isAnimationDone.value}
-            pose={homePose}
-          >
-            <S.Title>
-              <S.Logo src={logo} />
-              <S.TitleText>tartarus</S.TitleText>
-            </S.Title>
-
-            <A.Space huge />
-            <S.Subtitle>
-              {/* <span>
-                Create. Discuss. Uninhibited.
-
-              </span> */}
-              {/* <br />
-              <span>
-              </span>
-              <br />
-              <span>
-              </span>
-              <br /> */}
-              {/* <br /> */}
-              <span>
-                Welcome to the marketplace of ideas.
-                {/* Focus on <A.Hover {...isHoveringMessages.bind}>messages</A.Hover> and{' '} */}
-                {/* <A.Hover
-                  {...(canHover ? isHoveringCompose.bind : { onClick: () => setComposeOpen(true) })}
-                  className="tweeting"
-                >
-                  tweeting
-                </A.Hover> */}
-                <A.Space />
-                {noWeb3 ? "No web3 detected. Please use a web3 compatible Browser or extension." : null}
-                <A.Space />
-              </span>
-              {noWeb3 ? null : <DownloadButton startLoading={isAnimationDone.value} onClick={welcomeClick} /> }
-
-
-              {/* <span>The timeline can wait.</span> */}
-            </S.Subtitle>
-
-            <A.Space />
-
-          </S.TextContent>
-        </S.Content>
+              {/* <A.Space /> */}
+            </S.TextContent>
+          </S.Content>
+        </S.MainSection>
+        <S.SubSection>
+          {/*  */}
+          <S.TestContent>
+            <About />
+          </S.TestContent>
+        </S.SubSection>
       </S.MainSection>
-      {/* <Footer composeIsOpen={composeIsOpen} menuBarPose={menuBarPose} /> */}
     </S.Home>
   );
 }

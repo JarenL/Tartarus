@@ -28,7 +28,7 @@ const HeaderLogo = () => {
       <SVG src={TartarusLogo} width='32px' height='32px' />
       {/* <img src={TartarusLogo} alt='My logo' width='32px' height='32px' /> */}
 
-      tartarus
+      tartaros
     </Logo>
   );
 };

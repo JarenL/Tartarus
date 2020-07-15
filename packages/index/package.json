@@ -2,7 +2,6 @@
     "name": "ipfsearch-index",
     "version": "2.5.3",
     "description": "Index generation for ipfsearch",
-    "private": true,
     "author": "Ondrej Sojka",
     "license": "ISC",
     "dependencies": {

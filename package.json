@@ -4,7 +4,10 @@
   "description": "tartarus monorepo",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "bootstrap": "lerna bootstrap",
+    "pretest": "eslint packages",
+    "test": "jest",
+    "docker": "docker build -t tartaros ."
   },
   "repository": {
     "type": "git",
@@ -17,11 +20,6 @@
   },
   "homepage": "https://github.com/JarenL/Tartarus#readme",
   "devDependencies": {
-    "lerna": "^3.19.0"
-  },
-  "scripts": {
-    "bootstrap": "lerna bootstrap --hoist",
-    "pretest": "eslint packages",
-    "test": "jest"
+    "lerna": "^3.22.1"
   }
 }

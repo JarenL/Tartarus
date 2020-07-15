@@ -118,6 +118,17 @@ export const MainSection = styled.div({
   ...zIndexFor(ELEMENTS.MAIN_SECTION)
 });
 
+export const SubSection = styled.div({
+  position: 'relative',
+  ...flex.vertical,
+  width: '80%',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  minHeight: '100vh',
+  flex: 1,
+  ...zIndexFor(ELEMENTS.MAIN_SECTION)
+});
+
 export const Padding = styled.div({
   padding: '60px 100px',
   [smaller(breakpoints.large)]: {
@@ -141,6 +152,14 @@ export const Content = styled(Padding)({
     flexDirection: 'column-reverse',
     ...flex.centerVertical
   }
+});
+
+export const TestContent = styled(Padding)({
+  ...flex.vertical,
+  ...zIndexFor(ELEMENTS.CONTENT),
+  color: 'white',
+  marginTop: 'auto',
+  marginBottom: 'auto'
 });
 
 export const TextContent = styled(
