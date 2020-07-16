@@ -12,9 +12,9 @@ const Split = styled.div`
 
     background-color: ${props => props.theme.foreground};
 
-    @media (max-width: 786px) {
-        grid-template-columns: 3fr 1fr;
-    }
+    // @media (max-width: 786px) {
+    //     grid-template-columns: 3fr 1fr;
+    // }
 `
 
 export default Split;

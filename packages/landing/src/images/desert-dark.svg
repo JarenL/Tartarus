@@ -2,8 +2,8 @@
 <svg width="1051px" height="529px" viewBox="0 0 1051 529" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
         <linearGradient x1="49.9999965%" y1="-21.2643708%" x2="49.9999985%" y2="99.4252744%" id="linearGradient-1">
-            <stop stop-color="#262626" offset="0%"></stop>
-            <stop stop-color="#1b1b1b" stop-opacity="0.942113904" offset="100%"></stop>
+            <stop stop-color="#1b1b1b" offset="0%"></stop>
+            <stop stop-color="#1b1b1b" offset="100%"></stop>
         </linearGradient>
         <linearGradient x1="-6.03250429e-06%" y1="49.9999227%" x2="99.9999923%" y2="49.9999227%" id="linearGradient-2">
             <stop stop-color="#FFFFFF" stop-opacity="0.624179121" offset="0%"></stop>

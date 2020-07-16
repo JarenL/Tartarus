@@ -22,7 +22,29 @@ const Wrapper = styled.header`
   top: 0;
   display: flex;
   align-items: stretch;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px ${props => props.theme.shadow};
+  border-bottom: 1px solid ${props => props.theme.border};
+  height: 54px;
+  padding: 0 10vw;
+  background-color: ${props => props.theme.foreground};
+  user-select: none;
+  @media (max-width: 425px) {
+    margin-bottom: 0px;
+    height: 40px;
+  }
+  @media (max-width: 768px) {
+    padding: 0;
+    margin-bottom: 0px;
+  }
+`;
+
+const WelcomeWrapper = styled.header`
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  display: flex;
+  align-items: stretch;
   box-shadow: 0 4px 12px ${props => props.theme.shadow};
   border-bottom: 1px solid ${props => props.theme.border};
   height: 54px;
@@ -80,105 +102,103 @@ class Header extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <Wrapper>
-        <Switch>
-          <Route
-            exact
-            path='/welcome'
-            // onChange={this.handleNotifications()}
-            component={() => {
-              return (
-                <>
-                  <IconWrapper>
-                    <IconButton
-                      className={classes.menuButton}
-                      color='inherit'
-                      aria-label='Open drawer'
-                      onClick={this.handleDrawerToggle}
+      <Switch>
+        <Route
+          exact
+          path='/welcome'
+          // onChange={this.handleNotifications()}
+          component={() => {
+            return (
+              <WelcomeWrapper>
+                <IconWrapper>
+                  <IconButton
+                    className={classes.menuButton}
+                    color='inherit'
+                    aria-label='Open drawer'
+                    onClick={this.handleDrawerToggle}
+                  >
+                    <DrawerButton />
+                  </IconButton>
+                </IconWrapper>
+                <HeaderLogo />
+                <HeaderDarkButtonContainer />
+                {this.props.username ? (
+                  <>
+                    <HeaderUsername
+                      notifications={
+                        this.props.userSettings[this.props.username]
+                          .notifications.length
+                      }
+                      username={this.props.username}
+                    />
+                    <HeaderNavLink
+                      as='span'
+                      onClick={() => this.props.dispatch(userLogout())}
                     >
-                      <DrawerButton />
-                    </IconButton>
-                  </IconWrapper>
-                  <HeaderLogo />
-                  <HeaderDarkButtonContainer />
-                  {this.props.username ? (
-                    <>
-                      <HeaderUsername
-                        notifications={
-                          this.props.userSettings[this.props.username]
-                            .notifications.length
-                        }
-                        username={this.props.username}
-                      />
-                      <HeaderNavLink
-                        as='span'
-                        onClick={() => this.props.dispatch(userLogout())}
-                      >
-                        log out
-                      </HeaderNavLink>
-                    </>
-                  ) : (
-                    <>
-                      <HeaderNavLink to='/login'>log in</HeaderNavLink>
-                      <HeaderNavLink to='/signup'>sign up</HeaderNavLink>
-                    </>
-                  )}
-                </>
-              );
-            }}
-          />
-          <Route
-            path='/'
-            // onChange={this.handleNotifications()}
-            component={() => {
-              return (
-                <>
-                  <IconWrapper>
-                    <IconButton
-                      className={classes.menuButton}
-                      color='inherit'
-                      aria-label='Open drawer'
-                      onClick={this.handleDrawerToggle}
+                      log out
+                    </HeaderNavLink>
+                  </>
+                ) : (
+                  <>
+                    <HeaderNavLink to='/login'>log in</HeaderNavLink>
+                    <HeaderNavLink to='/signup'>sign up</HeaderNavLink>
+                  </>
+                )}
+              </WelcomeWrapper>
+            );
+          }}
+        />
+        <Route
+          path='/'
+          // onChange={this.handleNotifications()}
+          component={() => {
+            return (
+              <Wrapper>
+                <IconWrapper>
+                  <IconButton
+                    className={classes.menuButton}
+                    color='inherit'
+                    aria-label='Open drawer'
+                    onClick={this.handleDrawerToggle}
+                  >
+                    <DrawerButton />
+                  </IconButton>
+                </IconWrapper>
+                <HeaderLogo />
+                <FilterWrapper>
+                  <FilterContainer />
+                </FilterWrapper>
+                <SearchWrapper>
+                  <SearchContainer />
+                </SearchWrapper>
+                <HeaderDarkButtonContainer />
+                {this.props.username ? (
+                  <>
+                    <HeaderUsername
+                      notifications={
+                        this.props.userSettings[this.props.username]
+                          .notifications.length
+                      }
+                      username={this.props.username}
+                    />
+                    <HeaderNavLink
+                      as='span'
+                      onClick={() => this.props.dispatch(userLogout())}
                     >
-                      <DrawerButton />
-                    </IconButton>
-                  </IconWrapper>
-                  <HeaderLogo />
-                  <FilterWrapper>
-                    <FilterContainer />
-                  </FilterWrapper>
-                  <SearchWrapper>
-                    <SearchContainer />
-                  </SearchWrapper>
-                  <HeaderDarkButtonContainer />
-                  {this.props.username ? (
-                    <>
-                      <HeaderUsername
-                        notifications={
-                          this.props.userSettings[this.props.username]
-                            .notifications.length
-                        }
-                        username={this.props.username}
-                      />
-                      <HeaderNavLink
-                        as='span'
-                        onClick={() => this.props.dispatch(userLogout())}
-                      >
-                        log out
-                      </HeaderNavLink>
-                    </>
-                  ) : (
-                    <>
-                      <HeaderNavLink to='/login'>log in</HeaderNavLink>
-                      <HeaderNavLink to='/signup'>sign up</HeaderNavLink>
-                    </>
-                  )}
-                </>
-              );
-            }}
-          />
-        </Switch>
-      </Wrapper>
+                      log out
+                    </HeaderNavLink>
+                  </>
+                ) : (
+                  <>
+                    <HeaderNavLink to='/login'>log in</HeaderNavLink>
+                    <HeaderNavLink to='/signup'>sign up</HeaderNavLink>
+                  </>
+                )}
+              </Wrapper>
+            );
+          }}
+        />
+      </Switch>
     );
   }
 }

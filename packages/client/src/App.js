@@ -622,7 +622,12 @@ class App extends Component {
               }}
             />
           </Switch>
-          <StyledToastContainer transition={Zoom} />
+          <Route
+            path={/\/(?!welcome)/}
+            render={({ match }) => {
+              return <StyledToastContainer transition={Zoom} />;
+            }}
+          />
         </ThemeProvider>
       );
     }

@@ -5,6 +5,7 @@ import EnterButton from "../EnterButton";
 import Background from "../Background";
 import logo from "../../images/tartarus.png";
 import About from "../About";
+import TestParallax from "../Parallax/index"
 
 import {
   useGoogleAnalytics,
@@ -80,18 +81,22 @@ function Home({ isAnimationDone, night, noWeb3, noAccount, welcomeClick }) {
         <Background
           night={night}
           startLoadingLight={isAnimationDone.value}
-          show={isBig}
+          show={false}
         />
-        <S.MainSection>
-          <S.Content ref={contentRef}>
+        
+        {/* <S.MainSection> */}
+
+          {/* <S.Content ref={contentRef}> */}
             <S.WindowBox
               ref={messagesWindowRef}
               initialPose="hidden"
               pose={homePose}
               {...windowCenter}
             ></S.WindowBox>
+            <TestParallax />
 
-            <S.TextContent
+
+            {/* <S.TextContent
               isAnimationDone={isAnimationDone.value}
               pose={homePose}
             >
@@ -100,7 +105,6 @@ function Home({ isAnimationDone, night, noWeb3, noAccount, welcomeClick }) {
                 <S.TitleText>tartaros</S.TitleText>
               </S.Title>
 
-              {/* <A.Space huge /> */}
               <S.Subtitle>
                 <span>
                   Welcome to the marketplace of ideas.
@@ -118,16 +122,15 @@ function Home({ isAnimationDone, night, noWeb3, noAccount, welcomeClick }) {
                 )}
               </S.Subtitle>
 
-              {/* <A.Space /> */}
-            </S.TextContent>
-          </S.Content>
-        </S.MainSection>
-        <S.SubSection>
-          {/*  */}
+            </S.TextContent> */}
+          {/* </S.Content> */}
+        {/* </S.MainSection> */}
+        {/* <S.SubSection>
           <S.TestContent>
             <About />
           </S.TestContent>
-        </S.SubSection>
+          <TestParallax />
+        </S.SubSection> */}
       </S.MainSection>
     </S.Home>
   );

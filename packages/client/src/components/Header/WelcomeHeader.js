@@ -22,7 +22,7 @@ const Wrapper = styled.header`
   top: 0;
   display: flex;
   align-items: stretch;
-  margin-bottom: 24px;
+  // margin-bottom: 24px;
   box-shadow: 0 4px 12px ${props => props.theme.shadow};
   border-bottom: 1px solid ${props => props.theme.border};
   height: 48px;
