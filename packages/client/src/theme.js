@@ -25,6 +25,8 @@ const dark = {
   pageBackground: '#1b1b1b',
   voteButtonHover: '#383838',
   foreground: '#262626',
+  splitBackground: '#262626',
+  splitBorder: '#545454',
   activeBackground: '#333333',
   inputBackground: '#212121',
   shadow: 'rgba(0, 0, 0, 0.4)'
@@ -42,6 +44,8 @@ const light = {
   pageBackground: '#f4f6f8',
   voteButtonHover: '#f2f2f2',
   foreground: '#ffffff',
+  splitBackground: '#818e99',
+  splitBorder: '#cce7ff',
   activeBackground: '#fafafa',
   inputBackground: '#fcfcfc',
   shadow: 'rgba(0, 0, 0, 0.05)'

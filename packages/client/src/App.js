@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { toast, Zoom } from 'react-toastify';
 import { ThemeProvider } from 'styled-components';
 import HeaderContainer from './components/Header/Container';
@@ -63,7 +63,8 @@ class App extends Component {
         console.log('Error finding web3.');
         // toast.configure();
         // this.setState({
-        //   loading: false
+        //   loading: false SELECt * FROM table,
+        //   sum(carbonAmount)
         // });
       });
   }

@@ -36,7 +36,7 @@ class SearchTextArea extends React.Component {
     <TextArea
       as='textarea'
       {...field.input}
-      placeholder='Search...'
+      placeholder='Search'
       rows='1'
       onKeyDown={this.onKeyDown}
     />
