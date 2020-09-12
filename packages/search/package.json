@@ -19,7 +19,7 @@
         "install": "^0.13.0",
         "ipfs-mini": "^1.1.5",
         "ipfsearch-index": "^2.5.3",
-        "node-fetch": "^2.6.0",
+        "node-fetch": "^2.6.1",
         "npm": "^6.10.2"
     },
     "devDependencies": {
