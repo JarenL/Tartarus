@@ -9,7 +9,7 @@ import logo from "../../../images/tartarus.png";
 import User from "../../../images/user7.png";
 
 const Wrapper = styled.div`
-  width: 70%;
+  width: 50%;
 `;
 
 const TextWrapper = styled.div`
@@ -24,11 +24,11 @@ const ImageWrapper = styled.div`
 
 const BlockieWrapper = styled.img`
   // height: 25%;
-  width: 25%;
+  width: 35%;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  border-radius: 64px;
+  // border-radius: 64px;
   // padding: 24px;
 `;
 

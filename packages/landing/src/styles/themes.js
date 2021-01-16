@@ -31,7 +31,7 @@ export default {
       color: '#000000'
     },
     composeWindow: {
-      backgroundColor: '#ffffff'
+      // backgroundColor: '#ffffff'
     },
     composeBar: {
       backgroundColor: '#ffffff',

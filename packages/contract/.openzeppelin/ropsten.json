@@ -1,7 +1,7 @@
 {
   "contracts": {
     "Tartarus": {
-      "address": "0xc2dD0E3547Fc9796FecE2BfdeA50D6EA742bd639",
+      "address": "0x4379a25a6509af1Ff5C6e01AD9Ff3e824E79Ac4a",
       "constructorCode": "608060405234801561001057600080fd5b50615e2e80620000216000396000f3fe",
       "bodyBytecodeHash": "60ebea6727e1c7d3c20d26e639f806fd8090b327cf63c08fb54e03dad6ff05b3",
       "localBytecodeHash": "0183af2ef0c1ff5d8043ae56616233d758a68d899eee5978931cba11b782f899",
@@ -514,34 +514,7 @@
         "hasSelfDestruct": false,
         "hasDelegateCall": false,
         "hasInitialValuesInDeclarations": false,
-        "uninitializedBaseContracts": [],
-        "storageUncheckedVars": [
-          {
-            "contract": "Tartarus",
-            "path": "contracts/Tartarus.sol",
-            "label": "admins",
-            "astId": 358,
-            "type": "t_mapping<t_struct<Tartarus.Admin>>",
-            "src": "3693:40:0"
-          },
-          {
-            "contract": "Tartarus",
-            "path": "contracts/Tartarus.sol",
-            "label": "users",
-            "astId": 366,
-            "type": "t_mapping<t_struct<Tartarus.User>>",
-            "src": "3784:38:0"
-          },
-          {
-            "contract": "Tartarus",
-            "path": "contracts/Tartarus.sol",
-            "label": "forums",
-            "astId": 370,
-            "type": "t_mapping<t_struct<Tartarus.Forum>>",
-            "src": "3828:40:0"
-          }
-        ],
-        "storageDiff": []
+        "uninitializedBaseContracts": []
       }
     }
   },
@@ -549,17 +522,10 @@
   "proxies": {
     "tartarus-contract/Tartarus": [
       {
-        "address": "0x9acF3d96D7B3765008D152f1be83bE0c36885371",
+        "address": "0x070964Cf2c5DD34b1d2499162FB0993ca66c3370",
         "version": "1.0.0",
-        "implementation": "0xeb41aD73F33Eb5736006AC9fb757A52b376ca031",
-        "admin": "0xbaD2B82885eC3990fC7100ABf105FaF51197f8a9",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0xb288f32717C1e4F290b592A1a3496d6562e25Eda",
-        "version": "1.0.0",
-        "implementation": "0xc2dD0E3547Fc9796FecE2BfdeA50D6EA742bd639",
-        "admin": "0xbaD2B82885eC3990fC7100ABf105FaF51197f8a9",
+        "implementation": "0x4379a25a6509af1Ff5C6e01AD9Ff3e824E79Ac4a",
+        "admin": "0xfCEBb53b39B7A2937EDd9f9E05b50BfEc8896743",
         "kind": "Upgradeable"
       }
     ]
@@ -567,6 +533,6 @@
   "manifestVersion": "2.2",
   "version": "1.0.0",
   "proxyAdmin": {
-    "address": "0xbaD2B82885eC3990fC7100ABf105FaF51197f8a9"
+    "address": "0xfCEBb53b39B7A2937EDd9f9E05b50BfEc8896743"
   }
 }

@@ -15,7 +15,7 @@ import speak from "../../../images/speak.svg"
 // #3BCB56
 
 const Wrapper = styled.div`
-  width: 70%;
+  width: 50%;
 `;
 
 const TextWrapper = styled.div`
@@ -28,20 +28,10 @@ const ImageWrapper = styled.div`
   width: 25%;
 `;
 
-const BlockieWrapper = styled.img`
-  height: 75%;
-  width: 75%;
-  display: block;
-  margin-left: auto;;
-  margin-right: auto;
-  border-radius: 64px;
-  // padding: 24px;
-`;
-
-const SpeechSplit = () => {
+const SpeechSplit = props => {
   return (
     <Wrapper>
-      <Split>
+      <Split night={props.night}>
         <TextWrapper>
           <SplitTitle>Uncensored</SplitTitle>
           <SplitContent>

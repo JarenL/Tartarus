@@ -16,11 +16,12 @@ export const Text = styled.div(getThemeColor('text'));
 
 export const Logo = styled.img({
   borderRadius: '100%',
-  width: 70,
-  height: 70,
+  width: '30%',
+  // height: ',
   // maxHeight: 50,
   // maxWidth: 50,
-  marginRight: 12,
+  // marginRight: 12,
+  margin: 'auto',
   minWidth: 70,
   minHeight: 70
 });
@@ -62,6 +63,7 @@ export const Subtitle = styled(Text)({
   fontSize: 25,
   fontWeight: 300,
   lineHeight: '40px',
+  margin: 'auto',
   [smaller(950)]: {
     fontSize: 20
   },
@@ -148,6 +150,8 @@ export const Content = styled(Padding)({
   color: 'white',
   marginTop: 'auto',
   marginBottom: 'auto',
+  marginRight: 'auto',
+  marginLeft: 'auto',
   [isHorizontal]: {
     flexDirection: 'column-reverse',
     ...flex.centerVertical

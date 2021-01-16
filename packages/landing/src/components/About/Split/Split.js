@@ -9,6 +9,7 @@ const Split = styled.div`
     grid-template-columns: 2fr 1fr;
     align-items: center;
     grid-gap: 20px;
+    border: 2px solid ${props => props.theme.splitBorder};
 
     background-color: ${props => props.theme.foreground};
 

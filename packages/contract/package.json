@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/JarenL/Tartarus#readme",
   "dependencies": {
-    "@openzeppelin/cli": "2.6.0"
+    "@openzeppelin/cli": "2.6.0",
+    "@openzeppelin/contracts": "^3.1.0"
   }
 }

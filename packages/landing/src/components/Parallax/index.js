@@ -7,6 +7,7 @@ import banHammer from "../../images/ban-hammer2.png";
 import styled from "styled-components";
 import SpeechSplit from "../About/Split/SpeechSplit";
 import DesertDark from "../../images/desert-dark.svg";
+import DesertLight from "../../images/desert-light.svg";
 import AnonSplit from "../About/Split/AnonSplit";
 import Lock from "../../images/lock.svg";
 import Voice from "../../images/voice.svg";
@@ -23,59 +24,31 @@ import User5 from "../../images/user5.png";
 import User6 from "../../images/user6.png";
 import DecentSplit from "../About/Split/DecentSplit";
 import Server from "../../images/server.svg";
+import Server2 from "../../images/server2.svg";
+
 import IPFS from "../../images/ipfs.svg";
 import Ethereum from "../../images/ethereum.svg";
-
-const LogoWrapper = styled.div`
-  width: 100%;
-  // height: 100%;
-  // justify-content: center;
-  margin-right: auto;
-  margin-left: auto;
-  // align-self: center;
-`;
-
-const TextWrapper = styled.span`
-  font-size: 32px;
-  color: ${(props) => props.theme.mutedText};
-`;
-
-// Little helpers ...
-const url = (name, wrap = false) =>
-  `${
-    wrap ? "url(" : ""
-  }https://awv3node-homepage.surge.sh/build/assets/${name}.svg${
-    wrap ? ")" : ""
-  }`;
-const Pink = ({ children }) => (
-  <span style={{ color: "#FF6AC1" }}>{children}</span>
-);
-const Yellow = ({ children }) => (
-  <span style={{ color: "#EFF59B" }}>{children}</span>
-);
-const Lightblue = ({ children }) => (
-  <span style={{ color: "#9AEDFE" }}>{children}</span>
-);
-const Green = ({ children }) => (
-  <span style={{ color: "#57EE89" }}>{children}</span>
-);
-const Blue = ({ children }) => (
-  <span style={{ color: "#57C7FF" }}>{children}</span>
-);
-const Gray = ({ children }) => (
-  <span style={{ color: "#909090" }}>{children}</span>
-);
+import Quarantine from "../../images/quarantine.svg";
+import InfoSplit from "../About/Split/InfoSplit";
+import Stars from "../../images/stars.svg";
+import ConnectedStars from "../../images/stars-connected.svg";
+import StarsDay from "../../images/starsday.svg";
+import * as S from "../App/styles";
+import * as A from "../../styles/shared-components";
+import EnterButton from "../EnterButton";
 
 class TestParallax extends React.Component {
   render() {
     return (
-      <Parallax ref={(ref) => (this.parallax = ref)} pages={5}>
+      <Parallax ref={(ref) => (this.parallax = ref)} pages={6}>
         <ParallaxLayer
           offset={0}
           speed={0}
-          factor={4}
+          factor={5}
           style={{
-            backgroundImage: url("stars", true),
+            backgroundImage: this.props.night
+              ? `url(${Stars})`
+              : `url(${StarsDay})`,
             backgroundSize: "cover",
           }}
         />
@@ -89,53 +62,82 @@ class TestParallax extends React.Component {
           speed={1}
           // style={{ backgroundColor: "#87BCDE" }}
         />
-
         <ParallaxLayer
-          offset={4}
+          offset={5}
           speed={0}
           factor={1}
           style={{
-            backgroundImage: `url(${DesertDark})`,
+            backgroundImage: this.props.night
+              ? `url(${DesertDark})`
+              : `url(${DesertLight})`,
             backgroundSize: "cover",
           }}
-        />
+          onClick={() => this.parallax.scrollTo(0)}
+        >
+          <S.MainSection>
+            <S.Content ref={this.props.contentRef}>
+              <S.TextContent
+                isAnimationDone={this.props.isAnimationDone.value}
+                pose={this.props.homePose}
+              >
+                <S.Title>
+                  <S.Logo src={logo} />
+                  {/* <S.TitleText>tartaros</S.TitleText> */}
+                </S.Title>
 
+                <S.Subtitle>
+                  <span>
+                    Welcome to the marketplace of ideas.
+                    <A.Space />
+                    {this.props.noWeb3
+                      ? "No web3 detected. Please use a web3 compatible Browser or extension."
+                      : null}
+                    <A.Space />
+                  </span>
+                  {this.props.noWeb3 ? null : (
+                    <EnterButton
+                      startLoading={this.props.isAnimationDone.value}
+                      onClick={this.props.welcomeClick}
+                    />
+                  )}
+                </S.Subtitle>
+              </S.TextContent>
+            </S.Content>
+          </S.MainSection>
+        </ParallaxLayer>
+        <ParallaxLayer offset={4} speed={0} factor={1} />
         <ParallaxLayer offset={1.1} speed={0.2} style={{ opacity: 1 }}>
           <img
-            src={Lock}
+            src={VisOff}
             style={{ display: "block", width: "5%", marginLeft: "55%" }}
           />
           <img
-            src={VisOff}
+            src={Quarantine}
             style={{ display: "block", width: "5%", marginLeft: "15%" }}
           />
         </ParallaxLayer>
-
         <ParallaxLayer offset={1.3} speed={0.5} style={{ opacity: 1 }}>
           <img
-            src={Voice}
-            style={{ display: "block", width: "5%", marginLeft: "70%" }}
+            src={banHammer}
+            style={{ display: "block", width: "5%", marginLeft: "85%" }}
           />
         </ParallaxLayer>
-
         <ParallaxLayer offset={1.6} speed={0.7} style={{ opacity: 1 }}>
           <img
-            src={Hammer}
+            src={SearchOff}
             style={{ display: "block", width: "5%", marginLeft: "40%" }}
           />
         </ParallaxLayer>
-
         <ParallaxLayer offset={1.7} speed={0.5} style={{ opacity: 1 }}>
           <img
             src={Error}
             style={{ display: "block", width: "5%", marginLeft: "10%" }}
           />
           <img
-            src={SearchOff}
+            src={Lock}
             style={{ display: "block", width: "5%", marginLeft: "75%" }}
           />
         </ParallaxLayer>
-
         <ParallaxLayer offset={2.7} speed={0.2} style={{ opacity: 1 }}>
           <img
             src={User2}
@@ -146,7 +148,6 @@ class TestParallax extends React.Component {
             style={{ display: "block", width: "5%", marginLeft: "15%" }}
           />
         </ParallaxLayer>
-
         <ParallaxLayer offset={2.3} speed={0.5} style={{ opacity: 1 }}>
           <img
             src={User4}
@@ -157,7 +158,6 @@ class TestParallax extends React.Component {
             style={{ display: "block", width: "5%", marginLeft: "30%" }}
           />
         </ParallaxLayer>
-
         <ParallaxLayer offset={2.1} speed={0.7} style={{ opacity: 1 }}>
           <img
             src={User}
@@ -165,10 +165,9 @@ class TestParallax extends React.Component {
           />
           <img
             src={User6}
-            style={{ display: "block", width: "5%", marginLeft: "75%" }}
+            style={{ display: "block", width: "5%", marginLeft: "85%" }}
           />
         </ParallaxLayer>
-
         <ParallaxLayer
           offset={0}
           speed={0.1}
@@ -180,10 +179,22 @@ class TestParallax extends React.Component {
             justifyContent: "center",
           }}
         >
-          <img src={logo} style={{ width: "25%" }} />
-          <TextWrapper>Welcome to the marketplace of ideas.</TextWrapper>
+          {/* <img src={logo} style={{ width: "25%" }} />
+          <TextWrapper>Welcome to the marketplace of ideas.</TextWrapper> */}
+          <S.MainSection>
+            <S.Content ref={this.props.contentRef}>
+              <S.TextContent
+                isAnimationDone={this.props.isAnimationDone.value}
+                pose={this.props.homePose}
+              >
+                <S.Title>
+                  {/* <S.Logo src={logo} /> */}
+                  <S.TitleText>tartaros</S.TitleText>
+                </S.Title>
+              </S.TextContent>
+            </S.Content>
+          </S.MainSection>
         </ParallaxLayer>
-
         <ParallaxLayer
           offset={1}
           speed={0.1}
@@ -194,10 +205,9 @@ class TestParallax extends React.Component {
             justifyContent: "center",
           }}
         >
-          <SpeechSplit />
+          <SpeechSplit night={this.props.night} />
           {/* <img src={url("bash")} style={{ width: "40%" }} /> */}
         </ParallaxLayer>
-
         <ParallaxLayer
           offset={2}
           speed={-0}
@@ -210,9 +220,8 @@ class TestParallax extends React.Component {
         >
           <AnonSplit />
         </ParallaxLayer>
-
-        <ParallaxLayer offset={3.2} speed={0.5} style={{ opacity: 0.1 }}>
-          <img src={url("server")} style={{ width: "5%", marginLeft: "70%" }} />
+        {/* <ParallaxLayer offset={3.2} speed={0.5} style={{ opacity: 0.1 }}>
+          <img src={Server2} style={{ width: "5%", marginLeft: "70%" }} />
         </ParallaxLayer>
         <ParallaxLayer offset={3.2} speed={0.2} style={{ opacity: 1 }}>
           <img
@@ -226,18 +235,17 @@ class TestParallax extends React.Component {
             src={Server}
             style={{ display: "block", width: "5%", marginLeft: "20%" }}
           />
-          {/* <img
+          <img
             src={Server}
             style={{ display: "block", width: "5%", marginLeft: "30%" }}
-          /> */}
+          />
         </ParallaxLayer>
-
         <ParallaxLayer offset={3.7} speed={0.2} style={{ opacity: 1 }}>
           <img
             src={Ethereum}
             style={{ display: "block", width: "5%", marginLeft: "75%" }}
           />
-        </ParallaxLayer>
+        </ParallaxLayer> */}
         <ParallaxLayer
           offset={3}
           speed={1}
@@ -245,6 +253,8 @@ class TestParallax extends React.Component {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            backgroundImage: `url(${ConnectedStars})`,
+            backgroundSize: "cover",
           }}
           onClick={() => this.parallax.scrollTo(4)}
         >
@@ -253,8 +263,14 @@ class TestParallax extends React.Component {
         <ParallaxLayer
           offset={4}
           speed={0}
-          onClick={() => this.parallax.scrollTo(0)}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          onClick={() => this.parallax.scrollTo(5)}
         >
+          <InfoSplit />
         </ParallaxLayer>
       </Parallax>
     );

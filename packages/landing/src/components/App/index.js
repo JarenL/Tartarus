@@ -93,7 +93,7 @@ function Home({ isAnimationDone, night, noWeb3, noAccount, welcomeClick }) {
               pose={homePose}
               {...windowCenter}
             ></S.WindowBox>
-            <TestParallax />
+            <TestParallax noWeb3={noWeb3} contentRef={contentRef} isAnimationDone={isAnimationDone} homePose={homePose} welcomeClick={welcomeClick} night={night}/>
 
 
             {/* <S.TextContent

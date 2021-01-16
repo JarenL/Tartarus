@@ -16,6 +16,7 @@ export const Button = styled.button(
     maxWidth: 200,
     padding: 15,
     width: '100%',
+    margin: 'auto',
     transition: 'all 150ms linear',
     boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)'
   },
