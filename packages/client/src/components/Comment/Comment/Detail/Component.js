@@ -47,6 +47,7 @@ const LinkWrapper = styled(Link)`
   cursor: pointer;
   color: ${props => props.theme.mutedText};
   margin-right: 10px;
+  font-size: 12px;
   // & > svg {
   //   margin-right: 3px;
   //   margin-left: 5px;
@@ -122,6 +123,7 @@ class CommentDetail extends React.Component {
               to={`/f/${this.props.forumName}/p/${this.props.postId}/c/${this.props.commentId}`}
               style={{ textDecoration: 'none' }}
             >
+              Parent
               <RightButton size={16} />
             </LinkWrapper>
           ) : null}

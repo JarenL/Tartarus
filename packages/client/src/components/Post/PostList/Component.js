@@ -6,6 +6,7 @@ import { updateUserPermissions } from '../../../redux/actions/actions';
 import PostListItem from './Item';
 import ReactList from 'react-list';
 import styled from 'styled-components/macro';
+import { formValueSelector } from 'redux-form';
 
 const blocksInDay = 5760;
 
@@ -139,23 +140,34 @@ class PostList extends React.Component {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
+    console.log('getpinned');
+    console.log(props);
     let instance = await tartarus.at(this.props.tartarusAddress);
-    let pinnedPosts = await instance.getForumPinnedPosts(
+    let forum = await instance.forums.call(
       this.props.web3.utils.fromAscii(props)
     );
-    pinnedPosts = pinnedPosts.filter(
-      i =>
-        i !==
-          '0x0000000000000000000000000000000000000000000000000000000000000000' &&
-        i !== '0x'
-    );
-    this.setState({
-      pinnedPosts: pinnedPosts
-    });
+    if (forum[0] !== '0x0000000000000000000000000000000000000000000000000000000000000000') {
+      let pinnedPosts = await instance.getForumPinnedPosts(
+        this.props.web3.utils.fromAscii(props)
+      );
+      console.log(pinnedPosts);
+      pinnedPosts = pinnedPosts.filter(
+        i =>
+          i !==
+            '0x0000000000000000000000000000000000000000000000000000000000000000' &&
+          i !== '0x'
+      );
+      this.setState({
+        pinnedPosts: pinnedPosts
+      });
+    } else {
+      this.setState({
+        pinnedPosts: []
+      });
+    }
   };
 
   getPost = async props => {
-    console.log('getpost');
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
@@ -216,6 +228,9 @@ class PostList extends React.Component {
                 .get(async (error, posts) => {
                   await this.getPinned('announcements');
                   await this.getPosts(posts);
+                  this.setState({
+                    loading: false
+                  });
                 });
             });
           })

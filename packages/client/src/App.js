@@ -54,7 +54,9 @@ class App extends Component {
             loading: false
           });
         } else {
+          console.log('check admin');
           this.checkAdmin();
+          console.log('check notifications');
           this.handleNotifications();
         }
         toast.configure();
@@ -139,7 +141,6 @@ class App extends Component {
               }
             )
             .get((error, userCreated) => {
-              console.log('testtt');
               console.log(userCreated);
               resolve(userCreated);
             });
@@ -550,28 +551,40 @@ class App extends Component {
   };
 
   checkAdmin = () => {
+    console.log('checkadmin');
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
     tartarus.at(this.props.tartarusAddress).then(instance => {
-      instance.getAdmin
-        .call(this.props.web3.utils.fromAscii(this.props.username))
-        .then(async isAdmin => {
-          console.log(isAdmin);
-          this.props.dispatch(
-            updateUserPermissions({ type: 'admin', permissions: isAdmin })
-          );
-          this.setState({
-            loading: false
+      console.log(this.props.username);
+      if (this.props.username !== undefined && this.props.username !== null) {
+        instance.getAdmin
+          .call(this.props.web3.utils.fromAscii(this.props.username))
+          .then(async isAdmin => {
+            console.log('is admin');
+            console.log(isAdmin);
+            this.props.dispatch(
+              updateUserPermissions({ type: 'admin', permissions: isAdmin })
+            );
+            console.log('admin loading false');
+            this.setState({
+              loading: false
+            });
           });
+      } else {
+        this.setState({
+          loading: false
         });
+      }
     });
   };
 
   render() {
     if (this.state.loading) {
+      console.log('loading');
       return <LoadingIndicatorSpinner />;
     } else {
+      console.log('not loading');
       return (
         <ThemeProvider theme={theme(this.props.dark)}>
           <GlobalStyle />

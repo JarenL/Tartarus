@@ -113,6 +113,7 @@ class Post extends Component {
             const postIpfsHash = bs58.encode(postBytes32);
 
             await this.checkUserVoted();
+            console.log('hello');
 
             let postData = await services.ipfs.getJson(postIpfsHash);
             if (this.props.username !== null) {
@@ -120,9 +121,19 @@ class Post extends Component {
               this.checkWatched();
             }
             if (postData !== null) {
-              let adminPinnedPosts = await instance.getForumPinnedPosts(
+              let forum = await instance.forums.call(
                 this.props.web3.utils.fromAscii('announcements')
               );
+              let adminPinnedPosts = [];
+              if (
+                forum[0] !==
+                '0x0000000000000000000000000000000000000000000000000000000000000000'
+              ) {
+                adminPinnedPosts = await instance.getForumPinnedPosts(
+                  this.props.web3.utils.fromAscii('announcements')
+                );
+              }
+
               let pinnedPosts = await instance.getForumPinnedPosts(
                 this.props.post.forum
               );
@@ -440,9 +451,9 @@ class Post extends Component {
       tartarus.setProvider(this.props.web3.currentProvider);
       this.props.web3.eth.getAccounts((error, accounts) => {
         tartarus.at(this.props.tartarusAddress).then(instance => {
-          console.log(this.props.web3.utils.fromUtf8(this.props.username))
-          console.log(this.props.post.forum)
-          console.log(this.props.post.postId)
+          console.log(this.props.web3.utils.fromUtf8(this.props.username));
+          console.log(this.props.post.forum);
+          console.log(this.props.post.postId);
           instance.removePost
             .sendTransaction(
               this.props.web3.utils.fromAscii(this.props.username),
