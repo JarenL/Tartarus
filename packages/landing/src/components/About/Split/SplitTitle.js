@@ -5,7 +5,10 @@ const SplitTitle = styled.h1`
   margin-bottom: 8px;
   text-align: center;
   margin-right: auto;
-  color: ${props => props.theme.normalText};
+  color: ${props => props.theme.accent};
+  @media (max-width: 786px) {
+    font-size: 14px;
+  }
 `
 
 export default SplitTitle;

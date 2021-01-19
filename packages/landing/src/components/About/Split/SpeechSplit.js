@@ -15,7 +15,10 @@ import speak from "../../../images/speak.svg"
 // #3BCB56
 
 const Wrapper = styled.div`
-  width: 50%;
+  width: 30%;
+  @media (max-width: 786px) {
+    width: 80%;
+  }
 `;
 
 const TextWrapper = styled.div`
@@ -41,9 +44,9 @@ const SpeechSplit = props => {
             possimus, similique odit alias.
           </SplitContent>
         </TextWrapper>
-        <ImageWrapper>
+        {/* <ImageWrapper>
           <SplitImg src={speak} alt="" />
-        </ImageWrapper>
+        </ImageWrapper> */}
       </Split>
       </Wrapper>
   );

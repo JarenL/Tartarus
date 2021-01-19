@@ -1,10 +1,13 @@
 import styled from 'styled-components/macro';
 
-const SplitTitle = styled.p`
+const SplitContent = styled.p`
   font-size: 20px;
   // padding: 12px;
-  text-align: center;
+  text-align: left;
   color: ${props => props.theme.mutedText};
+  @media (max-width: 786px) {
+    font-size: 12px;  
+  }
 `
 
-export default SplitTitle;
+export default SplitContent;

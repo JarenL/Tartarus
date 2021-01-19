@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Parallax, ParallaxLayer } from "react-spring/addons";
+import {useSpring, animated} from 'react-spring'
+
 import "./style.css";
 import logo from "../../images/tartarus.svg";
 import banHammer from "../../images/ban-hammer2.png";
@@ -37,10 +39,32 @@ import * as S from "../App/styles";
 import * as A from "../../styles/shared-components";
 import EnterButton from "../EnterButton";
 
+const LogoWrapper = styled.div`
+  width: 100%;
+  // height: 100%;
+  // justify-content: center;
+  margin-right: auto;
+  margin-left: auto;
+  // align-self: center;
+`;
+
+const TextWrapper = styled.span`
+  font-size: 32px;
+  color: ${(props) => props.theme.mutedText};
+`;
+
+// Little helpers ...
+// const url = (name, wrap = false) =>
+//   `${
+//     wrap ? "url(" : ""
+//   }https://awv3node-homepage.surge.sh/build/assets/${name}.svg${
+//     wrap ? ")" : ""
+//   }`;
+
 class TestParallax extends React.Component {
   render() {
     return (
-      <Parallax ref={(ref) => (this.parallax = ref)} pages={6}>
+      <Parallax ref={(ref) => (this.parallax = ref)} pages={5}>
         <ParallaxLayer
           offset={0}
           speed={0}
@@ -63,7 +87,7 @@ class TestParallax extends React.Component {
           // style={{ backgroundColor: "#87BCDE" }}
         />
         <ParallaxLayer
-          offset={5}
+          offset={4}
           speed={0}
           factor={1}
           style={{
@@ -80,14 +104,14 @@ class TestParallax extends React.Component {
                 isAnimationDone={this.props.isAnimationDone.value}
                 pose={this.props.homePose}
               >
-                <S.Title>
+                {/* <S.Title>
                   <S.Logo src={logo} />
-                  {/* <S.TitleText>tartaros</S.TitleText> */}
-                </S.Title>
+                  <S.TitleText>tartaros</S.TitleText>
+                </S.Title> */}
 
                 <S.Subtitle>
                   <span>
-                    Welcome to the marketplace of ideas.
+                     Speak, freely
                     <A.Space />
                     {this.props.noWeb3
                       ? "No web3 detected. Please use a web3 compatible Browser or extension."
@@ -105,12 +129,12 @@ class TestParallax extends React.Component {
             </S.Content>
           </S.MainSection>
         </ParallaxLayer>
-        <ParallaxLayer offset={4} speed={0} factor={1} />
+        {/* <ParallaxLayer offset={4} speed={0} factor={1} /> */}
         <ParallaxLayer offset={1.1} speed={0.2} style={{ opacity: 1 }}>
-          <img
+          {/* <img
             src={VisOff}
             style={{ display: "block", width: "5%", marginLeft: "55%" }}
-          />
+          /> */}
           <img
             src={Quarantine}
             style={{ display: "block", width: "5%", marginLeft: "15%" }}
@@ -122,7 +146,7 @@ class TestParallax extends React.Component {
             style={{ display: "block", width: "5%", marginLeft: "85%" }}
           />
         </ParallaxLayer>
-        <ParallaxLayer offset={1.6} speed={0.7} style={{ opacity: 1 }}>
+        <ParallaxLayer offset={1.3} speed={0.7} style={{ opacity: 1 }}>
           <img
             src={SearchOff}
             style={{ display: "block", width: "5%", marginLeft: "40%" }}
@@ -141,31 +165,31 @@ class TestParallax extends React.Component {
         <ParallaxLayer offset={2.7} speed={0.2} style={{ opacity: 1 }}>
           <img
             src={User2}
-            style={{ display: "block", width: "5%", marginLeft: "70%" }}
+            style={{ display: "block", width: "4%", marginLeft: "70%", borderRadius: "50%" }}
           />
           <img
             src={User3}
-            style={{ display: "block", width: "5%", marginLeft: "15%" }}
+            style={{ display: "block", width: "4%", marginLeft: "15%", borderRadius: "50%" }}
           />
         </ParallaxLayer>
         <ParallaxLayer offset={2.3} speed={0.5} style={{ opacity: 1 }}>
           <img
             src={User4}
-            style={{ display: "block", width: "5%", marginLeft: "60%" }}
+            style={{ display: "block", width: "4%", marginLeft: "60%", borderRadius: "50%" }}
           />
           <img
             src={User5}
-            style={{ display: "block", width: "5%", marginLeft: "30%" }}
+            style={{ display: "block", width: "4%", marginLeft: "30%", borderRadius: "50%" }}
           />
         </ParallaxLayer>
         <ParallaxLayer offset={2.1} speed={0.7} style={{ opacity: 1 }}>
           <img
             src={User}
-            style={{ display: "block", width: "5%", marginLeft: "10%" }}
+            style={{ display: "block", width: "4%", marginLeft: "10%", borderRadius: "50%" }}
           />
           <img
             src={User6}
-            style={{ display: "block", width: "5%", marginLeft: "85%" }}
+            style={{ display: "block", width: "4%", marginLeft: "85%", borderRadius: "50%" }}
           />
         </ParallaxLayer>
         <ParallaxLayer
@@ -183,15 +207,17 @@ class TestParallax extends React.Component {
           <TextWrapper>Welcome to the marketplace of ideas.</TextWrapper> */}
           <S.MainSection>
             <S.Content ref={this.props.contentRef}>
-              <S.TextContent
+            <S.Logo src={logo} />
+
+              {/* <S.TextContent
                 isAnimationDone={this.props.isAnimationDone.value}
                 pose={this.props.homePose}
               >
+                
                 <S.Title>
-                  {/* <S.Logo src={logo} /> */}
-                  <S.TitleText>tartaros</S.TitleText>
+                  <S.Logo src={logo} />
                 </S.Title>
-              </S.TextContent>
+              </S.TextContent> */}
             </S.Content>
           </S.MainSection>
         </ParallaxLayer>
@@ -210,7 +236,7 @@ class TestParallax extends React.Component {
         </ParallaxLayer>
         <ParallaxLayer
           offset={2}
-          speed={-0}
+          speed={0.1}
           style={{
             display: "flex",
             alignItems: "center",
@@ -248,7 +274,7 @@ class TestParallax extends React.Component {
         </ParallaxLayer> */}
         <ParallaxLayer
           offset={3}
-          speed={1}
+          speed={0.1}
           style={{
             display: "flex",
             alignItems: "center",
@@ -260,7 +286,7 @@ class TestParallax extends React.Component {
         >
           <DecentSplit />
         </ParallaxLayer>
-        <ParallaxLayer
+        {/* <ParallaxLayer
           offset={4}
           speed={0}
           style={{
@@ -271,7 +297,7 @@ class TestParallax extends React.Component {
           onClick={() => this.parallax.scrollTo(5)}
         >
           <InfoSplit />
-        </ParallaxLayer>
+        </ParallaxLayer> */}
       </Parallax>
     );
   }

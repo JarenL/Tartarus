@@ -9,7 +9,10 @@ import logo from "../../../images/tartarus.png";
 import User from "../../../images/user7.png";
 
 const Wrapper = styled.div`
-  width: 50%;
+  width: 30%;
+  @media (max-width: 786px) {
+    width: 80%;
+  }
 `;
 
 const TextWrapper = styled.div`
@@ -45,7 +48,7 @@ const AnonSplit = () => {
             possimus, similique odit alias.
           </SplitContent>
         </TextWrapper>
-        <BlockieWrapper src={User} alt="" />
+        {/* <BlockieWrapper src={User} alt="" /> */}
         {/* <SplitImg src={User} alt="" /> */}
         {/* </BlockieWrapper> */}
       </Split>

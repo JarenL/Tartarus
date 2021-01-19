@@ -9,7 +9,10 @@ import logo from "../../../images/tartarus.png";
 import User from "../../../images/user7.png";
 
 const Wrapper = styled.div`
-  width: 70%;
+  width: 30%;
+  @media (max-width: 786px) {
+    width: 80%;
+  }
 `;
 
 const TextWrapper = styled.div`

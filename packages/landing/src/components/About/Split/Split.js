@@ -5,8 +5,9 @@ const Split = styled.div`
     // padding-right: 6px;
     border-radius: 8px;
     width: 100%;
+    margin: auto;
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    // grid-template-columns: 4fr 1fr;
     align-items: center;
     grid-gap: 20px;
     border: 2px solid ${props => props.theme.splitBorder};
