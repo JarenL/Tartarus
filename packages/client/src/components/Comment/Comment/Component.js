@@ -77,6 +77,8 @@ class Comment extends Component {
             }
           )
           .get((error, post) => {
+            // console.log(post)
+            // console.log(this.props.comment.args.postId)
             this.setState({
               forumName: this.props.web3.utils.toAscii(post[0].args.forum)
             });
@@ -121,7 +123,6 @@ class Comment extends Component {
                 }
               )
               .get(async (error, comments) => {
-                console.log(comment);
                 if (
                   comment[0] !==
                   '0x0000000000000000000000000000000000000000000000000000000000000000'
@@ -165,7 +166,7 @@ class Comment extends Component {
                     isAdmin: await this.checkIsAdmin(
                       this.props.comment.args.user
                     ),
-                    comment: 'Deleted',
+                    comment: 'removed',
                     deleted: true,
                     comments: comments.length,
                     loading: false,

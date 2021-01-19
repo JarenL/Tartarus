@@ -56,7 +56,6 @@ class SearchResults extends React.Component {
         });
       })
     );
-    console.log(posts)
     this.setState({
       searchResults: posts,
       loading: false
@@ -91,8 +90,13 @@ class SearchResults extends React.Component {
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
-    if (!this.state.searchResults || this.state.searchResults.length === 0)
+    if (
+      !this.state.searchResults ||
+      this.state.searchResults.length === 0 ||
+      this.state.searchResults[0] === undefined
+    )
       return <Empty />;
+    console.log(this.state.searchResults)
     return (
       <ReactList
         itemRenderer={this.renderItem.bind(this)}

@@ -62,7 +62,7 @@ const FormWrapper = styled.div`
   overflow: hidden;
   // margin: 0 auto;
   // border: 1px solid ${props => props.theme.border};
-  border-radius: 2px;
+  // border-radius: 2px;
   // max-width: ${props => (props.wide ? '600px' : '375px')};
   padding: 12px;
   background-color: ${props => props.theme.foreground};

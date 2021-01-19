@@ -11,7 +11,12 @@ import CommentContainer from '../../Comment/Comment/Container';
 import { withRouter } from 'react-router-dom';
 import SubmitButton from '../../Buttons/SubmitButton';
 import CancelButton from '../../Buttons/CancelButton';
-import { uploadToast, warningToast, confirmToast, errorToast } from '../../Notifications/Toasts/Toast';
+import {
+  uploadToast,
+  warningToast,
+  confirmToast,
+  errorToast
+} from '../../Notifications/Toasts/Toast';
 
 const PostWrapper = styled.div`
   border: 1px solid ${props => props.theme.border};
@@ -139,7 +144,10 @@ class ReportComment extends React.Component {
       reportLoading: true
     });
     console.log('upload');
-    if (this.props.form.report.values.reason !== undefined) {
+    if (
+      this.props.form.report.values !== undefined &&
+      this.props.report.values.reason !== undefined
+    ) {
       uploadToast();
       let reportObject = {
         reason: this.props.form.report.values.reason

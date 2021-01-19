@@ -6,22 +6,27 @@ import ReactQuill from 'react-quill';
 const StyledQuill = styled(ReactQuill)`
   display: block;
   border-radius: 3px;
+  // border-width: 3px;
   width: 100%;
   height: 100%;
   background-color: ${props => props.theme.inputBackground};
   font-size: 16px;
+  color: ${props => props.theme.accent};
   color: ${props => props.theme.mutedText};
 
   .ql-editor {
     height: 110px;
     resize: vertical;
     overflow-y: scroll;
+    font-size: 16px;
   }
 
   .ql-toolbar {
     display: block;
+    border-radius: 3px;
+    border-color: none;
     padding: 2px;
-    background: ${props => props.theme.pageBackground};
+    background: ${props => props.theme.mutedText};
     color: ${props => props.theme.accent};
   }
 

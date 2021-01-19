@@ -1,5 +1,14 @@
 import React, { PureComponent } from 'react';
 import { PieChart, Pie, Sector, ResponsiveContainer } from 'recharts';
+import styled from 'styled-components/macro';
+
+const StyledText = styled.text`
+  fill: ${props => props.theme.mutedText};
+`;
+
+const StyledPie = styled(Pie)`
+  fill: ${props => props.theme.accent};
+`;
 
 const data = [
   { name: 'Group A', value: 90 },
@@ -62,12 +71,12 @@ const renderActiveShape = props => {
         fill='none'
       />
       <circle cx={ex} cy={ey} r={2} fill={fill} stroke='none' />
-      <text
+      <StyledText
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         textAnchor={textAnchor}
-        fill='#333'
-      >{`${(percent * 100).toFixed(2)}%`}</text>
+        // fill='#333'
+      >{`${(percent * 100).toFixed(2)}%`}</StyledText>
     </g>
   );
 };

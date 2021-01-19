@@ -53,7 +53,7 @@ class Reports extends React.Component {
         return new Promise((resolve, reject) => {
           instance
             .ReportPost(
-              {},
+              {forum: this.props.forumName},
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'
@@ -68,7 +68,7 @@ class Reports extends React.Component {
         return new Promise((resolve, reject) => {
           instance
             .ReportComment(
-              {},
+              {forum: this.props.forumName},
               {
                 fromBlock: startingBlock,
                 toBlock: 'latest'

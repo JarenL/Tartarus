@@ -32,6 +32,7 @@ class PostList extends React.Component {
     this.state = {
       posts: [],
       pinnedPosts: [],
+      showDeleted: false,
       loading: true,
       sorted: false,
       latest: null
@@ -298,6 +299,9 @@ class PostList extends React.Component {
               console.log('error');
             });
         }
+        this.setState({
+          showDeleted: true
+        });
       }
     } else {
       //forum page
@@ -331,6 +335,9 @@ class PostList extends React.Component {
                 await this.getPosts(posts);
               });
           });
+          this.setState({
+            showDeleted: false
+          });
         })
         .catch(err => {
           console.log('error');
@@ -342,7 +349,7 @@ class PostList extends React.Component {
     if (this.state.pinnedPosts.indexOf(this.state.posts[index]) === -1) {
       return (
         <>
-          <PostListItem key={key} post={this.state.posts[index].args} />
+          <PostListItem key={key} post={this.state.posts[index].args} showDeleted={this.state.showDeleted} />
           {/* <PostDivider /> */}
         </>
       );
@@ -360,6 +367,7 @@ class PostList extends React.Component {
 
   render() {
     if (this.state.loading) return <LoadingIndicatorSpinner />;
+    console.log(this.state.posts)
     if (!this.state.posts || this.state.posts.length === 0) return <Empty />;
     return (
       <>

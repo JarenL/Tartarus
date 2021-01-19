@@ -27,12 +27,12 @@ let confirm = () => {
 };
 
 let loginSucces = () => {
-  return <LoginSuccess />
-}
+  return <LoginSuccess />;
+};
 
 let loginFail = () => {
-  return <LoginFail />
-}
+  return <LoginFail />;
+};
 
 export const dismissToast = () => {
   toast.dismiss(toastId);

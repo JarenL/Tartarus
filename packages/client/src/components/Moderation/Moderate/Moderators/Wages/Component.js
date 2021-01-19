@@ -4,6 +4,11 @@ import TartarusContract from '../../../../../contracts/Tartarus.json';
 import LoadingIndicatorSpinner from '../../../../shared/LoadingIndicator/Spinner';
 import Chart from './Chart';
 import Balance from './Balance';
+import styled from 'styled-components/macro';
+
+const WageWrapper = styled.div`
+  background-color: ${props => props.theme.inputBackground};
+`;
 
 class Wages extends React.Component {
   constructor(props) {
@@ -132,9 +137,9 @@ class Wages extends React.Component {
     if (!this.state.moderators || this.state.moderators.length === 0) {
       return null;
     } else {
-      console.log(this.props.username);
+      console.log(this.props);
       return (
-        <>
+        <WageWrapper>
           <Chart moderators={this.state.moderators} />
           <Balance
             forumName={this.props.web3.utils.fromAscii(this.props.forumName)}
@@ -142,7 +147,7 @@ class Wages extends React.Component {
             username={this.props.username}
             handleWithdraw={this.handleWithdraw}
           />
-        </>
+        </WageWrapper>
       );
     }
   }

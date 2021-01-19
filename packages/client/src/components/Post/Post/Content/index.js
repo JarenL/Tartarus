@@ -40,9 +40,10 @@ const {
 } = require('./util');
 
 const services = require('../../../../services');
-const ipfsGateway = 'https://ipfs.infura.io/ipfs/';
+const ipfsGateway = 'https://ipfs.infura.io/ipfs';
 
 const renderContent = props => {
+  console.log(props);
   switch (props.type) {
     case 'link':
       if (isIPFS.multihash(props.post)) {
@@ -70,10 +71,15 @@ const renderContent = props => {
         </LinkPreview>
       );
     case 'text':
+      console.log(props.preview);
       if (props.preview) {
         return <PostContentFullText id={'fullText'} post={props.post} />;
       } else {
-        return <TextPreview id={'preview'}>{ReactHtmlParser(props.post)}</TextPreview>;
+        return (
+          <TextPreview id={'preview'}>
+            {ReactHtmlParser(props.post)}
+          </TextPreview>
+        );
       }
     default:
       break;
@@ -250,7 +256,8 @@ class PostContent extends Component {
           />
           {renderContent({
             preview: this.state.preview,
-            showFullPost: this.props.showFullPost,
+            postDeleted: this.props.postDeleted,
+            showFullPost: this.props.showFullPost || this.props.postDeleted,
             type: this.props.type,
             post: this.props.post
           })}
@@ -273,6 +280,7 @@ class PostContent extends Component {
           />
           <PostActions
             preview={this.state.preview}
+            postDeleted={this.props.postDeleted}
             handlePreview={this.handlePreview}
             commentCount={this.props.commentCount}
             time={this.props.time}

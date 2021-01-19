@@ -12,7 +12,8 @@ const Wrapper = styled.div`
   border-left: none;
   padding-left: 8px;
   padding-right: 8px;
-  font-size: 13px;
+  font-size: 14px;
+  list-style-position: inside;
   // background-color: ${props => props.theme.inputBackground};
   color: ${props => props.theme.mutedText};
 `;

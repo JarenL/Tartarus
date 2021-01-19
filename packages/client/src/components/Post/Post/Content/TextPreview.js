@@ -6,6 +6,8 @@ const TextPreview = styled.div`
   display: flex;
   white-space: nowrap;
   overflow: hidden;
+  color: ${props => props.theme.mutedText};
+  font-size: 12px;
 
   * {
     ${overflow};
@@ -17,7 +19,6 @@ const TextPreview = styled.div`
     line-height: 18px;
     font-weight: 500;
     text-decoration: none;
-    color: ${props => props.theme.mutedText};
   }
 `;
 

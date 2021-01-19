@@ -18,11 +18,11 @@ import {
 const services = require('../../services');
 
 const StyledForm = styled(Form)`
-  margin-top: -1px;
+  // margin-top: -1px;
   max-width: none;
   padding: 0;
   border-bottom: none;
-  background-color: ${props => props.theme.pageBackground};
+  background-color: ${props => props.theme.accent};
   @media (max-width: 768px) {
     margin-top: -1px;
     border-radius: 0;
@@ -137,6 +137,7 @@ class CommentForm extends React.Component {
               }
             )
             .then(result => {
+              console.log("comment created")
               this.props.reset('createComment');
               confirmToast();
               this.setState({
@@ -145,6 +146,7 @@ class CommentForm extends React.Component {
               });
             })
             .catch(err => {
+              console.log("create comment error")
               console.log(err);
               errorToast();
               this.setState({
@@ -172,7 +174,7 @@ class CommentForm extends React.Component {
       );
     } else {
       return (
-        <StyledForm>
+        <StyledForm onClick={this.handleComment}>
           <CommentButton onClick={this.handleComment} />
         </StyledForm>
       );

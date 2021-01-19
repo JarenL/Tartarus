@@ -8,7 +8,10 @@ import { userLogin, updateUserPermissions } from '../../redux/actions/actions';
 import styled from 'styled-components/macro';
 import CancelButton from '../Buttons/CancelButton';
 import SubmitButton from '../Buttons/SubmitButton';
-import { loginFailToast, loginSuccessToast } from '../Notifications/Toasts/Toast';
+import {
+  loginFailToast,
+  loginSuccessToast
+} from '../Notifications/Toasts/Toast';
 
 const Wrapper = styled.div`
   display: flex;
@@ -61,35 +64,40 @@ class LoginForm extends React.Component {
         gasPrice: 20000000000
       }
     );
-    console.log(user[2]);
-    console.log(accounts[0]);
-    console.log(user[2] === accounts[0]);
-    // 0x366Ebde1b1cbCF95b35e1bd85de01D48f9F1eFC6
     if (
       user[2] !== '0x0000000000000000000000000000000000000000' &&
       this.props.web3.utils.toChecksumAddress(user[2]) === accounts[0]
     ) {
-      instance.getAdmin
-        .call(
-          this.props.web3.utils.fromAscii(this.props.form.login.values.username)
-        )
-        .then(admin => {
-          console.log(admin);
-          let permissionsObject = {
-            type: 'admin',
-            permissions: admin
-          };
-          this.props.dispatch(updateUserPermissions(permissionsObject));
-          this.props.dispatch(
-            userLogin({
-              username: this.props.form.login.values.username
-            })
-          );
-          this.setState({
-            loading: false
+      console.log('login test');
+      this.props.web3.eth.getAccounts((error, accounts) => {
+        instance.getAdmin
+          .call(
+            this.props.web3.utils.fromAscii(
+              this.props.form.login.values.username
+            ),
+            {
+              from: accounts[0],
+              gasPrice: 20000000000
+            }
+          )
+          .then(admin => {
+            console.log('admin');
+            let permissionsObject = {
+              type: 'admin',
+              permissions: admin
+            };
+            this.props.dispatch(updateUserPermissions(permissionsObject));
           });
-          loginSuccessToast();
-        });
+      });
+      this.props.dispatch(
+        userLogin({
+          username: this.props.form.login.values.username
+        })
+      );
+      this.setState({
+        loading: false
+      });
+      loginSuccessToast();
     } else {
       this.setState({
         loading: false

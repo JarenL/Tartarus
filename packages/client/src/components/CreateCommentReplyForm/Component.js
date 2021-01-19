@@ -101,14 +101,16 @@ class CommentForm extends React.Component {
               }
             )
             .then(result => {
-              this.props.resetForm();
+              this.props.reset('createCommentReply');
               confirmToast();
+              this.props.handleReply();
               this.setState({
                 loading: false
               });
             })
             .catch(error => {
-              console.log('error');
+              console.log('createCommentReplyForm error');
+              console.log(error);
               errorToast();
               this.setState({
                 loading: false
@@ -125,7 +127,7 @@ class CommentForm extends React.Component {
         onSubmit={this.props.handleSubmit(this.handleSubmit)}
         loading={this.state.loading}
       >
-        <Field name='comment' component={Editor} />
+        <Field name='comment' placeholder={"test"} component={Editor} />
         <Wrapper>
           <SubmitButton />
           <CancelButton onClick={this.handleCancel} />

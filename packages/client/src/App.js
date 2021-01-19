@@ -57,7 +57,8 @@ class App extends Component {
           console.log('check admin');
           this.checkAdmin();
           console.log('check notifications');
-          this.handleNotifications();
+          // this.handleNotifications();
+          console.log('after check notifications');
         }
         toast.configure();
       })
@@ -529,7 +530,7 @@ class App extends Component {
           ...this.props.userSettings[this.props.username].notifications,
           ...newNotifications
         ];
-        // console.log(newNotificationsArray)
+        console.log(newNotificationsArray);
         // newNotificationsArray.concat(newNotifications);
         newNotificationsArray.sort((a, b) =>
           a.args.time < b.args.time ? 1 : -1
@@ -540,6 +541,7 @@ class App extends Component {
           // notifications: []
           notifications: newNotificationsArray
         };
+        console.log('before dispatchj');
         this.props.dispatch(updateUserNotifications(payload));
       }
     }
@@ -555,27 +557,46 @@ class App extends Component {
     const contract = require('truffle-contract');
     const tartarus = contract(TartarusContract);
     tartarus.setProvider(this.props.web3.currentProvider);
-    tartarus.at(this.props.tartarusAddress).then(instance => {
-      console.log(this.props.username);
-      if (this.props.username !== undefined && this.props.username !== null) {
-        instance.getAdmin
-          .call(this.props.web3.utils.fromAscii(this.props.username))
-          .then(async isAdmin => {
-            console.log('is admin');
-            console.log(isAdmin);
-            this.props.dispatch(
-              updateUserPermissions({ type: 'admin', permissions: isAdmin })
-            );
-            console.log('admin loading false');
-            this.setState({
-              loading: false
+    // tartarus.at(this.props.tartarusAddress).then(instance => {
+    //   console.log(this.props.username);
+    //   if (this.props.username !== undefined && this.props.username !== null) {
+    //     instance.getAdmin
+    //       .call(this.props.web3.utils.fromAscii(this.props.username))
+    //       .then(async isAdmin => {
+    //         this.props.dispatch(
+    //           updateUserPermissions({ type: 'admin', permissions: isAdmin })
+    //         );
+    //         console.log('admin loading false');
+    //         this.setState({
+    //           loading: false
+    //         });
+    //       });
+    //   } else {
+    //     this.setState({
+    //       loading: false
+    //     });
+    //   }
+    // });
+
+    this.props.web3.eth.getAccounts((error, accounts) => {
+      tartarus.at(this.props.tartarusAddress).then(instance => {
+        if (this.props.username !== undefined && this.props.username !== null) {
+          instance.getAdmin
+            .call(this.props.web3.utils.fromAscii(this.props.username), {
+              from: accounts[0],
+              gasPrice: 20000000000
+            })
+            .then(admin => {
+              this.props.dispatch(
+                updateUserPermissions({ type: 'admin', permissions: admin })
+              );
+              console.log('admin loading false');
             });
-          });
-      } else {
+        }
         this.setState({
           loading: false
         });
-      }
+      });
     });
   };
 

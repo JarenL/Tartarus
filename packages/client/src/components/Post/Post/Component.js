@@ -99,26 +99,41 @@ class Post extends Component {
         .getPost(this.props.post.forum, this.props.post.postId)
         .then(async post => {
           if (
-            post[0] ===
+            post[1] ===
             '0x0000000000000000000000000000000000000000000000000000000000000000'
           ) {
+            console.log(post);
             this.setState({
               exists: false,
               loading: false
             });
           } else {
-            const bs58 = require('bs58');
-            const postHex = '1220' + post[0].slice(2);
-            const postBytes32 = Buffer.from(postHex, 'hex');
-            const postIpfsHash = bs58.encode(postBytes32);
+            console.log(post);
+            let postDeleted = false;
+            let postData = {};
+            if (
+              post[0] ===
+              '0x0000000000000000000000000000000000000000000000000000000000000000'
+            ) {
+              postDeleted = true;
+              postData.title = "removed";
+              postData.post = "removed";
+              postData.type = "text";
+            } else {
+              const bs58 = require('bs58');
+              const postHex = '1220' + post[0].slice(2);
+              const postBytes32 = Buffer.from(postHex, 'hex');
+              const postIpfsHash = bs58.encode(postBytes32);
 
-            await this.checkUserVoted();
-            console.log('hello');
-
-            let postData = await services.ipfs.getJson(postIpfsHash);
-            if (this.props.username !== null) {
-              this.checkSaved();
-              this.checkWatched();
+              await this.checkUserVoted();
+              console.log('hello');
+              console.log('GET IPFS POST');
+              postData = await services.ipfs.getJson(postIpfsHash);
+              console.log('GOT IPFS POST');
+              if (this.props.username !== null) {
+                this.checkSaved();
+                this.checkWatched();
+              }
             }
             if (postData !== null) {
               let forum = await instance.forums.call(
@@ -143,6 +158,7 @@ class Post extends Component {
               this.setState({
                 isModerator: await this.checkIsModerator(post[1]),
                 isAdmin: await this.checkIsAdmin(post[1]),
+                postDeleted: postDeleted,
                 loading: false,
                 title: postData.title,
                 type: postData.type,
@@ -677,6 +693,7 @@ class Post extends Component {
             isAdmin={this.state.isAdmin}
             loading={this.state.loading}
             showFullPost={this.props.showFullPost}
+            postDeleted={this.state.postDeleted}
             type={this.state.type}
             postId={this.props.post.postId}
             title={this.state.title}
@@ -686,7 +703,7 @@ class Post extends Component {
             creator={this.props.web3.utils.toAscii(this.props.post.user)}
             forumName={this.props.web3.utils.toAscii(this.props.post.forum)}
             commentCount={this.state.comments}
-            canDelete={this.state.canDelete}
+            canDelete={this.state.canDelete && !this.state.postDeleted}
             canPin={this.state.canPin}
             isLocked={this.state.isLocked}
             canLock={this.state.canLock}
