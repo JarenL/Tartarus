@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { Provider } from 'react-redux';
-import { Web3Provider } from 'react-web3';
+// import { Web3Provider } from 'react-web3';
+import Web3Provider from './services/web3/web3Provider';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { persistor, store } from './redux/store/store';
 import './config/moment';
@@ -21,12 +22,12 @@ ReactDOM.render(
 
     <PersistGate loading={<LoadingIndicatorSpinner />} persistor={persistor}>
       <HashRouter>
-        <Web3Provider
+        {/* <Web3Provider
           web3UnavailableScreen={() => <Landing noWeb3 />}
-          accountUnavailableScreen={() => <App />}
-        >
-          <App />
-        </Web3Provider>
+          // accountUnavailableScreen={() => <App />}
+          web3AvailableScreen={() => <App />}
+        /> */}
+        <App />
       </HashRouter>
     </PersistGate>
   </Provider>,
