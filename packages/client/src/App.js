@@ -6,11 +6,9 @@ import { ThemeProvider } from 'styled-components';
 import HeaderContainer from './components/Header/Container';
 import Home from './components/Home';
 import LoginFormContainer from './components/LoginForm/Container';
-// import 'react-toastify/dist/ReactToastify.minimal.css';
 import StyledToastContainer from './components/Notifications/Toasts/ToastContainer';
 import LoadingIndicatorSpinner from './components/shared/LoadingIndicator/Spinner';
 import SignupFormContainer from './components/SignupForm/Container';
-// import TartarusContract from './contracts/Tartarus.json';
 import GlobalStyle from './globalStyle';
 import {
   initializeWeb3,
@@ -43,13 +41,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    getWeb3
-      .then(results => {
-        this.props.dispatch(initializeWeb3(results.web3));
+    getWeb3()
+      .then(web3 => {
+        this.props.dispatch(initializeWeb3(web3));
         this.props.dispatch(setTartarusAddress(getTartarusAddress()));
-        console.log(results.web3);
+        console.log(web3);
         console.log(this.props.web3);
-        if (results.web3 === null) {
+        if (web3 === null) {
           this.setState({
             loading: false
           });

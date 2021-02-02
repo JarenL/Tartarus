@@ -33,6 +33,7 @@ const initialState = {
 const accountsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'web3/CHANGE_ACCOUNT':
+      console.log("change account")
       return {
         ...state,
         username: action.payload.username,
