@@ -37,3 +37,11 @@ build/
 
 # truffle
 .node-xmlhttprequest-*
+.zos.session
+
+# OpenZeppelin SDK
+.openzeppelin/dev-*.json
+.openzeppelin/.session
+
+# search typescript build artifact
+bundle.js

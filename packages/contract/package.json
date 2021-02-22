@@ -1,0 +1,28 @@
+{
+  "name": "tartarus-contract",
+  "version": "1.0.0",
+  "description": "package for tartarus contract",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "dotenv": "8.2.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.18.2",
+    "truffle-hdwallet-provider": "^1.0.17"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JarenL/Tartarus.git"
+  },
+  "author": "Jaren Lynch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JarenL/Tartarus/issues"
+  },
+  "homepage": "https://github.com/JarenL/Tartarus#readme",
+  "dependencies": {
+    "@openzeppelin/cli": "2.6.0"
+  }
+}

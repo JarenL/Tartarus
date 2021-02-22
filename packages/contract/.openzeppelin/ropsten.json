@@ -1,0 +1,572 @@
+{
+  "contracts": {
+    "Tartarus": {
+      "address": "0xc2dD0E3547Fc9796FecE2BfdeA50D6EA742bd639",
+      "constructorCode": "608060405234801561001057600080fd5b50615e2e80620000216000396000f3fe",
+      "bodyBytecodeHash": "60ebea6727e1c7d3c20d26e639f806fd8090b327cf63c08fb54e03dad6ff05b3",
+      "localBytecodeHash": "0183af2ef0c1ff5d8043ae56616233d758a68d899eee5978931cba11b782f899",
+      "deployedBytecodeHash": "0183af2ef0c1ff5d8043ae56616233d758a68d899eee5978931cba11b782f899",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_struct<Tartarus.Admin>": {
+          "id": "t_struct<Tartarus.Admin>",
+          "kind": "struct",
+          "label": "Tartarus.Admin",
+          "members": [
+            {
+              "label": "permissions",
+              "astId": 407,
+              "type": "t_array:dyn<t_bool>",
+              "src": "4509:18:0"
+            },
+            {
+              "label": "wage",
+              "astId": 409,
+              "type": "t_uint256",
+              "src": "4537:9:0"
+            },
+            {
+              "label": "lastPaid",
+              "astId": 411,
+              "type": "t_uint256",
+              "src": "4556:13:0"
+            },
+            {
+              "label": "listPointer",
+              "astId": 413,
+              "type": "t_uint256",
+              "src": "4579:16:0"
+            }
+          ]
+        },
+        "t_array:dyn<t_bool>": {
+          "id": "t_array:dyn<t_bool>",
+          "valueType": "t_bool",
+          "length": "dyn",
+          "kind": "array",
+          "label": "bool[]"
+        },
+        "t_mapping<t_struct<Tartarus.Admin>>": {
+          "id": "t_mapping<t_struct<Tartarus.Admin>>",
+          "valueType": "t_struct<Tartarus.Admin>",
+          "label": "mapping(key => Tartarus.Admin)",
+          "kind": "mapping"
+        },
+        "t_mapping<t_bool>": {
+          "id": "t_mapping<t_bool>",
+          "valueType": "t_bool",
+          "label": "mapping(key => bool)",
+          "kind": "mapping"
+        },
+        "t_struct<Tartarus.User>": {
+          "id": "t_struct<Tartarus.User>",
+          "kind": "struct",
+          "label": "Tartarus.User",
+          "members": [
+            {
+              "label": "username",
+              "astId": 397,
+              "type": "t_bytes32",
+              "src": "4262:16:0"
+            },
+            {
+              "label": "userInfo",
+              "astId": 399,
+              "type": "t_bytes32",
+              "src": "4288:16:0"
+            },
+            {
+              "label": "creator",
+              "astId": 401,
+              "type": "t_address",
+              "src": "4314:15:0"
+            },
+            {
+              "label": "userBalance",
+              "astId": 403,
+              "type": "t_uint256",
+              "src": "4339:16:0"
+            }
+          ]
+        },
+        "t_bytes32": {
+          "id": "t_bytes32",
+          "kind": "elementary",
+          "label": "bytes32"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_mapping<t_struct<Tartarus.User>>": {
+          "id": "t_mapping<t_struct<Tartarus.User>>",
+          "valueType": "t_struct<Tartarus.User>",
+          "label": "mapping(key => Tartarus.User)",
+          "kind": "mapping"
+        },
+        "t_struct<Tartarus.Forum>": {
+          "id": "t_struct<Tartarus.Forum>",
+          "kind": "struct",
+          "label": "Tartarus.Forum",
+          "members": [
+            {
+              "label": "name",
+              "astId": 426,
+              "type": "t_bytes32",
+              "src": "4899:12:0"
+            },
+            {
+              "label": "forumInfo",
+              "astId": 428,
+              "type": "t_bytes32",
+              "src": "4921:17:0"
+            },
+            {
+              "label": "owner",
+              "astId": 430,
+              "type": "t_bytes32",
+              "src": "4948:13:0"
+            },
+            {
+              "label": "totalModeratorWages",
+              "astId": 432,
+              "type": "t_uint256",
+              "src": "4971:24:0"
+            },
+            {
+              "label": "forumBalance",
+              "astId": 434,
+              "type": "t_uint256",
+              "src": "5005:17:0"
+            },
+            {
+              "label": "postLocked",
+              "astId": 436,
+              "type": "t_uint256",
+              "src": "5032:15:0"
+            },
+            {
+              "label": "commentLocked",
+              "astId": 438,
+              "type": "t_uint256",
+              "src": "5057:18:0"
+            },
+            {
+              "label": "pinnedPosts",
+              "astId": 441,
+              "type": "t_array:dyn<t_bytes32>",
+              "src": "5085:21:0"
+            },
+            {
+              "label": "moderatorList",
+              "astId": 444,
+              "type": "t_array:dyn<t_bytes32>",
+              "src": "5116:23:0"
+            },
+            {
+              "label": "moderators",
+              "astId": 448,
+              "type": "t_mapping<t_struct<Tartarus.Moderator>>",
+              "src": "5149:40:0"
+            },
+            {
+              "label": "banned",
+              "astId": 452,
+              "type": "t_mapping<t_bool>",
+              "src": "5199:32:0"
+            },
+            {
+              "label": "posts",
+              "astId": 456,
+              "type": "t_mapping<t_struct<Tartarus.Post>>",
+              "src": "5241:30:0"
+            },
+            {
+              "label": "comments",
+              "astId": 460,
+              "type": "t_mapping<t_struct<Tartarus.Comment>>",
+              "src": "5281:36:0"
+            },
+            {
+              "label": "upvotes",
+              "astId": 464,
+              "type": "t_mapping<t_uint256>",
+              "src": "5327:32:0"
+            },
+            {
+              "label": "downvotes",
+              "astId": 468,
+              "type": "t_mapping<t_uint256>",
+              "src": "5369:34:0"
+            },
+            {
+              "label": "commentCount",
+              "astId": 472,
+              "type": "t_mapping<t_uint256>",
+              "src": "5413:37:0"
+            },
+            {
+              "label": "lockedPosts",
+              "astId": 476,
+              "type": "t_mapping<t_uint256>",
+              "src": "5460:36:0"
+            },
+            {
+              "label": "lockedComments",
+              "astId": 480,
+              "type": "t_mapping<t_uint256>",
+              "src": "5506:39:0"
+            },
+            {
+              "label": "upvoted",
+              "astId": 486,
+              "type": "t_mapping<t_bool>",
+              "src": "5555:52:0"
+            },
+            {
+              "label": "downvoted",
+              "astId": 492,
+              "type": "t_mapping<t_bool>",
+              "src": "5617:54:0"
+            }
+          ]
+        },
+        "t_array:dyn<t_bytes32>": {
+          "id": "t_array:dyn<t_bytes32>",
+          "valueType": "t_bytes32",
+          "length": "dyn",
+          "kind": "array",
+          "label": "bytes32[]"
+        },
+        "t_struct<Tartarus.Moderator>": {
+          "id": "t_struct<Tartarus.Moderator>",
+          "kind": "struct",
+          "label": "Tartarus.Moderator",
+          "members": [
+            {
+              "label": "permissions",
+              "astId": 417,
+              "type": "t_array:dyn<t_bool>",
+              "src": "4773:18:0"
+            },
+            {
+              "label": "wage",
+              "astId": 419,
+              "type": "t_uint256",
+              "src": "4801:9:0"
+            },
+            {
+              "label": "lastPaid",
+              "astId": 421,
+              "type": "t_uint256",
+              "src": "4820:13:0"
+            },
+            {
+              "label": "listPointer",
+              "astId": 423,
+              "type": "t_uint256",
+              "src": "4843:16:0"
+            }
+          ]
+        },
+        "t_mapping<t_struct<Tartarus.Moderator>>": {
+          "id": "t_mapping<t_struct<Tartarus.Moderator>>",
+          "valueType": "t_struct<Tartarus.Moderator>",
+          "label": "mapping(key => Tartarus.Moderator)",
+          "kind": "mapping"
+        },
+        "t_struct<Tartarus.Post>": {
+          "id": "t_struct<Tartarus.Post>",
+          "kind": "struct",
+          "label": "Tartarus.Post",
+          "members": [
+            {
+              "label": "post",
+              "astId": 495,
+              "type": "t_bytes32",
+              "src": "5706:12:0"
+            },
+            {
+              "label": "creator",
+              "astId": 497,
+              "type": "t_bytes32",
+              "src": "5728:15:0"
+            }
+          ]
+        },
+        "t_mapping<t_struct<Tartarus.Post>>": {
+          "id": "t_mapping<t_struct<Tartarus.Post>>",
+          "valueType": "t_struct<Tartarus.Post>",
+          "label": "mapping(key => Tartarus.Post)",
+          "kind": "mapping"
+        },
+        "t_struct<Tartarus.Comment>": {
+          "id": "t_struct<Tartarus.Comment>",
+          "kind": "struct",
+          "label": "Tartarus.Comment",
+          "members": [
+            {
+              "label": "comment",
+              "astId": 500,
+              "type": "t_bytes32",
+              "src": "5781:15:0"
+            },
+            {
+              "label": "creator",
+              "astId": 502,
+              "type": "t_bytes32",
+              "src": "5806:15:0"
+            }
+          ]
+        },
+        "t_mapping<t_struct<Tartarus.Comment>>": {
+          "id": "t_mapping<t_struct<Tartarus.Comment>>",
+          "valueType": "t_struct<Tartarus.Comment>",
+          "label": "mapping(key => Tartarus.Comment)",
+          "kind": "mapping"
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        },
+        "t_mapping<t_struct<Tartarus.Forum>>": {
+          "id": "t_mapping<t_struct<Tartarus.Forum>>",
+          "valueType": "t_struct<Tartarus.Forum>",
+          "label": "mapping(key => Tartarus.Forum)",
+          "kind": "mapping"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 4807,
+          "type": "t_bool",
+          "src": "757:24:1"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 4809,
+          "type": "t_bool",
+          "src": "876:25:1"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 4865,
+          "type": "t_array:50<t_uint256>",
+          "src": "1951:29:1"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "admins",
+          "astId": 358,
+          "type": "t_mapping<t_struct<Tartarus.Admin>>",
+          "src": "3693:40:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "banned",
+          "astId": 362,
+          "type": "t_mapping<t_bool>",
+          "src": "3739:39:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "users",
+          "astId": 366,
+          "type": "t_mapping<t_struct<Tartarus.User>>",
+          "src": "3784:38:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "forums",
+          "astId": 370,
+          "type": "t_mapping<t_struct<Tartarus.Forum>>",
+          "src": "3828:40:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "adminList",
+          "astId": 373,
+          "type": "t_array:dyn<t_bytes32>",
+          "src": "3874:19:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "ownerAccount",
+          "astId": 375,
+          "type": "t_bytes32",
+          "src": "3899:27:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "tartarusInfo",
+          "astId": 377,
+          "type": "t_bytes32",
+          "src": "3932:27:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "adminBalance",
+          "astId": 379,
+          "type": "t_uint256",
+          "src": "3965:24:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "adminWages",
+          "astId": 381,
+          "type": "t_uint256",
+          "src": "3995:22:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "totalAdminWages",
+          "astId": 383,
+          "type": "t_uint256",
+          "src": "4023:27:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "createUserCost",
+          "astId": 385,
+          "type": "t_uint256",
+          "src": "4056:26:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "createForumCost",
+          "astId": 387,
+          "type": "t_uint256",
+          "src": "4088:27:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "createPostCost",
+          "astId": 389,
+          "type": "t_uint256",
+          "src": "4121:26:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "createCommentCost",
+          "astId": 391,
+          "type": "t_uint256",
+          "src": "4153:29:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "voteCost",
+          "astId": 393,
+          "type": "t_uint256",
+          "src": "4188:20:0"
+        },
+        {
+          "contract": "Tartarus",
+          "path": "contracts/Tartarus.sol",
+          "label": "idNonce",
+          "astId": 395,
+          "type": "t_uint256",
+          "src": "4214:19:0"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": [],
+        "storageUncheckedVars": [
+          {
+            "contract": "Tartarus",
+            "path": "contracts/Tartarus.sol",
+            "label": "admins",
+            "astId": 358,
+            "type": "t_mapping<t_struct<Tartarus.Admin>>",
+            "src": "3693:40:0"
+          },
+          {
+            "contract": "Tartarus",
+            "path": "contracts/Tartarus.sol",
+            "label": "users",
+            "astId": 366,
+            "type": "t_mapping<t_struct<Tartarus.User>>",
+            "src": "3784:38:0"
+          },
+          {
+            "contract": "Tartarus",
+            "path": "contracts/Tartarus.sol",
+            "label": "forums",
+            "astId": 370,
+            "type": "t_mapping<t_struct<Tartarus.Forum>>",
+            "src": "3828:40:0"
+          }
+        ],
+        "storageDiff": []
+      }
+    }
+  },
+  "solidityLibs": {},
+  "proxies": {
+    "tartarus-contract/Tartarus": [
+      {
+        "address": "0x9acF3d96D7B3765008D152f1be83bE0c36885371",
+        "version": "1.0.0",
+        "implementation": "0xeb41aD73F33Eb5736006AC9fb757A52b376ca031",
+        "admin": "0xbaD2B82885eC3990fC7100ABf105FaF51197f8a9",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0xb288f32717C1e4F290b592A1a3496d6562e25Eda",
+        "version": "1.0.0",
+        "implementation": "0xc2dD0E3547Fc9796FecE2BfdeA50D6EA742bd639",
+        "admin": "0xbaD2B82885eC3990fC7100ABf105FaF51197f8a9",
+        "kind": "Upgradeable"
+      }
+    ]
+  },
+  "manifestVersion": "2.2",
+  "version": "1.0.0",
+  "proxyAdmin": {
+    "address": "0xbaD2B82885eC3990fC7100ABf105FaF51197f8a9"
+  }
+}
